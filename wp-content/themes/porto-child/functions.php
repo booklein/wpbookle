@@ -1,6 +1,7 @@
 <?php
 
 add_action('wp_enqueue_scripts', 'porto_child_css', 1001);
+add_filter( 'jpeg_quality', function() { return 100;} );
  
 // Load CSS
 function porto_child_css() {
