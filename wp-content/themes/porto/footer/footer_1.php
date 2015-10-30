@@ -6,7 +6,7 @@ $footer_view = porto_get_meta_value('footer_view');
 ?>
 <?php if ( is_active_sidebar( 'footer-top' ) && !$footer_view ) : ?>
     <div class="footer-top">
-        <div class="container">
+        <div class="container hidden-xs">
             <?php dynamic_sidebar( 'footer-top' ); ?>
         </div>
     </div>
