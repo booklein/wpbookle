@@ -6,7 +6,7 @@ $footer_view = porto_get_meta_value('footer_view');
 ?>
 <?php if ( is_active_sidebar( 'footer-top' ) && !$footer_view ) : ?>
     <div class="footer-top">
-        <div class="container hidden-xs">
+        <div class="container">
             <?php dynamic_sidebar( 'footer-top' ); ?>
         </div>
     </div>
@@ -21,7 +21,7 @@ for ($i = 1; $i <= 4; $i++) {
 ?>
 <div id="footer" class="footer-1<?php if ($porto_settings['footer-ribbon']) echo ' show-ribbon' ?>">
     <?php if (!$footer_view && $cols) : ?>
-        <div class="container">
+        <div class="container hidden-xs">
             <?php if ($porto_settings['footer-ribbon']) : ?>
                 <div class="footer-ribbon"><?php echo force_balance_tags($porto_settings['footer-ribbon']) ?></div>
             <?php endif; ?>
