@@ -1,0 +1,49 @@
+.book-review-admin {
+  width: 70%;
+}
+
+.book-review-admin input[readonly] {
+  background: #fff;
+  border: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.book-review-admin input[type="radio"]:not(:first-child) {
+  margin-left: 10px;
+}
+
+/* Rating Images Tab */
+.rating {
+  display: none;
+}
+
+/* Links Tab */
+.book-review-admin .target-container {
+  margin-bottom: 0;
+}
+
+.book-review-admin .links th {
+  overflow: visible;
+  line-height: normal;
+}
+
+.book-review-admin .links .text {
+  width: 25%;
+}
+
+.book-review-admin .links .url {
+  width: 60%;
+}
+
+.book-review-admin .links input[type="text"] {
+  width: 100%;
+}
+
+.book-review-admin .links .active {
+  text-align: center;
+}
+
+.book-review-admin .add-link {
+  margin-top: 10px;
+}
