@@ -30,7 +30,7 @@ if ( ! function_exists( 'yit_maybe_plugin_fw_loader' ) ) {
      *
      * @since 1.0.0
      */
-    function yit_maybe_plugin_fw_loader( $plugin_fw_path ) {
+    function yit_maybe_plugin_fw_loader( $plugin_path ) {
         global $plugin_fw_data;
 
         $default_headers = array(
@@ -41,8 +41,8 @@ if ( ! function_exists( 'yit_maybe_plugin_fw_loader' ) ) {
             'DomainPath' => 'Domain Path',
         );
 
-        $framework_data         = get_file_data( $plugin_fw_path  .'/plugin-fw/init.php', $default_headers );
-        $plugin_fw_main_file    = $plugin_fw_path . 'plugin-fw/yit-plugin.php';
+        $framework_data         = get_file_data( trailingslashit( $plugin_path ) .'plugin-fw/init.php', $default_headers );
+        $plugin_fw_main_file    = trailingslashit( $plugin_path ) . 'plugin-fw/yit-plugin.php';
 
         if( ! empty( $plugin_fw_data ) ){
             foreach( $plugin_fw_data as $version => $path ){

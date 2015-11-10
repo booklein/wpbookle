@@ -33,7 +33,11 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
             extract( $args );
             $_attributes_array = yit_wcan_get_product_taxonomy();
 
-            if ( ! is_post_type_archive( 'product' ) && ! is_tax( $_attributes_array ) ) {
+            if( apply_filters( 'yith_wcan_is_search', is_search() ) ){
+                return;
+            }
+
+            if ( apply_filters( 'yith_wcan_show_widget', ! is_post_type_archive( 'product' ) && ! is_tax( $_attributes_array ) ) ) {
                 return;
             }
 
@@ -155,19 +159,7 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
                             $current_filter[] = $term_param;
                         }
 
-                        if ( defined( 'SHOP_IS_ON_FRONT' ) || ( is_shop() && ! is_product_category() && ! is_product_taxonomy() ) ) {
-                            $link = get_post_type_archive_link( 'product' );
-                        }
-
-                        elseif( is_product_category() ){
-                            $link = get_term_link( get_queried_object()->slug, 'product_cat' );
-                        }
-
-                        else {
-                            $link = get_term_link( get_query_var( 'term' ), get_query_var( 'taxonomy' ) );
-                        }
-
-                        $link = apply_filters( 'yith_wcan_untrailingslashit', true ) ? untrailingslashit( $link ) : $link;
+                        $link = yit_get_woocommerce_layered_nav_link();
 
                         // All current filters
                         if ( $_chosen_attributes ) {
@@ -257,7 +249,6 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
                     }
 
                     echo "</ul>";
-
                 }
                 elseif ( $display_type == 'select' ) {
                     $dropdown_label = __( 'Filters:', 'yith-woocommerce-ajax-navigation' );
@@ -334,19 +325,7 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
                             $current_filter[] = $term->term_id;
                         }
 
-                        if ( defined( 'SHOP_IS_ON_FRONT' ) || ( is_shop() && ! is_product_category() && ! is_product_taxonomy() ) ) {
-                            $link = get_post_type_archive_link( 'product' );
-                        }
-
-                        elseif( is_product_category() ){
-                            $link = get_term_link( get_queried_object()->slug, 'product_cat' );
-                        }
-
-                        else {
-                            $link = get_term_link( get_query_var( 'term' ), get_query_var( 'taxonomy' ) );
-                        }
-
-                        $link = apply_filters( 'yith_wcan_untrailingslashit', true ) ? untrailingslashit( $link ) : $link;
+                        $link = yit_get_woocommerce_layered_nav_link();
 
                         // All current filters
                         if ( $_chosen_attributes ) {
@@ -504,19 +483,7 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
                             $current_filter[] = $term->term_id;
                         }
 
-                        if ( defined( 'SHOP_IS_ON_FRONT' ) || ( is_shop() && ! is_product_category() && ! is_product_taxonomy() ) ) {
-                            $link = get_post_type_archive_link( 'product' );
-                        }
-
-                        elseif( is_product_category() ){
-                            $link = get_term_link( get_queried_object()->slug, 'product_cat' );
-                        }
-
-                        else {
-                            $link = get_term_link( get_query_var( 'term' ), get_query_var( 'taxonomy' ) );
-                        }
-
-                        $link = apply_filters( 'yith_wcan_untrailingslashit', true ) ? untrailingslashit( $link ) : $link;
+                        $link = yit_get_woocommerce_layered_nav_link();
 
                         // All current filters
                         if ( $_chosen_attributes ) {
@@ -672,19 +639,7 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
                             $current_filter[] = $term->term_id;
                         }
 
-                        if ( defined( 'SHOP_IS_ON_FRONT' ) || ( is_shop() && ! is_product_category() && ! is_product_taxonomy() ) ) {
-                            $link = get_post_type_archive_link( 'product' );
-                        }
-
-                        elseif( is_product_category() ){
-                            $link = get_term_link( get_queried_object()->slug, 'product_cat' );
-                        }
-
-                        else {
-                            $link = get_term_link( get_query_var( 'term' ), get_query_var( 'taxonomy' ) );
-                        }
-
-                        $link = apply_filters( 'yith_wcan_untrailingslashit', true ) ? untrailingslashit( $link ) : $link;
+                        $link = yit_get_woocommerce_layered_nav_link();
 
                         // All current filters
                         if ( $_chosen_attributes ) {
@@ -839,9 +794,10 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
                 <select id="<?php echo esc_attr( $this->get_field_id( 'query_type' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'query_type' ) ); ?>">
                     <option value="and" <?php selected( $instance['query_type'], 'and' ); ?>><?php _e( 'AND', 'yith-woocommerce-ajax-navigation' ); ?></option>
                     <option value="or" <?php selected( $instance['query_type'], 'or' ); ?>><?php _e( 'OR', 'yith-woocommerce-ajax-navigation' ); ?></option>
-                </select></p>
+                </select>
+            </p>
 
-            <p class="yith-wcan-attribute-list" style="display: <?php echo $instance['type'] == 'tags' || $instance['type'] == 'brands' ? 'none' : 'block' ?>;">
+            <p class="yith-wcan-attribute-list" style="display: <?php echo $instance['type'] == 'tags' || $instance['type'] == 'brands' || $instance['type'] == 'categories' ? 'none' : 'block' ?>;">
                 <label for="<?php echo $this->get_field_id( 'attribute' ); ?>"><strong><?php _e( 'Attribute:', 'yith-woocommerce-ajax-navigation' ) ?></strong></label>
                 <select class="yith_wcan_attributes widefat" id="<?php echo esc_attr( $this->get_field_id( 'attribute' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'attribute' ) ); ?>">
                     <?php yith_wcan_dropdown_attributes( $instance['attribute'] ); ?>

@@ -168,6 +168,18 @@ msgid "Activate <code>YITH WooCommerce Ajax Product Filter</code> from Plugins p
 msgstr ""
 
 #. Found in changelog list item.
+msgid "Added: yith_wcan_show_widget hook to manage the widgets display condition"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Added: yith_wcan_is_search hook to disable the widgets in search page"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed: Disable widgets in search page"
+msgstr ""
+
+#. Found in changelog list item.
 msgid "Added: yith_wcan_untrailingslashit hook for disable untrailingslashit function in filter link"
 msgstr ""
 

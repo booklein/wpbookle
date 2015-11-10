@@ -3,7 +3,7 @@
  * Plugin Name: YITH WooCommerce Ajax Product Filter
  * Plugin URI: http://yithemes.com/
  * Description: YITH WooCommerce Ajax Product Filter offers the perfect way to filter all the products of your shop.
- * Version: 2.5.0
+ * Version: 2.6.0
  * Author: yithemes
  * Author URI: http://yithemes.com/
  * Text Domain: yith_wc_ajxnav
@@ -65,12 +65,14 @@ if ( defined( 'YITH_WCAN_VERSION' ) ) {
 ! defined( 'YITH_WCAN' )            && define( 'YITH_WCAN', true );
 ! defined( 'YITH_WCAN_URL' )        && define( 'YITH_WCAN_URL', plugin_dir_url( __FILE__ ) );
 ! defined( 'YITH_WCAN_DIR' )        && define( 'YITH_WCAN_DIR', plugin_dir_path( __FILE__ ) );
-! defined( 'YITH_WCAN_VERSION' )    && define( 'YITH_WCAN_VERSION', '2.5.0' );
+! defined( 'YITH_WCAN_VERSION' )    && define( 'YITH_WCAN_VERSION', '2.6.0' );
 ! defined( 'YITH_WCAN_FREE_INIT')   && define( 'YITH_WCAN_FREE_INIT', plugin_basename( __FILE__ ) );
 ! defined( 'YITH_WCAN_FILE' )       && define( 'YITH_WCAN_FILE', __FILE__ );
 
 /* Plugin Framework Version Check */
-! function_exists( 'yit_maybe_plugin_fw_loader' ) && require_once( YITH_WCAN_DIR . 'plugin-fw/init.php' );
+if( ! function_exists( 'yit_maybe_plugin_fw_loader' ) && file_exists( YITH_WCAN_DIR . 'plugin-fw/init.php' ) ) {
+    require_once( YITH_WCAN_DIR . 'plugin-fw/init.php' );
+}
 yit_maybe_plugin_fw_loader( YITH_WCAN_DIR  );
 
 /**
