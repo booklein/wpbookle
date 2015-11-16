@@ -1,0 +1,139 @@
+form.be_woocommerce_pdf_invoices_settings_form {
+    width: 75%;
+    display: block;
+    float: left;
+    padding-right: 40px;
+    box-sizing: border-box;
+}
+.bewpi_sidebar {
+    width: 25%;
+    box-sizing: border-box;
+    display: block;
+    float: right;
+    clear: right;
+    border: 1px solid #ccc;
+    background-color: white;
+    padding: 0 20px 20px;
+    margin-top: 20px;
+}
+.bewpi_sidebar.premium h3 {
+    color: white;
+}
+.bewpi_sidebar.premium {
+    background: #222;
+    color: #ccc;
+}
+.bewpi_sidebar.support .btn {
+    margin: 10px 10px 10px 0;
+}
+.bewpi_sidebar.support .github.btn {
+    margin-bottom: -3px !important;
+    margin-top: 20px;
+}
+.bewpi_sidebar.support .twitter.btn {
+    margin-bottom: 0 !important;
+}
+.be_woocommerce_pdf_invoices_settings_form select,
+.be_woocommerce_pdf_invoices_settings_form input[type="text"],
+.be_woocommerce_pdf_invoices_settings_form textarea {
+    width: 348px;
+}
+.be_woocommerce_pdf_invoices_settings_form input[type="number"],
+#bewpi-color-theme {
+    width: 70px;
+}
+#bewpi-company-logo-wrapper {
+    margin-top: 10px;
+    position: relative;
+    display: inline-block;
+    padding: 21px 21px 0 0;
+}
+#bewpi-company-logo-image {
+    position: relative;
+    max-height: 150px;
+}
+#bewpi-company-logo-wrapper:hover #bewpi-company-logo-delete{
+    display: block;
+}
+#bewpi-company-logo-delete{
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: none;
+    height: 25px;
+    width: 25px;
+    cursor: pointer;
+}
+.wpi-admin-order-create-invoice-btn {
+    background-image: url(../images/invoice-icon.png) !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    text-indent: -9999px;
+    position: relative;
+    padding: 0 !important;
+    height: 2em !important;
+    width: 2em;
+}
+.wpi-admin-order-create-invoice-btn button {
+    display: none;
+}
+.notes {
+    display: inline;
+    font-style: italic;
+}
+.block {
+    display: block;
+}
+#color-picker {
+    height: 28px;
+}
+.foot {
+    font-size: 12px;
+}
+.invoice-info {
+    margin-bottom: 10px;
+}
+.invoice-btn {
+    margin-right: 3px !important;
+}
+#footer-left #footer-thankyou {
+    font-style: normal !important;
+}
+.bewpi-checkbox-option-title, .bewpi-notes {
+    cursor: default;
+}
+.bewpi-notes {
+    font-size: 13px;
+    font-style: italic;
+    margin-top: 3px;
+}
+#bewpi-plugin-activated-notice button.notice-dismiss {
+    display: none;
+}
+#mc_embed_signup form {
+    margin: 0 !important;
+    padding: 0;
+}
+#mc_embed_signup input[type="text"] {
+    width: 100%;
+}
+.bewpi-learn-more {
+    padding: 10px 0;
+    background-color: #F48C2D;
+    color: white;
+    text-decoration: none;
+    display: block;
+    font-weight: bold;
+    font-size: 15px;
+    text-align: center;
+}
+.bewpi-learn-more:hover {
+    background-color: #EE7600;
+    color: white;
+}
+
+@media screen and (max-width: 790px) {
+    .bewpi_sidebar {
+        display: none;
+    }
+}
