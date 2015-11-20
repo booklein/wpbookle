@@ -1,0 +1,29 @@
+.thankyou{
+	background: #fff;
+	float: left;
+	width: 80%;
+	padding: 5% 5%;
+	margin: 5% 10%;
+	border: 1px solid #e2e2e2;
+	
+}
+.error{
+	color: red;
+}
+
+
+#cbaButton{
+	margin-bottom: 5px;
+	text-align: center;
+}
+
+#cbaButton img{
+	width: 100% ! important;
+	max-height: 40px ! important;
+	max-width: 170px ! important;
+}
+
+#customamazonbutton{
+	max-height: 40px ! important;
+	max-width: 170px ! important;
+}

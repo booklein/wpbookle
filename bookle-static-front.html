@@ -195,8 +195,7 @@
                             </div>
                         </div>
                         <div class="header-right">
-                            <span class="welcome-msg"><a href='tel:+919885202782'><i class='fa fa-phone'></i> (+91) 988 520 2782</a><span class='gap'>|</span><a href='/cdn-cgi/l/email-protection#63000c0d1702001723010c0c080f064d0a0d'><i class='fa fa-envelope'></i> <span class="__cf_email__" data-cfemail="8be8e4e5ffeae8ffcbe9e4e4e0e7eea5e2e5">[email protected]</span><script data-cfhash='f9e31' type="text/javascript">
-/* < ![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("data-cfhash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}t.parentNode.removeChild(t);}}catch(u){}}()/* ]]> */</script></a></span><span class="gap">|</span>
+                            <span class="welcome-msg"><a href='tel:+919885202782'><i class='fa fa-phone'></i> (+91) 988 520 2782</a><span class='gap'>|</span><a href='mailto:contact@bookle.in'><i class='fa fa-envelope'></i> contact@bookle,in</a></span><span class="gap">|</span>
                             <ul id="menu-top-navigation" class="top-links mega-menu show-arrow">
                                 <li id="nav-menu-item-3601" class="menu-item menu-item-type-post_type menu-item-object-page  narrow "><a href="http://www.bookle.in/my-account/" class="">My Account</a></li>
                                 <li id="nav-menu-item-7321" class="menu-item menu-item-type-post_type menu-item-object-page  narrow "><a href="http://www.bookle.in/wishlist/" class="">Wishlist</a></li>
@@ -226,42 +225,6 @@
                             <a class="mobile-toggle"><i class="fa fa-reorder"></i></a>
                         </div>
                         <div class="header-right">
-                            <div class="header-minicart">
-                                <div id="mini-cart" class="dropdown mini-cart ">
-                                    <div class="dropdown-toggle cart-head " data-toggle="dropdown" data-delay="50" data-close-others="false">
-                                        <i class="minicart-icon "></i>
-                                        <span class="cart-items"><i class="fa fa-spinner fa-pulse"></i></span>
-                                    </div>
-                                    <div class="dropdown-menu cart-popup widget_shopping_cart">
-                                        <div class="widget_shopping_cart_content">
-                                            <div class="cart-loading"></div>
-                                        </div>
-                                    </div>
-                                    <script type="text/javascript">
-                                    jQuery(document).ready(function($) {
-                                        $.ajax({
-                                            type: 'POST',
-                                            dataType: 'json',
-                                            url: theme.ajax_url,
-                                            data: {
-                                                action: "porto_refresh_cart_fragment"
-                                            },
-                                            success: function(response) {
-                                                var fragments = response.fragments;
-                                                var cart_hash = response.cart_hash;
-
-                                                if (fragments) {
-                                                    $.each(fragments, function(key, value) {
-                                                        $(key).replaceWith(value);
-                                                    });
-                                                }
-                                                $('body').trigger('wc_fragments_loaded');
-                                            }
-                                        });
-                                    });
-                                    </script>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
