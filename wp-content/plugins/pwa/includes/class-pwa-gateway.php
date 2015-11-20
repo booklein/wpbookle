@@ -116,7 +116,7 @@ class Pwacheckout extends WC_Payment_Gateway
                 'type'        => 'text',
                 'title'       => __('Description', 'pay_amazon'),
                 'description'       => __('Description on the payment method', 'pay_amazon'),
-                'default'     => 'Pay with Amazon',
+                'default'     => 'Pay securely via Amazon payment gateway. You will need an Amazon Id',
             ),
             'merchant_id' => array(
                 'type'        => 'text',
