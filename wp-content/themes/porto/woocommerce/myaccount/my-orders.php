@@ -55,7 +55,7 @@ if ( $customer_orders ) : ?>
                         <td class="order-date">
                             <time datetime="<?php echo date( 'Y-m-d', strtotime( $order->order_date ) ); ?>" title="<?php echo esc_attr( strtotime( $order->order_date ) ); ?>"><?php echo date_i18n( get_option( 'date_format' ), strtotime( $order->order_date ) ); ?></time>
                         </td>
-                        <td class="order-status" style="text-align:left; white-space:nowrap;">
+                        <td class="order-status">
                             <?php echo wc_get_order_status_name( $order->get_status() ); ?>
                         </td>
                         <td class="order-total">

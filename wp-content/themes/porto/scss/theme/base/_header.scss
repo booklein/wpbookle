@@ -1413,30 +1413,21 @@
     &.effect-fadein-up {
         &.open {
             .cart-popup {
-                @include animation(fadeInUp .2s ease);
-                -webkit-transform: translate3d(0, 0, 0);
-                -webkit-backface-visibility: hidden;
-                -webkit-perspective: 1000;
+                @include animation(menuFadeInUp .2s ease);
             }
         }
     }
     &.effect-fadein-down {
         &.open {
             .cart-popup {
-                @include animation(fadeInDown .2s ease);
-                -webkit-transform: translate3d(0, 0, 0);
-                -webkit-backface-visibility: hidden;
-                -webkit-perspective: 1000;
+                @include animation(menuFadeInDown .2s ease);
             }
         }
     }
     &.effect-fadein {
         &.open {
             .cart-popup {
-                @include animation(fadeIn .2s ease);
-                -webkit-transform: translate3d(0, 0, 0);
-                -webkit-backface-visibility: hidden;
-                -webkit-perspective: 1000;
+                @include animation(menuFadeIn .2s ease);
             }
         }
     }
@@ -1459,8 +1450,8 @@
                 &:hover {
                     > a,
                     > h5 {
-                        margin-bottom: -2px;
-                        padding-bottom: 12px;
+                        margin-bottom: -3px;
+                        padding-bottom: 13px;
                 }
             }
         }

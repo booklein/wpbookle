@@ -36,7 +36,7 @@ global $porto_settings, $porto_layout;
                                 $logo_height = (int)$porto_settings['logo-retina-height'];
                             }
 
-                            echo '<img class="img-responsive standard-logo" width="'.$logo_width.'" height="'.$logo_height.'" src="' . esc_url(str_replace( array( 'http:', 'https:' ), '', $porto_settings['logo']['url'])) . '" alt="' . esc_attr( get_bloginfo( 'name', 'display' ) ) . '" />';
+                            echo '<img class="img-responsive standard-logo"'.($logo_width?' width="'.$logo_width.'"':'').($logo_height?' height="'.$logo_height.'"':'').' src="' . esc_url(str_replace( array( 'http:', 'https:' ), '', $porto_settings['logo']['url'])) . '" alt="' . esc_attr( get_bloginfo( 'name', 'display' ) ) . '" />';
 
                             $retina_logo = '';
                             if (isset($porto_settings['logo-retina']) && isset($porto_settings['logo-retina']['url'])) {
@@ -44,9 +44,9 @@ global $porto_settings, $porto_layout;
                             }
 
                             if ($retina_logo) {
-                                echo '<img class="img-responsive retina-logo" width="'.$logo_width.'" height="'.$logo_height.'" src="' . esc_url(str_replace( array( 'http:', 'https:' ), '', $retina_logo)) . '" alt="' . esc_attr( get_bloginfo( 'name', 'display' ) ) . '" style="max-height:'.$logo_height.'px;display:none;" />';
+                                echo '<img class="img-responsive retina-logo"'.($logo_width?' width="'.$logo_width.'"':'').($logo_height?' height="'.$logo_height.'"':'').' src="' . esc_url(str_replace( array( 'http:', 'https:' ), '', $retina_logo)) . '" alt="' . esc_attr( get_bloginfo( 'name', 'display' ) ) . '" style="max-height:'.$logo_height.'px;display:none;" />';
                             } else {
-                                echo '<img class="img-responsive retina-logo" width="'.$logo_width.'" height="'.$logo_height.'" src="' . esc_url(str_replace( array( 'http:', 'https:' ), '', $porto_settings['logo']['url'])) . '" alt="' . esc_attr( get_bloginfo( 'name', 'display' ) ) . '" style="display:none;" />';
+                                echo '<img class="img-responsive retina-logo"'.($logo_width?' width="'.$logo_width.'"':'').($logo_height?' height="'.$logo_height.'"':'').' src="' . esc_url(str_replace( array( 'http:', 'https:' ), '', $porto_settings['logo']['url'])) . '" alt="' . esc_attr( get_bloginfo( 'name', 'display' ) ) . '" style="display:none;" />';
                             }
                         } else {
                             bloginfo( 'name' );

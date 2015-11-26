@@ -4597,6 +4597,18 @@ function portoCalcSliderTitleLine($parent) {
         var ua = window.navigator.userAgent;
         var ie12 = ua.indexOf('Edge/') > 0;
         if (ie12) $('html').addClass('ie12');
+
+        /* Add wishlist popup */
+        if ( $( '#yith-wcwl-popup-message' ).length == 0 ) {
+            var message_div = $( '<div>' )
+                    .attr( 'id', 'yith-wcwl-message' ),
+                popup_div = $( '<div>' )
+                    .attr( 'id', 'yith-wcwl-popup-message' )
+                    .html( message_div )
+                    .hide();
+
+            $( 'body' ).prepend( popup_div );
+        }
     }
 
     $(document).ready(function() {

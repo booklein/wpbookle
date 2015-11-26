@@ -2860,7 +2860,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                     array(
                         'id'=>'blog-banner_block',
                         'type' => 'editor',
-                        'required' => array('blog-banner_type','equals','banner'),
+                        'required' => array('blog-banner_type','equals','banner_block'),
                         'title' => __('Banner Block', 'porto'),
                         'desc' => __('You should input block slug name. You can create a block in <strong>Blocks/Add New</strong>.', 'porto')
                     ),

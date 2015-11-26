@@ -3660,7 +3660,7 @@ ul.cart_list li dl dt p, ul.cart_list li dl dd p {
         text-align: left;
     }
 }
-.cart_totals #shipping_method {
+#shipping_method {
     margin: 0;
     padding: 0;
     list-style: none;

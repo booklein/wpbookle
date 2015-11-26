@@ -620,7 +620,18 @@
             li.menu-item {
                 > a,
                 > h5 {
-                    margin-top: -10px;
+                    @include transition(transform .2s ease-out);
+                    @include transform(translate3d(0, -10px, 0));
+                }
+            }
+        }
+        > li.menu-item {
+            &.wide {
+                .popup > .inner > ul.sub-menu > li.menu-item {
+                    > a,
+                    > h5 {
+                        @include transform(translate3d(0, 0, 0));
+                    }
                 }
             }
         }
@@ -631,11 +642,7 @@
             li.menu-item {
                 > a,
                 > h5 {
-                    margin-top: 0;
-                    @include transition(margin-top .2s ease);
-                    -webkit-transform: translate3d(0, 0, 0);
-                    -webkit-backface-visibility: hidden;
-                    -webkit-perspective: 1000;
+                    @include transform(translate3d(0, 0, 0));
                 }
             }
         }
@@ -648,7 +655,8 @@
                         li.menu-item {
                             > a,
                             > h5 {
-                                margin-top: -10px;
+                                @include transition(transform .2s ease-out);
+                                @include transform(translate3d(0, -10px, 0));
                             }
                         }
                     }
@@ -657,11 +665,7 @@
                         > li.menu-item {
                             > a,
                             > h5 {
-                                margin-top: 0;
-                                @include transition(margin-top .2s ease);
-                                -webkit-transform: translate3d(0, 0, 0);
-                                -webkit-backface-visibility: hidden;
-                                -webkit-perspective: 1000;
+                                @include transform(translate3d(0, 0, 0));
                             }
                         }
                     }
@@ -670,120 +674,96 @@
         }
     }
     &.subeffect-fadein-left {
-        > li.menu-item:hover {
+        > li.menu-item {
             .popup {
                 @if $rtl == 1 {
-                    @include animation(fadeInRight .2s ease);
+                    @include animation(menuFadeInRight .2s ease-out);
                 } @else {
-                    @include animation(fadeInLeft .2s ease);
+                    @include animation(menuFadeInLeft .2s ease-out);
                 }
             }
         }
         .narrow {
             .popup {
                 ul.sub-menu {
-                    li.menu-item:hover > ul.sub-menu {
+                    li.menu-item > ul.sub-menu {
                         @if $rtl == 1 {
-                            @include animation(fadeInRight .2s ease);
+                            @include animation(menuFadeInRight .2s ease-out);
                         } @else {
-                            @include animation(fadeInLeft .2s ease);
+                            @include animation(menuFadeInLeft .2s ease-out);
                         }
-                        -webkit-transform: translate3d(0, 0, 0);
-                        -webkit-backface-visibility: hidden;
-                        -webkit-perspective: 1000;
                     }
                 }
             }
         }
     }
     &.subeffect-fadein-right {
-        > li.menu-item:hover {
+        > li.menu-item {
             .popup {
                 @if $rtl == 1 {
-                    @include animation(fadeInLeft .2s ease);
+                    @include animation(menuFadeInLeft .2s ease-out);
                 } @else {
-                    @include animation(fadeInRight .2s ease);
+                    @include animation(menuFadeInRight .2s ease-out);
                 }
             }
         }
         .narrow {
             .popup {
                 ul.sub-menu {
-                    li.menu-item:hover > ul.sub-menu {
+                    li.menu-item > ul.sub-menu {
                         @if $rtl == 1 {
-                            @include animation(fadeInLeft .2s ease);
+                            @include animation(menuFadeInLeft .2s ease-out);
                         } @else {
-                            @include animation(fadeInRight .2s ease);
+                            @include animation(menuFadeInRight .2s ease-out);
                         }
-                        -webkit-transform: translate3d(0, 0, 0);
-                        -webkit-backface-visibility: hidden;
-                        -webkit-perspective: 1000;
                     }
                 }
             }
         }
     }
     &.subeffect-fadein-up {
-        > li.menu-item:hover {
+        > li.menu-item {
             .popup {
-                @include animation(fadeInUp .2s ease);
-                -webkit-transform: translate3d(0, 0, 0);
-                -webkit-backface-visibility: hidden;
-                -webkit-perspective: 1000;
+                @include animation(menuFadeInUp .2s ease-out);
             }
         }
         .narrow {
             .popup {
                 ul.sub-menu {
-                    li.menu-item:hover > ul.sub-menu {
-                        @include animation(fadeInUp .2s ease);
-                        -webkit-transform: translate3d(0, 0, 0);
-                        -webkit-backface-visibility: hidden;
-                        -webkit-perspective: 1000;
+                    li.menu-item > ul.sub-menu {
+                        @include animation(menuFadeInUp .2s ease-out);
                     }
                 }
             }
         }
     }
     &.subeffect-fadein-down {
-        > li.menu-item:hover {
+        > li.menu-item {
             .popup {
-                @include animation(fadeInDown .2s ease);
-                -webkit-transform: translate3d(0, 0, 0);
-                -webkit-backface-visibility: hidden;
-                -webkit-perspective: 1000;
+                @include animation(menuFadeInDown .2s ease-out);
             }
         }
         .narrow {
             .popup {
                 ul.sub-menu {
-                    li.menu-item:hover > ul.sub-menu {
-                        @include animation(fadeInDown .2s ease);
-                        -webkit-transform: translate3d(0, 0, 0);
-                        -webkit-backface-visibility: hidden;
-                        -webkit-perspective: 1000;
+                    li.menu-item > ul.sub-menu {
+                        @include animation(menuFadeInDown .2s ease-out);
                     }
                 }
             }
         }
     }
     &.subeffect-fadein {
-        > li.menu-item:hover {
+        > li.menu-item {
             .popup {
-                @include animation(fadeIn .2s ease);
-                -webkit-transform: translate3d(0, 0, 0);
-                -webkit-backface-visibility: hidden;
-                -webkit-perspective: 1000;
+                @include animation(fadeIn .2s ease-out);
             }
         }
         .narrow {
             .popup {
                 ul.sub-menu {
-                    li.menu-item:hover > ul.sub-menu {
-                        @include animation(fadeIn .2s ease);
-                        -webkit-transform: translate3d(0, 0, 0);
-                        -webkit-backface-visibility: hidden;
-                        -webkit-perspective: 1000;
+                    li.menu-item > ul.sub-menu {
+                        @include animation(fadeIn .2s ease-out);
                     }
                 }
             }

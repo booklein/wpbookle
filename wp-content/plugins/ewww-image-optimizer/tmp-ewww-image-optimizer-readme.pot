@@ -359,6 +359,30 @@ msgid "If you would like to help translate this plugin in your language, get sta
 msgstr ""
 
 #. Found in changelog list item.
+msgid "changed: Remove metadata turned on by default, should not affect existing installations/upgrades"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "changed: Português and Español moved to language packs"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "fixed: notices from redefining constants"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "updated: bundled pngquant to version 2.5.2"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "updated: bundled cwebp to version 0.4.4"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "deprecated: cwebp will not be updated for Mac OS X 10.8 past 0.4.2"
+msgstr ""
+
+#. Found in changelog list item.
 msgid "fixed: wpdb call causes error during scheduled optimization"
 msgstr ""
 

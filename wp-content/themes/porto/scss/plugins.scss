@@ -5,16 +5,15 @@
 /*
 /*** 00. Minicart Icon
 /*** 01. Config Variables
-/*** 02. Bootstrap
-/*** 03. FontAwesome Icon
-/*** 04. Elusive Icon
-/*** 05. Owl Carousel
-/*** 06. Easy Responsive Tabs
-/*** 07. jQuery Srollbar
-/*** 08. Blueimp Gallery
-/*** 09. jQuery Fancybox
-/*** 10. Circle Flip Slideshow
-/*** 11. Simple Line Icons
+/*** 02. FontAwesome Icon
+/*** 03. Elusive Icon
+/*** 04. Owl Carousel
+/*** 05. Easy Responsive Tabs
+/*** 06. jQuery Srollbar
+/*** 07. Blueimp Gallery
+/*** 08. jQuery Fancybox
+/*** 09. Circle Flip Slideshow
+/*** 10. Simple Line Icons
 /*
 /*****************************************************************/
 
@@ -27,7 +26,6 @@ $dir: ltr !default;
 
 @import "plugins/minicart-font/minicart-font";
 @import "config_plugins";
-@import "plugins/bootstrap/bootstrap";
 @import "plugins/fontawesome/font-awesome";
 @import "plugins/elusive-icon/elusive-icons";
 @import "plugins/owlcarousel/owl.carousel";

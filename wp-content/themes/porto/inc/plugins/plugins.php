@@ -41,7 +41,7 @@ function porto_register_required_plugins() {
             'slug'                     => 'js_composer',
             'source'                   => porto_plugins . '/js_composer.zip',
             'required'                 => true,
-            'version'                  => '4.7.4'
+            'version'                  => '4.8.0.1'
 
         ),
         array(
@@ -49,7 +49,7 @@ function porto_register_required_plugins() {
             'slug'                     => 'Ultimate_VC_Addons',
             'source'                   => porto_plugins . '/Ultimate_VC_Addons.zip',
             'required'                 => true,
-            'version'                  => '3.13.4'
+            'version'                  => '3.13.7'
 
         ),
         array(
@@ -57,7 +57,7 @@ function porto_register_required_plugins() {
             'slug'                     => 'porto-shortcodes',
             'source'                   => porto_plugins . '/porto-shortcodes.zip',
             'required'                 => true,
-            'version'                  => '1.3.4'
+            'version'                  => '1.3.5'
         ),
         array(
             'name'                     => 'Porto Widgets',
@@ -83,7 +83,7 @@ function porto_register_required_plugins() {
             'slug'                     => 'masterslider',
             'source'                   => porto_plugins . '/masterslider.zip',
             'required'                 => true,
-            'version'                  => '2.20.4'
+            'version'                  => '2.22.0'
 
         ),
         array(

@@ -1,7 +1,7 @@
 <?php
 /**
  * Integrate image optimizers into WordPress.
- * @version 2.5.3
+ * @version 2.5.4
  * @package EWWW_Image_Optimizer
  */
 /*
@@ -10,12 +10,13 @@ Plugin URI: http://wordpress.org/extend/plugins/ewww-image-optimizer/
 Description: Reduce file sizes for images within WordPress including NextGEN Gallery and GRAND FlAGallery. Uses jpegtran, optipng/pngout, and gifsicle.
 Author: Shane Bishop
 Text Domain: ewww-image-optimizer
-Version: 2.5.3
+Version: 2.5.4
 Author URI: https://ewww.io/
 License: GPLv3
 */
 
 // TODO: make mention of wp-plugins/ewwwio repo on github
+// TODO: make windows binaries so they can run from -alt or -custom
 
 // Constants
 define('EWWW_IMAGE_OPTIMIZER_DOMAIN', 'ewww-image-optimizer');
@@ -82,15 +83,15 @@ function ewww_image_optimizer_exec_init() {
 	register_setting('ewww_image_optimizer_options', 'ewww_image_optimizer_disable_gifsicle');
 	register_setting('ewww_image_optimizer_options', 'ewww_image_optimizer_disable_pngout');
 	if ( defined( 'WPE_PLUGIN_VERSION' ) ) {
-		add_action('network_admin_notices', 'ewww_image_optimizer_notice_wpengine');
-		add_action('admin_notices', 'ewww_image_optimizer_notice_wpengine');
+		add_action( 'network_admin_notices', 'ewww_image_optimizer_notice_wpengine' );
+		add_action( 'admin_notices', 'ewww_image_optimizer_notice_wpengine' );
 	}
 	// If cloud is fully enabled, we're going to skip all the checks related to the bundled tools
-	if(EWWW_IMAGE_OPTIMIZER_CLOUD) {
+	if ( EWWW_IMAGE_OPTIMIZER_CLOUD ) {
 		ewwwio_debug_message( 'cloud options enabled, shutting off binaries' );
 		ewww_image_optimizer_disable_tools();
 	// Check if this is an unsupported OS (not Linux or Mac OSX or FreeBSD or Windows or SunOS)
-	} elseif('Linux' != PHP_OS && 'Darwin' != PHP_OS && 'FreeBSD' != PHP_OS && 'WINNT' != PHP_OS && 'SunOS' != PHP_OS) {
+	} elseif ( 'Linux' != PHP_OS && 'Darwin' != PHP_OS && 'FreeBSD' != PHP_OS && 'WINNT' != PHP_OS && 'SunOS' != PHP_OS ) {
 		// call the function to display a notice
 		add_action('network_admin_notices', 'ewww_image_optimizer_notice_os');
 		add_action('admin_notices', 'ewww_image_optimizer_notice_os');
@@ -134,10 +135,10 @@ function ewww_image_optimizer_tool_init() {
 // set some default option values
 function ewww_image_optimizer_set_defaults() {
 	ewwwio_debug_message( '<b>' . __FUNCTION__ . '()</b>' );
-	// set a few defaults
-	add_site_option('ewww_image_optimizer_disable_pngout', TRUE);
-	add_site_option('ewww_image_optimizer_optipng_level', 2);
-	add_site_option('ewww_image_optimizer_pngout_level', 2);
+	add_site_option( 'ewww_image_optimizer_disable_pngout', TRUE );
+	add_site_option( 'ewww_image_optimizer_optipng_level', 2 );
+	add_site_option( 'ewww_image_optimizer_pngout_level', 2 );
+	add_site_option( 'ewww_image_optimizer_jpegtran_copy', TRUE );
 }
 
 // tells the user they are on an unsupported operating system
@@ -449,7 +450,9 @@ function ewww_image_optimizer_notice_utils() {
 	if(ewww_image_optimizer_exec_check()) {
 		//display a warning if exec() is disabled, can't run much of anything without it
 		echo "<div id='ewww-image-optimizer-warning-opt-png' class='error'><p>" . __('EWWW Image Optimizer requires exec(). Your system administrator has disabled this function.', EWWW_IMAGE_OPTIMIZER_DOMAIN) . "</p></div>";
-		define('EWWW_IMAGE_OPTIMIZER_NOEXEC', true);
+		if ( ! defined( 'EWWW_IMAGE_OPTIMIZER_NOEXEC' ) ) {
+			define('EWWW_IMAGE_OPTIMIZER_NOEXEC', true);
+		}
 		ewwwio_debug_message( 'exec seems to be disabled' );
 		ewww_image_optimizer_disable_tools();
 		return;
@@ -457,12 +460,16 @@ function ewww_image_optimizer_notice_utils() {
 	} elseif (ewww_image_optimizer_safemode_check()) {
 		// display a warning to the user
 		echo "<div id='ewww-image-optimizer-warning-opt-png' class='error'><p>" . __('Safe Mode is turned on for PHP. This plugin cannot operate in Safe Mode.', EWWW_IMAGE_OPTIMIZER_DOMAIN) . "</p></div>";
-		define('EWWW_IMAGE_OPTIMIZER_NOEXEC', true);
+		if ( ! defined( 'EWWW_IMAGE_OPTIMIZER_NOEXEC' ) ) {
+			define('EWWW_IMAGE_OPTIMIZER_NOEXEC', true);
+		}
 		ewwwio_debug_message( 'safe mode appears to be enabled' );
 		ewww_image_optimizer_disable_tools();
 		return;
 	} else {
-		define('EWWW_IMAGE_OPTIMIZER_NOEXEC', false);
+		if ( ! defined( 'EWWW_IMAGE_OPTIMIZER_NOEXEC' ) ) {
+			define('EWWW_IMAGE_OPTIMIZER_NOEXEC', false);
+		}
 	}
 
 	// set the variables false otherwise
@@ -504,48 +511,60 @@ function ewww_image_optimizer_notice_utils() {
 					$missing[] = 'jpegtran';
 					$req = false;
 				}
-				ewwwio_debug_message( "defining EWWW_IMAGE_OPTIMIZER_$key" );
-				define( 'EWWW_IMAGE_OPTIMIZER_' . $key, $req );
+				if ( ! defined( 'EWWW_IMAGE_OPTIMIZER_' . $key ) ) {
+					ewwwio_debug_message( "defining EWWW_IMAGE_OPTIMIZER_$key" );
+					define( 'EWWW_IMAGE_OPTIMIZER_' . $key, $req );
+				}
 				break; 
 			case 'OPTIPNG':
 				if ( ! $skip_optipng_check && empty( $req ) ) {
 					$missing[] = 'optipng';
 					$req = false;
 				}
-				ewwwio_debug_message( "defining EWWW_IMAGE_OPTIMIZER_$key" );
-				define( 'EWWW_IMAGE_OPTIMIZER_' . $key, $req );
+				if ( ! defined( 'EWWW_IMAGE_OPTIMIZER_' . $key ) ) {
+					ewwwio_debug_message( "defining EWWW_IMAGE_OPTIMIZER_$key" );
+					define( 'EWWW_IMAGE_OPTIMIZER_' . $key, $req );
+				}
 				break;
 			case 'GIFSICLE':
 				if ( ! $skip_gifsicle_check && empty( $req ) ) {
 					$missing[] = 'gifsicle';
 					$req = false;
 				}
-				ewwwio_debug_message( "defining EWWW_IMAGE_OPTIMIZER_$key" );
-				define( 'EWWW_IMAGE_OPTIMIZER_' . $key, $req );
+				if ( ! defined( 'EWWW_IMAGE_OPTIMIZER_' . $key ) ) {
+					ewwwio_debug_message( "defining EWWW_IMAGE_OPTIMIZER_$key" );
+					define( 'EWWW_IMAGE_OPTIMIZER_' . $key, $req );
+				}
 				break;
 			case 'PNGOUT':
 				if ( ! $skip_pngout_check && empty( $req ) ) {
 					$missing[] = 'pngout';
 					$req = false;
 				}
-				ewwwio_debug_message( "defining EWWW_IMAGE_OPTIMIZER_$key" );
-				define( 'EWWW_IMAGE_OPTIMIZER_' . $key, $req );
+				if ( ! defined( 'EWWW_IMAGE_OPTIMIZER_' . $key ) ) {
+					ewwwio_debug_message( "defining EWWW_IMAGE_OPTIMIZER_$key" );
+					define( 'EWWW_IMAGE_OPTIMIZER_' . $key, $req );
+				}
 				break;
 			case 'PNGQUANT':
 				if ( ! $skip_pngquant_check && empty( $req ) ) {
 					$missing[] = 'pngquant';
 					$req = false;
 				}
-				ewwwio_debug_message( "defining EWWW_IMAGE_OPTIMIZER_$key" );
-				define( 'EWWW_IMAGE_OPTIMIZER_' . $key, $req );
+				if ( ! defined( 'EWWW_IMAGE_OPTIMIZER_' . $key ) ) {
+					ewwwio_debug_message( "defining EWWW_IMAGE_OPTIMIZER_$key" );
+					define( 'EWWW_IMAGE_OPTIMIZER_' . $key, $req );
+				}
 				break;
 			case 'WEBP':
 				if ( ! $skip_webp_check && empty( $req ) ) {
 					$missing[] = 'webp';
 					$req = false;
 				}
-				ewwwio_debug_message( "defining EWWW_IMAGE_OPTIMIZER_$key" );
-				define( 'EWWW_IMAGE_OPTIMIZER_' . $key, $req );
+				if ( ! defined( 'EWWW_IMAGE_OPTIMIZER_' . $key ) ) {
+					ewwwio_debug_message( "defining EWWW_IMAGE_OPTIMIZER_$key" );
+					define( 'EWWW_IMAGE_OPTIMIZER_' . $key, $req );
+				}
 				break;
 		}
 	}
@@ -949,29 +968,42 @@ function ewww_image_optimizer_md5check($path) {
 		'79d8c4f5ff2dbb36068c3e3de42fdb1e',
 		'90ea1271c54ce010afba478c5830a75f',
 		'3ad57a9c3c9093d65664f3260f44df60',
-		'5d480fbe88ab5f732dbc5c9d8b76c2fd', // solaris
-		'6fd8b12b542b9145d79925942551dbc8', // pngquant.exe
-		'b3bbc013acc8bc04d3b531809abdadbb', // pngquant-sol
-		'323246b9300362be24320dc72ba51af4', // pngquant-fbsd
-		'46bb066d676bf94cbfd78bdc0227e74e', // pngquant-linux
-		'3b94673f48a92cf034eb0095611966da', // pngquant-mac
+		'5d480fbe88ab5f732dbc5c9d8b76c2fd', // pngquant-sol 2.0.2
+		'6fd8b12b542b9145d79925942551dbc8', // pngquant.exe 2.3.0
+		'b3bbc013acc8bc04d3b531809abdadbb', // pngquant-sol 2.3.0
+		'323246b9300362be24320dc72ba51af4', // pngquant-fbsd 2.3.0
+		'46bb066d676bf94cbfd78bdc0227e74e', // pngquant-linux 2.3.0
+		'3b94673f48a92cf034eb0095611966da', // pngquant-mac 2.3.0
+		'5fcc55ec96a042a5f0357927eee58be4', // pngquant.exe 2.5.2
+		'4864373d856c51d40f1375f422d4690e', // pngquant-sol 2.5.2
+		'7a2b5a27932faf11ff8f91ae3e265325', // pngquant-fbsd 2.5.2 (first 64-bit only)
+		'e813add352cd6b994a1c51b985aa57bc', // pngquant-linux 2.5.2
+		'21c759c779e0bca63ee50a9bef709616', // pngquant-mac 2.5.2
 		//cwebp
 		'085ea7844800980c72fa30835d6f6044', // cwebp.exe 0.4.1
 		'd36486979358245e8b1cd276f0077864', // cwebp.exe 0.4.3
+		'c9fd2a4839f76601ebbd72a310486b38', // cwebp.exe 0.4.4
 		'4610c239ba00d515701c75e90efe5534', // cwebp-sol 0.4.1
 		'cf7a155952105202f679d11beeef0364', // cwebp-sol 0.4.3
+		'364c9e618b1a4bbdb7a8d89632d036dc', // cwebp-sol 0.4.4
 		'44acd143a8dac72bbf5795a10d96da98', // cwebp-fbsd 0.4.1
 		'038b5acbbcd43e6811850be7d51236de', // cwebp-fbsd64 0.4.1
 		'829f4eb1950c425e064fd780c492a94c', // cwebp-fbsd64 0.4.3
+		'93e376f13fecad177e0e6080f218098b', // cwebp-fbsd64 0.4.4
 		'9429dd850cc2f976961de5fe61f05e97', // cwebp-linux6 0.4.1
 		'fec01e585f6164f911b89a7bf5b3e7eb', // cwebp-linux6 0.4.3
+		'cd86c6e3c0f476f74944585680da83da', // cwebp-linux6 0.4.4
 		'eb3a5b6eae54140269ed6dcf6f792d37', // cwebp-linux664 0.4.1
 		'361c019b0a31d208c64b54bd813a3f76', // cwebp-linux664 0.4.3
+		'85f681c1ced4e1726b0d4e69c222186d', // cwebp-linux664 0.4.4
 		'62272b2bd33218664b2355f516b6e8fc', // cwebp-linux8 0.4.1
 		'c7ee80d24efdb6aa2b87700cf98d7cbc', // cwebp-linux8 0.4.3
+		'4562cbf1caa8fe6a17c98052afcf2d63', // cwebp-linux8 0.4.4
 		'9b6f13ce6ee5a028cbd2765e2d53a1d7', // cwebp-linux864 0.4.1
 		'f9ab108c759d95d66123185c12de132d', // cwebp-linux864 0.4.3
+		'568f46b9b7418547ff79731b64ae1286', // cwebp-linux864 0.4.4
 		'7153ac42b8d8a2322853a408ec50fe0b', // cwebp-mac9 0.4.3
+		'9ba98634b574e2e65952987567c80638', // cwebp-mac9 0.4.4
 		'd43bf5eed775695d5ecfe4eafcbd7af7', // cwebp-mac8 0.4.1
 		'4fdbf2eabdcb4261ddb4045f48cc8310', // cwebp-mac8 0.4.2
 		'dab793f82cf6a3830898c75410583154', // cwebp-mac7 0.4.1
@@ -995,7 +1027,7 @@ function ewww_image_optimizer_mimetype($path, $case) {
 	if ( $case == 'i' && preg_match( '/^RIFF.+WEBPVP8/', file_get_contents( $path, NULL, NULL, 0, 16 ) ) ) {
 			return 'image/webp';
 	}
-	if (function_exists('finfo_file') && defined('FILEINFO_MIME')) {
+	if ( function_exists( 'finfo_file' ) && defined( 'FILEINFO_MIME' ) ) {
 		// create a finfo resource
 		$finfo = finfo_open(FILEINFO_MIME);
 		// retrieve the mimetype

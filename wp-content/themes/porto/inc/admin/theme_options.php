@@ -20,7 +20,7 @@ if (get_option('porto_init_theme', '0') != '1') {
 
 // regenerate default css, skin css files after update theme
 $porto_cur_version = get_option('porto_version', '1.0');
-if ( version_compare(porto_version, $porto_cur_version, '>') && version_compare( phpversion(), '5.3', '>=') ) {
+if ( !porto_is_ajax() && version_compare(porto_version, $porto_cur_version, '>') && version_compare( phpversion(), '5.3', '>=') ) {
 
     update_option('porto_version', porto_version);
 

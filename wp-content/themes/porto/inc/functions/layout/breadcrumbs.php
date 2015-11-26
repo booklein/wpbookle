@@ -273,7 +273,9 @@ function porto_breadcrumbs_shop_link( $linked = true ) {
         if ( ! $shop_page_name ) {
             $shop_page_name = $post_type_object->labels->name;
         }
-        if ($linked ) $link = get_post_type_archive_link( $post_type );
+        if ($linked ) {
+            $link = $shop_page_id ? get_permalink($shop_page_id) : get_post_type_archive_link( $post_type );
+        }
         $output .= porto_breadcrumbs_link( $shop_page_name, $link );
     }
 
@@ -365,7 +367,7 @@ function porto_breadcrumbs_terms_link() {
         return $output;
     }
 
-    $terms = wp_get_object_terms( $post->ID, $taxonomy );
+    $terms = wp_get_object_terms( $post->ID, $taxonomy, array('orderby' => 'term_id') );
 
     if ( empty( $terms ) ) {
         return $output;

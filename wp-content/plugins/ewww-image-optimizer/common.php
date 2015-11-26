@@ -1,8 +1,9 @@
 <?php
 // common functions for Standard and Cloud plugins
 
-define( 'EWWW_IMAGE_OPTIMIZER_VERSION', '253.0' );
+define( 'EWWW_IMAGE_OPTIMIZER_VERSION', '254' );
 
+// TODO: track down fatal error with HHVM
 // TODO: escape all html attributes properly, with esc_attr() or esc_attr__()
 // TODO: imagemagick settings here: http://www.smashingmagazine.com/2015/06/efficient-image-resizing-with-imagemagick/
 
@@ -636,12 +637,25 @@ function ewww_image_optimizer_cron_setup( $event ) {
 // sets all the tool constants to false
 function ewww_image_optimizer_disable_tools() {
 	ewwwio_debug_message( '<b>' . __FUNCTION__ . '()</b>' );
-	define('EWWW_IMAGE_OPTIMIZER_JPEGTRAN', false);
-	define('EWWW_IMAGE_OPTIMIZER_OPTIPNG', false);
-	define('EWWW_IMAGE_OPTIMIZER_PNGOUT', false);
-	define('EWWW_IMAGE_OPTIMIZER_GIFSICLE', false);
+	if ( ! defined( 'EWWW_IMAGE_OPTIMIZER_JPEGTRAN' ) ) {
+		define('EWWW_IMAGE_OPTIMIZER_JPEGTRAN', false);
+	}
+	if ( ! defined( 'EWWW_IMAGE_OPTIMIZER_OPTIPNG' ) ) {
+		define('EWWW_IMAGE_OPTIMIZER_OPTIPNG', false);
+	}
+	if ( ! defined( 'EWWW_IMAGE_OPTIMIZER_PNGOUT' ) ) {
+		define('EWWW_IMAGE_OPTIMIZER_PNGOUT', false);
+	}
+	if ( ! defined( 'EWWW_IMAGE_OPTIMIZER_GIFSICLE' ) ) {
+		define('EWWW_IMAGE_OPTIMIZER_GIFSICLE', false);
+	}
+	if ( ! defined( 'EWWW_IMAGE_OPTIMIZER_PNGQUANT' ) ) {
+		define('EWWW_IMAGE_OPTIMIZER_PNGQUANT', false);
+	}
+	if ( ! defined( 'EWWW_IMAGE_OPTIMIZER_WEBP' ) ) {
+		define('EWWW_IMAGE_OPTIMIZER_WEBP', false);
+	}
 	ewwwio_memory( __FUNCTION__ );
-//	ewww_image_optimizer_debug_log();
 }
 
 // generates css include for progressbars to match admin style

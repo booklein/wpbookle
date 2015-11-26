@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Porto\n"
-"POT-Creation-Date: 2015-09-30 18:28+0800\n"
-"PO-Revision-Date: 2015-09-30 18:28+0800\n"
+"POT-Creation-Date: 2015-11-05 17:52+0800\n"
+"PO-Revision-Date: 2015-11-05 17:52+0800\n"
 "Last-Translator: porto <porto@example.com>\n"
 "Language-Team: porto <porto@example.com>\n"
 "Language: en_GB\n"
@@ -332,11 +332,11 @@ msgstr ""
 msgid "Currency Switcher"
 msgstr ""
 
-#: functions.php:340
+#: functions.php:384
 msgid "The requested content cannot be loaded.<br/>Please try again later."
 msgstr ""
 
-#: functions.php:361
+#: functions.php:405
 msgid ""
 "If you want to import demo, please backup current theme options in "
 "\"Import / Export\" section before import. Do you want to import demo?"
@@ -2793,7 +2793,7 @@ msgstr ""
 msgid "Theme Options"
 msgstr ""
 
-#: inc/admin/porto/settings.php:4396
+#: inc/admin/porto/settings.php:4394
 msgid ""
 "Please regenerate again default css files in <strong>Skin > Compile Default "
 "CSS</strong> after <strong>update theme</strong>."
@@ -3499,7 +3499,7 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: inc/functions/layout.php:989 inc/functions/woocommerce.php:212
+#: inc/functions/layout.php:989 inc/functions/woocommerce.php:216
 #, php-format
 msgid "%d item"
 msgid_plural "%d items"
@@ -4527,39 +4527,39 @@ msgstr ""
 msgid "MailPoet Subscription Form"
 msgstr ""
 
-#: inc/functions/woocommerce.php:66
+#: inc/functions/woocommerce.php:70
 msgid "Grid View"
 msgstr ""
 
-#: inc/functions/woocommerce.php:66
+#: inc/functions/woocommerce.php:70
 msgid "List View"
 msgstr ""
 
-#: inc/functions/woocommerce.php:283 woocommerce/single-product/review.php:30
+#: inc/functions/woocommerce.php:287 woocommerce/single-product/review.php:30
 msgid "out of 5"
 msgstr ""
 
-#: inc/functions/woocommerce.php:332 woocommerce/cart/mini-cart.php:94
+#: inc/functions/woocommerce.php:336 woocommerce/cart/mini-cart.php:94
 #: woocommerce/loop/sale-flash.php:45
 msgid "View Cart"
 msgstr ""
 
-#: inc/functions/woocommerce.php:338
+#: inc/functions/woocommerce.php:342
 msgid "Please select a rating"
 msgstr ""
 
-#: inc/functions/woocommerce.php:350
+#: inc/functions/woocommerce.php:354
 msgid ""
 "Sorry, no products matched your selection. Please choose a different "
 "combination."
 msgstr ""
 
-#: inc/functions/woocommerce.php:351
+#: inc/functions/woocommerce.php:355
 msgid ""
 "Sorry, this product is unavailable. Please choose a different combination."
 msgstr ""
 
-#: inc/functions/woocommerce.php:492
+#: inc/functions/woocommerce.php:504
 #, php-format
 msgid "Use commas instead of %s to separate excluded categories."
 msgstr ""
@@ -5440,14 +5440,14 @@ msgstr ""
 msgid "Qty"
 msgstr ""
 
-#: woocommerce/checkout/form-pay.php:82
+#: woocommerce/checkout/form-pay.php:83 woocommerce/checkout/form-pay.php:112
 msgid ""
 "Sorry, it seems that there are no available payment methods for your "
 "location. Please contact us if you require assistance or wish to make "
 "alternate arrangements."
 msgstr ""
 
-#: woocommerce/checkout/form-pay.php:92
+#: woocommerce/checkout/form-pay.php:124
 msgid "Pay for order"
 msgstr ""
 
@@ -5485,7 +5485,7 @@ msgid ""
 "conditions</a>"
 msgstr ""
 
-#: woocommerce/content-product_cat.php:71
+#: woocommerce/content-product_cat.php:78
 msgid "Products"
 msgstr ""
 
@@ -5801,16 +5801,16 @@ msgid ""
 "Only logged in customers who have purchased this product may leave a review."
 msgstr ""
 
-#: woocommerce/single-product/add-to-cart/variable.php:26
+#: woocommerce/single-product/add-to-cart/variable.php:27
 msgid "This product is currently out of stock and unavailable."
 msgstr ""
 
-#: woocommerce/single-product/add-to-cart/variable.php:35
+#: woocommerce/single-product/add-to-cart/variable.php:36
 msgid "Choose an option"
 msgstr ""
 
-#: woocommerce/single-product/add-to-cart/variable.php:104
-#: woocommerce/single-product/add-to-cart/variable.php:112
+#: woocommerce/single-product/add-to-cart/variable.php:105
+#: woocommerce/single-product/add-to-cart/variable.php:113
 msgid "Clear selection"
 msgstr ""
 

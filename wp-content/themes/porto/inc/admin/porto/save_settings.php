@@ -67,6 +67,25 @@ function porto_compile_css($import = false) {
         }
         $reduxFramework->filesystem->execute('put_contents', $filename, array('content' => $_config_css));
 
+        // theme_elements_{blog_id}.css
+        ob_start();
+        echo $scss->compile('@import "theme_elements.scss"');
+        $_config_css = ob_get_clean();
+
+        $filename = $template_dir.'/css/theme_elements_'.get_current_blog_id().'.css';
+
+        if (is_writable(dirname($filename)) == false){
+            @chmod(dirname($filename), 0755);
+        }
+
+        if (file_exists($filename)) {
+            if (is_writable($filename) == false){
+                @chmod($filename, 0755);
+            }
+            @unlink($filename);
+        }
+        $reduxFramework->filesystem->execute('put_contents', $filename, array('content' => $_config_css));
+
         // theme_shop_{blog_id}.css
         ob_start();
         echo $scss->compile('@import "theme_shop.scss"');
@@ -172,6 +191,25 @@ function porto_compile_css($import = false) {
         }
         $reduxFramework->filesystem->execute('put_contents', $filename, array('content' => $_config_css));
 
+        // theme_rtl_elements_{blog_id}.css
+        ob_start();
+        echo $scss->compile('@import "theme_rtl_elements.scss"');
+        $_config_css = ob_get_clean();
+
+        $filename = $template_dir.'/css/theme_rtl_elements_'.get_current_blog_id().'.css';
+
+        if (is_writable(dirname($filename)) == false){
+            @chmod(dirname($filename), 0755);
+        }
+
+        if (file_exists($filename)) {
+            if (is_writable($filename) == false){
+                @chmod($filename, 0755);
+            }
+            @unlink($filename);
+        }
+        $reduxFramework->filesystem->execute('put_contents', $filename, array('content' => $_config_css));
+
         // theme_rtl_shop_{blog_id}.css
         ob_start();
         echo $scss->compile('@import "theme_rtl_shop.scss"');
@@ -250,7 +288,6 @@ function porto_compile_css($import = false) {
         }
         $reduxFramework->filesystem->execute('put_contents', $filename, array('content' => $_config_css));
 
-        ob_start();
         $scss = new scssc();
         $scss->setImportPaths($template_dir . '/scss');
         if (isset($porto_settings['compress-default-css']) && $porto_settings['compress-default-css']) {
@@ -258,10 +295,32 @@ function porto_compile_css($import = false) {
         } else {
             $scss->setFormatter('scss_formatter');
         }
+
+        // common styles
+        ob_start();
         echo $scss->compile('@import "plugins.scss"');
         $_config_css = ob_get_clean();
 
         $filename = $template_dir.'/css/plugins_'.get_current_blog_id().'.css';
+
+        if (is_writable(dirname($filename)) == false){
+            @chmod(dirname($filename), 0755);
+        }
+
+        if (file_exists($filename)) {
+            if (is_writable($filename) == false){
+                @chmod($filename, 0755);
+            }
+            @unlink($filename);
+        }
+        $reduxFramework->filesystem->execute('put_contents', $filename, array('content' => $_config_css));
+
+        // bootstrap styles
+        ob_start();
+        echo $scss->compile('@import "bootstrap.scss"');
+        $_config_css = ob_get_clean();
+
+        $filename = $template_dir.'/css/bootstrap_'.get_current_blog_id().'.css';
 
         if (is_writable(dirname($filename)) == false){
             @chmod(dirname($filename), 0755);
@@ -315,7 +374,6 @@ function porto_compile_css($import = false) {
         }
         $reduxFramework->filesystem->execute('put_contents', $filename, array('content' => $_config_css));
 
-        ob_start();
         $scss = new scssc();
         $scss->setImportPaths($template_dir . '/scss');
         if (isset($porto_settings['compress-default-css']) && $porto_settings['compress-default-css']) {
@@ -323,10 +381,32 @@ function porto_compile_css($import = false) {
         } else {
             $scss->setFormatter('scss_formatter');
         }
+
+        // common styles
+        ob_start();
         echo $scss->compile('@import "plugins_rtl.scss"');
         $_config_css = ob_get_clean();
 
         $filename = $template_dir.'/css/plugins_rtl_'.get_current_blog_id().'.css';
+
+        if (is_writable(dirname($filename)) == false){
+            @chmod(dirname($filename), 0755);
+        }
+
+        if (file_exists($filename)) {
+            if (is_writable($filename) == false){
+                @chmod($filename, 0755);
+            }
+            @unlink($filename);
+        }
+        $reduxFramework->filesystem->execute('put_contents', $filename, array('content' => $_config_css));
+
+        // bootstrap styles
+        ob_start();
+        echo $scss->compile('@import "bootstrap_rtl.scss"');
+        $_config_css = ob_get_clean();
+
+        $filename = $template_dir.'/css/bootstrap_rtl_'.get_current_blog_id().'.css';
 
         if (is_writable(dirname($filename)) == false){
             @chmod(dirname($filename), 0755);

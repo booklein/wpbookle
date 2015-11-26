@@ -7,7 +7,7 @@
         border-right: 1px solid $color-dark-4;
     } @else {
         background: #F5F5F5;
-        @include background(linear-gradient(to bottom, #FFF 1%, #F9F9F9 98%) repeat scroll 0 0 rgba(0, 0, 0, 0));
+        @include background(linear-gradient(to bottom, #FFF 1%, #F9F9F9 98%) repeat scroll 0 0 #F5F5F5);
         border-bottom: 1px solid #DFDFDF;
         border-left: 1px solid #ECECEC;
         border-right: 1px solid #ECECEC;

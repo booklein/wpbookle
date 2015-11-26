@@ -1,0 +1,2058 @@
+msgid ""
+msgstr "MIME-Version: 1.0\n"
+
+#. Name.
+msgid "UpdraftPlus Backup and Restoration"
+msgstr ""
+
+#. Short description.
+msgid "Backup and restoration made easy. Complete backups; manual or scheduled (backup to S3, Dropbox, Google Drive, Rackspace, FTP, SFTP, email + others)."
+msgstr ""
+
+#. Screenshot description.
+msgid "<p>Main dashboard - screenshots are from UpdraftPlus Premium, so may reference some features that are not part of the free version</p>"
+msgstr ""
+
+#. Screenshot description.
+msgid "<p>Configuring your backups</p>"
+msgstr ""
+
+#. Screenshot description.
+msgid "<p>Restoring from a backup</p>"
+msgstr ""
+
+#. Screenshot description.
+msgid "<p>Showing and downloading backup sets</p>"
+msgstr ""
+
+#. Found in description header.
+msgid "Don't risk your backups on anything less"
+msgstr ""
+
+#. Found in description header.
+msgid "UpdraftPlus Premium"
+msgstr ""
+
+#. Found in description header.
+msgid "Professional / Enterprise support agreements available"
+msgstr ""
+
+#. Found in description header.
+msgid "More premium plugins"
+msgstr ""
+
+#. Found in description header.
+msgid "Are you multi-lingual? Can you translate?"
+msgstr ""
+
+#. Found in description header.
+msgid "Other support"
+msgstr ""
+
+#. Found in description list item.
+msgid "Supports WordPress backups to UpdraftPlus Vault, Amazon S3 (or compatible), Dropbox, Rackspace Cloud Files, Google Drive, Google Cloud Storage, DreamHost DreamObjects, FTP, OpenStack (Swift) and email. Also (via a paid add-on) backup to Microsoft OneDrive, Microsoft Azure, Google Cloud Storage, Copy.Com, FTP over SSL, SFTP, SCP, and WebDAV (and compatible services, e.g. Yandex, Cubby, OwnCloud). Examples of S3-compatible providers: Cloudian, Connectria, Constant, Eucalyptus, Nifty, Nimbula, Cloudn."
+msgstr ""
+
+#. Found in description list item.
+msgid "Quick restore (both file and database backups)"
+msgstr ""
+
+#. Found in description list item.
+msgid "Backup automatically on a repeating schedule"
+msgstr ""
+
+#. Found in description list item.
+msgid "Site duplicator/migrator: can copy sites, and (with add-on) duplicate them at new locations"
+msgstr ""
+
+#. Found in description list item.
+msgid "Restores and migrates backup sets from other backup plugins (Premium) (currently supported: BackWPUp, BackupWordPress, Simple Backup, WordPress Backup To Dropbox)"
+msgstr ""
+
+#. Found in description list item.
+msgid "Files and database backups can have separate schedules"
+msgstr ""
+
+#. Found in description list item.
+msgid "Failed uploads are automatically resumed/retried"
+msgstr ""
+
+#. Found in description list item.
+msgid "Large sites can be split into multiple archives"
+msgstr ""
+
+#. Found in description list item.
+msgid "Select which files to backup (plugins, themes, content, other)"
+msgstr ""
+
+#. Found in description list item.
+msgid "Select which components of a backup to restore"
+msgstr ""
+
+#. Found in description list item.
+msgid "Download backup archives direct from your WordPress dashboard"
+msgstr ""
+
+#. Found in description list item.
+msgid "Database backups can be encrypted for security (Premium)"
+msgstr ""
+
+#. Found in description list item.
+msgid "Debug mode - full logging of the backup"
+msgstr ""
+
+#. Found in description list item.
+msgid "Internationalised (translations welcome - see below)"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"https://updraftplus.com\">Premium version and support available (including free remote backup storage) - https://updraftplus.com</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "Supported on all current PHP versions (5.2 - 7.0)"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "<a href=\"https://updraftplus.com\">UpdraftPlus</a> simplifies backups (and restoration). Backup into the cloud (Amazon S3 (or compatible), Dropbox, Google Drive, Rackspace Cloud, DreamObjects, FTP, Openstack Swift, UpdraftPlus Vault and email) and restore with a single click. Backups of files and database can have separate schedules. The paid version also backs up to Microsoft OneDrive, Microsoft Azure, Copy.Com, Google Cloud Storage, SFTP, SCP, and WebDAV."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "<strong>Top-quality:</strong> UpdraftPlus is the <a href=\"http://rankwp.com/plugins/updraftplus\">highest-ranking backup plugin on wordpress.org</a> (ranks in the top 40 out of over 30,000 WordPress plugins for quality on rankwp.com)."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "<strong>Over 600,000 currently active installs:</strong> widely tested and reliable (over 3.4 million downloads). The #1 most installed scheduled backup plugin, according to wordpress.org. Many millions of backups completed!"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "From our <a href=\"https://www.youtube.com/user/UpdraftPlus/videos\">YouTube channel</a>, here's how to install:"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "https://www.youtube.com/watch?v=7ReY7Z19h2I&amp;rel=0"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "Your WordPress backups are worth the same as your entire investment in your website. The day may come when you get hacked, or your hosting company does, or they go bust - without good backups, you lose everything. Do you really want to entrust all your work to a backup plugin with only a few thousand downloads, or that has no professional backup or support? Believe us - writing a reliable backup plugin that works consistently across the huge range of WordPress deployments is hard."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "UpdraftPlus Backup/Restore is not crippled in any way - it is fully functional for backing up and restoring your site. What we do have is various extra features (including site cloning), and guaranteed support, available <a href=\"https://updraftplus.com/\">from our website, updraftplus.com</a>. See <a href=\"https://updraftplus.com/comparison-updraftplus-free-updraftplus-premium/\">a comparison of the free/Premium versions, here</a>."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "If you need WordPress multisite backup compatibility (you'll know if you do), <a href=\"https://updraftplus.com/shop/\">then you need UpdraftPlus Premium</a>."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "UpdraftPlus Backup/Restore is written by professional WordPress developers. If your site needs guaranteed support, then we are available. Just  <a href=\"https://updraftplus.com/shop/\">go to our shop.</a>"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "If you are in the market for other WordPress premium plugins (especially WooCommerce addons), then try our shop, here: https://www.simbahosting.co.uk/s3/shop/"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "Are you able to translate UpdraftPlus into another language? Are you ready to help speakers of your language? UpdraftPlus Backup/Restore itself is ready and waiting - the only work needed is the translating. The translation process is easy, and web-based - go here for instructions: <a href=\"https://updraftplus.com/translate/\">https://updraftplus.com/translate/</a>. (Or if you're an expert WordPress translator already, then just pick out the .pot file from the wp-content/plugins/updraftplus/languages/ directory - if you scan for translatable strings manually, then you need to get these functions: _x(), __(), _e(), _ex(), log_e())."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "Many thanks to the existing translators - listed at: https://updraftplus.com/translate/"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "We hang out in the WordPress support forum for this plugin - https://wordpress.org/support/plugin/updraftplus - however, to save time so that we can spend it on development, please read the plugin's FAQs - <a href=\"https://updraftplus.com/support/frequently-asked-questions/\">https://updraftplus.com/support/frequently-asked-questions/</a> - before going there, and ensure that you have updated to the latest released version of UpdraftPlus backup/restore."
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "<a href=\"https://updraftplus.com/download/\">Full instructions for installing this plugin.</a>"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: On hosts with low timeouts that kill restore operations half-way though, provide an obvious button on the dashboard to immediately resume; see: https://updraftplus.com/resuming-interrupted-restores/"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: Usability improvements and ability to select file components in the 'Backup Now' dialog - https://updraftplus.com/improvements-to-the-backup-now-dialog-box/"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: Full support for Microsoft Azure blob storage (UpdraftPlus Premium)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: Allow all files beginning with a defined prefix to be excluded from the backup by inputting (for example) prefix:someprefix_,prefix:someotherprefix- in your exclusion settings - see: https://updraftplus.com/faqs/how-can-i-exclude-particular-filesdirectories-from-the-backup/"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: UpdraftPlus Premium can now restore backups created by \"Dropbox Backup\" by WPAdm"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "COMPATIBILITY: Tested/supported on the forthcoming WordPress 4.4"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Faster zip file creation on PHP 7 with ZipArchive - https://updraftplus.com/faster-zip-file-creation-with-the-php-7-zip-engine/"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Improve settings tab: remove headings, tweak a few wordings, move \"remote storage\" section further up"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Introduce UPDRAFTPLUS_SET_TIME_LIMIT internal constant"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Quote the table name passed to MySQL in DESCRIBE statement"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Prevent a PHP notice being logged during initial updates connection, and another when restoring third-party databases"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Style previously unstyled button in some auto-backup scenarios"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: A few settings were not being deleted by the \"Wipe Settings\" button."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Importer would not correctly handle third-party backups where the files and zip were both in zip format, separately, and where they were restored together"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: With multi-archive backup sets, files in the top level of a backup of WP core or 'others' were not restored by an in-dashboard restore if they over-wrote an existing non-identical file if they were not in the first archive"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Resolve a conflict with \"Simple Calendar\" (formerly \"Google Calendar Events\") since their re-written 3.0 release, when using Google Drive storage"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: Google Cloud Storage support (UpdraftPlus Premium)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Automatic backups of WordPress core prior to WP core upgrade in recent versions were including non-WP core files"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: OwnCloud 8.1's WebDAV server responds differently, breaking UD's communications: restore the ability to back up to OwnCloud WebDAV"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Allow use of the Meta key for selecting multiple backup sets (as well as Control)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: When sending backup data directly site-to-site (when migrating), handle the (very rare) case where a remote server complains of the chunk size after accepting previous chunks of the same size"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Add message to final log line when sending backup set directly to a remote site, reminding the user of what to do next."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Tweak zip-splitting algorithm, to prevent delayed split on resumption when final file in the last-created zip is gigantic"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: By default, exclude directories that appear to be the UpdraftPlus internal directory of a site stored in a sub-directory when backing up WordPress core"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: In the debugging output, show more clearly when Curl is not installed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Remove trailing slashes from what WP returns as the uploads/plugins directories, in case the user has specified a manual directory over-ride and erroneously added a trailing slash"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Replace all remaining http:// links to updraftplus.com with https://"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Raise some of the Google Drive network timeouts"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Suppress an internal PHP notice when pruning backups in some circumstances"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TRANSLATIONS: Various updated translations"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: More sophisticated rules for retention/deletion (UpdraftPlus Premium) - https://updraftplus.com/more-sophisticated-backup-retention/"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: Delete multiple backups at once - https://updraftplus.com/deleting-multiple-backups/"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: When choosing a monthly backup, you can now choose the starting date (e.g. choose 17th, not just choose the next week-day, e.g. next Monday)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: You can exclude files with any particular extension by using the constant UPDRAFTPLUS_EXCLUDE_EXTENSIONS (comma-separate different extensions), or by inputting (for example) ext:.zip,ext:.mp4 in your exclusion settings."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: Tested and supported on the forthcoming PHP 7.0"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: SFTP uploads could hang after finishing, if more than one attempt was needed to upload the file"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Stop causing JavaScript errors on WordPress 3.2 on the plugins page"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: UI improvement when choosing multiple storage options - https://updraftplus.com/a-prettier-way-to-choose-remote-storage-options/"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: The storage selection drop-down (free version) now has icons to make it easier on the eye"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Use UpdraftPlus Vault logo"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Replace target=\"_new\" with target=\"_blank\" when opening new browser ports, to be more standards-compliant"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Tweak the auto-split algorithm again to catch another case where it would have been better to split in a low-resource situation"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: When checking the backup integrity, allow for a multisite to not have a root options table; check sitemeta instead (unlikely, but theoretically possible)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Raise default Google Drive network timeout from 15 seconds - it's too possible to hit this on a slow uplink (e.g. congested ADSL)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Upgrade the bundled Google SDK to the most recent release (1.1.4)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Add previously-untranslated string"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Suppress a PHP notice relating to a constant that needed quoting"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Turn off reporting of PHP deprecation conditions if using phpseclib on PHP 7 (can break communications - phpseclib uses PHP4-style constructors)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Dropbox introduced an un-documented, un-announced change to their server, which caused new site authentications in UpdraftPlus to no longer work. Now fixed with this release."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: If backing up multiple extra directories under \"more files\", if large directories required a resumption, then inclusion of the files multiple times in the backup was possible."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Tweak the auto-split algorithm to not avoid firing in a particular case (that relies on a sequence of unlikely I/O events, seen on GoDaddy) if there's no resumption scheduled"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Add mysql.sql to the (changeable) default configuration for excludes from wp-content - on WP Engine this is an unreadable file that they create that thus produces a backup warning"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Add a dashboard warning (+ link to documentation) if UD appears to be incompletely installed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Add UPDRAFTPLUS_WEBDAV_NEVER_CHUNK constant for WebDAV servers that return the wrong error code when chunking fails"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Introduce a UPDRAFTPLUS_REMOTESEND_DEFAULT_CHUNK_BYTES constant allowing the over-riding of the remote-send (Migrator) starting chunk size in wp-config.php (expert users)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Add CSS classes to dashboard updates notices, so that people can hide them more easily if they wish"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: If gzopen() is disabled, then test binzip without trying to use PclZip to verify the results"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Add work-around for PHP bug https://bugs.php.net/bug.php?id=62852"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: SFTP was not working in 1.11.4 for some servers (related to phpseclib library update and sources of random data)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: 1.11.5 release had wrong version number in header for paying users; corrected with fresh release"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Perform previously missing tweak on the database after restoring a multisite backup to an install with a different table prefix, which inhibited the ability to create new users on the main site in a network."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Remove an inefficiency when examining files to prune from Google Drive, reducing the amount of time needed."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Show a warning if UpdraftPlus's directory in wp-content/plugins has been manually renamed to include a space, which WordPress does not support"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Skip search/replacing of the 'guid' column in the posts table when migrating (improves performance - and prevents possible re-appearances of blog articles in peoples' feed readers if double-migrating)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Upgraded the bundled phpseclib Math, Net and File libraries to current versions (1.0 branch)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Prevent PHP notice in log file when deleting FTP backup from dashboard"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TRANSLATIONS: Updated translations, including Greek"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Fix access to S3 for PHP 5.2 users using buckets in the US-WEST-1 region"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Fix access to UpdraftPlus Vault for some PHP 5.2 users"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Handle the results when someone with no UpdraftPlus Vault quota attempts to connect more gracefully"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: UpdraftPlus Vault storage - simple to set up storage from your trusted provider: https://updraftplus.com/landing/vault - with 1Gb of free storage for UpdraftPlus Premium customers ( https://updraftplus.com/shop/updraftplus-premium/ ) - and more storage available for anyone to purchase. All other storage options (Dropbox, Google Drive, etc.) remain available, of course!"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: S3 enhanced wizard now allows the user to optionally deny the new Amazon Web Services IAM user download and/or delete permissions, for an even more secure setup (at the cost of some convenience - you will need to download/restore/delete S3 backups outside of UpdraftPlus)."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: Amazon S3 in UpdraftPlus Premium now supports optional server-side encryption"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: An \"UpdraftPlus\" menu now appears on the WP admin bar, allowing quick access."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "COMPATIBILITY: Tested and compatible with WordPress 4.3"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "SPEED: For users' whose backups are created with a zip binary (the default engine, where available), CPU usage + zip creation times have been significantly reduced"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "SPEED: For users cloning a website with a large number of users and a changed table prefix, a long and slow series of SQL operations has been replaced with a single fast one"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: The chunk-uploading algorithm for Copy.Com could unnecessarily upload the same chunks multiple times. We have not had any reports, but we believe it's also theoretically possible that a Copy.Com upload could have been corrupted by the same issue, so recommend updating for all Copy.Com users."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Fix issue with site cloning whereby on sites with very large numbers of entries in the postmeta table that needed search/replacing, some could be omitted (in the case seen, the table had &gt;600,000 entries)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Saving the settings immediately after authenticating with Copy.Com resulted in being redirected to WP's page for all settings."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: If PHP was killed by the webserver during the process of pruning old backups, then this would not be retried until the next backup, thus potentially leaving more backups than desired around in remote storage in the meanwhile."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Log files sometimes failed to mention the MySQL version"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TRANSLATIONS: Various updated translations - thanks to our translators"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: When choosing multiple remote storage options (Premium), these are now stacked via tabs, instead of vertically as before"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: More help for enormous sites on badly resourced web hosting: part of the enumeration of uploads needing backing up is now cached, allowing more to be time when time limits are short"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Secret credentials (e.g. S3 secret key) in the admin area are now starred (as explained in our long-standing FAQ, this does nothing to protect against malicious WordPress co-admins on your site - https://updraftplus.com/faqs/in-the-administration-section-it-shows-my-amazon-ftp-etc-passwords-without-using-stars-is-this-safe/ - but at least we won't get asked about it so many times!)."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Provide more direct help to the user if they are hosting with Strato and get the 'File Size Limit Exceeded' zip message"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: When migrating data directly to a remote site, if the remote site returns a 413 HTTP code (\"Request Entity Too Large\"), re-try using a smaller chunk size"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Log when about to begin encryption of a database file (allowing the progress to be monitored more easily if there's a problem)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Detect a further case of an incompatible database (that is from a remote source and uses MySQL features not present on the destination server) and warn before attempting to import."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Make the error message shown if trying to restore an incompatible database (that is from a remote source and uses MySQL features not present on the destination server) clearer."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: If the user uses \"Backup Now\" before saving their settings, warn them that the unsaved settings changes won't apply to this backup"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Only warn about very large files found once for each file (rather than once per resumption)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Add the UPDRAFTPLUS_GOOGLEDRIVE_DISABLEGZIP constant - define it as true to work-around broken HTTP setups (possibly broken outgoing proxy?) when accessing Google Drive"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: When claiming an add-on (paid versions), the user's updraftplus.com password will automatically be forgotten once it is no longer needed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Handle the case of the user typing in an invalid number of backups to retain more elegantly"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: No longer require the php-mcrypt module for Dropbox "
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Also retry a smaller chunk size if it looks like mod_security unhelpfully replaced a 413 HTTP code with a 200 success message despite the operation actually failing for this reason, or if it looks like sending is just timing out before the PHP timeout (so that we don't get notified)."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Added new CA root certificates to store (http://curl.haxx.se/ca/cacert.pem)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: If the Migrator's direct-send component drops its chunk size, then store this information so that it doesn't have to go through the cycle of finding the best chunk size the next time."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Added UPDRAFTPLUS_IPV4_ONLY constant to prevent use of IPv6 (currently implemented by Google Drive only)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Deal with a case where the web host appears to be losing disk I/O near kill time, despite later database writes going through (so, the order of operations was insufficient to guarantee what had been completed). This issue was only cosmetic - backup sets were intact (hence \"tweak\", not \"fix\")"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Increase HTTP timeout for remote site-to-site operations"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Don't cause the 'debug' tab to abort rendering if the web host has disabled the gzopen() function (which is an odd/pointless thing to do)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Resolve PHP 'strict standards' coding internal notice in Google Drive module"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: Migration component can now send backup data directly from one WP site to another - https://updraftplus.com/shop/updraftplus-premium/"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: Support active mode FTP servers (extremely rare)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: The error message when choosing no components to restore was empty"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Restore ability to run on WordPress 3.5 (actually fixed in downloads of 1.10.1 after 2015-05-13)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Some automatic pre-upgrade backups were not marked internally as such, leading UD to delete the oldest scheduled backup prematurely backups prematurely"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Reduce HTTP round-trips when checking presence + downloading backup archives in a restore/migrate operation"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Alert the user earlier if they're trying to use a database with a character set not supported by MySQL"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Use separate internal jobs for separate downloads, and thus avoid race conditions when updating job data (symptom: download widgets that don't show current information)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Add constant UPDRAFTPLUS_SFTP_TIMEOUT allowing users to over-ride (via wp-config.php) the default SFTP timeout (default now: 15 seconds)."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Make Copy.Com filter out non-backups from remote file listings at an earlier stage"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Log more information when a curl error occurs when getting a OneDrive access token"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Code re-arrangement in OneDrive library to deal with sites using the obsolete PHP safe_mode"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Clearer message for users whose access to paid plugin updates has expired (paid versions)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Improve detection of started pre-upgrade automatic backups in case of webserver misbehaviour"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Fix untranslated message when confirming the wiping of settings"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Replace more non-SSL links to updraftplus.com with SSL links"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Use a POST instead of a GET during one of the restore sub-stages (avoids a false positive on some mod_security setups)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Improve backup-file-naming routine to reduce the times when no ASCII name can be found (ASCII is preferred as not all cloud storage methods will accept arbitrary characters in filenames)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Don't keep a log file (unless debug mode is on) for scheduled tasks that result in the result that nothing needs backing up"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Remove cache files from Cherry Framework child themes upon migration (framework misbehaves if cache files are present after URL change)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: Microsoft OneDrive support (Premium version) - full support (including chunked/resumable uploading and downloading)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: Allow prevention of backup of unwanted tables, via a filter; see: https://updraftplus.com/faqs/how-can-i-exclude-a-specific-table-from-the-backup/"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Restore window would not open if date contained a single quote character in it (which was possible only in some languages)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Restore the ability of PHP installations (&lt; 1%) without curl to use Google Drive (broke when Google introduced a new SSL certificate at their end which PHP couldn't handle properly without extra help)."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Add woocommerce_order_items and relevanssi_log to the list of potentially huge tables that won't need search/replacing"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Add link to admin email setting and fix broken link to reporting add-on in free version"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Provide more direct help for paid users getting blocked by the security shield when connecting for updates access"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Small tweak in zip-splitting algorithm if it looks likely that there are insufficient resources with no further resumptions yet scheduled"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: \"Migrate\" dialogue, when the Migrator is installed, now contains a widget to use directly (instead of just directing to other route)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Ask user to confirm if they navigate away from the settings page with unsaved changes"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Replace some non-SSL links to updraftplus.com with SSL links, and replace all non-SSL readme links"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Add UPDRAFTPLUS_DBSCAN_TIMEOUT constant to control how much time is allowed for scanning database, and make the default vary instead of constant (will help users with absolutely enormous databases)."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Provide clearer guidance to users with a wrong updraftplus.com password entered for updates"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: When cloning a site with Jetpack, automatically clear Jetpack invalid connection status"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Prevent some old admin notices from being repeated when saving settings"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: (Premium) Added wizard to make it easier to create limited-access AWS users (requires PHP 5.3.3)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "SECURITY: Fix non-persistent back-end XSS vulnerability, reported by Sucuri - https://updraftplus.com/new-security-vulnerability-found-across-significant-numbers-of-wordpress-plugins-including-updraftplus/"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Fix failure to access some files (e.g. for downloading or deleting) in Google Drive folders that contained &gt;100 UpdraftPlus backup archives (thanks to IanUK for his help)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Amazon S3 reduced redundancy storage (a feature of UpdraftPlus Premium) now requires use of PHP 5.3.3 or later."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Various fixes to bring automatic backups code up to date with WP 4.2 release candidate 1 (there were some changes since beta 3, which worked since UD 1.9.62)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Update to version 2.0 of plugin updater class (https://github.com/YahnisElsts/plugin-update-checker) - necessary on WP 4.2 to prevent shiny updates after the first failing when 3rd party plugins exist, and to suppress a PHP notice on the plugins page."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Add wp_rp_tags to the list of potentially huge tables that won't need search/replacing"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TRANSLATION: New Slovenian translation, courtesy of Clav Icula"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Revert to previous global SSL CA bundle: it seems Amazon S3 still has servers with 1024-bit SSL certificates"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: Automatic backups now integrate with the forthcoming WP 4.2's \"shiny plugin updates\""
+msgstr ""
+
+#. Found in changelog list item.
+msgid "COMPATIBILITY: Tested and marked compatible with the forthcoming WordPress 4.2 (tested up to beta 3)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Fix regression in 1.9.60 for corner-case of S3 users with no permission to check their bucket's location (but permission to write to it)."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Make \"settings saved\" message disappear after a few seconds, to prevent UI clutter"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Decrease UI clutter in backup time selection"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Update to latest global SSL CA bundle, removing again 1024-bit root CAs (last attempted in 1.9.26, but S3 still had some legacy servers). Modern web browsers have not accepted these for 6 months now. (SSL verification can be turned off in the expert options)."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Defeat WP Download Manager Google Drive plugin's loading of its SDK on all pages (conflicting with UD when UD attempts to backup to Google Drive)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Detect case of old MySQL on Windows with table prefix that varies by case (and hence WP actually only works by accident) - produce a consistent backup that can be restored on any MySQL server."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Add dashboard notice with links to more resources, for free users who've been installed &gt;4 weeks (with option to dismiss notice)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Add itsec_log to the list of tables of non-essential/not-needing-search/replace + likely to be large tables for backup strategy"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Improvement to scheduling algorithm in case where WP's scheduler starts same resumption multiple times - prevent next attempt being delayed longer than necessary"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Add a header to report emails indicating the job ID - helps when debugging"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Detect + show a more helpful error message if blocked by CloudFlare when connecting for updates (paid versions)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Make it easier to use custom Dropbox API keys, via UPDRAFTPLUS_CUSTOM_DROPBOX_APP constant (define to true in wp-config.php)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Tweak debug output of webserver information to avoid triggering a (silly) mod_security rule in some setups"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Alert the user if using Amazon S3 if they do not have the PHP XML Writer module available"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Log the fact that local deletions are being skipped, if the user set that option."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Give timestamp of WPB2D backups without relying upon location of SQL file"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Detect a situation on migration where the uploads path is changed (from a site that began pre-WP 3.5) that was previously undetected"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TRANSLATIONS: French translation updated from less than half to complete, thanks to Erwan François. Various other translations updated (many thanks to all translators)."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: When using \"Backup Now\", and keeping the UpdraftPlus settings page open, a broken WP scheduler will not prevent the backup's progress."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: Amazon's \"EU Central 1\" Frankfurt region now supported again (Amazon began requiring their new signature method at this location - probably a sign of things to come everywhere). PHP 5.3.3 required for this region."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: Database backup files can now be handled when uncompressed - i.e., you can remove the gzip compression, and use the resulting file (useful for large backups on slow/limited hosting: pre-decompressing the file will reduce the processing time needed)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: Introduced new in-page auto-backup widget that can resume, and thus cope with a backup of any size. This feature is in preparation of WP 4.2's major re-write of the updating user experience flow."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Update PHP-Opencloud (Rackspace) and dependency libraries to current versions."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Make sure that activity is recorded periodically when adding database tables to the final database backup (found a site with over 7,500 tables)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Don't bother to attempt to detect double-gz compression on setups where it can't be handled (where gzseek() has been disabled in the PHP configuration)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Added free/Premium comparison table to the free version"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Importer (part of UpdraftPlus Premium) can now import generic .sql, .sql.gz and .sql.bz2 files"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Don't show the \"memory limit\" warning in a case where the value could not be accurately detected"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: If the user chooses the \"email\" remote storage method, then a warning will be added if the archive being sent is bigger than most mailservers can carry (and will be removed if it is successfully sent), thus giving the user a hint as to the failure cause (if they overlooked the existing warning in the email settings)."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: The importer (part of UpdraftPlus Premium) can now import the latest BackupWordPress format databases"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Flush output buffer explicitly when closing the browser connection - prevents delayed feedback on some setups"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Automatic backups are now offered if you go to the 'Plugins' page, and update via the 'More information' iframe"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Trim spaces from Google Drive client_id/secret - some users didn't spot that they introduced whitespace when copy-pasting"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Add \"Simple Visitor Stats\" and \"Simple Feed Stats\" tables to the list of tables that may have large amounts of data, and which don't need search/replacing when migrating"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: When restoring plugins and themes, log the list of entities being restored (helps with tracing problems)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Deal with CloudFTP/StorageMadeEasy returning directory listings in a non-standard format, when rescanning remote backups"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Version numbering scheme for paid versions changed; see: https://updraftplus.com/change-in-updraftpluss-version-numbering-scheme-for-paid-versions/"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TRANSLATIONS: Updated translations in several languages (many thanks for our translators)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: For imported 3rd-party backups, the 'Existing Backups' tab (only) was showing \"Unknown Source\" instead of the detected source."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Fix issue when migrating (hence, in Premium versions only) backups with very large options tables output by mysqldump, which could cause the site URL to finish with an incorrect value"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "SECURITY: Prevent nonce leak that could allow logged-in users who aren't admins (if you have any) to access backups, UpdraftPlus settings and perform other harmful actions. No issue exists for users of UpdraftPlus Premium, or if you have the stand-alone \"Automatic Backups\" or \"No Adverts\" add-ons, or if your site has no untrusted users who can log in (or whilst have dismissed the \"Automatic Backups\" notice on the updates page). Credit to Sucuri (http://sucuri.net) for identifying this issue, and notifying us of it."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Importer now supports a previously-unseen format for WordPress Backup 2 Dropbox backups"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Fix cron calculation that could have prevented UpdraftPlus loading when using ALTERNATE_WP_CRON (see 1.9.45)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: If insufficient permissions exist when restoring, then exit maintenance mode when this is detected; and handle the case of having create but not drop permissions more elegantly"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Defeat some other plugins/themes which load their CSS code onto UpdraftPlus settings page and break things"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Prevent a \"not tested on this version of WP\" message showing for a short time after install of a new version, when it only applied to the previous version"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Reduce HTTP timeout when checking for available plugin updates (paid versions) from 10 to 5 seconds"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Tidy up the post-restore screen a little - one less info box."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: When a restore finishes, WP Super Cache's cache will be emptied (if present), to prevent confusion caused by cached pre-restore pages."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Slight change to how the 'mothership' for updates is calculated, for more flexibility in our in-house testing"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Log more informative error if user chooses 'FTP' for their remote storage, but adds no FTP settings"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Change \"any other directory\" to \"any other file/directory\" in the \"more files\" add-on, to better reflect its capabilities"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Make sure that \"more files\" will skip UD's temporary directory, if asked to back up a parent directory of it"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Default to https for updates checking, with fallback to http (only relevant to versions from updraftplus.com)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Prevent 'Strict Standards' PHP coding notice with WebDAV on PHP 5.5"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Provide clickable link through to the admin email address in the reporting settings"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: If the gzopen or gzread functions are disabled in the PHP install, then the message saying so omitted to say which one (or both)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: WebDAV upload method could very occasionally fail to detect upload error conditions"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: Chunked/resumable uploads are now supported for SFTP"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Scan for existing backup sets added manually to local storage in recent versions could overlook some unless clicked twice, in non-GMT timezones"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Work-around issue in Manage WP worker plugin which caused a crash when authenticating with Dropbox"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Prevent PHP notice when listing files on SFTP server"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Reset an internal upload counter used to detect activity when a cloud storage switch is made due to no apparent activity - could prevent some large, long-running uploads on hosts with little available execution time"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Fix case in which the database imported from a BackWPUp backup could be falsely identified as missing (introduced in 1.9.40)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: WordPress installs with ALTERNATE_WP_CRON set could skip some scheduled backups (since 1.9.19, so it appears that the conditions required to cause this bug are rare)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TRANSLATIONS: Add new incomplete translations (ready for the wordpress.org change to take translation availability into account when searching for plugins): Norwegian Bokmål, Norwegian Nynorsk, Finnish, Hebrew, Catalan, Vietnamese, Bengali"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Fix a failure to detect the progress properly for large backup sets, introduced in 1.9.40"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Fix bug in 'lock admin' feature causing lock-outs even with the correct password"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Site is put in maintenance mode whilst database restore takes place"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Fix bug in 1.9.40 that caused some cloud storage uploads to be terminated."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Restore functionality for Premium users on older WP versions (3.1 - 3.5)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: The tab for downloading/restoring backups has been simplified"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Automatic backups are now labelled"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Time selector now accepts typed hours without the trailing zero"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Add a swifter resumption in one corner case (efficiency)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: SCP remote storage now logs chunk progress"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "COMPATIBILITY: Tested with the forthcoming WordPress 4.1"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TRANSLATIONS: New Dansk / Danish translation by Lars Lund and Lasse Jensen"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Fix bug causing PHP notices in Migrator add-on search/replace"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Add support for Amazon S3's new Frankfurt region"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Made the output of the HTTP (curl) debugging tool more informative"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Add web.config file to make updraft directory unviewable on IIS"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Search/replace the postmeta table faster"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: The search/replace expert tool can now work on selected tables only"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Allow wildcards at either end in exclusion items (e.g. <em>backups</em>)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Add option to control how many rows are search/replaced at once"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Update Bitcasa console link to new location"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "PERFORMANCE: Lazy-load more code"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "PERFORMANCE: Prevent no-op search/replacements when restoring"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Catch + log errors thrown by phpMailer"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Prevent PHP log notice being generated on \"Backup Now\""
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Change default zip split size to 500Mb on new installs"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Do not rely on PHP's disk_free_space() when it returns (int)0"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Check database connection after auto-backup"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: \"More Files\" add-on now lets you list single files for inclusion"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TRANSLATIONS: Many translations updated"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: New search/replace expert tool (Premium)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Dropbox account user's name is stored when you authorise"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Show link to FAQ if user's zip upload is corrupt"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TRANSLATION: New Tagalog translation (thanks to Kristen Macasero)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: Google Drive now works without the PHP curl module being needed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Make all S3 SSL settings take effect"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Rescan of remote FTP storage was not using configured path"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Now tested on PHP 5.5"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: New remote storage back-end for OpenStack Swift"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Fix restoration on sites where WP did not have direct filesystem access"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Add filter allowing programmers to forbid a backup"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: New debugging tool to test remote HTTP connectivity"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TRANSLATION: New Czech (cs_CZ) translation; thanks to Martin Křížek"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TRANSLATION: Updated Russian, Swedish, Dutch and Portuguese translations"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "COMPATIBILITY: Tested on and updated for forthcoming WordPress 3.9"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Add support for Amazon S3's China + government zones"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Deal with some unlikely multisite migration combinations"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "UPDATED: Updated Swedish, Portuguese and Dutch translations"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "UPDATED: Update root certificates to match latest CURL/Mozilla version"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Preceed warnings in the log file with [Warning]"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Show all defined constants in the debug dialog"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Make sure that WebDAV notices are included in UD's log file"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: Migrator search/replace now handles JSON and object-encoded data"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "UPDATED: Updated Swedish translation"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Various small fixes to the initial release of 1.8.1"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Provide a link to the log file at the top of the restoration page"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Improve detection of extremely long-running/slow jobs"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Fix issue with Rackspace Cloudfiles on WPMU installs"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Mark as tested up to WordPress 3.8"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Restore operations are now logged"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Require fewer file permissions when restoring/migrating"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Compress the log file before emailing it, if it is over 6Mb"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Log PHP notices for all job types"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: If binary mysqldump failed, then retry"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Log PHP notices in the log file"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Allow primitive exclusion based on filename suffixes"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Removed a couple of clicks from the install procedure for add-ons"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Catch some more untranslated strings"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Don't use binzip method on OpenVZ with low memory"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Suppress a couple of spurious messages in the log"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Fix a JavaScript error in Internet Explorer 8"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Now marked as WordPress 3.7 compatible"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Amazon S3 backend now can use WP proxy settings (if any)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Internationalised the add-ons management page (Premium)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Switch zip engines from ZipArchive earlier if it appears to be broken"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Remove bogus warning about W3TC object cache"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Backup log file now includes SHA1 checksums"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Add warning for user if their max_execution_time is very low"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Make fewer HTTP requests when tracking download status"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Improve detection of recent activity on resumptions when zips split"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Prevent some warning messages from being shown twice"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: New progress meter on dashboard page when a backup is running"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: SCP support (in the <a href=\"https://updraftplus.com/shop/sftp/\">SFTP/FTPS/SCP add-on</a>)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Fix unwanted warning message if the uploads folder was empty"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Show timestamps of available backup sets in local time zone"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Email subjects and contents use local time zone"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Fix mangled pathnames for PclZip one-shot attempts"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Show correct title on page when upgrading"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: More detection of possible overlaps (use temporary files as evidence)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Provide option to remember the \"automatic backup\" setting"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Some Dropbox connect errors were being lost"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: More logging of the success (or not) of backups sent via email"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Only include phpseclib in the path when required"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: Fix time add-on can now also choose the day of the week"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Save the result of looking for a binary zip (don't re-test)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Show 'Last log message' in dashboard using local time zone"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: More code-tidying and optimisation"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Warn the user if the WordPress scheduler is disabled"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Many + various extra sanity-checks for possible problems"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Reduce memory usage during restore"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: No longer require mbstring extension for Dropbox"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Move JavaScript into separate file, and make strings translatable"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Prevent double-backup (very unusual combination of circumstances)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Remove temporary files created by PclZip (where PclZip is used)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: Chinese (zh_CN) translation by K L Wang (http://klwang.info)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Suppress spurious \"Table prefix has changed\" message"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Inform users of Dropbox tokens which stop working"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "COMPATIBILITY: Now marked as compatible with WordPress 3.6"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Use only one transient per job, and clean it up upon completion"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: More verbose error reporting from PclZip"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Show PHP + web server versions in the debug information"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Made a few things use AJAX instead of full page loads"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Replace Rackspace logo with current version"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Make missing PHP component warnings more prominent"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Prevent PHP fatal error on some database restores"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: Dropbox and Google Drive now check available quota before uploading"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Google Drive now requires additional permissions to download your files"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "you will need to re-authenticate if you are downloading or restoring."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: Allow instant downloading of the most recently modified log file"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: Built in drag-and-drop database decrypter for manual decryption"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FEATURE: Added encryption (used by default) to Amazon S3 communications"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Caught some untranslated strings"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Respect WordPress's WP_MAX_MEMORY_LIMIT constant"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FIX: Fix strict coding warnings on PHP 5.4"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: In fix-time add-on, fade UI when relevant"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "TWEAK: Improved UI of downloader"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Now translatable - .pot file included (translators welcome!)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "When restoring, you can now select only some components to restore"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Display UpdraftPlus's disk space usage"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Internationalisation hooks in main body of plugin"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Correctly remove old 'other' directories from a restoration when requested"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Various layout + niceness fixes upon restoration"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Clear Dropbox credentials if the user explicitly re-authenticates"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Clean up temporary files left behind by zipArchive::addFile"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improved help for people with broken schedulers"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fix FTP download error"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improve batching on zip creation for sites with very large files"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Unlimited early resumption if zip file creation takes too long"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Earlier warning/failure if backup directory was not writable"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Hooks for Dropbox folders add-on"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "More scheduler/overlap tweaks, to assist enormous uploads"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Sort existing backups display by date"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Use WordPress time for creation of filenames"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fix bug in 1.4.47 which caused problems on new site installs"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Prevent erroneous warning when backup zip (usually uploads) has no files"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Hooks for WebDAV support via add-on"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed bug which forced GoogleDrive users to re-authenticate unnecessarily"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed apparent race condition that broke some backups"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Include disk free space warning"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Polls and updates in-page backup history status (no refresh required)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Hooks for SFTP + encrypted FTP add-on"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Display final status message in email"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Clean-up any old temporary files detected"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Some internal simplification"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Small spelling + text fixes"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Important fix for people with non-encrypted database backups"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Tweak algorithm for detecting useful activity to further help gigantic sites"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Tweak for some Amazon EU West 1 bucket users"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Amazon S3 now works for users with non-US buckets"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Further tweak to overlap detection"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "More Amazon S3 logging which should help people with wrong details"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "More race/overlap detection, and more flexible rescheduling"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add extra error checking in S3 method (can prevent logging loop)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Some (not total) compliance with PHP's strict coding standards mode"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "More detail provided when failing to authorise with Google"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "1.3.0 to 1.3.8 had a fatal flaw for people with large backups."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed DropBox authentication for some users who were having problems"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Added further parameters that should be removed on a wipe operation"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "More logging of detected double runs"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Internal reorganisation, enabling UpdraftPlus Premium"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Easier Dropbox setup (we are now an official production app)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New button to delete all existing settings"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Admin console now displays rolling status updates"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Feature: choose how many files and databases to retain separately"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed bug with checking access token on Google Drive restore"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed bug producing copious warnings in PHP log"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed bug in automated restoration processes"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Possibly fixed settings saving bug in RTL installations"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fix erroneous display of max_execution_time warning"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Better logging when running a DB debug session"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Better detection/handling of overlapping/concurrent runs"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed bug with Dropbox deletions"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed cases where Dropbox failed to resume chunked uploading"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Can now create uncreated zip files on a resumption attempt"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FTP method now supports SSL (automatically detected)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New \"Test FTP settings\" button"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Less noise when debugging is turned off"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fix bug (in 1.2.30) that prevented some database uploads completing"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Dropbox no longer limited to 150Mb uploads"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Dropbox can upload in chunks and resume uploading chunks"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improved Dropbox help text"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Dropbox support (no chunked uploading yet, but otherwise complete)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Database table backups are now timed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "FTP logging slightly improved"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Dropbox support uses WordPress's built-in HTTP functions"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Requested feature: more frequent scheduling options requested"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Provide a 'Test S3 Settings' button for Amazon S3 users"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Database encryption made part of what is resumable"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improve race detection and clean up already-created files when detected"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed bug that set 1Tb (instead of 1Mb) chunk sizes for Google Drive uploads"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Added link to some screenshots to help with Google Drive setup"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Deal with WP-Cron racey double events (abort superceeded backups)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Allow user to download logs from admin interface"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Tweaked default Google Drive options"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed bug whereby setting for deleting local backups was lost"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Made description fuller"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Updated to latest S3.php library with chunked uploading patch"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Licence change to GPLv3+ (from GPLv2+) to allow incorporating Sorin's code"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Tidied/organised the settings screen further"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Moved screenshot into assets, reducing plugin download size"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Don't whinge about Google Drive authentication if that method is not current"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Support using sub-directories in Amazon S3"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Some more debug logging for Amazon S3"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Work around some web hosts with invalid safe_mode configurations"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed minor bug closing log file"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Marked as working with WordPress 3.4.2"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Marking as tested up to WordPress 3.4.1"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New feature: backup files and database on separate schedules"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Tidied and improved retain behaviour"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Removed CloudFront method; I have no way of testing this"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Backup all tables found in the database that have this site's table prefix"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "If encryption fails, then abort (don't revert to not encrypting)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Added ability to decrypt encrypted database backups"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Added ability to opt out of backing up each file group"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Tweak notification email to include site name"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Replaced deprecated function calls (in WordPress 3.2.1)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Removed all warnings from basic admin page with WP_DEBUG on"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Implemented encrypted backup (but not yet automatic restoration) on database"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Some de-uglification of admin interface"
+msgstr ""
+
+#. Found in changelog paragraph.
+msgid "The <a href=\"https://updraftplus.com/news/\">UpdraftPlus backup blog</a> is the best place to learn in more detail about any important changes."
+msgstr ""
+
+#. Found in changelog paragraph.
+msgid "N.B. Paid versions of UpdraftPlus Backup / Restore have a version number which is 1 higher in the first digit, and has an extra component on the end, but the changelog below still applies. i.e. changes listed for 1.11.18 of the free version correspond to changes made in 2.11.18.x of the paid version."
+msgstr ""
+
+#. Found in faq header.
+msgid "Can UpdraftPlus do (something)?"
+msgstr ""
+
+#. Found in faq header.
+msgid "I found a bug. What do I do?"
+msgstr ""
+
+#. Found in faq header.
+msgid "Anything essential to know?"
+msgstr ""
+
+#. Found in faq header.
+msgid "My enormous website is hosted by a dirt-cheap provider who starve my account of resources, and UpdraftPlus runs out of time! Help! Please make UpdraftPlus deal with this situation so that I can save two dollars!"
+msgstr ""
+
+#. Found in faq header.
+msgid "My site was hacked, and I have no backups! I thought UpdraftPlus was working! Can I kill you?"
+msgstr ""
+
+#. Found in faq header.
+msgid "I am not running the most recent version of UpdraftPlus. Should I upgrade?"
+msgstr ""
+
+#. Found in faq header.
+msgid "Do you have any other free plugins?"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "<a href=\"https://updraftplus.com/support/frequently-asked-questions/\"><strong>Please go here for the full FAQs - there are many more than below.</strong></a> Below are just a handful which particularly apply to the free wordpress.org version, or which bear repeating."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Check out <a href=\"https://updraftplus.com/updraftplus-full-feature-list/\">our full list of features</a>, and our <a href=\"https://updraftplus.com/shop/\">add-ons shop</a> and <a href=\"https://updraftplus.com/comparison-updraftplus-free-updraftplus-premium/\">free/Premium comparison table</a>."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Note - this FAQ is for users of the free plugin. If you're a paying customer, then you should go here: https://updraftplus.com/support/ - please don't ask question in the WordPress.Org forum about purchases, as that's against their rules."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Next, please make sure you read this FAQ through - it may already have the answer you need. If it does, then please consider a donation (e.g. buy our \"No Adverts\" add-on - <a href=\"https://updraftplus.com/shop/\">https://updraftplus.com/shop/</a>); it takes time to develop this plugin and FAQ."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "If it does not, then contact us (<a href=\"http://wordpress.org/support/plugin/updraftplus\">the forum is the best way</a>)! This is a complex backup plugin and the only way we can ensure it's robust is to get bug reports and fix the problems that crop up. Please make sure you are using the latest version of the plugin, and that you include the version in your bug report - if you are not using the latest, then the first thing you will be asked to do is upgrade."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Please include the backup log if you can find it (there are links to download logs on the UpdraftPlus settings page; or you may be emailed it; failing that, it is in the directory wp-content/updraft, so FTP in and look for it there). If you cannot find the log, then I may not be able to help so much, but you can try - include as much information as you can when reporting (PHP version, your blog's site, the error you saw and how you got to the page that caused it, any other relevant plugins you have installed, etcetera). http://pastebin.com is a good place to post the log."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "If you know where to find your PHP error logs (often a file called error_log, possibly in your wp-admin directory (check via FTP)), then that's even better (don't send multi-megabytes; just send the few lines that appear when you run a backup, if any)."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "If you are a programmer and can debug and send a patch, then that's even better."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "After you have set up UpdraftPlus, you must check that your WordPress backups are taking place successfully. WordPress is a complex piece of software that runs in many situations. Don't wait until you need your backups before you find out that they never worked in the first place. Remember, there's no warranty and no guarantees - this is free software."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "UpdraftPlus supports resuming backup runs right from the beginning, so that it does not need to do everything in a single go; but this has limits. If your website is huge and your web hosting company gives your tiny resources on an over-loaded server, then go into the \"Expert settings\" and reduce the size at which zip files are split (versions 1.6.53 onwards). UpdraftPlus is known to successfully back up websites that run into the multiple-gigabytes on web servers that are not resource-starved."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "No, there's no warranty or guarantee, etc. It's completely up to you to verify that UpdraftPlus is creating your backups correctly. If it doesn't then that's unfortunate, but this is a free plugin."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Yes; especially before you submit any support requests."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Thanks for asking; yes, we've got a few. Check out this profile page - https://profiles.wordpress.org/DavidAnderson/ ."
+msgstr ""
+
+#. Found in remaining content header.
+msgid "License"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid "Copyright 2011-15 David Anderson"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid "Furthermore, reliance upon any non-English translation is at your own risk. UpdraftPlus can give no guarantees that translations from the original English are accurate."
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid "We recognise and thank the following for code and/or libraries used and/or modified under the terms of their open source licences; see: https://updraftplus.com/acknowledgements/"
+msgstr ""
