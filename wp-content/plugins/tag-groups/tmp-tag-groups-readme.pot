@@ -1,0 +1,426 @@
+msgid ""
+msgstr "MIME-Version: 1.0\n"
+
+#. Name.
+msgid "Tag Groups"
+msgstr ""
+
+#. Screenshot description.
+msgid "The edit screen"
+msgstr ""
+
+#. Screenshot description.
+msgid "Settings"
+msgstr ""
+
+#. Screenshot description.
+msgid "Tag cloud (custom theme)"
+msgstr ""
+
+#. Found in description list item.
+msgid "Display your tags grouped by language or by topic."
+msgstr ""
+
+#. Found in description list item.
+msgid "Display your tags in any order, independently from their names or slugs."
+msgstr ""
+
+#. Found in description list item.
+msgid "Choose which tags to display in different sections of your blog."
+msgstr ""
+
+#. Found in description list item.
+msgid "Link from posts and pages to other ones that have the same tags."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "This plugin enables you to organize tags (or categories, or custom terms) in groups. The group membership is saved in the native WP table field term_group, so it won't create additional tables in the database. The plugin comes with a configurable tag cloud where tags are displayed in tabs sorted by the groups. It is possible to upload own themes (advanced usage)."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "Possible applications are:"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "Please find more information <a href=\"http://www.christoph-amthor.de/software/tag-groups/\" title=\"plugin website\">here</a>."
+msgstr ""
+
+#. Found in installation list item.
+msgid "Find the plugin in the list at the backend and click to install it. Or, upload the ZIP file through the admin backend. Or, upload the unzipped tag-groups folder to the /wp-content/plugins/ directory."
+msgstr ""
+
+#. Found in installation list item.
+msgid "Activate the plugin through the ‘Plugins’ menu in WordPress."
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "The plugin will create two new submenus in the Post section where you find the tag groups and related settings. After you have created some groups, you can edit your tags (or other terms) and assign them to one of these groups."
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "Other taxonomies than post tags and categories may need further customization beyond this plugin."
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "The tabbed tag cloud can be inserted with a shortcode. Options are listed on the Settings page."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "new parameter \"active\" to start tag cloud with all tabs collapsed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "problems with multilingual tags (WPML)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "possible conflict with sessions in other plugins or themes"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "\"Search Tags\" was broken"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "updated the .pot file for localizations"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "sometimes wrong columns affected when creating custom columns"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "settings moved to settings menu"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "tag group filter on tag (term) page"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "general code improvement, further hardening of security"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "hardening security (escaping url before its use in menu)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "adding back lost option to bulk action menu to unassign"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "added missing bulk action menu under the table (menu changes are synchronized)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "wrong group label in confirmation message after bulk change"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "selecting group for bulk change automatically selects action \"assign to\""
+msgstr ""
+
+#. Found in changelog list item.
+msgid "dropdown menu for bulk action didn't respect correct order of groups"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "wrong encoding of characters in the tag descriptions"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "option to set the target attribute for links (link_target)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "option to hide the tag count in the tooltip when hovering your mouse over a tag (show_tag_count)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "option for different styling of tags according to whether they are assigned to the post or page (assigned_class)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "option to force displaying all groups (show_all_groups)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "parameter \"order\" not working correctly under certain conditions (multiple taxonomies)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "sorting by tag groups on tag/category page"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "bulk assigning of terms"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "localizations enabled"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Spanish translation (es_ES) by <a href=\"http://www.webhostinghub.com\" title=\"WebHostingHub\">Andrew Kurtis</a> - muchas gracias!"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "tag group not saved on Edit Tag screen"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "multiple taxonomies (please check settings after update)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "new parameter to select taxonomies for tag cloud"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "function post_in_tag_group was wrong for other taxonomies than tags"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "multiple shortcodes/clouds per page by using 'div_id' with own values"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "general settings for 'collapsible' and 'mouseover' can be overridden per cloud"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "new parameters to prepend and append text to tags"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "added two parameters for shortcode and function to filter tags or groups depending on the tags of a particular post"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "added parameter to optionally hide empty tabs"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "updated uninstall routine"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "fixed filter not showing up in some settings"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "filter posts on the back end and show only posts that have tags belonging to particular tag groups"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "diversified permissions: now editors can edit tag groups, while vital settings can only by changed by administrators"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "improved instructions for installing own theme"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "fixed deprecated file names - please check cloud tags if you use custom theme"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "theme images lost during plugin evolution"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "fixed css of jquery-ui"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "svn missed files, new version is 0.8.2.2"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "fixed warning for adding term that is not managed by this plugin"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "new parameters for shortcode to display a separator"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "fixed potential problem when flushing the cache"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "fixed shortcode not working in widgets; can now be enabled in settings"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "fixed wrong stripping of html in term descriptions (thanks to Ahni for reporting)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "uninstallation now removes plugin settings"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "fixed typo"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "supports now other taxonomies than post_tag"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "user-friendlier settings page"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "fixed wrong group displayed on quick edit"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "fixed 'foreach' warning (thanks to IOTI for reporting)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "wrong code in instructions"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "optional output as array for theme developers"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "tags can now be sorted"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "counting tags"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "escaping"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "saving of menus"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "improved inline editing in tag list (still problems with Opera browser)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "hardened security with 'nonce'"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "with WPML installed, inline editing of tag groups showed up at posts"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "faulty default settings after plugin activation"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "tabs on tag cloud: support for mousover and collapsible"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "optionally not enqueuing jQuery for custom themes"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "problem saving themes"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "support for WPML string translation of tag group labels"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "incomplete deletion of tag groups"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "no display of unused tags"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "wrong counting of tags"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "obsolete JS"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Wrong label introduced in last version."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Introduced an option to show a tag cloud without tabs - useful when displaying tags of just one group."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Tag groups are now visible as new column in the tag list."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Tag groups can now be assigned upon tag creation and changed directly in the tag list."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Showing wrong tag group in single tag view."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "initial release"
+msgstr ""
+
+#. Found in changelog paragraph.
+msgid "FEATURES"
+msgstr ""
+
+#. Found in changelog paragraph.
+msgid "BUG FIXES"
+msgstr ""
+
+#. Found in faq header.
+msgid "When I use the shortcode I can see the content but the tags are not displayed in tabs."
+msgstr ""
+
+#. Found in faq header.
+msgid "How do I create multiple tag clouds on one page?"
+msgstr ""
+
+#. Found in faq header.
+msgid "I need the plugin for a very special purpose - can you help?"
+msgstr ""
+
+#. Found in faq header.
+msgid "I am desparately missing my language. But, wait.. is this actually a \"frequently asked question\"?"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Make sure you have \"Use jQuery\" checked on the settings page. If you use a plugin for caching pages, purge the cache and see if that helps. If you use plugins for minifying scripts or style sheets, turn them off and purge their caches."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Use the shortcode as often as needed, but make sure that starting from the second shortcode you always use the parameter div_id with different values."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Please check first <a href=\"http://www.christoph-amthor.de/software/tag-groups/examples-applications/\" title=\"Examples of Applications\">the solutions to previous requests</a> for similar cases. If you are not successful, you can ask for <a href=\"http://wordpress.org/support/plugin/tag-groups\">support here</a>."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "No, unfortunately it isn't. But, nevertheless, I'm glad you asked! You are warmly invited to create a translation from the .pot file that is part of the package."
+msgstr ""
+
+#. Found in remaining content header.
+msgid "Other Notes"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid "Styling created by jQuery UI who also provided the JavaScript that is used for the tabs to do their magic. Find their license in the package."
+msgstr ""
