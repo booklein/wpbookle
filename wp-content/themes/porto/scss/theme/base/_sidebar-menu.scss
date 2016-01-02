@@ -127,6 +127,60 @@
                 margin-top: -5px;
                 margin-bottom: -4px;
             }
+            > .thumb-info-preview {
+                position: absolute;
+                display: block;
+                #{$left}: 100%;
+                opacity: 0;
+                border: 0;
+                padding-#{$left}: 10px;
+                background: transparent;
+                overflow: visible;
+                margin: 15px 0 0;
+                top: -1000px;
+                @include transition (transform .2s ease-out, opacity .2s ease-out);
+                @if $rtl == 1 {
+                    transform: translate3d(30px,0,0);
+                } @else {
+                    transform: translate3d(-30px,0,0);
+                }
+                opacity: 0;
+                max-width: none;
+                .thumb-info-wrapper {
+                    @if $dark == 1 {
+                        background: $color-dark-4;
+                    } @else {
+                        background: #FFF;
+                    }
+                    display: block;
+                    border-radius: $border-base;
+                    border: 0;
+                    box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
+                    margin: 0;
+                    padding: $thumbnail-padding;
+                    text-align: $left;
+                }
+                .thumb-info-image {
+                    width: 182px;
+                    height: 136px;
+                    min-height: 0;
+                    transition: all 5s linear 0s;
+
+                    &.fixed-image {
+                        background-position: left top;
+                        background-size: auto 100%;
+                    }
+                }
+            }
+            &:hover {
+                z-index: 1;
+                > .thumb-info-preview {
+                    transform: translate3d(0,0,0);
+                    top: 0;
+                    opacity: 1;
+                    margin-top: -5px;
+                }
+            }
         }
         > h5 {
             cursor: default;
@@ -161,6 +215,15 @@
                     .right-sidebar & {
                         border-radius: corner-values(0 0 $border-thick 0);
                     }
+                }
+            }
+        }
+
+        &.has-sub {
+            > a,
+            > h5 {
+                .thumb-info-preview {
+                    display: none;
                 }
             }
         }
@@ -281,7 +344,6 @@
 
         ul.sub-menu {
             position: relative;
-            z-index: 10;
         }
         li.menu-item {
             padding: 0;
@@ -373,6 +435,15 @@
                     }
                 }
 
+                li.menu-item {
+                    > a,
+                    > h5 {
+                        &.has-preview {
+                            display: inline-block;
+                        }
+                    }
+                }
+
                 .porto-block {
 
                 }
@@ -416,6 +487,7 @@
                 padding: 5px;
                 border-radius: $border-medium;
                 box-shadow: $sidebarmenu-narrow-box-shadow;
+                z-index: 10;
 
                 @media #{$screen-normal} {
                     box-shadow: none;
@@ -450,6 +522,25 @@
                     line-height: 20px;
                     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
                     white-space: nowrap;
+
+                    .right-sidebar & {
+                        > .thumb-info-preview {
+                            #{$left}: auto;
+                            #{$right}: 100%;
+                            padding-#{$left}: 0;
+                            padding-#{$right}: 10px;
+                            @if $rtl == 1 {
+                                transform: translate3d(-30px,0,0);
+                            } @else {
+                                transform: translate3d(30px,0,0);
+                            }
+                        }
+                        &:hover {
+                            > .thumb-info-preview {
+                                transform: translate3d(0,0,0);
+                            }
+                        }
+                    }
                 }
                 &:last-child {
                     > a,
@@ -487,6 +578,10 @@
                                 margin-#{$right}: -7px;
                             }
                         }
+                    }
+
+                    .thumb-info-preview {
+                        display: none;
                     }
                 }
                 &:hover {
@@ -681,6 +776,13 @@
                 } @else {
                     @include animation(menuFadeInLeft .2s ease-out);
                 }
+                .right-sidebar & {
+                    @if $rtl == 1 {
+                        @include animation(menuFadeInLeft .2s ease-out);
+                    } @else {
+                        @include animation(menuFadeInRight .2s ease-out);
+                    }
+                }
             }
         }
         .narrow {
@@ -691,6 +793,13 @@
                             @include animation(menuFadeInRight .2s ease-out);
                         } @else {
                             @include animation(menuFadeInLeft .2s ease-out);
+                        }
+                        .right-sidebar & {
+                            @if $rtl == 1 {
+                                @include animation(menuFadeInLeft .2s ease-out);
+                            } @else {
+                                @include animation(menuFadeInRight .2s ease-out);
+                            }
                         }
                     }
                 }
@@ -705,6 +814,13 @@
                 } @else {
                     @include animation(menuFadeInRight .2s ease-out);
                 }
+                .right-sidebar & {
+                    @if $rtl == 1 {
+                        @include animation(menuFadeInRight .2s ease-out);
+                    } @else {
+                        @include animation(menuFadeInLeft .2s ease-out);
+                    }
+                }
             }
         }
         .narrow {
@@ -715,6 +831,13 @@
                             @include animation(menuFadeInLeft .2s ease-out);
                         } @else {
                             @include animation(menuFadeInRight .2s ease-out);
+                        }
+                        .right-sidebar & {
+                            @if $rtl == 1 {
+                                @include animation(menuFadeInRight .2s ease-out);
+                            } @else {
+                                @include animation(menuFadeInLeft .2s ease-out);
+                            }
                         }
                     }
                 }

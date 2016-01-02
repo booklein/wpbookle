@@ -9,9 +9,26 @@
     #{$left}: 0;
     overflow-x: hidden;
     overflow-y: scroll;
-    z-index: 100000;
+    z-index: 100001;
     @include transform(translate(if-ltr(-260px, 260px)));
     @include transition(all 0.2s ease-in-out 0s);
+}
+
+#nav-panel-close {
+    border-radius: corner-values(0 $border-medium $border-medium 0);
+    display: block;
+    font-size: 17px;
+    height: 40px;
+    line-height: 38px;
+    position: fixed;
+    #{$left}: 260px;
+    margin-#{$left}: -40px;
+    text-align: center;
+    text-decoration: none;
+    top: 85px;
+    width: 40px;
+    z-index: 100000;
+    @include transform(translate(if-ltr(-260px, 260px)));
 }
 
 .panel-overlay {
@@ -43,8 +60,15 @@ html.panel-opened {
             z-index: 0;
         }
 
-        > #nav-panel {
+        #nav-panel {
             @include transition(all 0.3s ease-in-out 0s);
+            z-index: 100001;
+            @include transform(translate(0px));
+        }
+
+        #nav-panel-close {
+            margin-#{$left}: 0;
+            @include transition(all 0.3s ease-in-out 0s, margin ease-in-out 0s);
             z-index: 100000;
             @include transform(translate(0px));
         }
@@ -80,17 +104,17 @@ html.panel-opened {
     }
 
     .switcher-wrap {
-        margin: 20px 0;
+        margin: 15px 0;
         padding: 0 10px;
     }
 
     .menu-wrap {
-        margin: 20px 0;
+        margin: 15px 0;
         padding: 0 10px;
     }
 
     .menu-custom-block {
-        margin: 20px 0;
+        margin: 15px 0;
         padding: 0 10px;
 
         a,

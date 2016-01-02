@@ -7,6 +7,7 @@
             <key name="menu-title" />
             <key name="breadcrumbs-prefix"/>
             <key name="footer-ribbon" />
+            <key name="hot-label" />
             <key name="blog-title" />
             <key name="portfolio-slug-name" />
             <key name="portfolio-name" />
@@ -26,6 +27,9 @@
             <key name="faq-cat-slug-name" />
             <key name="faq-title" />
             <key name="product-tab-title" />
+            <key name="product-quickview-label" />
+            <key name="product-hot-label" />
+            <key name="product-sale-label" />
             <key name="catalog-readmore-label" />
             <key name="header-contact-info" />
             <key name="footer-copyright" />

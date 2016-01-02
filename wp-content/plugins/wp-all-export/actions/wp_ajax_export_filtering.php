@@ -32,6 +32,7 @@ function pmxe_wp_ajax_export_filtering(){
 			<div class="wpallexport-collapsed-content">			
 				<div class="wpallexport-free-edition-notice" style="padding: 20px; margin-bottom: 10px;">
 					<a class="upgrade_link" target="_blank" href="http://www.wpallimport.com/upgrade-to-wp-all-export-pro/?utm_source=wordpress.org&amp;utm_medium=filter-rules&amp;utm_campaign=free+wp+all+export+plugin"><?php _e('Upgrade to the professional edition of WP All Export to add filtering rules.','wp_all_export_plugin');?></a>
+					<p><?php _e('If you already own it, remove the free edition and install the professional edition.', 'wp_all_export_plugin'); ?></p>
 				</div>
 				<div class="wp_all_export_rule_inputs">
 					<table>

@@ -112,7 +112,7 @@
 
 												}
 												?>
-												<li class="placeholder" <?php if ( ! empty($post['ids']) and count($post['ids']) > 1 or $new_export) echo 'style="display:none;"'; ?>><?php _e("Drop & drop data from \"Available Data\" on the right to include it in the export or click \"Add Field To Export\" below.", "wp_all_export_plugin"); ?></li>
+												<li class="placeholder" <?php if ( ! empty($post['ids']) and count($post['ids']) > 1 or $new_export) echo 'style="display:none;"'; ?>><?php _e("Drag & drop data from \"Available Data\" on the right to include it in the export or click \"Add Field To Export\" below.", "wp_all_export_plugin"); ?></li>
 												<?php																														
 											?>
 										</ol>
@@ -159,8 +159,14 @@
 									<div class="input switcher-target-export_to_csv" style="margin-top: 10px;">
 										<input type="hidden" name="order_item_per_row" value="0"/>
 										<input type="checkbox" id="order_item_per_row" name="order_item_per_row" value="1" <?php if ($post['order_item_per_row']):?>checked="checked"<?php endif; ?>/>
-										<label for="order_item_per_row"><?php _e("Display each product in its own row"); ?></label>
-										<a href="#help" class="wpallexport-help" style="position: relative; top: 0px;" title="<?php _e('If an order contains multiple products, each product have its own row.', 'wp_all_export_plugin'); ?>">?</a>
+										<label for="order_item_per_row"><?php _e("Display each product in its own row", "wp_all_export_plugin"); ?></label>
+										<a href="#help" class="wpallexport-help" style="position: relative; top: 0px;" title="<?php _e('If an order contains multiple products, each product will have its own row. If disabled, each product will have its own column.', 'wp_all_export_plugin'); ?>">?</a>
+										<div class="input switcher-target-order_item_per_row" style="margin-top: 10px; padding-left: 15px;">
+											<input type="hidden" name="order_item_fill_empty_columns" value="0"/>
+											<input type="checkbox" id="order_item_fill_empty_columns" name="order_item_fill_empty_columns" value="1" <?php if ($post['order_item_fill_empty_columns']):?>checked="checked"<?php endif; ?>/>
+											<label for="order_item_fill_empty_columns"><?php _e("Fill in empty columns", "wp_all_export_plugin"); ?></label>
+											<a href="#help" class="wpallexport-help" style="position: relative; top: 0px;" title="<?php _e('If enabled, each order item will appear as its own row with all order info filled in for every column. If disabled, order info will only display on one row with only the order item info displaying in additional rows.', 'wp_all_export_plugin'); ?>">?</a>
+										</div>
 									</div>
 									<?php endif; ?>
 								</div>	
@@ -195,6 +201,34 @@
 					</div>
 				</div>
 				
+				<hr>
+
+				<div class="input wpallexport-section" style="padding-bottom: 8px; padding-left: 8px;">								
+										
+					<p style="margin: 11px; float: left;">
+						<input type="hidden" name="save_template_as" value="0" />
+						<input type="checkbox" id="save_template_as" name="save_template_as" class="switcher-horizontal fix_checkbox" value="1" <?php echo ( ! empty($post['save_template_as'])) ? 'checked="checked"' : '' ?> /> 
+						<label for="save_template_as"><?php _e('Save settings as a template','wp_all_export_plugin');?></label>
+					</p>
+					<div class="switcher-target-save_template_as" style="float: left; overflow: hidden;">
+						<input type="text" name="name" placeholder="<?php _e('Template name...', 'wp_all_export_plugin') ?>" style="vertical-align:middle; line-height: 26px;" value="<?php echo esc_attr($post['name']) ?>" />		
+					</div>				
+					<?php $templates = new PMXE_Template_List(); ?>
+					<div class="load-template">				
+						<select name="load_template" id="load_template" style="padding:2px; width: auto; height: 40px;">
+							<option value=""><?php _e('Load Template...', 'wp_all_export_plugin') ?></option>
+							<?php foreach ($templates->getBy()->convertRecords() as $t): ?>
+								<?php 								
+									// When creating a new export you should be able to select existing saved export templates that were created for the same post type.						
+									if ( $this->isWizard and $t->options['cpt'] != $post['cpt'] ) continue;
+								?>
+								<option value="<?php echo $t->id ?>"><?php echo $t->name ?></option>
+							<?php endforeach ?>
+						</select>
+					</div>
+					
+				</div>
+
 				<hr>
 
 				<div class="wpallexport-submit-buttons">

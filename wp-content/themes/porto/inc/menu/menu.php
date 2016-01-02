@@ -22,6 +22,8 @@ function porto_add_custom_nav_fields( $menu_item ) {
     $menu_item->popup_bg_size = get_post_meta( $menu_item->ID, '_menu_item_popup_bg_size', true );
     $menu_item->popup_style = get_post_meta( $menu_item->ID, '_menu_item_popup_style', true );
     $menu_item->block = get_post_meta( $menu_item->ID, '_menu_item_block', true );
+    $menu_item->preview = get_post_meta( $menu_item->ID, '_menu_item_preview', true );
+    $menu_item->preview_fixed = get_post_meta( $menu_item->ID, '_menu_item_preview_fixed', true );
     return $menu_item;
 }
 
@@ -29,7 +31,7 @@ function porto_add_custom_nav_fields( $menu_item ) {
 add_action( 'wp_update_nav_menu_item', 'porto_update_custom_nav_fields', 10, 3 );
 
 function porto_update_custom_nav_fields( $menu_id, $menu_item_db_id, $args ) {
-    $check = array('icon', 'nolink', 'hide', 'mobile_hide', 'cols', 'popup_type', 'popup_pos', 'popup_cols', 'popup_max_width', 'popup_bg_image', 'popup_bg_pos', 'popup_bg_repeat', 'popup_bg_size', 'popup_style', 'block', 'tip_label', 'tip_color', 'tip_bg');
+    $check = array('icon', 'nolink', 'hide', 'mobile_hide', 'cols', 'popup_type', 'popup_pos', 'popup_cols', 'popup_max_width', 'popup_bg_image', 'popup_bg_pos', 'popup_bg_repeat', 'popup_bg_size', 'popup_style', 'block', 'tip_label', 'tip_color', 'tip_bg', 'preview', 'preview_fixed');
 
     foreach ( $check as $key ) {
 
@@ -222,7 +224,7 @@ class Porto_Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
                 <?php endif; ?>
                    data-name="menu-item-icon[<?php echo $item_id; ?>]"
                    value="<?php echo esc_attr( $item->icon ); ?>" />
-            <span><?php echo __('Input font awesome icon or icon class. You can see <a target="_blank" href="http://fortawesome.github.io/Font-Awesome/icons/">Font Awesome Icons in here</a>.', 'porto') ?></span>
+            <span><?php echo __('Input font awesome icon or icon class. You can see <a target="_blank" href="http://fortawesome.github.io/Font-Awesome/icons/">Font Awesome Icons in here</a>. For example: fa-users', 'porto') ?></span>
         </label>
     </p>
     <p class="description">
@@ -435,6 +437,31 @@ class Porto_Walker_Nav_Menu_Edit extends Walker_Nav_Menu  {
         </p>
         <br/>
     </div>
+    <p class="description description-wide">
+        <label for="edit-menu-item-preview-<?php echo $item_id; ?>">
+            <?php echo 'Preview Image (default size: 182 x 136)'; ?><br />
+            <input type="text" id="edit-menu-item-preview-<?php echo $item_id; ?>" class="widefat code edit-menu-item-preview"
+                <?php if (esc_attr( $item->preview )) : ?>
+                    name="menu-item-preview[<?php echo $item_id; ?>]"
+                <?php endif; ?>
+                   data-name="menu-item-preview[<?php echo $item_id; ?>]"
+                   value="<?php echo esc_attr( $item->preview ); ?>" />
+            <br/>
+            <input class="button_upload_image button" id="edit-menu-item-preview-<?php echo $item_id; ?>" type="button" value="Upload Image" />&nbsp;
+            <input class="button_remove_image button" id="edit-menu-item-preview-<?php echo $item_id; ?>" type="button" value="Remove Image" />
+        </label>
+    </p>
+    <p class="description description-wide">
+        <label for="edit-menu-item-preview_fixed-<?php echo $item_id; ?>">
+            <input type="checkbox" id="edit-menu-item-preview_fixed-<?php echo $item_id; ?>" class="code edit-menu-item-custom" value="fixed"
+                <?php if ($item->preview_fixed == 'fixed') : ?>
+                    name="menu-item-preview_fixed[<?php echo $item_id; ?>]"
+                <?php endif; ?>
+                   data-name="menu-item-preview_fixed[<?php echo $item_id; ?>]"
+                <?php checked( $item->preview_fixed, 'fixed' ); ?> />
+            <?php echo "Fixed Preview Image"; ?>
+        </label>
+    </p>
     <p class="description description-thin">
         <label for="edit-menu-item-tip_label-<?php echo $item_id; ?>">
             <?php echo 'Tip Label'; ?><br />
@@ -673,6 +700,10 @@ if (!class_exists('porto_top_navwalker')) {
             if ( ( $item->current && $depth == 0 ) ||  ( $item->current_item_ancestor && $depth == 0 ) )
                 $current_a .= ' current ';
 
+            if ($preview = $item->preview) {
+                $current_a .= ' has-preview';
+            }
+
             $attributes .= ' class="'. $current_a . '"';
             $item_output = $args->before;
             if ( $item->hide == "" ) {
@@ -695,6 +726,12 @@ if (!class_exists('porto_top_navwalker')) {
                     }
                     $item_output .= '<span class="tip" style="'.$item_style.'"><span class="tip-arrow" style="'.$item_arrow_style.'"></span>'.$item->tip_label.'</span>';
                 }
+
+                // preview image
+                if ($preview = $item->preview) {
+                    $item_output .= '<span class="thumb-info thumb-info-preview"><span class="thumb-info-wrapper"><span class="thumb-info-image' . ($item->preview_fixed ? ' fixed-image' : ''). '" style="background-image: url(' . str_replace(array('http://', 'https://'), array('//', '//'), $preview) . ');"></span></span></span>';
+                }
+
                 if ( $item->nolink == "" ) {
                     $item_output .= '</a>';
                 } else {
@@ -827,6 +864,10 @@ if (!class_exists('porto_sidebar_navwalker')) {
             if ( ( $item->current && $depth == 0 ) ||  ( $item->current_item_ancestor && $depth == 0 ) )
                 $current_a .= ' current ';
 
+            if ($preview = $item->preview) {
+                $current_a .= ' has-preview';
+            }
+
             $attributes .= ' class="'. $current_a . '"';
             $item_output = $args->before;
             if ( $item->hide == "" ) {
@@ -849,6 +890,12 @@ if (!class_exists('porto_sidebar_navwalker')) {
                     }
                     $item_output .= '<span class="tip" style="'.$item_style.'"><span class="tip-arrow" style="'.$item_arrow_style.'"></span>'.$item->tip_label.'</span>';
                 }
+
+                // preview image
+                if ($preview = $item->preview) {
+                    $item_output .= '<span class="thumb-info thumb-info-preview"><span class="thumb-info-wrapper"><span class="thumb-info-image' . ($item->preview_fixed ? ' fixed-image' : ''). '" style="background-image: url(' . str_replace(array('http://', 'https://'), array('//', '//'), $preview) . ');"></span></span></span>';
+                }
+
                 if ( $item->nolink == "" ) {
                     $item_output .= '</a>';
                 } else {

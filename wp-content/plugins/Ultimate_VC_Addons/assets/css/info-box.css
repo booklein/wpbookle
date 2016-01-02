@@ -1,6 +1,6 @@
 .aio-icon-box,
 .wpb_column>.wpb_wrapper .aio-icon-component .aio-icon-box {
-    margin-bottom: 30px
+    margin-bottom: 35px
 }
 .aio-icon-component .aio-icon,
 .aio-icon-component .img-icon {
@@ -30,6 +30,7 @@
 }
 a.aio-icon-box-link {
     text-decoration: none;
+    border: none;
     display: block
 }
 .default-icon .aio-icon-default {
@@ -149,9 +150,9 @@ a.aio-icon-box-link {
     -ms-transform: translateY(-3px);
     transform: translateY(-3px)
 }
-.style_2 .aio-icon-box .aio-icon.animated, 
+.style_2 .aio-icon-box .aio-icon.animated,
 .style_2 .aio-icon-box .img-icon.animated,
-.style_3 .aio-icon-box .aio-icon.animated, 
+.style_3 .aio-icon-box .aio-icon.animated,
 .style_3 .aio-icon-box .img-icon.animated {
   -webkit-animation-fill-mode: initial;
   -moz-animation-fill-mode: initial;

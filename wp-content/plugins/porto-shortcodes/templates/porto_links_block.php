@@ -3,7 +3,9 @@ $output = $title = $icon = $animation_type = $animation_duration = $animation_de
 extract(shortcode_atts(array(
     'title' => '',
     'show_icon' => false,
+    'icon_type' => 'fontawesome',
     'icon' => '',
+    'icon_simpleline' => '',
     'animation_type' => '',
     'animation_duration' => '',
     'animation_delay' => '',
@@ -11,6 +13,13 @@ extract(shortcode_atts(array(
 ), $atts));
 
 $el_class = porto_shortcode_extract_class( $el_class );
+
+switch ($icon_type) {
+    case 'simpleline': $icon_class = $icon_simpleline; break;
+    default: $icon_class = $icon;
+}
+if (!$show_icon)
+    $icon_class = '';
 
 if ($animation_type)
     $el_class .= ' appear-animation';
@@ -25,7 +34,7 @@ if ($animation_duration && $animation_duration != 1000)
 $output .= '>';
 
 if ($title) {
-    $output .= '<div class="links-title">' . ($show_icon && $icon ? '<i class="' . $icon . '"></i>' : '' ) . $title . '</div>';
+    $output .= '<div class="links-title">' . ($icon_class ? '<i class="' . $icon_class . '"></i>' : '' ) . $title . '</div>';
 }
 
 $output .= '<div class="links-content"><ul>' . do_shortcode($content) . '</ul></div>';

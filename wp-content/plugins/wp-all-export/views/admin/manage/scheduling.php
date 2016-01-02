@@ -3,16 +3,17 @@
 </h2>
 
 <div class="wpallexport-free-edition-notice" style="padding: 20px; margin-left: 0px;">
-	<a class="upgrade_link" target="_blank" href="http://www.wpallimport.com/upgrade-to-wp-all-export-pro/?utm_source=wordpress.org&amp;utm_medium=cron&amp;utm_campaign=free+wp+all+export+plugin"><?php _e('Upgrade to the professional edition of WP All Export to enable automated exports.', 'wp_all_export_plugin');?></a>
+	<a class="upgrade_link" target="_blank" href="http://www.wpallexport.com/upgrade-to-wp-all-export-pro/?utm_source=wordpress.org&amp;utm_medium=cron&amp;utm_campaign=free+wp+all+export+plugin"><?php _e('Upgrade to the professional edition of WP All Export to enable automated exports.', 'wp_all_export_plugin');?></a>
+	<p><?php _e('If you already own it, remove the free edition and install the professional edition.', 'wp_all_export_plugin'); ?></p>
 </div>
 
 <p>
-	<?php _e('To schedule an import, you must create two cron jobs in your web hosting control panel. One cron job will be used to run the Trigger script, the other to run the Execution script.', 'wp_all_export_plugin'); ?>
+	<?php _e('To schedule an export, you must create two cron jobs in your web hosting control panel. One cron job will be used to run the Trigger script, the other to run the Execution script.', 'wp_all_export_plugin'); ?>
 </p>
 
 <p>
 	<?php _e('Trigger Script URL', 'wp_all_export_plugin');?><br />
-	<small><?php _e('Run the trigger script when you want to update your import. Once per 24 hours is recommended.', 'wp_all_export_plugin'); ?></small><br />
+	<small><?php _e('Run the trigger script when you want to update your export. Once per 24 hours is recommended.', 'wp_all_export_plugin'); ?></small><br />
 	<input style='width: 700px;' type='text' value='<?php echo home_url() . '/wp-cron.php?export_key=' . $cron_job_key . '&export_id=' . $id . '&action=trigger'; ?>' disabled="disabled"/>
 	<br /><br />
 	<?php _e('Execution Script URL', 'wp_all_export_plugin');?><br />
@@ -24,9 +25,9 @@
 
 <p><strong><?php _e('Trigger Script', 'wp_all_export_plugin'); ?></strong></p>
 
-<p><?php _e('Every time you want to schedule the import, run the trigger script.', 'wp_all_export_plugin'); ?></p>
+<p><?php _e('Every time you want to schedule the export, run the trigger script.', 'wp_all_export_plugin'); ?></p>
 
-<p><?php _e('To schedule the import to run once every 24 hours, run the trigger script every 24 hours. Most hosts require you to use “wget” to access a URL. Ask your host for details.', 'wp_all_export_plugin'); ?></p>
+<p><?php _e('To schedule the export to run once every 24 hours, run the trigger script every 24 hours. Most hosts require you to use “wget” to access a URL. Ask your host for details.', 'wp_all_export_plugin'); ?></p>
 
 <p><i><?php _e('Example:', 'wp_all_export_plugin'); ?></i></p>
 
@@ -34,11 +35,11 @@
  
 <p><strong><?php _e('Execution Script', 'wp_all_export_plugin'); ?></strong></p>
 
-<p><?php _e('The Execution script actually executes the import, once it has been triggered with the Trigger script.', 'wp_all_export_plugin'); ?></p>
+<p><?php _e('The Execution script actually executes the export, once it has been triggered with the Trigger script.', 'wp_all_export_plugin'); ?></p>
 
-<p><?php _e('It processes in iteration (only importing a few records each time it runs) to optimize server load. It is recommended you run the execution script every 2 minutes.', 'wp_all_export_plugin'); ?></p>
+<p><?php _e('It processes in iteration (only exporting a few records each time it runs) to optimize server load. It is recommended you run the execution script every 2 minutes.', 'wp_all_export_plugin'); ?></p>
 
-<p><?php _e('It also operates this way in case of unexpected crashes by your web host. If it crashes before the import is finished, the next run of the cron job two minutes later will continue it where it left off, ensuring reliability.', 'wp_all_export_plugin'); ?></p>
+<p><?php _e('It also operates this way in case of unexpected crashes by your web host. If it crashes before the export is finished, the next run of the cron job two minutes later will continue it where it left off, ensuring reliability.', 'wp_all_export_plugin'); ?></p>
 
 <p><i><?php _e('Example:', 'wp_all_export_plugin'); ?></i></p>
 

@@ -67,7 +67,7 @@ function porto_load_blog_shortcode() {
             ),
             array(
                 'type' => 'checkbox',
-                'heading' => __("Show View More", 'porto-shortcodes'),
+                'heading' => __("Show Archive Link", 'porto-shortcodes'),
                 'param_name' => 'view_more',
                 'value' => array( __( 'Yes', 'js_composer' ) => 'yes' )
             ),

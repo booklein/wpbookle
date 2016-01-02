@@ -91,6 +91,7 @@ class MSP_Parser {
 	        'bg_image'  	=> isset( $setting['bgImage'] ) ? msp_get_the_relative_media_url( $setting['bgImage'] ) : '',
 
 	        'title'         => isset( $setting['name'] )  ? (string) $setting['name']  : __( 'Untitled Slider', MSWP_TEXT_DOMAIN ),       // slider name
+            'alias'         => isset( $setting['slug'] ) ? (string) $setting['slug'] : '',
 
 	        'slider_type'   => isset( $setting['type'] ) ? (string) $setting['type'] : 'custom',   // values: custom, express, flickr, post_view
 
@@ -440,8 +441,8 @@ class MSP_Parser {
             'src'       => isset( $slide['bg'] ) ? esc_attr( msp_get_the_relative_media_url( $slide['bg'] ) ) : '',
             'src_full'  => isset( $slide['bg'] ) ? esc_attr( msp_get_the_relative_media_url( $slide['bg'] ) ) : '',
 
-            'title'     => '', // image title
-            'alt'       => isset( $slide['bgAlt'] ) ? esc_attr($slide['bgAlt']) : '', // image alternative text
+            'title'     => isset( $slide['bgTitle'] ) ? esc_attr($slide['bgTitle']) : '', // title for slide image
+            'alt'       => isset( $slide['bgAlt'] ) ? esc_attr($slide['bgAlt']) : '', // alternative text for slide image
 
             'link'       => isset( $slide['link']      ) ? esc_attr( $slide['link'] ) : '',
             'target'     => isset( $slide['linkTarget']) ? (string) $slide['linkTarget'] : '',

@@ -36,12 +36,12 @@ if(!class_exists("Ultimate_Buttons")){
 			}
 		}
 		function ult_buttons_shortcode($atts){
-			
+
 			$output = $btn_title = $btn_link = $btn_size = $btn_width = $btn_height = $btn_hover = $btn_bg_color = $btn_radius = $btn_shadow = '';
 			$btn_shadow_color = $btn_bg_color_hover = $btn_border_style = $btn_color_border = $btn_border_size = $btn_shadow_size = $el_class = '';
 			$btn_font_family = $btn_font_style = $btn_title_color = $btn_font_size = $icon = $icon_size = $icon_color = $btn_icon_pos = $btn_anim_effect = '';
 			$btn_padding_left = $btn_padding_top = $button_bg_img = $btn_title_color_hover = $btn_align = $btn_color_border_hover = $btn_shadow_color_hover = '';
-			$btn_shadow_click = $enable_tooltip = $tooltip_text = $tooltip_pos = $rel = '';
+			$btn_shadow_click = $enable_tooltip = $tooltip_text = $tooltip_pos = $rel = $btn_line_height = '';
 			extract(shortcode_atts(array(
 				'btn_title' => '',
 				'btn_link' => '',
@@ -66,6 +66,7 @@ if(!class_exists("Ultimate_Buttons")){
 				'btn_font_style' => '',
 				'btn_title_color' => '#000000',
 				'btn_font_size' => '',
+				'btn_line_height' => '',
 				'icon' => '',
 				'icon_size' => '',
 				'icon_color' => '',
@@ -81,21 +82,24 @@ if(!class_exists("Ultimate_Buttons")){
 				'rel' => '',
 				'el_class' => '',
 			),$atts));
-			
+
 			$style = $hover_style = $btn_style_inline = $link_sufix = $link_prefix = $img = $shadow_hover = $shadow_click = $shadow_color = $box_shadow = $main_extra_class = '';
 			$main_extra_class = $el_class;
 			$tooltip = $tooltip_class = $el_class = '';
 			$el_class .= ' '.$btn_anim_effect.' ';
 			$uniqid = uniqid();
 			$tooltip_class = 'tooltip-'.$uniqid;
-			
+
+			$vc_version = (defined('WPB_VC_VERSION')) ? WPB_VC_VERSION : 0;
+			$is_vc_49_plus = (version_compare(4.9, $vc_version, '<=')) ? 'ult-adjust-bottom-margin' : '';
+
 			if($enable_tooltip == "yes"){
 				wp_enqueue_script('ultimate-tooltip');
 				wp_enqueue_style('ultimate-tooltip');
 				$tooltip .= 'data-toggle="tooltip" data-placement="'.$tooltip_pos.'" title="'.$tooltip_text.'"';
 				$tooltip_class .= " ubtn-tooltip ".$tooltip_pos;
 			}
-			
+
 			if($btn_shadow_click !== "enable"){
 				$shadow_click = 'none';
 			}
@@ -103,9 +107,9 @@ if(!class_exists("Ultimate_Buttons")){
 				$shadow_color = $btn_shadow_color;
 			else
 				$shadow_color = $btn_shadow_color_hover;
-			
+
 			if($button_bg_img !== ''){
-				$img = apply_filters('ult_get_img_single', $button_bg_img, 'url'); 
+				$img = apply_filters('ult_get_img_single', $button_bg_img, 'url');
 			}
 			if($btn_link !== ''){
 				$href = vc_build_link($btn_link);
@@ -116,7 +120,7 @@ if(!class_exists("Ultimate_Buttons")){
 					}
 					if($rel !== '')
 						$rel = 'rel="'.$rel.'"';
-					$link_prefix .= '<a class="ubtn-link '.$btn_align.' '.$btn_size.' '.$main_extra_class.'" href = "'.$href['url'].'" '.$target.' '.$rel.'>';
+					$link_prefix .= '<a class="ubtn-link '.$is_vc_49_plus.' '.$btn_align.' '.$btn_size.' '.$main_extra_class.'" href = "'.$href['url'].'" '.$target.' '.$rel.'>';
 					$link_sufix .= '</a>';
 				}
 			} else {
@@ -127,12 +131,12 @@ if(!class_exists("Ultimate_Buttons")){
 			}
 			if($btn_icon_pos !== '' && $icon !== 'none' && $icon !== '')
 				$el_class .= ' ubtn-sep-icon '.$btn_icon_pos.' ';
-			
+
 			if($btn_font_family != '')
 			{
 				$mhfont_family = get_ultimate_font_family($btn_font_family);
 				$btn_style_inline .= 'font-family:\''.$mhfont_family.'\';';
-				
+
 				//enqueue google font
 				/*$args = array(
 					$mhfont_family
@@ -140,9 +144,26 @@ if(!class_exists("Ultimate_Buttons")){
 				enquque_ultimate_google_fonts($args);*/
 			}
 			$btn_style_inline .= get_ultimate_font_style($btn_font_style);
-			if($btn_font_size !== ''){
-				$btn_style_inline .= 'font-size:'.$btn_font_size.'px;';
-			}
+			// if($btn_font_size !== ''){
+			// 	$btn_style_inline .= 'font-size:'.$btn_font_size.'px;';
+			// }
+			$adv_btn_id = 'ubtn-'.rand(1000, 9999);
+
+			if (is_numeric($btn_font_size)) {
+                $btn_font_size = 'desktop:'.$btn_font_size.'px;';
+            }
+            if(is_numeric($btn_line_height)){
+            	$btn_line_height = 'desktop:'.$btn_line_height.'px';
+            }
+            $advbtnargs = array(
+                'target' => '#'.$adv_btn_id,
+                'media_sizes' => array(
+                    'font-size' => $btn_font_size, // set 'css property' & 'ultimate_responsive' sizes. Here $title_responsive_font_size holds responsive font sizes from user input.
+                    'line-height' => $btn_line_height
+                ),
+            );
+            $data_list = get_ultimate_vc_responsive_media_css($advbtnargs);
+
 			$style .= $btn_style_inline;
 			if($btn_size == 'ubtn-custom'){
 				$style .= 'width:'.$btn_width.'px;';
@@ -173,7 +194,7 @@ if(!class_exists("Ultimate_Buttons")){
 						// $style .= 'top: '.($btn_shadow_size-3).'px;';
 						$box_shadow .= '0 '.$btn_shadow_size.'px '.$btn_shadow_color.';';
 						if($shadow_click !== "none")
-							$shadow_hover .= '0 3px '.$shadow_color.';';	
+							$shadow_hover .= '0 3px '.$shadow_color.';';
 						else
 							$shadow_hover .= '0 '.$btn_shadow_size.'px '.$shadow_color.';';
 						break;
@@ -184,7 +205,7 @@ if(!class_exists("Ultimate_Buttons")){
 						if($shadow_click !== "none")
 							$shadow_hover .= '-3px 0 '.$shadow_color.';';
 						else
-							$shadow_hover .= '-'.$btn_shadow_size.'px 0 '.$shadow_color.';';	
+							$shadow_hover .= '-'.$btn_shadow_size.'px 0 '.$shadow_color.';';
 						break;
 					case 'shd-right':
 						$style .= 'box-shadow: '.$btn_shadow_size.'px 0 '.$btn_shadow_color.';';
@@ -203,7 +224,7 @@ if(!class_exists("Ultimate_Buttons")){
 			if($btn_title_color !== ''){
 				$style .= 'color: '.$btn_title_color.';';
 			}
-			
+
 			if($btn_shadow){
 				$el_class .= ' ubtn-shd ';
 			}
@@ -216,19 +237,29 @@ if(!class_exists("Ultimate_Buttons")){
 			if($btn_link === '') {
 				$el_class .= $main_extra_class;
 			}
-			$output .= '<button type="button" class="ubtn '.$btn_size.' '.$btn_hover.' '.$el_class.' '.$btn_shadow.' '.$tooltip_class.'" '.$tooltip.' data-hover="'.$btn_title_color_hover.'" data-border-color="'.$btn_color_border.'" data-bg="'.$btn_bg_color.'" data-hover-bg="'.$btn_bg_color_hover.'" data-border-hover="'.$btn_color_border_hover.'" data-shadow-hover="'.$shadow_hover.'" data-shadow-click="'.$shadow_click.'" data-shadow="'.$box_shadow.'" data-shd-shadow="'.$btn_shadow_size.'" style="'.$style.'">';
+
+			$output .= '<button type="button" id="'.$adv_btn_id.'" class="ubtn '.$is_vc_49_plus.' ult-responsive '.$btn_size.' '.$btn_hover.' '.$el_class.' '.$btn_shadow.' '.$tooltip_class.'" '.$tooltip.' data-hover="'.$btn_title_color_hover.'" data-border-color="'.$btn_color_border.'" data-bg="'.$btn_bg_color.'" data-hover-bg="'.$btn_bg_color_hover.'" data-border-hover="'.$btn_color_border_hover.'" data-shadow-hover="'.$shadow_hover.'" data-shadow-click="'.$shadow_click.'" data-shadow="'.$box_shadow.'" data-shd-shadow="'.$btn_shadow_size.'" '.$data_list.' style="'.$style.'">';
+
 			if($icon !== ''){
 				$output .= '<span class="ubtn-data ubtn-icon"><i class="'.$icon.'" style="font-size:'.$icon_size.'px;color:'.$icon_color.';"></i></span>';
 			}
-			$output .= '<span class="ubtn-hover"></span>';
-			$output .= '<span class="ubtn-data ubtn-text">'.$btn_title.'</span>';
+			$output .= '<span class="ubtn-hover" style="background-color:'.$btn_bg_color_hover.'"></span>';
+			$output .= '<span class="ubtn-data ubtn-text " >'.$btn_title.'</span>';
 			$output .= '</button>';
-			
+
 			$output = $link_prefix.$output.$link_sufix;
-			
-			if($btn_align == "ubtn-center"){
-				$output = '<div class="ubtn-ctn-center">'.$output.'</div>';
+
+			//	Add a wrapper class to handle bottom margin
+			$wrapper_class = '';
+			switch ($btn_align) {
+					case 'ubtn-center':		$wrapper_class = 'ubtn-ctn-center'; 	break;
+					case 'ubtn-right':		$wrapper_class = 'ubtn-ctn-right'; 		break;
+					case 'ubtn-left':
+					default: 				$wrapper_class = 'ubtn-ctn-left'; 		break;
+
 			}
+			$output = '<div class="'.$wrapper_class.'">'.$output.'</div>';
+
 			if($img !== ''){
 				$html = '<div class="ubtn-img-container">';
 				$html .= '<img src="'.$img.'"/>';
@@ -236,7 +267,7 @@ if(!class_exists("Ultimate_Buttons")){
 				$html .= '</div>';
 				$output = $html;
 			}
-			
+
 			if($enable_tooltip !== ""){
 				$output .= '<script>
 					jQuery(function () {
@@ -482,7 +513,7 @@ if(!class_exists("Ultimate_Buttons")){
 								"heading" => __("Select Icon ","ultimate_vc"),
 								"param_name" => "icon",
 								"value" => "",
-								"description" => __("Click and select icon of your choice. If you can't find the one that suits for your purpose, you can","ultimate_vc")." <a href='admin.php?page=font-icon-Manager' target='_blank'>".__('add new here','ultimate_vc')."</a>.",
+								"description" => __("Click and select icon of your choice. If you can't find the one that suits for your purpose, you can","ultimate_vc")." <a href='admin.php?page=bsf-font-icon-manager' target='_blank'>".__('add new here','ultimate_vc')."</a>.",
 								"group" => "Icon"
 							),
 							array(
@@ -668,7 +699,7 @@ if(!class_exists("Ultimate_Buttons")){
 								"type" => "ultimate_google_fonts",
 								"heading" => __("Font Family", "ultimate_vc"),
 								"param_name" => "btn_font_family",
-								"description" => __("Select the font of your choice.","ultimate_vc")." ".__("You can","ultimate_vc")." <a target='_blank' href='".admin_url('admin.php?page=ultimate-font-manager')."'>".__("add new in the collection here","ultimate_vc")."</a>.",
+								"description" => __("Select the font of your choice.","ultimate_vc")." ".__("You can","ultimate_vc")." <a target='_blank' href='".admin_url('admin.php?page=bsf-google-font-manager')."'>".__("add new in the collection here","ultimate_vc")."</a>.",
 								"group" => "Typography"
 							),
 							array(
@@ -677,15 +708,47 @@ if(!class_exists("Ultimate_Buttons")){
 								"param_name"	=>	"btn_font_style",
 								"group" => "Typography"
 							),
+							// array(
+							// 	"type" => "number",
+							// 	"class" => "font-size",
+							// 	"heading" => __("Font Size", "ultimate_vc"),
+							// 	"param_name" => "btn_font_size",
+							// 	"min" => 14,
+							// 	"suffix" => "px",
+							// 	"group" => "Typography"
+							// ),
 							array(
-								"type" => "number",
-								"class" => "font-size",
-								"heading" => __("Font Size", "ultimate_vc"),
-								"param_name" => "btn_font_size",
-								"min" => 14,
-								"suffix" => "px",
-								"group" => "Typography"
-							),
+								  	"type" => "ultimate_responsive",
+								  	"class" => "",
+								  	"heading" => __("Font size", 'ultimate_vc'),
+								  	"param_name" => "btn_font_size",
+								  	"unit"  => "px",
+								  	"media" => array(
+								  	    /*"Large Screen"      => '',*/
+								  	    "Desktop"           => '',
+								  	    "Tablet"            => '',
+								  	    "Tablet Portrait"   => '',
+								  	    "Mobile Landscape"  => '',
+								  	    "Mobile"            => '',
+								  	),
+								  	"group" => "Typography"
+								),
+							array(
+								  	"type" => "ultimate_responsive",
+								  	"class" => "",
+								  	"heading" => __("Line Height", 'ultimate_vc'),
+								  	"param_name" => "btn_line_height",
+								  	"unit"  => "px",
+								  	"media" => array(
+								  	    /*"Large Screen"      => '',*/
+								  	    "Desktop"           => '',
+								  	    "Tablet"            => '',
+								  	    "Tablet Portrait"   => '',
+								  	    "Mobile Landscape"  => '',
+								  	    "Mobile"            => '',
+								  	),
+								  	"group" => "Typography"
+								),
 							array(
 								"type" => "checkbox",
 								"class" => "",
@@ -732,7 +795,7 @@ if(!class_exists("Ultimate_Buttons")){
 		}
 	}
 	new Ultimate_Buttons;
-	
+
 	if(class_exists('WPBakeryShortCode'))
 	{
 		class WPBakeryShortCode_ult_buttons extends WPBakeryShortCode {

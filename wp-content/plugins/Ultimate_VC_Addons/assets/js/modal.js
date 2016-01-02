@@ -16,7 +16,7 @@
 		joverlay = document.querySelector( ovv );
 		overlay = $(ovv);
 		/* firefox transition issue fix of overflow hidden */
-		
+
 		if( overlay.hasClass('ult-open') ) {
 			overlay.removeClass('ult-open');
 			overlay.addClass('ult-close');
@@ -201,6 +201,8 @@
 		var modal_count=0;
 		$(document).on('click', '.overlay-show', function(event){
 			event.stopPropagation();
+			event.preventDefault();
+
 			var class_id = $(this).data('class-id');
 			$('.'+class_id).find('.ult_modal-content').removeClass('ult-hide');
 			$('.'+class_id).find('.ult-vimeo iframe').html($('.ult-vimeo iframe').html());
@@ -215,6 +217,8 @@
 
 		$(document).on('click', '.overlay-show-cornershape', function(event){
 			event.stopPropagation();
+			event.preventDefault();
+
 			var class_id = $(this).data('class-id');
 			$('.'+class_id).find('.ult_modal-content').removeClass('ult-hide');
 			//$('.overlay-cornershape').removeClass('overlay-cornershape');
@@ -225,7 +229,7 @@
 				content_check(class_id);
 			},300);
 		});
-		
+
 		$(document).on('click', 'div.overlay-cornershape div.ult-overlay-close', function(event){
 			event.stopPropagation();
 			var class_id = $(this).parents('div.overlay-cornershape').data('class');
@@ -237,6 +241,8 @@
 
 		$(document).on('click', '.overlay-show-boxes', function(event){
 			event.stopPropagation();
+			event.preventDefault();
+
 			var class_id = $(this).data('class-id');
 			$('.'+class_id).find('.ult_modal-content').removeClass('ult-hide');
 			setTimeout(function(){
@@ -246,7 +252,7 @@
 				content_check(class_id);
 			},300);
 			//$('.overlay-boxes').removeClass('overlay-boxes');
-			
+
 		});
 
 		$(document).on('click', 'div.overlay-boxes div.ult-overlay-close', function(event){
@@ -257,8 +263,10 @@
 			$('html').css({'overflow':'auto'});
 			$(document).trigger('onUVCModalPopUpClosed',class_id);
 		});
-		
+
 		$(document).on('click', '.overlay-show-genie', function(event){
+			event.preventDefault();
+
 			var class_id = $(this).data('class-id');
 			$('.'+class_id).find('.ult_modal-content').removeClass('ult-hide');
 			//$('.overlay-genie').removeClass('overlay-genie');
@@ -270,7 +278,7 @@
 				$('html').css({'overflow':'auto'});
 			},300);
 		});
-		
+
 		$(document).on('click', 'div.overlay-genie div.ult-overlay-close', function(event){
 			event.stopPropagation();
 			var class_id = $(this).parents('div.overlay-genie').data('class');
@@ -312,6 +320,8 @@
 
 		$(document).on('click', '.ult-overlay', function(event){
 			event.stopPropagation();
+			event.preventDefault();
+
 			$(this).find('.ult-overlay-close').trigger('click');
 			$('html').css({'overflow':'auto'});
 		});
@@ -319,7 +329,6 @@
 	function content_check(id){
 		var ch = $('.'+id).find('.ult_modal-content').height();
 		var wh = $(window).height();
-		console.log(ch+' '+wh);
 		if(ch>wh){
 			$('.'+id).addClass('ult_modal-auto-top');
 		}
@@ -334,7 +343,7 @@
 		}
 		$( document ).trigger( "onUVCModalPopupOpen", id );
 	}
-	
+
 	function resize_modal_iframe()
 	{
 		$(".ult_modal-body iframe").each(function(index, element) {
@@ -343,21 +352,21 @@
 			var medium_modal = ($(this).parent().parent().parent().hasClass('ult-medium')) ? true : false;
 			var large_modal = ($(this).parent().parent().parent().hasClass('ult-container')) ? true : false;
 			var block_modal = ($(this).parent().parent().parent().hasClass('ult-block')) ? true : false;
-			
+
 			var c = w/10;
 			var h = (w*(9/16))+c;
-			
+
 			var is_video = ($(this).parent().hasClass('ult-youtube') || $(this).parent().hasClass('ult-vimeo')) ? true : false;
 			if(!is_video)
 				return false;
-			
+
 			if(large_modal)
 			{
 				var window_height = $(window).height();
 				if(window_height < h)
 					h = window_height - 100;
 			}
-			
+
 			if(block_modal)
 			{
 				w = $(this).attr('width')
@@ -367,7 +376,7 @@
 				if( typeof h === 'undefined' || h == '')
 					h = 360;
 			}
-			
+
 			$(this).css({"width":w+"px","height":h+"px"});
 		});
 	}

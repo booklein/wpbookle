@@ -199,7 +199,7 @@ if ( in_array( $source, array( 'media_library', 'featured_image' ) ) && 'yes' ==
 }
 
 /* porto lightbox */
-if ($lightbox) {
+if ($lightbox && $onclick == 'img_link_large') {
     if ($hover_effect)
         $a_attrs['class'] = 'porto-vc-zoom porto-vc-zoom-hover-icon';
     else

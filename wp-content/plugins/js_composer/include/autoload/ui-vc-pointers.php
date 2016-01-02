@@ -1,16 +1,21 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
+}
+
 global $vc_default_pointers, $vc_pointers;
 $vc_default_pointers = (array) apply_filters( 'vc_pointers_list',
 	array(
 		'vc_grid_item',
 		'vc_pointers_backend_editor',
-		'vc_pointers_frontend_editor'
-	) );
+		'vc_pointers_frontend_editor',
+	)
+);
 if ( is_admin() ) {
 	add_action( 'admin_enqueue_scripts', 'vc_pointer_load', 1000 );
 }
 
-function vc_pointer_load( $hook_suffix = '' ) {
+function vc_pointer_load() {
 	global $vc_pointers;
 	// Don't run on WP < 3.3
 	if ( get_bloginfo( 'version' ) < '3.3' ) {
@@ -51,36 +56,8 @@ function vc_pointer_load( $hook_suffix = '' ) {
 	if ( empty( $vc_pointers['pointers'] ) ) {
 		return;
 	}
-
-	// Add pointers style to queue.
 	wp_enqueue_style( 'wp-pointer' );
-
-	// Add pointers script to queue. Add custom script.
-	wp_enqueue_script( 'vc_pointer-message', vc_asset_url( 'js/lib/vc-pointers/vc-pointer-message.js' ),
-		array(
-			'jquery',
-			'underscore',
-			'wp-pointer'
-		),
-		WPB_VC_VERSION,
-		true );
-	wp_enqueue_script( 'vc_pointers-controller', vc_asset_url( 'js/lib/vc-pointers/vc-pointers-controller.js' ), array(
-		'vc_pointer-message',
-		'wpb_js_composer_js_listeners',
-		'wpb_scrollTo_js'
-	),
-		WPB_VC_VERSION,
-		true );
-	/*
-	wp_enqueue_script( 'vc_event-pointers-controller', vc_asset_url( 'js/lib/vc-pointers/vc-event-pointers-controller.js' ), array( 'vc_pointers-controller' ),
-		WPB_VC_VERSION,
-		true );
-	*/
-	wp_enqueue_script( 'vc_wp-pointer',
-		vc_asset_url( 'js/lib/vc-pointers/pointers.js' ),
-		array( 'vc_pointers-controller' ),
-		WPB_VC_VERSION,
-		true );
+	wp_enqueue_script( 'wp-pointer' );
 	// messages
 	$vc_pointers['texts'] = array(
 		'finish' => __( 'Finish', 'js_composer' ),
@@ -89,7 +66,7 @@ function vc_pointer_load( $hook_suffix = '' ) {
 	);
 
 	// Add pointer options to script.
-	wp_localize_script( 'vc_wp-pointer', 'vcPointer', $vc_pointers );
+	wp_localize_script( 'wp-pointer', 'vcPointer', $vc_pointers );
 }
 
 /**
@@ -98,9 +75,15 @@ function vc_pointer_load( $hook_suffix = '' ) {
  */
 function vc_pointer_reset() {
 	global $vc_default_pointers;
-	if ( ! vc_verify_admin_nonce() || ! current_user_can( 'manage_options' ) ) {
-		die();
-	}
+	vc_user_access()
+		->checkAdminNonce()
+		->validateDie()
+		->wpAny( 'manage_options' )
+		->validateDie()
+		->part( 'settings' )
+		->can( 'vc-general-tab' )
+		->validateDie();
+
 	$pointers = (array) apply_filters( 'vc_pointers_list', $vc_default_pointers );
 	$prev_meta_value = get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true );
 	$dismissed = explode( ',', (string) $prev_meta_value );
@@ -108,6 +91,8 @@ function vc_pointer_reset() {
 		$meta_value = implode( ',', array_diff( $dismissed, $pointers ) );
 		update_user_meta( get_current_user_id(), 'dismissed_wp_pointers', $meta_value, $prev_meta_value );
 	}
+
+	wp_send_json( array( 'success' => true ) );
 }
 
 /**

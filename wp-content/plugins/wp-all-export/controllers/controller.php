@@ -90,10 +90,13 @@ abstract class PMXE_Controller {
 	protected function error($msgs = NULL) {
 		if (is_null($msgs)) {
 			$msgs = $this->errors;
-		}
-		if (is_wp_error($msgs)) {
+		}					
+		if (is_wp_error($msgs)) 
+		{			
+			unset($msgs->errors['count-validation']);
+						
 			$msgs = $msgs->get_error_messages();
-		}
+		}		
 		if ( ! is_array($msgs)) {
 			$msgs = array($msgs);
 		}

@@ -46,6 +46,7 @@ if ($woocommerce_loop['cat_loop'] % $porto_products_cols_xs == 1)
 if ($woocommerce_loop['cat_loop'] % $porto_products_cols_ls == 1)
     $class .= ' pcols-ls-first';
 
+$view_type = $porto_settings['cat-view-type'];
 ?>
 <li class="product-category <?php echo $class ?>">
 
@@ -59,8 +60,8 @@ if ($woocommerce_loop['cat_loop'] % $porto_products_cols_ls == 1)
     ?>
 
     <a href="<?php echo get_term_link( $category->slug, 'product_cat' ); ?>">
-        <div class="thumbnail">
-            <div class="thumb-info">
+        <div class="thumbnail<?php echo !$view_type ? '' : ' align-center' ?>">
+            <div class="thumb-info<?php echo !$view_type ? '' : ' tf-none' ?>">
                 <?php
                 /**
                  * woocommerce_before_subcategory_title hook
@@ -69,20 +70,36 @@ if ($woocommerce_loop['cat_loop'] % $porto_products_cols_ls == 1)
                  */
                 do_action( 'woocommerce_before_subcategory_title', $category );
                 ?>
-
-                <div class="thumb-info-wrap">
-                    <div class="thumb-info-title">
-                        <h3 class="sub-title thumb-info-inner"><?php echo esc_html($category->name); ?></h3>
-                        <?php if ( $category->count > 0 ) : ?>
-                        <span class="thumb-info-type">
-                            <?php echo apply_filters( 'woocommerce_subcategory_count_html', ' <mark class="count">' . $category->count . '</mark>', $category ) . ' ' . __( 'Products', 'woocommerce' ); ?>
-                        </span>
-                        <?php endif; ?>
+                <?php if (!$view_type) : ?>
+                    <div class="thumb-info-wrap">
+                        <div class="thumb-info-title">
+                            <h3 class="sub-title thumb-info-inner"><?php echo esc_html($category->name); ?></h3>
+                            <?php if ( $category->count > 0 ) :
+                                $count_html = apply_filters( 'woocommerce_subcategory_count_html', ' <mark class="count">' . $category->count . '</mark>', $category );
+                                if ($count_html) :
+                                ?>
+                                <span class="thumb-info-type">
+                                    <?php echo $count_html . ' ' . __( 'Products', 'woocommerce' ); ?>
+                                </span>
+                                <?php endif;
+                            endif; ?>
+                        </div>
                     </div>
-                </div>
+                <?php endif; ?>
             </div>
         </div>
     </a>
+
+    <?php if ($view_type == 2) : ?>
+        <a href="<?php echo get_term_link( $category->slug, 'product_cat' ); ?>"><h4 class="m-t-md m-b-none"><?php echo esc_html($category->name); ?></h4></a>
+        <?php if ( $category->count > 0 ) :
+            $count_html = apply_filters( 'woocommerce_subcategory_count_html', ' <mark class="count">' . $category->count . '</mark>', $category );
+            if ($count_html) :
+            ?>
+            <p class="m-b-sm"><?php echo $count_html . ' ' . __( 'Products', 'woocommerce' ); ?></p>
+            <?php endif;
+        endif;
+    endif; ?>
 
     <?php
     /**

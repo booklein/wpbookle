@@ -68,9 +68,9 @@ function pmxe_wp_ajax_export_preview(){
 				$dom->loadXML($xml);
 				libxml_use_internal_errors($old);
 				$xpath = new DOMXPath($dom);
-				if (($elements = @$xpath->query('/data')) and $elements->length){
+				if (($elements = @$xpath->query('/' . $exportOptions['main_xml_tag'])) and $elements->length){
 					pmxe_render_xml_element($elements->item( 0 ), true);
-				}			
+				}		
 													
 				break;
 

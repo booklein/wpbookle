@@ -1,6 +1,6 @@
 var resizedd=0;
 var time_f_arr =[];
-jQuery(document).ready(function(){	
+jQuery(document).ready(function(){
 	make_info_circle('.info-c-full-br',0);
 	responsive_check('.info-c-full-br');
 	calculate_clipped_circle();
@@ -8,15 +8,15 @@ jQuery(document).ready(function(){
 	//responsive_check('.info-c-semi-br');
 	//part_circle_icon('.info-c-full-br');
 	//semi_circle_icon('.info-c-semi-br');
-	
+
 	jQuery('.clipped-info-circle').each(function(i,circle){
 		var xh = jQuery(this).outerHeight();
 		var xw = jQuery(this).outerWidth();
 		jQuery(this).attr('data-first-width',xw);
 		jQuery(this).attr('data-first-height',xh);
 	});
-	
-				
+
+
 	jQuery(window).resize(function(){
 		resizedd++;
 		make_info_circle('.info-c-full-br',resizedd);
@@ -29,25 +29,30 @@ jQuery(document).ready(function(){
 		calculate_clipped_circle();
 		//make_info_circle('.info-c-semi-br',resizedd);
 	});
+	jQuery(document).on('ultAdvancedTabClicked',function(){
+		resizedd++;
+		make_info_circle('.info-c-full-br',resizedd);
+		calculate_clipped_circle();
+	});
 	jQuery('.info-c-full-br').each(function(){
 		if(jQuery(this).data('focus-on')=="click"){
-			jQuery(this).find('.icon-circle-list .info-circle-icons').click(function(){		
-				var obj = jQuery(this);		
+			jQuery(this).find('.icon-circle-list .info-circle-icons').click(function(){
+				var obj = jQuery(this);
 				jQuery(this).parents('.info-c-full-br').attr('data-slide-true','false');
 				show_next_info_circle(obj);
 			})
 		}
 		if(jQuery(this).data('focus-on')=="hover"){
-			jQuery(this).find('.icon-circle-list .info-circle-icons').hover(function(){		
-				var obj = jQuery(this);		
+			jQuery(this).find('.icon-circle-list .info-circle-icons').hover(function(){
+				var obj = jQuery(this);
 				jQuery(this).parents('.info-c-full-br').attr('data-slide-true','false');
 				show_next_info_circle(obj);
-			},function(){})	
+			},function(){})
 		}
 	});
-	
-	
-	
+
+
+
 	/*jQuery('.info-c-semi-br .icon-circle-list .info-circle-icons').bind('click',function(){
 		var txt = jQuery(this).find('.text').html();
 		var highlight_style= jQuery(this).parents('.info-c-full-br').data('highlight-style');
@@ -60,8 +65,8 @@ jQuery(document).ready(function(){
 		jQuery(this).parents('.info-c-semi-br').find('.info-c-semi').html(txt);
 	})
 	*/
-	//jQuery('.info-c-full-br').attr('data-slide-true','true');	
-	setTimeout(function() {		
+	//jQuery('.info-c-full-br').attr('data-slide-true','true');
+	setTimeout(function() {
 		jQuery('.info-c-full-br').each(function(){
 			var slide_delay = jQuery(this).data('slide-duration');
 			if(!slide_delay){
@@ -70,11 +75,11 @@ jQuery(document).ready(function(){
 			jQuery(this).attr('data-slide-number','1');
 			info_circle_slide((slide_delay*1000),jQuery(this));
 			//if(jQuery(this).attr('data-slide-true')=='off'){
-				var obj = jQuery(this).find('.info-circle-icons').eq(0);			
+				var obj = jQuery(this).find('.info-circle-icons').eq(0);
 				show_next_info_circle(obj);
 			//}
-		});		
-	}, 1000); 
+		});
+	}, 1000);
 });
 
 function calculate_clipped_circle()
@@ -85,7 +90,7 @@ function calculate_clipped_circle()
 
 		var responsive = jQuery(this).children().data('responsive-circle');
 		if(responsive == 'on')
-		{			
+		{
 			var breakpoint = jQuery(this).children().data('responsive-breakpoint');
 			var win = jQuery(window).width();
 			var circle_type = jQuery(this).data('circle-type');
@@ -103,29 +108,29 @@ function calculate_clipped_circle()
 				make_info_circle('.info-c-full-br',resizedd);
 			}
 		}
-		
+
 		var icon_height = jQuery(this).find('.info-circle-icons').outerHeight();
 		var icon_width = jQuery(this).find('.info-circle-icons').outerHeight();
-		
+
 		if(circle_type != 'full-circle')
 		{
 			var wrapper_height = jQuery(this).outerHeight();
 			var wrapper_width = jQuery(this).outerWidth();
 			var margin_top = jQuery(this).css('margin-top');
 			var margin_bottom = jQuery(this).css('margin-bottom');
-			
+
 			var wrapper_inner_width = jQuery(this).children().outerWidth();
-			
+
 			var info_margin = parseInt(jQuery(this).find('.info-c-full').css('margin-top').replace(/[^-\d\.]/g, ''));
 			var info_padding = parseInt(jQuery(this).find('.info-c-full').css('padding-top').replace(/[^-\d\.]/g, ''));
-			
+
 			if(circle_type == 'top-circle' || circle_type == 'bottom-circle')
 			{
 				jQuery(this).css({'overflow':'hidden'});
-				
+
 				var info_width = jQuery(this).find('.info-c-full').outerWidth();
 				var info_width_inner = jQuery(this).find('.info-c-full').width();
-				
+
 				if(circle_type == 'top-circle')
 				{
 					var hidden_height = (percentage/100)*wrapper_height;
@@ -138,7 +143,7 @@ function calculate_clipped_circle()
 				else if(circle_type == 'bottom-circle')
 				{
 					var temp_hidden_height = ((100-percentage)/100)*wrapper_height;
-					
+
 					var hidden_height = wrapper_height-temp_hidden_height+10;
 
 					jQuery(this).css({'padding-bottom':margin_bottom, 'height' : hidden_height, 'margin-top':0});
@@ -154,16 +159,16 @@ function calculate_clipped_circle()
 			else if(circle_type == 'left-circle' || circle_type == 'right-circle')
 			{
 				jQuery(this).css({'overflow':'hidden','padding-top':margin_top, 'padding-bottom':margin_bottom});
-				
+
 				var info_width = jQuery(this).find('.info-c-full').outerWidth();
 				var info_width_inner = jQuery(this).find('.info-c-full').width();
-				
+
 				if(circle_type == 'left-circle')
 				{
 					var hidden_width = (percentage/100)*wrapper_inner_width;
 					jQuery(this).css({'width' : hidden_width, 'padding-left':margin_top});
 					jQuery(this).children().css({'width' : wrapper_inner_width,'max-width':wrapper_inner_width});
-					
+
 					var cal_width = hidden_width-info_margin-(info_padding+(info_padding/2))-parseInt(margin_top.replace(/[^-\d\.]/g, ''));
 					jQuery(this).find('.info-c-full-wrap').width(cal_width);
 				}
@@ -173,10 +178,10 @@ function calculate_clipped_circle()
 					var hidden_width = parseInt(wrapper_inner_width-temp_hidden_width);
 					jQuery(this).css({'width' : hidden_width, 'padding-right':margin_top});
 					jQuery(this).children().css({'margin-left':-(temp_hidden_width+(icon_width/2)), 'max-width':wrapper_inner_width, 'width' : wrapper_inner_width});
-					
+
 					var gap = temp_hidden_width - info_margin;
 					gap = gap + parseInt(margin_top.replace(/[^-\d\.]/g, '')) - info_padding;
-					
+
 					var cal_width = hidden_width-info_margin-parseInt(margin_top.replace(/[^-\d\.]/g, '')) - info_padding;
 					var cal_left = gap;
 					jQuery(this).find('.info-c-full-wrap').width(cal_width);
@@ -185,7 +190,7 @@ function calculate_clipped_circle()
 			}
 		}
 		if(responsive == 'on')
-		{			
+		{
 			var breakpoint = jQuery(this).children().data('responsive-breakpoint');
 			var win = jQuery(window).width();
 			if(win <= breakpoint)
@@ -199,10 +204,10 @@ function calculate_clipped_circle()
 function info_circle_slide (delay,identity) {
 	identity.bsf_appear(function(){
 		setInterval(function(){
-			if(identity.attr('data-slide-true')=='on'){				
+			if(identity.attr('data-slide-true')=='on'){
 				var myindex = identity.attr('data-slide-number')*1;
 				//console.log('slideTo'+myindex);
-				var len = identity.find('.info-circle-icons').length;		
+				var len = identity.find('.info-circle-icons').length;
 				if(identity.data('info-circle-angle')!='full'){
 					if(len-1 == myindex)
 						myindex=0;
@@ -220,7 +225,7 @@ function info_circle_slide (delay,identity) {
 		var time_fn = 'tf'+(Math.random().toString(36).slice(2));
 		identity.data('timeout-fn',time_fn);
 		time_f_arr[time_fn] = setTimeout(function() {
-			if(identity.attr('data-slide-true')=='true'){		
+			if(identity.attr('data-slide-true')=='true'){
 				info_circle_slide(++myindex,delay,identity);
 			}
 		}, delay);*/
@@ -241,11 +246,11 @@ function show_next_info_circle(obj){
 	}
 	txt = txt.html();
 	//obj.parents('.icon-circle-list').find('.info-details').animate({opacity:0});
-	//obj.next().animate({opacity:1});						
+	//obj.next().animate({opacity:1});
 	//obj.parents('.info-c-full-br').find('.info-details').animate({opacity:0},'slow');
 	var size = obj.css('font-size');
-	var bg_col = obj.attr('style') 
-	//var p = bg_col.indexOf('background-color');		
+	var bg_col = obj.attr('style')
+	//var p = bg_col.indexOf('background-color');
 	//bg_col = bg_col.substr(p);
 	//bg_col = bg_col.split(';');
 	//bg_col= bg_col[0];
@@ -259,7 +264,7 @@ function show_next_info_circle(obj){
 		//obj.parents('.info-c-full-br').find('.info-c-full img').css({'width':(parseInt(size)*2.5)+'px','margin-top':'20px'});
 		obj_par.find('.info-c-full i').css({'font-size':parseInt(cont_f_size)+'px'});
 		obj_par.find('.info-c-full img').css({'width':parseInt(cont_f_size)+'px'});
-		//obj.parents('.info-c-full-br').find('.info-c-full').css('background-color',bg_col);	
+		//obj.parents('.info-c-full-br').find('.info-c-full').css('background-color',bg_col);
 		obj.parents('.info-c-full-br').find('.info-c-full-wrap').animate({opacity:1},'slow');
 	});
 }
@@ -272,12 +277,12 @@ function responsive_check(obj){
 			var wrapper_id = 'info-circle-wrapper-'+uniq;
 			var css = '<style>@media(max-width:'+breakpoint+'px){ #'+wrapper_id+' .smile_icon_list_wrap{ display: block; margin-top: auto !important; } #'+wrapper_id+' .info-c-full-br{ display: none; } .smile_icon_list_wrap { margin-left:auto !important; max-width:inherit !important; width:auto !important; } .info-circle-responsive .info-circle-def { display: block; width: auto; height: auto; } .info-circle-responsive .info-circle-sub-def { display: block; vertical-align: top; } }</style>';
 			jQuery('head').append(css);
-			
+
 			var circle_list = jQuery(this).parent().find('.smile_icon_list_wrap .smile_icon_list');
 			var circle_list_item = circle_list.find('.icon_list_item').clone();
 			circle_list.find('.icon_list_item').remove();
 			var list_bg_col = jQuery(this).next().data('content_bg')
-			var list_col = jQuery(this).next().data('content_color')			
+			var list_col = jQuery(this).next().data('content_color')
 			jQuery(this).find('.icon-circle-list .info-details').each(function(){
 				var icon_class = jQuery(this).attr('data-icon-class');
 				var heading = jQuery(this).find('.info-circle-heading').html();
@@ -285,7 +290,7 @@ function responsive_check(obj){
 				var bg = jQuery(this).prev().css('background-color');
 				var color = jQuery(this).prev().css('color');
 				var border_style = jQuery(this).prev().css('border');
-				var icon = jQuery(this).find('.info-circle-sub-def').children().eq(0).clone();												
+				var icon = jQuery(this).find('.info-circle-sub-def').children().eq(0).clone();
 				circle_list_item.find('.icon_list_icon').html(icon.wrap("<div />").parent().html());
 				circle_list_item.find('.icon_description').css('color',list_col);
 				circle_list_item.find('.icon_description').css('background-color',list_bg_col);
@@ -300,12 +305,12 @@ function responsive_check(obj){
 }
 function make_info_circle(selector,resized){
 	jQuery(selector).each(function(){
-		var f_size = jQuery(this).data('icon-size');			
+		var f_size = jQuery(this).data('icon-size');
 		jQuery(this).parent().css({'margin-top':(f_size)+'px','margin-bottom':(f_size)+'px'})
 		jQuery(this).find(".icon-circle-list .info-circle-icons").css({"font-size":f_size+'px','height':(f_size*2)+'px','width':(f_size*2)+'px','margin':'-'+(f_size+'px'),'line-height':(f_size*2)+'px'});
 	});
 	if(selector=='.info-c-full-br'){
-		jQuery(selector).each(function(){			
+		jQuery(selector).each(function(){
 			jQuery(this).css('height',jQuery(this).width());
 			jQuery(this).css('opacity','1');
 		});
@@ -314,45 +319,45 @@ function make_info_circle(selector,resized){
 		jQuery(selector).each(function(){
 			var widd = jQuery(this).width();
 			jQuery(this).css('height',((parseInt(widd))/2)+'px');
-			var widd = widd+'px '+widd+'px '+' 0 0';			
+			var widd = widd+'px '+widd+'px '+' 0 0';
 			jQuery(this).css('border-radius',widd);
 			var i_widd = jQuery(this).find('.info-c-full').width();
-			i_widd = i_widd+'px '+i_widd+'px '+'0 0';			
+			i_widd = i_widd+'px '+i_widd+'px '+'0 0';
 			jQuery(this).find('.info-c-full').css('border-radius',i_widd);
 		});
-	}	
+	}
 	setTimeout(function() {
 		if(resized == resizedd){
 			if(selector=='.info-c-full-br'){
-				part_circle_icon(selector);	
+				part_circle_icon(selector);
 			}
 			if(selector=='.info-c-semi-br'){
-				semi_circle_icon(selector);	
+				semi_circle_icon(selector);
 			}
 		}
-	}, 1000);	
+	}, 1000);
 }
-function part_circle_icon(selector) {	
+function part_circle_icon(selector) {
 	jQuery(selector).each(function(){
-		
+
 		jQuery(this).bsf_appear(function(){
 			if(jQuery(this).css('display')!='none'){
-					var count = jQuery(this).find('.icon-circle-list .info-circle-icons').length;		
+					var count = jQuery(this).find('.icon-circle-list .info-circle-icons').length;
 					var p_arr=new Array();
 					var r=(jQuery(this).outerWidth())/2;
-					
+
 					var custom_degree = 0;
 					var temp_degree = jQuery(this).data('start-degree');
-					
+
 					if(typeof temp_degree !== 'undefined' || temp_degree != '')
 						custom_degree = temp_degree;
-					
+
 					var alt= 180/count;
-					var pos=jQuery(this).data('info-circle-angle');				
+					var pos=jQuery(this).data('info-circle-angle');
 					var dev = 	jQuery(this).data('divert');
-					
+
 					var temp_pos = '';
-					
+
 					if(pos == 'full')
 					{
 						temp_pos = pos;
@@ -361,7 +366,7 @@ function part_circle_icon(selector) {
 						r = -r;
 					}
 					//pos = 180; // del on all option
-					
+
 					var gap_required = 0;
 					var less = false;
 					for(i=1;i<=count;i++)
@@ -379,7 +384,7 @@ function part_circle_icon(selector) {
 								gap_required = angle - custom_degree;
 								less = true;
 							}
-							
+
 							if(less == true)
 							{
 								angle-=gap_required;
@@ -393,9 +398,9 @@ function part_circle_icon(selector) {
 						{
 							angle = angle+pos-alt+dev;
 						}
-		
+
 					    angle = (angle*0.0174532925);
-						
+
 					    p_arr.push( r * Math.cos(angle));
 					    p_arr.push( r * Math.sin(angle));
 					}
@@ -429,10 +434,10 @@ function part_circle_icon(selector) {
 					}
 					else{
 						jQuery(this).find('.icon-circle-list .info-circle-icons').each(function(){
-							var el = jQuery(this);						
+							var el = jQuery(this);
 							//el.animate({opacity:1,left:p_arr[i++],top:p_arr[i++]},(launch_duration)*1000,launch);
 							el.css({'opacity':'1','left':p_arr[i++],"top":p_arr[i++]});
-						})	
+						})
 					}
 			}
 		});
@@ -441,9 +446,9 @@ function part_circle_icon(selector) {
 /*function semi_circle_icon(selector) {
 	jQuery(selector).each(function(){
 		if(jQuery(this).css('display')!='none'){
-		var count = jQuery(this).find('.icon-circle-list .info-circle-icons').length;		
+		var count = jQuery(this).find('.icon-circle-list .info-circle-icons').length;
 		var p_arr=new Array();
-		var r=(jQuery(this).width())/2;		
+		var r=(jQuery(this).width())/2;
 		var alt= 180/count;
 		var pos = 180;
 		var dev = 	jQuery(this).data('divert');
@@ -481,8 +486,8 @@ function part_circle_icon(selector) {
 				el.animate({opacity:1,left:p_arr[i++],top:p_arr[i++]},(launch_duration)*1000,launch);
 			}, delay);
 		})
-	}		
-	})	
+	}
+	})
 }*/
 jQuery(window).load(function(){
 	jQuery('.info-c-full-br').each(function(){

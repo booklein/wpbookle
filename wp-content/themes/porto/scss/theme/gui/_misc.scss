@@ -80,25 +80,6 @@ li {
 }
 
 /* Clearfix */
-.clearfix {
-    &:after {
-        content: ".";
-        display: block;
-        clear: both;
-        visibility: hidden;
-        line-height: 0;
-        height: 0;
-    }
-}
-
-html[xmlns] .clearfix {
-    display: block;
-}
-
-* html .clearfix {
-    height: 1%;
-}
-
 .alert {
     a {
         text-decoration: none;
@@ -157,6 +138,53 @@ html[xmlns] .clearfix {
 
 .br-thick {
     border-radius: $border-thick !important;
+}
+
+.b-none {
+    border: medium none !important;
+}
+
+.tf-none {
+    &,
+    & img {
+        @include transform(none !important);
+    }
+}
+
+.bg-pos-bottom {
+    background-position: center bottom !important;
+}
+
+.bg-pos-top {
+    background-position: center top !important;
+}
+
+.bg-pos-center {
+    background-position: center center !important;
+}
+
+.bg-pos-left-top {
+    background-position: left top !important;
+}
+
+.bg-pos-left-bottom {
+    background-position: left bottom !important;
+}
+
+.bg-pos-left-center {
+    background-position: left center !important;
+}
+
+.bg-pos-right-top {
+    background-position: right top !important;
+}
+
+.bg-pos-right-bottom {
+    background-position: right bottom !important;
+}
+
+.bg-pos-right-center {
+    background-position: right center !important;
 }
 
 .color-white {
@@ -219,7 +247,7 @@ blockquote {
 .content-grid {
     overflow: hidden;
     margin: 0;
-    padding: 0;
+    padding: 0 !important;
     .content-grid-item {
         position: relative;
         padding: 25px;

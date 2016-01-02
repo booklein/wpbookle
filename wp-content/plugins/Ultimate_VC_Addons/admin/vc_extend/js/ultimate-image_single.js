@@ -7,18 +7,18 @@
  *
  * @since 0.1.0
  */
- 
+
 ;(function ( $, window, undefined ) {
 
 	/* 	= Image Up loader
-	 *-------------------------------------------------*/ 
+	 *-------------------------------------------------*/
   	var pn = 'ULT_Image_Single',
   	    document = window.document,
   	    defaults = {
   	      add: ".ult_add_image",
   	      remove: "#remove-thumbnail",
   	    };
-	
+
   	function ult( element, options ) {
   	  this.element = element;
 	  this.options = $.extend( {}, defaults, options) ;
@@ -26,7 +26,7 @@
   	  this._name = pn;
 	  this.init();
   	}
-	
+
 	ult.prototype.save_and_show_image = function(id, url, caption) {
   		var $t = $(this.element);
 
@@ -34,7 +34,6 @@
 	        .children( 'img' )
 	            .attr( 'src', url )
 	            .attr( 'alt', caption )
-	            .attr( 'title', title )
 	            .show()
 		        .parent()
 		        .removeClass( 'hidden' );
@@ -45,28 +44,31 @@
 	};
 
 	/* = {start} wp media uploader
-	 *------------------------------------------------------------------------*/ 
+	 *------------------------------------------------------------------------*/
 	ult.prototype.renderMediaUploader = function() {
 	    'use strict';
-	 
+
 	    var fn, image_data, json;
 	    var self = this;
 	    if ( undefined !== fn ) {
 	        fn.open();
-	        return;	 
+	        return;
 	    }
 
-		fn = wp.media.frames.fn = wp.media({
-			frame:    'post',
-			state:    'insert',
-			library: { type: 'image' },
-			editing:   false,
-			multiple: false,
-		});
-	 	
+		fn = wp.media({
+	      title: 'Select or Upload Image',
+	      button: {
+	        text: 'Use this image'
+	      },
+	      library: { type : 'image' },
+	      multiple: false  // Set to true to allow multiple files to be selected
+	    });
+
 		//	Insert from {SELECT}
-		fn.on( 'insert', function() {
-	
+		fn.on( 'select', function() {
+
+			// console.log(wp.media.string);
+
 	        // Read the JSON data returned from the Media Uploader
 			json = fn.state().get( 'selection' ).first().toJSON();
 
@@ -78,6 +80,7 @@
 			var id 		= json.id || null;
 			var url 	= json.url || null;
 			var caption = json.caption || null;
+
 			self.save_and_show_image(id, url, caption);
 	    });
 
@@ -147,13 +150,13 @@
 		}
 	};
 	/* = {end} wp media uploader
-	 *------------------------------------------------------------------------*/ 
+	 *------------------------------------------------------------------------*/
 
   	ult.prototype.init = function () {
   		var self = this;
   		var i = self._defaults;
   		var $t = $(self.element);
-  		
+
   		self.renderFeaturedImage( );
   		//	add image
   		$t.find(i.add).click(function(event) {
@@ -169,7 +172,7 @@
   		});
 
   	};
-	
+
   	$.fn[pn] = function ( options ) {
   	  return this.each(function () {
   	    if (!$.data(this, 'plugin_' + pn)) {

@@ -26,11 +26,11 @@ if(!class_exists('AIO_Icons_Box'))
 				'icon' => 'none',
 				'icon_img' => '',
 				'img_width' => '48',
-				'icon_size' => '32',				
+				'icon_size' => '32',
 				'icon_color' => '#333',
 				'icon_style' => 'none',
 				'icon_color_bg' => '#ffffff',
-				'icon_color_border' => '#333333',			
+				'icon_color_border' => '#333333',
 				'icon_border_style' => '',
 				'icon_border_size' => '1',
 				'icon_border_radius' => '500',
@@ -70,7 +70,7 @@ if(!class_exists('AIO_Icons_Box'))
 				$ex_class .= $pos.'-icon';
 				$ic_class = 'aio-icon-'.$pos;
 			}
-			
+
 			/* title */
 			if($title_font != '')
 			{
@@ -81,13 +81,30 @@ if(!class_exists('AIO_Icons_Box'))
 			}
 			if($title_font_style != '')
 				$title_style .= get_ultimate_font_style($title_font_style);
-			if($title_font_size != '')
-				$title_style .= 'font-size:'.$title_font_size.'px;';
-			if($title_font_line_height != '')
-				$title_style .= 'line-height:'.$title_font_line_height.'px;';
+			// if($title_font_size != '')
+			// 	$title_style .= 'font-size:'.$title_font_size.'px;';
+			// if($title_font_line_height != '')
+			// 	$title_style .= 'line-height:'.$title_font_line_height.'px;';
+
+			if(is_numeric($title_font_size)){
+				$title_font_size = 'desktop:'.$title_font_size.'px;';
+			}
+			if(is_numeric($title_font_line_height)){
+				$title_font_line_height = 'desktop:'.$title_font_line_height.'px;';
+			}
+			$info_box_id = 'Info-box-wrap-'.rand(1000, 9999);
+			$info_box_args = array(
+                'target' => '#'.$info_box_id.' .aio-icon-title', // set targeted element e.g. unique class/id etc.
+                'media_sizes' => array(
+                    'font-size' => $title_font_size, // set 'css property' & 'ultimate_responsive' sizes. Here $title_responsive_font_size holds responsive font sizes from user input.
+                   	'line-height' => $title_font_line_height
+                ),
+            );
+            $info_box_data_list = get_ultimate_vc_responsive_media_css($info_box_args);
+
 			if($title_font_color != '')
 				$title_style .= 'color:'.$title_font_color.';';
-				
+
 			/* description */
 			if($desc_font != '')
 			{
@@ -98,14 +115,30 @@ if(!class_exists('AIO_Icons_Box'))
 			}
 			if($desc_font_style != '')
 				$desc_style .= get_ultimate_font_style($desc_font_style);
-			if($desc_font_size != '')
-				$desc_style .= 'font-size:'.$desc_font_size.'px;';
-			if($desc_font_line_height != '')
-				$desc_style .= 'line-height:'.$desc_font_line_height.'px;';
+			// if($desc_font_size != '')
+			// 	$desc_style .= 'font-size:'.$desc_font_size.'px;';
+			// if($desc_font_line_height != '')
+			// 	$desc_style .= 'line-height:'.$desc_font_line_height.'px;';
+
+			if(is_numeric($desc_font_size)){
+				$desc_font_size = 'desktop:'.$desc_font_size.'px;';
+			}
+			if(is_numeric($desc_font_line_height)){
+				$desc_font_line_height = 'desktop:'.$desc_font_line_height.'px;';
+			}
+
+			$info_box_desc_args = array(
+                'target' => '#'.$info_box_id.' .aio-icon-description', // set targeted element e.g. unique class/id etc.
+                'media_sizes' => array(
+                    'font-size' => $desc_font_size, // set 'css property' & 'ultimate_responsive' sizes. Here $title_responsive_font_size holds responsive font sizes from user input.
+                   	'line-height' => $desc_font_line_height
+                ),
+            );
+            $info_box_desc_data_list = get_ultimate_vc_responsive_media_css($info_box_desc_args);
 			if($desc_font_color != '')
 				$desc_style .= 'color:'.$desc_font_color.';';
 			//enquque_ultimate_google_fonts($font_args);
-			
+
 			$box_style = $box_style_data = '';
 			if($pos=='square_box'){
 				if($box_min_height!='') {
@@ -124,14 +157,14 @@ if(!class_exists('AIO_Icons_Box'))
 					$box_style .="background-color:".$box_bg_color.";";
 				}
 			}
-			$html .= '<div class="aio-icon-box '.$ex_class.'" style="'.$box_style.'" '.$box_style_data.' >';
-			
+			$html .= '<div id="'.$info_box_id.'" class="aio-icon-box '.$ex_class.'" style="'.$box_style.'" '.$box_style_data.' >';
+
 			if($pos == "heading-right" || $pos == "right"){
 					if($pos == "right"){
-						$html .= '<div class="aio-ibd-block">';
+						$html .= '<div class="aio-ibd-block" >';
 					}
 					if($title !== ''){
-						$html .= '<div class="aio-icon-header">';
+						$html .= '<div class="aio-icon-header" >';
 						$link_prefix = $link_sufix = '';
 						if($link !== 'none'){
 							if($read_more == 'title')
@@ -144,15 +177,15 @@ if(!class_exists('AIO_Icons_Box'))
 								$link_sufix = '</a>';
 							}
 						}
-						$html .= $link_prefix.'<h3 class="aio-icon-title" style="'.$title_style.'">'.$title.'</h3>'.$link_sufix;
+						$html .= $link_prefix.'<h3 class="aio-icon-title ult-responsive" '.$info_box_data_list.' style="'.$title_style.'">'.$title.'</h3>'.$link_sufix;
 						$html .= '</div> <!-- header -->';
 					}
 					if($pos !== "right"){
 						if($icon !== 'none' || $icon_img !== '')
-							$html .= '<div class="'.$ic_class.'">'.$box_icon.'</div>';
+							$html .= '<div class="'.$ic_class.'" >'.$box_icon.'</div>';
 					}
 					if($content !== ''){
-						$html .= '<div class="aio-icon-description" style="'.$desc_style.'">';
+						$html .= '<div class="aio-icon-description ult-responsive" '.$info_box_desc_data_list.' style="'.$desc_style.'">';
 						$html .= do_shortcode($content);
 						if($link !== 'none'){
 							if($read_more == 'more')
@@ -176,7 +209,7 @@ if(!class_exists('AIO_Icons_Box'))
 							$html .= '<div class="'.$ic_class.'">'.$box_icon.'</div>';
 					}
 
-				} 
+				}
 				else {
 					//echo $icon_img; die();
 					if($icon !== 'none' || $icon_img != '')
@@ -184,7 +217,7 @@ if(!class_exists('AIO_Icons_Box'))
 					if($pos == "left")
 						$html .= '<div class="aio-ibd-block">';
 					if($title !== ''){
-						$html .= '<div class="aio-icon-header">';
+						$html .= '<div class="aio-icon-header" >';
 						$link_prefix = $link_sufix = '';
 						if($link !== 'none'){
 							if($read_more == 'title')
@@ -197,11 +230,11 @@ if(!class_exists('AIO_Icons_Box'))
 								$link_sufix = '</a>';
 							}
 						}
-						$html .= $link_prefix.'<h3 class="aio-icon-title" style="'.$title_style.'">'.$title.'</h3>'.$link_sufix;
+						$html .= $link_prefix.'<h3 class="aio-icon-title ult-responsive" '.$info_box_data_list.' style="'.$title_style.'">'.$title.'</h3>'.$link_sufix;
 						$html .= '</div> <!-- header -->';
 					}
 					if($content !== ''){
-						$html .= '<div class="aio-icon-description" style="'.$desc_style.'">';
+						$html .= '<div class="aio-icon-description ult-responsive" '.$info_box_desc_data_list.' style="'.$desc_style.'">';
 						$html .= do_shortcode($content);
 						if($link !== 'none'){
 							if($read_more == 'more')
@@ -223,8 +256,8 @@ if(!class_exists('AIO_Icons_Box'))
 						$html .= '</div> <!-- aio-ibd-block -->';
 
 				}
-			
-			
+
+
 			$html .= '</div> <!-- aio-icon-box -->';
 			if($link !== 'none'){
 				if($read_more == 'box')
@@ -247,7 +280,7 @@ if(!class_exists('AIO_Icons_Box'))
 		{
 			if ( function_exists('vc_map'))
 			{
-				vc_map( 
+				vc_map(
 					array(
 						"name"		=> __("Info Box", "ultimate_vc"),
 						"base"		=> "bsf-info-box",
@@ -275,7 +308,7 @@ if(!class_exists('AIO_Icons_Box'))
 								"heading" => __("Select Icon ","ultimate_vc"),
 								"param_name" => "icon",
 								"value" => "",
-								"description" => __("Click and select icon of your choice. If you can't find the one that suits for your purpose","ultimate_vc").", ".__("you can","ultimate_vc")." <a href='admin.php?page=font-icon-Manager' target='_blank'>".__("add new here","ultimate_vc")."</a>.",
+								"description" => __("Click and select icon of your choice. If you can't find the one that suits for your purpose","ultimate_vc").", ".__("you can","ultimate_vc")." <a href='admin.php?page=bsf-font-icon-manager' target='_blank'>".__("add new here","ultimate_vc")."</a>.",
 								"dependency" => Array("element" => "icon_type","value" => array("selector")),
 							),
 							array(
@@ -318,7 +351,7 @@ if(!class_exists('AIO_Icons_Box'))
 								"param_name" => "icon_color",
 								"value" => "#333333",
 								"description" => __("Give it a nice paint!", "ultimate_vc"),
-								"dependency" => Array("element" => "icon_type","value" => array("selector")),						
+								"dependency" => Array("element" => "icon_type","value" => array("selector")),
 							),
 							array(
 								"type" => "dropdown",
@@ -339,7 +372,7 @@ if(!class_exists('AIO_Icons_Box'))
 								"heading" => __("Background Color", "ultimate_vc"),
 								"param_name" => "icon_color_bg",
 								"value" => "#ffffff",
-								"description" => __("Select background color for icon.", "ultimate_vc"),	
+								"description" => __("Select background color for icon.", "ultimate_vc"),
 								"dependency" => Array("element" => "icon_style", "value" => array("circle","square","advanced")),
 							),
 							array(
@@ -365,7 +398,7 @@ if(!class_exists('AIO_Icons_Box'))
 								"heading" => __("Border Color", "ultimate_vc"),
 								"param_name" => "icon_color_border",
 								"value" => "#333333",
-								"description" => __("Select border color for icon.", "ultimate_vc"),	
+								"description" => __("Select border color for icon.", "ultimate_vc"),
 								"dependency" => Array("element" => "icon_border_style", "not_empty" => true),
 							),
 							array(
@@ -564,7 +597,7 @@ if(!class_exists('AIO_Icons_Box'))
 								"value" => "",
 								"dependency" => Array("element" => "pos","value" => array("square_box")),
 								"description" => __("Select Border color for border box.", "ultimate_vc")
-							),	
+							),
 							array(
 								"type" => "colorpicker",
 								"class" => "",
@@ -573,7 +606,7 @@ if(!class_exists('AIO_Icons_Box'))
 								"value" => "",
 								"dependency" => Array("element" => "pos","value" => array("square_box")),
 								"description" => __("Select Box background color.", "ultimate_vc")
-							),							
+							),
 							// Customize everything
 							array(
 								"type" => "textfield",
@@ -605,24 +638,54 @@ if(!class_exists('AIO_Icons_Box'))
 								"value" => "",
 								"group" => "Typography"
 							),
+							// array(
+							// 	"type" => "number",
+							// 	"param_name" => "title_font_size",
+							// 	"heading" => __("Font size","ultimate_vc"),
+							// 	"value" => "",
+							// 	"suffix" => "px",
+							// 	"min" => 10,
+							// 	"group" => "Typography"
+							// ),
+							// array(
+							// 	"type" => "number",
+							// 	"param_name" => "title_font_line_height",
+							// 	"heading" => __("Font Line Height","ultimate_vc"),
+							// 	"value" => "",
+							// 	"suffix" => "px",
+							// 	"min" => 10,
+							// 	"group" => "Typography"
+							// ),
 							array(
-								"type" => "number",
-								"param_name" => "title_font_size",
-								"heading" => __("Font size","ultimate_vc"),
-								"value" => "",
-								"suffix" => "px",
-								"min" => 10,
-								"group" => "Typography"
-							),
+			                    "type" => "ultimate_responsive",
+			                    "class" => "",
+			                    "heading" => __("Font size", 'ultimate_vc'),
+			                    "param_name" => "title_font_size",
+			                    "unit" => "px",
+			                    "media" => array(
+			                        "Desktop" => '',
+			                        "Tablet" => '',
+			                        "Tablet Portrait" => '',
+			                        "Mobile Landscape" => '',
+			                        "Mobile" => '',
+			                    ),
+			                    "group" => "Typography",
+			                ),
 							array(
-								"type" => "number",
-								"param_name" => "title_font_line_height",
-								"heading" => __("Font Line Height","ultimate_vc"),
-								"value" => "",
-								"suffix" => "px",
-								"min" => 10,
-								"group" => "Typography"
-							),
+			                    "type" => "ultimate_responsive",
+			                    "class" => "",
+			                    "heading" => __("Line Height", 'ultimate_vc'),
+			                    "param_name" => "title_font_line_height",
+			                    "unit" => "px",
+			                    "media" => array(
+			                        "Desktop" => '',
+			                        "Tablet" => '',
+			                        "Tablet Portrait" => '',
+			                        "Mobile Landscape" => '',
+			                        "Mobile" => '',
+			                    ),
+			                    "group" => "Typography",
+				            ),
 							array(
 								"type" => "colorpicker",
 								"param_name" => "title_font_color",
@@ -662,24 +725,54 @@ if(!class_exists('AIO_Icons_Box'))
 								"value" => "",
 								"group" => "Typography"
 							),
+							// array(
+							// 	"type" => "number",
+							// 	"param_name" => "desc_font_size",
+							// 	"heading" => __("Font size","ultimate_vc"),
+							// 	"value" => "",
+							// 	"suffix" => "px",
+							// 	"min" => 10,
+							// 	"group" => "Typography"
+							// ),
+							// array(
+							// 	"type" => "number",
+							// 	"param_name" => "desc_font_line_height",
+							// 	"heading" => __("Font Line Height","ultimate_vc"),
+							// 	"value" => "",
+							// 	"suffix" => "px",
+							// 	"min" => 10,
+							// 	"group" => "Typography"
+							// ),
 							array(
-								"type" => "number",
-								"param_name" => "desc_font_size",
-								"heading" => __("Font size","ultimate_vc"),
-								"value" => "",
-								"suffix" => "px",
-								"min" => 10,
-								"group" => "Typography"
-							),
-							array(
-								"type" => "number",
-								"param_name" => "desc_font_line_height",
-								"heading" => __("Font Line Height","ultimate_vc"),
-								"value" => "",
-								"suffix" => "px",
-								"min" => 10,
-								"group" => "Typography"
-							),
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Font size", 'ultimate_vc'),
+                                "param_name" => "desc_font_size",
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
+                            array(
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Line Height", 'ultimate_vc'),
+                                "param_name" => "desc_font_line_height",
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
 							array(
 								"type" => "colorpicker",
 								"param_name" => "desc_font_color",

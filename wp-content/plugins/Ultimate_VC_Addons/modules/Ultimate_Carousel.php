@@ -5,7 +5,7 @@ Module URI: https://www.brainstormforce.com/demos/ultimate-carousel
 */
 if(!class_exists("Ultimate_Carousel")){
 	class Ultimate_Carousel{
-		
+
 		function __construct(){
 			add_action("init", array($this, "init_carousel_addon"));
 			add_shortcode("ultimate_carousel", array($this, "ultimate_carousel_shortcode"));
@@ -27,7 +27,7 @@ if(!class_exists("Ultimate_Carousel")){
 					}
 				</style>';
 		}
-		
+
 		function ultimate_front_scripts(){
 			$bsf_dev_mode = bsf_get_option('dev_mode');
 			if($bsf_dev_mode === 'enable') {
@@ -46,13 +46,13 @@ if(!class_exists("Ultimate_Carousel")){
 			wp_register_style("ult-slick",plugins_url($css_path."slick".$ext.".css",__FILE__),array(),ULTIMATE_VERSION,false);
 			wp_register_style("ult-icons",plugins_url("../assets/css/icons.css",__FILE__),array(),ULTIMATE_VERSION,false);
 		}
-		
+
 		function ultimate_admin_scripts($hook){
 			if($hook == "post.php" || $hook == "post-new.php"){
 				wp_enqueue_style("ult-icons", plugins_url("../assets/css/icons.css",__FILE__));
 			}
 		}
-				
+
 		function init_carousel_addon(){
 			if(function_exists("vc_map")){
 				vc_map(
@@ -80,7 +80,7 @@ if(!class_exists("Ultimate_Carousel")){
 										"Vertical" => "vertical",
 										"Horizontal Full Width" => "full_width"
 									),
-								//"description" => __("","smile"),								
+								//"description" => __("","smile"),
 								"group"=> "General",
 						  	),
 							array(
@@ -89,7 +89,7 @@ if(!class_exists("Ultimate_Carousel")){
 								"heading" => __("Slides to Scroll","ultimate_vc"),
 								"param_name" => "slide_to_scroll",
 								"value" => array("All visible" => "all", "One at a Time" => "single"),
-								//"description" => __("","smile"),								
+								//"description" => __("","smile"),
 								"group"=> "General",
 						  	),
 							array(
@@ -370,7 +370,7 @@ if(!class_exists("Ultimate_Carousel")){
 								"dependency" => Array("element" => "arrows", "value" => array("show")),
 								"group"=> "Navigation",
 							),
-							
+
 							/*
 							array(
 								"type" => "checkbox",
@@ -638,9 +638,9 @@ if(!class_exists("Ultimate_Carousel")){
 				); // vc_map
 			}
 		}
-		
+
 		function ultimate_carousel_shortcode($atts, $content){
-			
+
 			$slider_type = $slides_on_desk = $slides_on_tabs = $slides_on_mob = $slide_to_scroll = $speed = $infinite_loop = $autoplay = $autoplay_speed = '';
 			$lazyload = $arrows = $dots = $dots_icon = $next_icon = $prev_icon = $dots_color = $draggable = $swipe = $touch_move = '';
 			$rtl = $arrow_color = $arrow_size = $arrow_style = $arrow_bg_color = $arrow_border_color = $border_size = $item_space = $el_class = '';
@@ -677,24 +677,24 @@ if(!class_exists("Ultimate_Carousel")){
 				"item_animation" => "",
 				"adaptive_height" => "",
 			),$atts));
-			
-			
+
+
 			$uid = uniqid(rand());
-			
+
 			$settings = $responsive = $infinite = $dot_display = $custom_dots = $arr_style = $wrap_data = '';
-			
+
 			if($slide_to_scroll == "all")
 				$slide_to_scroll = $slides_on_desk;
 			else
 				$slide_to_scroll = 1;
-			
+
 			$arr_style .= 'color:'.$arrow_color.'; font-size:'.$arrow_size.'px;';
 			if($arrow_style == "circle-bg" || $arrow_style == "square-bg"){
 				$arr_style .= "background:".$arrow_bg_color.";";
 			} elseif($arrow_style == "circle-border" || $arrow_style == "square-border"){
 				$arr_style .= "border:".$border_size."px solid ".$arrow_border_color.";";
 			}
-			
+
 			if($dots !== "off" && $dots !== "")
 				$settings .= 'dots: true,';
 			else
@@ -718,7 +718,7 @@ if(!class_exists("Ultimate_Carousel")){
 			} else {
 				$settings .= 'arrows: false,';
 			}
-			
+
 			if($slide_to_scroll !== '')
 				$settings .= 'slidesToScroll:'.$slide_to_scroll.',';
 			if($slides_on_desk !== '')
@@ -734,7 +734,7 @@ if(!class_exists("Ultimate_Carousel")){
 				$settings .= 'swipe: false,';
 				$settings .= 'draggable: false,';
 			}
-			
+
 			if($touch_move !== "off" && $touch_move !== "")
 				$settings .= 'touchMove: true,';
 			else
@@ -744,23 +744,23 @@ if(!class_exists("Ultimate_Carousel")){
 				$settings .= 'rtl: true,';
 				$wrap_data = 'dir="rtl"';
 			}
-			
+
 			if($slider_type == "vertical"){
 				$settings .= 'vertical: true,';
 			}
-			
+
 			$site_rtl = 'false';
 			if(is_rtl())
 				$site_rtl = 'true';
 			if($site_rtl === 'false' || $site_rtl === false) {
 				$ultimate_rtl_support = get_option('ultimate_rtl_support');
-				if($ultimate_rtl_support == 'enable') 
+				if($ultimate_rtl_support == 'enable')
 					$site_rtl = 'true';
 			}
-			
+
 			if($adaptive_height === 'on')
 				$settings .= 'adaptiveHeight: true,';
-			
+
 			$settings .= 'responsive: [
 							{
 							  breakpoint: 1025,
@@ -793,7 +793,7 @@ if(!class_exists("Ultimate_Carousel")){
                    return \'<i type="button" '.$custom_dots.' class="'.$dots_icon.'" data-role="none"></i>\';
                 },';
 			}
-			
+
 			if($item_animation == ''){
 				$item_animation = 'no-animation';
 			}

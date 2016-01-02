@@ -15,18 +15,18 @@
 
 				<?php endforeach; ?>
 
-				<optgroup label="Advanced">
+				<optgroup label="Advanced Query">
 					<option value="sql"><?php _e("SQL Query", "wp_all_export_plugin"); ?></option>					
 				</optgroup>										
 
 			</select>																													
 		</div>																											
 	
-		<!--div class="input">
+		<div class="input">
 			<label style="padding:4px; display: block;"><?php _e('What would you like to name the column/element in your exported file?','wp_all_export_plugin');?></label>
 			<div class="clear"></div>
 			<input type="text" class="column_name" value="" style="width:50%"/>
-		</div-->
+		</div>
 		<input type="hidden" class="column_name" value=""/>
 		<input type="hidden" name="export_data_type" value="shop_order"/>
 		

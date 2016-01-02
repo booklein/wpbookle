@@ -6,7 +6,9 @@
 
 if ( defined('WPB_VC_VERSION') ) {
 
-	wpb_map( 
+    $sliders_list =
+
+	vc_map(
 	    array(
 			'name' 			=> __( 'Master Slider', MSWP_TEXT_DOMAIN ),
 			'base' 			=> 'masterslider_pb',
@@ -15,7 +17,7 @@ if ( defined('WPB_VC_VERSION') ) {
 			'icon' 			=> 'icon-vc-msslider-el',
 			'category' 		=> __( 'Content', MSWP_TEXT_DOMAIN ),
 			'description' 	=> __( 'Add Master Slider', MSWP_TEXT_DOMAIN ),
-			
+
 			'params' => array(
 				array(
 			    	'type' 			=> 'textfield',
@@ -27,8 +29,8 @@ if ( defined('WPB_VC_VERSION') ) {
 			    array(
 			    	'type' 			=> 'dropdown',
 			    	'heading' 		=> __('Master Slider', MSWP_TEXT_DOMAIN ),
-			    	'param_name' 	=> 'id',
-			    	'value' 		=> get_masterslider_names( false ),
+			    	'param_name' 	=> 'alias',
+			    	'value' 		=> array_merge( array( __('Select slider') => '' ), get_masterslider_names( 'title-alias' ) ), // default value "select" added since VC 4.7
 			    	'description' 	=> __( 'Select slider from list', MSWP_TEXT_DOMAIN )
 			    ),
 			    array(

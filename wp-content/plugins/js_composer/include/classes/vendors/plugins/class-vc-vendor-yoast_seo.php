@@ -1,10 +1,13 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
+}
 
 /**
  * Class Vc_Vendor_YoastSeo
  * @since 4.4
  */
-Class Vc_Vendor_YoastSeo implements Vc_Vendor_Interface {
+class Vc_Vendor_YoastSeo implements Vc_Vendor_Interface {
 
 	/**
 	 * Created to improve yoast multiply calling wpseo_pre_analysis_post_content filter.
@@ -13,13 +16,23 @@ Class Vc_Vendor_YoastSeo implements Vc_Vendor_Interface {
 	 */
 	protected $parsedContent;
 
+	function __construct() {
+		add_action( 'vc_backend_editor_render', array(
+			&$this,
+			'enqueueJs',
+		) );
+	}
+
 	/**
 	 * Add filter for yoast.
 	 * @since 4.4
 	 */
 	public function load() {
 		if ( class_exists( 'WPSEO_Metabox' ) && ( 'admin_page' === vc_mode() || 'admin_frontend_editor' === vc_mode() ) ) {
-			add_filter( 'wpseo_pre_analysis_post_content', array( &$this, 'filterResults' ) );
+			add_filter( 'wpseo_pre_analysis_post_content', array(
+				&$this,
+				'filterResults',
+			) );
 		}
 	}
 
@@ -45,5 +58,27 @@ Class Vc_Vendor_YoastSeo implements Vc_Vendor_Interface {
 		}
 
 		return $this->parsedContent;
+	}
+
+	/**
+	 * @since 4.4
+	 */
+	public function enqueueJs() {
+		wp_enqueue_script( 'vc_vendor_yoast_js', vc_asset_url( 'js/vendors/yoast.js' ), array( 'yoast-seo' ), WPB_VC_VERSION, true );
+	}
+
+	public function frontendEditorBuild() {
+		$vc_yoast_meta_box = $GLOBALS['wpseo_metabox'];
+		remove_action( 'admin_init', array( $GLOBALS['wpseo_meta_columns'], 'setup_hooks' ) );
+		apply_filters( 'wpseo_use_page_analysis', false );
+		remove_action( 'add_meta_boxes', array($vc_yoast_meta_box, 'add_meta_box' ) );
+		remove_action( 'admin_enqueue_scripts', array( $vc_yoast_meta_box, 'enqueue' ) );
+		remove_action( 'wp_insert_post', array( $vc_yoast_meta_box, 'save_postdata' ) );
+		remove_action( 'edit_attachment', array( $vc_yoast_meta_box, 'save_postdata' ) );
+		remove_action( 'add_attachment', array( $vc_yoast_meta_box, 'save_postdata' ) );
+		remove_action( 'post_submitbox_start', array( $vc_yoast_meta_box, 'publish_box' ) );
+		remove_action( 'admin_init', array( $vc_yoast_meta_box, 'setup_page_analysis' ) );
+		remove_action( 'admin_init', array( $vc_yoast_meta_box, 'translate_meta_boxes' ) );
+		remove_action( 'admin_footer', array( $vc_yoast_meta_box, 'template_keyword_tab' ) );
 	}
 }

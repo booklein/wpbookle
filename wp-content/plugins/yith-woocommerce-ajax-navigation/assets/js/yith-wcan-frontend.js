@@ -94,10 +94,13 @@ jQuery(function ($) {
         if (2 == arguments.length)return arrVer.apply(this, arguments)
     };
 
+    var ajax_call = false;
+
     $.fn.yith_wcan_ajax_filters = function (e, obj) {
         e.preventDefault();
-        var href = obj.href,
-            t = $(obj);
+        var href     = obj.href,
+            t        = $(obj),
+            is_reset = t.hasClass("yith-wcan-reset-navigation");
 
         if (typeof href == 'undefined' && t.parents().hasClass('price_slider_wrapper')) {
             var form = t.parents('form'),
@@ -150,9 +153,15 @@ jQuery(function ($) {
         $(yith_wcan.pagination).hide();
         $(yith_wcan.result_count).hide();
 
-        $.ajax({
+        if( ajax_call != false ){
+            ajax_call.abort();
+            ajax_call = false;
+        }
+
+        ajax_call = $.ajax({
             url    : href,
             success: function (response) {
+                ajax_call = false;
                 $(yith_wcan.container).removeClass('yith-wcan-loading');
 
                 //container
@@ -209,6 +218,13 @@ jQuery(function ($) {
                 //trigger ready event
                 $(document).trigger("ready");
                 $(document).trigger("yith-wcan-ajax-filtered");
+                if( is_reset ){
+                    var min_price = parseInt( $( yith_wcan.wc_price_slider.min_price ).data( 'min' ) ),
+                        max_price = parseInt( $( yith_wcan.wc_price_slider.max_price ).data( 'max' ) );
+                    $( yith_wcan.wc_price_slider.wrapper ).slider( 'values', [ min_price, max_price ] );
+                    $( document.body ).trigger( 'price_slider_slide', [ min_price, max_price ] );
+                    $(document).trigger("yith-wcan-ajax-reset-filtered");
+                }
             }
         });
     };

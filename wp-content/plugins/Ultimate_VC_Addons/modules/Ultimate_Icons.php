@@ -2,7 +2,7 @@
 /*
 * Add-on Name: Icons Block for Visual Composer
 */
-if(!class_exists('Ultimate_Icons')) 
+if(!class_exists('Ultimate_Icons'))
 {
 	class Ultimate_Icons
 	{
@@ -29,7 +29,7 @@ if(!class_exists('Ultimate_Icons'))
 						"show_settings_on_create" => true,
 						//"is_container"    => true,
 						"js_view" => 'VcColumnView',
-						"params" => array(							
+						"params" => array(
 							// Play with icon selector
 							array(
 								"type" => "dropdown",
@@ -37,8 +37,8 @@ if(!class_exists('Ultimate_Icons'))
 								"heading" => __("Alignment","ultimate_vc"),
 								"param_name" => "align",
 								"value" => array(
-									__("Left Align","ultimate_vc") => "uavc-icons-left", 
-									__("Right Align","ultimate_vc") => "uavc-icons-right", 
+									__("Left Align","ultimate_vc") => "uavc-icons-left",
+									__("Right Align","ultimate_vc") => "uavc-icons-right",
 									__("Center Align","ultimate_vc") => "uavc-icons-center"
 								),
 								//"description" => __("", "smile"),
@@ -65,7 +65,7 @@ if(!class_exists('Ultimate_Icons'))
 					   "as_child" => array('only' => 'ultimate_icons'), // Use only|except attributes to limit child shortcodes (separate multiple values with comma)
 					   "show_settings_on_create" => true,
 					   "is_container"    => false,
-					   "params" => array(							
+					   "params" => array(
 							// Play with icon selector
 							array(
 								"type" => "icon_manager",
@@ -74,7 +74,7 @@ if(!class_exists('Ultimate_Icons'))
 								"param_name" => "icon",
 								"value" => "",
 								"admin_label" => true,
-								"description" => __("Click and select icon of your choice. If you can't find the one that suits for your purpose","ultimate_vc").", ".__("you can","ultimate_vc")." <a href='admin.php?page=font-icon-Manager' target='_blank'>".__("add new here","ultimate_vc")."</a>.",
+								"description" => __("Click and select icon of your choice. If you can't find the one that suits for your purpose","ultimate_vc").", ".__("you can","ultimate_vc")." <a href='admin.php?page=bsf-font-icon-manager' target='_blank'>".__("add new here","ultimate_vc")."</a>.",
 								"group"=> "Select Icon",
 							),
 							array(
@@ -130,7 +130,7 @@ if(!class_exists('Ultimate_Icons'))
 								"heading" => __("Background Color", "ultimate_vc"),
 								"param_name" => "icon_color_bg",
 								"value" => "#ffffff",
-								"description" => __("Select background color for icon.", "ultimate_vc"),	
+								"description" => __("Select background color for icon.", "ultimate_vc"),
 								"dependency" => Array("element" => "icon_style", "value" => array("circle","square","advanced")),
 								"group" => "Select Icon"
 							),
@@ -158,7 +158,7 @@ if(!class_exists('Ultimate_Icons'))
 								"heading" => __("Border Color", "ultimate_vc"),
 								"param_name" => "icon_color_border",
 								"value" => "#333333",
-								"description" => __("Select border color for icon.", "ultimate_vc"),	
+								"description" => __("Select border color for icon.", "ultimate_vc"),
 								"dependency" => Array("element" => "icon_border_style", "not_empty" => true),
 								"group" => "Select Icon"
 							),
@@ -257,7 +257,7 @@ if(!class_exists('Ultimate_Icons'))
 								),
 								"description" => __("Select the tooltip position","ultimate_vc"),
 								"group" => "Other Settings"
-							),							
+							),
 							array(
 								"type" => "textfield",
 								"class" => "",
@@ -290,24 +290,24 @@ if(!class_exists('Ultimate_Icons'))
 				'align' => '',
 				'el_class' => ''
 			),$atts));
-			
+
 			$output = '<div class="'.$align.' uavc-icons '.$el_class.'">';
 			$output .= do_shortcode($content);
 			$output .= '</div>';
-			
+
 			return $output;
 		}
-		
+
 		function single_icon_shortcode($atts){
-			
+
 			$icon_type = $icon_img = $img_width = $icon = $icon_color = $icon_color_bg = $icon_size = $icon_style = $icon_border_style = $icon_border_radius = $icon_color_border = $icon_border_size = $icon_border_spacing = $icon_link = $el_class = $icon_animation =  $tooltip_disp = $tooltip_text = $icon_margin = '';
 			extract(shortcode_atts( array(
-				'icon'=> '',				
-				'icon_size' => '',				
+				'icon'=> '',
+				'icon_size' => '',
 				'icon_color' => '',
 				'icon_style' => '',
 				'icon_color_bg' => '',
-				'icon_color_border' => '',			
+				'icon_color_border' => '',
 				'icon_border_style' => '',
 				'icon_border_size' => '',
 				'icon_border_radius' => '',
@@ -322,7 +322,7 @@ if(!class_exists('Ultimate_Icons'))
 			$ultimate_js = get_option('ultimate_js');
 			if(isset($tooltip_disp) && $tooltip_disp != '' && $ultimate_js != 'enable')
 				wp_enqueue_script('ultimate-tooltip');
-				
+
 			if($icon_animation !== 'none')
 			{
 				$css_trans = 'data-animation="'.$icon_animation.'" data-animation-delay="03"';
@@ -340,7 +340,7 @@ if(!class_exists('Ultimate_Icons'))
 					$link_sufix .= '</span>';
 				}
 			}
-						
+
 			if($icon_color !== '')
 				$style .= 'color:'.$icon_color.';';
 			if($icon_style !== 'none'){
@@ -358,13 +358,13 @@ if(!class_exists('Ultimate_Icons'))
 			}
 			if($icon_size !== '')
 				$style .='font-size:'.$icon_size.'px;';
-			
+
 			if($icon_margin !== '')
 				$style .= 'margin-right:'.$icon_margin.'px;';
-			
+
 			if($icon !== ""){
-				$output .= "\n".$link_prefix.'<div class="aio-icon '.$icon_style.' '.$el_class.'" '.$css_trans.' style="'.$style.'">';				
-				$output .= "\n\t".'<i class="'.$icon.'"></i>';	
+				$output .= "\n".$link_prefix.'<div class="aio-icon '.$icon_style.' '.$el_class.'" '.$css_trans.' style="'.$style.'">';
+				$output .= "\n\t".'<i class="'.$icon.'"></i>';
 				$output .= "\n".'</div>'.$link_sufix;
 			}
 			//$output .= do_shortcode($content);
@@ -374,7 +374,7 @@ if(!class_exists('Ultimate_Icons'))
 						jQuery(".'.$uniqid.'").bsf_tooltip("hide");
 					})
 				</script>';
-			}			
+			}
 			return $output;
 		}
 	}

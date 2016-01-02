@@ -1,6 +1,6 @@
 <?php
 
-function pmxe_export_acf_field_csv($field_value, $exportOptions, $ID, $recordID, &$article, &$acfs, $element_name = '', $fieldSnipped = '', $group_id = '', $preview = false){	
+function pmxe_export_acf_field_csv($field_value, $exportOptions, $ID, $recordID, &$article, &$acfs, $element_name = '', $fieldSnipped = '', $group_id = '', $preview = false, $parent_field_name = '', $return_value = false){	
 
 	$put_to_csv = true;	
 
@@ -9,6 +9,8 @@ function pmxe_export_acf_field_csv($field_value, $exportOptions, $ID, $recordID,
 	$field_options = ($ID) ? unserialize($exportOptions['cc_options'][$ID]) : $exportOptions;
 
 	if ( ! empty($field_value) ) {		
+
+		global $acf;
 
 		$field_value = maybe_unserialize($field_value);																					
 
@@ -230,6 +232,11 @@ function pmxe_export_acf_field_csv($field_value, $exportOptions, $ID, $recordID,
 
 				if( have_rows($field_name, $recordID) ){
 
+					$repeater_element_name = empty($ID) ? $parent_field_name : $element_name;
+
+				    if ( ! empty($ID)) 
+				    	$acfs[$repeater_element_name] = array();
+
 					$rowValues = array();
  										
 				    while( have_rows($field_name, $recordID) ): the_row(); 					
@@ -238,20 +245,53 @@ function pmxe_export_acf_field_csv($field_value, $exportOptions, $ID, $recordID,
 
 				    	foreach ($row['field']['sub_fields'] as $sub_field) {				    					    		
 
-				    		// get
-							$v = $row['value'][ $row['i'] ][ $sub_field['key'] ];//acf_format_value($row['value'][ $row['i'] ][ $sub_field['key'] ], $row['post_id'], $sub_field);
-
-				    		$rowValues[$sub_field['name']][] = $v;				    		
+				    		if ($acf and version_compare($acf->settings['version'], '5.0.0') >= 0)
+				    		{
+				    			// get
+								$v = $row['value'][ $row['i'] ][ $sub_field['key'] ];//acf_format_value($row['value'][ $row['i'] ][ $sub_field['key'] ], $row['post_id'], $sub_field);				    					    		
+				    		}
+				    		else
+				    		{
+				    			$v = get_sub_field($sub_field['name']);
+				    		}				    						    		
 							
-							//pmxe_export_acf_field_csv($v, $sub_field, false, $recordID, $article, $acfs, str_replace('acf' . $group_id, '', $element_name) . '_' . $sub_field['name'], '');													
+							$sub_field['delimiter'] = $exportOptions['delimiter'];
+
+				    		switch ($sub_field['type']) {
+				    			case 'repeater':				    				
+									pmxe_export_acf_field_csv($v, $sub_field, false, $recordID, $article, $acfs, str_replace('acf' . $group_id, '', $element_name) . '_' . $sub_field['name'], '', '', false, $element_name);													
+				    				break;
+				    			case 'google_map':
+								case 'paypal_item':		
+								case 'location-field':
+					    			$rowValues[$sub_field['name']][] = (is_array($v)) ? implode($exportOptions['delimiter'], $v) : $v;	
+				    				break;
+
+				    			default:
+
+				    				$sub_field_value = pmxe_export_acf_field_csv($v, $sub_field, false, $recordID, $article, $acfs, str_replace('acf' . $group_id, '', $element_name) . '_' . $sub_field['name'], '', '', false, $element_name, true);													
+
+				    				$rowValues[$sub_field['name']][] = (is_array($sub_field_value)) ? implode($exportOptions['delimiter'], $sub_field_value) : $sub_field_value;	
+				    				break;
+				    		}
+
+							// if ($sub_field['type'] == 'repeater')
+							// {
+							// 	$sub_field['delimiter'] = $exportOptions['delimiter'];
+							// 	pmxe_export_acf_field_csv($v, $sub_field, false, $recordID, $article, $acfs, str_replace('acf' . $group_id, '', $element_name) . '_' . $sub_field['name'], '', '', false, $element_name);													
+							// }		
+							// else
+							// {
+							// 	$rowValues[$sub_field['name']][] = (is_array($v)) ? implode($exportOptions['delimiter'], $v) : $v;	
+							// }					
 
 				    	}				    				    					       				    					    	
 				        				        				        				        				    
-				    endwhile;			
+				    endwhile;	
 
 				    foreach ($rowValues as $key => $values) {
-				    	$article[$element_name . '_' . $key] =  ($preview) ? trim(preg_replace('~[\r\n]+~', ' ', htmlspecialchars(implode($implode_delimiter, $values)))) : implode($implode_delimiter, $values);				    	
-				    	if ( ! in_array($element_name . '_' . $key, $acfs)) $acfs[] = $element_name . '_' . $key;				    	
+				    	$article[$element_name . '_' . $key] =  ($preview) ? trim(preg_replace('~[\r\n]+~', ' ', htmlspecialchars(implode($exportOptions['delimiter'], $values)))) : implode($exportOptions['delimiter'], $values);				    	
+				    	if ( ! in_array($element_name . '_' . $key, $acfs[$repeater_element_name])) $acfs[$repeater_element_name][] = $element_name . '_' . $key;
 				    }					    
 				 
 				}							
@@ -308,6 +348,8 @@ function pmxe_export_acf_field_csv($field_value, $exportOptions, $ID, $recordID,
 		}
 			
 	}
+
+	if ($return_value) return $field_value;
 
 	if ($put_to_csv){
 

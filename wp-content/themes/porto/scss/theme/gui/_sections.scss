@@ -143,7 +143,33 @@ section,
     }
 }
 
-/* Responsive */
-@media (max-width: 991px) {
+.col-half-section {
+    width: 100%;
+    min-height: 1px;
+    padding-left: ($grid-gutter-width / 2);
+    padding-right: ($grid-gutter-width / 2);
+    position: relative;
+    max-width: ($container-large-desktop / 2) - $grid-gutter-width;
+    float: left;
+    margin-#{$left}: 0;
+    margin-#{$right}: 0;
+    &.col-half-section-right {
+        float: $right;
+    }
+}
 
+@media #{$screen-large} {
+    .col-half-section {
+        max-width: (960px / 2) - $grid-gutter-width;
+    }
+}
+
+@media #{$screen-normal} {
+    .col-half-section {
+        max-width: 100%;
+        float: none !important;
+        margin: 0 auto !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
 }

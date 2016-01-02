@@ -12,7 +12,7 @@
  *
  * Extra Params
  * @var $disabled
- * @var label
+ * @var $label
  *
  * Shortcode class
  * @var $this WPBakeryShortCode_VC_Button

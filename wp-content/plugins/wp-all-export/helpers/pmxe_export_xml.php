@@ -1,15 +1,51 @@
 <?php
-/**
-*	Export XML helper
-*/
-function pmxe_export_xml($exportQuery, $exportOptions, $preview = false, $is_cron = false, $file_path = false){
+// Export XML helper
+function pmxe_export_xml($exportQuery, $exportOptions, $preview = false, $is_cron = false, $file_path = false, $exported_by_cron = 0){	
+
+	require_once PMXE_ROOT_DIR . '/classes/XMLWriter.php';
 	
-	$xmlWriter = new XMLWriter();
+	$xmlWriter = new PMXE_XMLWriter();
 	$xmlWriter->openMemory();
 	$xmlWriter->setIndent(true);
 	$xmlWriter->setIndentString("\t");
 	$xmlWriter->startDocument('1.0', $exportOptions['encoding']);
-	$xmlWriter->startElement('data');	
+	$xmlWriter->startElement($exportOptions['main_xml_tag']);	
+
+	if ($is_cron)
+	{							
+		if ( ! $exported_by_cron )
+		{
+			$additional_data = apply_filters('wp_all_export_additional_data', array(), $exportOptions);
+
+			if ( ! empty($additional_data))
+			{
+				foreach ($additional_data as $key => $value) 
+				{
+					$xmlWriter->startElement(preg_replace('/[^a-z0-9_-]/i', '', $key));
+						$xmlWriter->writeCData($value);
+					$xmlWriter->endElement();		
+				}
+			}
+		}					
+	}
+	else
+	{
+
+		if ( empty(PMXE_Plugin::$session->file) ){
+
+			$additional_data = apply_filters('wp_all_export_additional_data', array(), $exportOptions);
+
+			if ( ! empty($additional_data))
+			{
+				foreach ($additional_data as $key => $value) 
+				{
+					$xmlWriter->startElement(preg_replace('/[^a-z0-9_-]/i', '', $key));
+						$xmlWriter->writeCData($value);
+					$xmlWriter->endElement();		
+				}
+			}
+		}			
+	}
 	
 	global $wpdb;
 
@@ -17,7 +53,7 @@ function pmxe_export_xml($exportQuery, $exportOptions, $preview = false, $is_cro
 
 		$exportQuery->the_post(); $record = get_post( get_the_ID() );		
 
-		$xmlWriter->startElement('post');			
+		$xmlWriter->startElement($exportOptions['record_xml_tag']);			
 
 			if ($exportOptions['ids']):		
 
@@ -34,7 +70,7 @@ function pmxe_export_xml($exportQuery, $exportOptions, $preview = false, $is_cro
 							'post_id' => $record->ID,
 							'import_id' => $exportOptions['import_id'],
 							'unique_key' => $record->ID,
-							'product_key' => get_post_meta($record->ID, '_sku', true)						
+							'product_key' => $record->ID					
 						))->save();
 					}
 					unset($postRecord);
@@ -46,33 +82,41 @@ function pmxe_export_xml($exportQuery, $exportOptions, $preview = false, $is_cro
 
 						if (empty($exportOptions['cc_name'][$ID]) or empty($exportOptions['cc_type'][$ID])) continue;
 						
-						$element_name = ( ! empty($exportOptions['cc_name'][$ID]) ) ? preg_replace('/[^a-z0-9_-]/i', '', $exportOptions['cc_name'][$ID]) : 'untitled_' . $ID;				
+						$element_name_ns = '';
+						$element_name = ( ! empty($exportOptions['cc_name'][$ID]) ) ? preg_replace('/[^a-z0-9_:-]/i', '', $exportOptions['cc_name'][$ID]) : 'untitled_' . $ID;				
 						$fieldSnipped = ( ! empty($exportOptions['cc_php'][$ID]) and ! empty($exportOptions['cc_code'][$ID]) ) ? $exportOptions['cc_code'][$ID] : false;
+
+						if (strpos($element_name, ":") !== false)
+						{
+							$element_name_parts = explode(":", $element_name);
+							$element_name_ns = (empty($element_name_parts[0])) ? '' : $element_name_parts[0];
+							$element_name = (empty($element_name_parts[1])) ? 'untitled_' . $ID : preg_replace('/[^a-z0-9_-]/i', '', $element_name_parts[1]);							
+						}
 
 						switch ($exportOptions['cc_type'][$ID]) {
 							case 'id':
-								$xmlWriter->writeElement($element_name, apply_filters('pmxe_post_id', pmxe_filter(get_the_ID(), $fieldSnipped), get_the_ID()));			
+								$xmlWriter->putElement($element_name_ns, $element_name, null, apply_filters('pmxe_post_id', pmxe_filter(get_the_ID(), $fieldSnipped), get_the_ID()));			
 								break;
 							case 'permalink':
-								$xmlWriter->writeElement($element_name, apply_filters('pmxe_post_guid', pmxe_filter(get_permalink(), $fieldSnipped), get_the_ID()));
+								$xmlWriter->putElement($element_name_ns, $element_name, null, apply_filters('pmxe_post_guid', pmxe_filter(get_permalink(), $fieldSnipped), get_the_ID()));
 								break;
 							case 'post_type':
 								$pType = get_post_type();
 								if ($pType == 'product_variation') $pType = 'product';
-								$xmlWriter->writeElement($element_name, apply_filters('pmxe_post_type', pmxe_filter($pType, $fieldSnipped), get_the_ID()));											
+								$xmlWriter->putElement($element_name_ns, $element_name, null, apply_filters('pmxe_post_type', pmxe_filter($pType, $fieldSnipped), get_the_ID()));											
 								break;							
 							case 'title':								
-								$xmlWriter->startElement($element_name);
+								$xmlWriter->beginElement($element_name_ns, $element_name, null);
 									$xmlWriter->writeCData(apply_filters('pmxe_post_title', pmxe_filter($record->post_title, $fieldSnipped) , get_the_ID()));
 								$xmlWriter->endElement();								
 								break;
 							case 'content':
-								$xmlWriter->startElement($element_name);
+								$xmlWriter->beginElement($element_name_ns, $element_name, null);
 									$xmlWriter->writeCData(apply_filters('pmxe_post_content', pmxe_filter($record->post_content, $fieldSnipped), get_the_ID()));
 								$xmlWriter->endElement();
 								break;
 							case 'media':
-								$xmlWriter->startElement($element_name);
+								$xmlWriter->beginElement($element_name_ns, $element_name, null);
 									
 									$attachment_ids = array();
 
@@ -162,11 +206,11 @@ function pmxe_export_xml($exportQuery, $exportOptions, $preview = false, $is_cro
 								else{
 									$post_date = date("Ymd", get_post_time('U', true));
 								}
-								$xmlWriter->writeElement($element_name, apply_filters('pmxe_post_date', pmxe_filter($post_date, $fieldSnipped), get_the_ID()));
+								$xmlWriter->putElement($element_name_ns, $element_name, null, apply_filters('pmxe_post_date', pmxe_filter($post_date, $fieldSnipped), get_the_ID()));
 								break;
 
 							case 'attachments':
-								$xmlWriter->startElement($element_name);
+								$xmlWriter->beginElement($element_name_ns, $element_name, null);
 									$attachment_imgs = get_posts( array(
 										'post_type' => 'attachment',
 										'posts_per_page' => -1,
@@ -188,43 +232,43 @@ function pmxe_export_xml($exportQuery, $exportOptions, $preview = false, $is_cro
 								break;
 
 							case 'parent':
-								$xmlWriter->writeElement($element_name, apply_filters('pmxe_post_parent', pmxe_filter($record->post_parent, $fieldSnipped), get_the_ID()));
+								$xmlWriter->putElement($element_name_ns, $element_name, null, apply_filters('pmxe_post_parent', pmxe_filter($record->post_parent, $fieldSnipped), get_the_ID()));
 								break;
 
 							case 'comment_status':
-								$xmlWriter->writeElement($element_name, apply_filters('pmxe_comment_status', pmxe_filter($record->comment_status, $fieldSnipped), get_the_ID()));
+								$xmlWriter->putElement($element_name_ns, $element_name, null, apply_filters('pmxe_comment_status', pmxe_filter($record->comment_status, $fieldSnipped), get_the_ID()));
 								break;
 
 							case 'ping_status':
-								$xmlWriter->writeElement($element_name, apply_filters('pmxe_ping_status', pmxe_filter($record->ping_status, $fieldSnipped), get_the_ID()));
+								$xmlWriter->putElement($element_name_ns, $element_name, null, apply_filters('pmxe_ping_status', pmxe_filter($record->ping_status, $fieldSnipped), get_the_ID()));
 								break;
 
 							case 'template':
-								$xmlWriter->writeElement($element_name, apply_filters('pmxe_post_template', pmxe_filter(get_post_meta($record->ID, '_wp_page_template', true), $fieldSnipped), get_the_ID()));
+								$xmlWriter->putElement($element_name_ns, $element_name, null, apply_filters('pmxe_post_template', pmxe_filter(get_post_meta($record->ID, '_wp_page_template', true), $fieldSnipped), get_the_ID()));
 								break;
 
 							case 'order':
-								$xmlWriter->writeElement($element_name, apply_filters('pmxe_menu_order', pmxe_filter($record->menu_order, $fieldSnipped), get_the_ID()));
+								$xmlWriter->putElement($element_name_ns, $element_name, null, apply_filters('pmxe_menu_order', pmxe_filter($record->menu_order, $fieldSnipped), get_the_ID()));
 								break;
 
 							case 'status':
-								$xmlWriter->writeElement($element_name, apply_filters('pmxe_post_status', pmxe_filter($record->post_status, $fieldSnipped), get_the_ID()));
+								$xmlWriter->putElement($element_name_ns, $element_name, null, apply_filters('pmxe_post_status', pmxe_filter($record->post_status, $fieldSnipped), get_the_ID()));
 								break;
 
 							case 'format':
-								$xmlWriter->writeElement($element_name, apply_filters('pmxe_post_format', pmxe_filter(get_post_format($record->ID), $fieldSnipped), get_the_ID()));
+								$xmlWriter->putElement($element_name_ns, $element_name, null, apply_filters('pmxe_post_format', pmxe_filter(get_post_format($record->ID), $fieldSnipped), get_the_ID()));
 								break;
 
 							case 'author':
-								$xmlWriter->writeElement($element_name, apply_filters('pmxe_post_author', pmxe_filter($record->post_author, $fieldSnipped), get_the_ID()));
+								$xmlWriter->putElement($element_name_ns, $element_name, null, apply_filters('pmxe_post_author', pmxe_filter($record->post_author, $fieldSnipped), get_the_ID()));
 								break;
 
 							case 'slug':
-								$xmlWriter->writeElement($element_name, apply_filters('pmxe_post_slug', pmxe_filter($record->post_name, $fieldSnipped), get_the_ID()));
+								$xmlWriter->putElement($element_name_ns, $element_name, null, apply_filters('pmxe_post_slug', pmxe_filter($record->post_name, $fieldSnipped), get_the_ID()));
 								break;
 
 							case 'excerpt':
-								$xmlWriter->startElement($element_name);
+								$xmlWriter->beginElement($element_name_ns, $element_name, null);
 									$xmlWriter->writeCData(apply_filters('pmxe_post_excerpt', pmxe_filter($record->post_excerpt, $fieldSnipped) , get_the_ID()));
 								$xmlWriter->endElement();
 								break;
@@ -234,14 +278,14 @@ function pmxe_export_xml($exportQuery, $exportOptions, $preview = false, $is_cro
 									$cur_meta_values = get_post_meta($record->ID, $exportOptions['cc_value'][$ID]);																				
 									if (!empty($cur_meta_values) and is_array($cur_meta_values)){
 										foreach ($cur_meta_values as $key => $cur_meta_value) {
-											$xmlWriter->startElement($element_name);
+											$xmlWriter->beginElement($element_name_ns, $element_name, null);
 												$xmlWriter->writeCData(apply_filters('pmxe_custom_field', pmxe_filter(maybe_serialize($cur_meta_value), $fieldSnipped), $exportOptions['cc_value'][$ID], get_the_ID()));
 											$xmlWriter->endElement();
 										}
 									}
 
 									if (empty($cur_meta_values)){
-										$xmlWriter->startElement($element_name);
+										$xmlWriter->beginElement($element_name_ns, $element_name, null);
 											$xmlWriter->writeCData(apply_filters('pmxe_custom_field', pmxe_filter('', $fieldSnipped), $exportOptions['cc_value'][$ID], get_the_ID()));
 										$xmlWriter->endElement();
 									}																																																												
@@ -257,7 +301,7 @@ function pmxe_export_xml($exportQuery, $exportOptions, $preview = false, $is_cro
 
 									$field_options = unserialize($exportOptions['cc_options'][$ID]);
 
-									pmxe_export_acf_field_xml($field_value, $exportOptions, $ID, $record->ID, $xmlWriter, $element_name, $fieldSnipped, $field_options['group_id']);
+									pmxe_export_acf_field_xml($field_value, $exportOptions, $ID, $record->ID, $xmlWriter, $element_name, $element_name_ns, $fieldSnipped, $field_options['group_id']);
 																																																																					
 								}				
 												
@@ -294,7 +338,7 @@ function pmxe_export_xml($exportQuery, $exportOptions, $preview = false, $is_cro
 												foreach ($txes_list as $t) {
 													$attr_new[] = $t->name;												
 												}		
-												$xmlWriter->startElement($is_variable_product ? $element_name : 'attribute_' . $element_name);
+												$xmlWriter->beginElement($element_name_ns, $is_variable_product ? $element_name : 'attribute_' . $element_name, null);
 													$xmlWriter->writeCData(apply_filters('pmxe_woo_attribute', pmxe_filter(implode('|', $attr_new), $fieldSnipped), get_the_ID()));
 												$xmlWriter->endElement();		
 											endif;									
@@ -303,7 +347,7 @@ function pmxe_export_xml($exportQuery, $exportOptions, $preview = false, $is_cro
 									else{
 										$attribute_pa = get_post_meta($record->ID, 'attribute_' . $exportOptions['cc_value'][$ID], true);
 										if ( ! empty($attribute_pa)){
-											$xmlWriter->startElement('attribute_' . $element_name);
+											$xmlWriter->beginElement($element_name_ns, 'attribute_' . $element_name, null);
 												$xmlWriter->writeCData(apply_filters('woo_field', $attribute_pa));
 											$xmlWriter->endElement();											
 										}
@@ -315,7 +359,7 @@ function pmxe_export_xml($exportQuery, $exportOptions, $preview = false, $is_cro
 								{										
 									if ($exportOptions['cc_label'][$ID] == 'product_type' and get_post_type() == 'product_variation')
 									{ 
-										$xmlWriter->writeElement('parent_sku', $record->post_parent);
+										$xmlWriter->writeElement('parent_id', $record->post_parent);
 										$xmlWriter->writeElement($element_name, 'variable');										
 									}
 									else
@@ -353,7 +397,7 @@ function pmxe_export_xml($exportQuery, $exportOptions, $preview = false, $is_cro
 
 												if ( ! empty($hierarchy_groups) ){
 
-													$xmlWriter->startElement($element_name);
+													$xmlWriter->beginElement($element_name_ns, $element_name, null);
 														$xmlWriter->writeCData(apply_filters('pmxe_post_taxonomy', pmxe_filter(implode('|', $hierarchy_groups), $fieldSnipped), get_the_ID()));
 													$xmlWriter->endElement();												
 																								
@@ -379,7 +423,7 @@ function pmxe_export_xml($exportQuery, $exportOptions, $preview = false, $is_cro
 											$val = eval('return ' . stripcslashes(str_replace("%%VALUE%%", $val, $exportOptions['cc_code'][$ID])) . ';');
 										}										
 									}
-									$xmlWriter->startElement($element_name);
+									$xmlWriter->beginElement($element_name_ns, $element_name, null);
 										$xmlWriter->writeCData(apply_filters('pmxe_sql_field', $val, $element_name, get_the_ID()));
 									$xmlWriter->endElement();
 								}
@@ -397,31 +441,34 @@ function pmxe_export_xml($exportQuery, $exportOptions, $preview = false, $is_cro
 		
 		if ($preview) break;
 
+		do_action('pmxe_exported_post', $record->ID );
+
 	endwhile;
+	
 	$xmlWriter->endElement(); // end data
 	
-	if ($preview) return wp_all_export_remove_colons($xmlWriter->flush(true));	
+	if ($preview) return $xmlWriter->flush(true);//wp_all_export_remove_colons($xmlWriter->flush(true));	
 
 	if ($is_cron)
 	{		
 		
 		$xml = $xmlWriter->flush(true);
-		
-		if (file_exists($file_path))
+
+		if ( ! $exported_by_cron )
 		{
-			file_put_contents($file_path, wp_all_export_remove_colons(substr(substr($xml, 45), 0, -8)), FILE_APPEND);
-		}		
-		else
-		{			
-			// include BOM to export file
+			// The BOM will help some programs like Microsoft Excel read your export file if it includes non-English characters.
 			if ($exportOptions['include_bom']) 
 			{
-				file_put_contents($file_path, chr(0xEF).chr(0xBB).chr(0xBF).wp_all_export_remove_colons(substr($xml, 0, -8)));
+				file_put_contents($file_path, chr(0xEF).chr(0xBB).chr(0xBF).substr($xml, 0, (strlen($exportOptions['main_xml_tag']) + 4) * (-1)));
 			}
 			else
 			{
-				file_put_contents($file_path, wp_all_export_remove_colons(substr($xml, 0, -8)));
+				file_put_contents($file_path, substr($xml, 0, (strlen($exportOptions['main_xml_tag']) + 4) * (-1)));
 			}			
+		}
+		else
+		{
+			file_put_contents($file_path, substr(substr($xml, 41 + strlen($exportOptions['main_xml_tag'])), 0, (strlen($exportOptions['main_xml_tag']) + 4) * (-1)), FILE_APPEND);
 		}
 		
 		return $file_path;	
@@ -432,21 +479,17 @@ function pmxe_export_xml($exportQuery, $exportOptions, $preview = false, $is_cro
 
 		if ( empty(PMXE_Plugin::$session->file) ){
 
-			$is_secure_import = PMXE_Plugin::getInstance()->getOption('secure');
+			// generate export file name
+			$export_file = wp_all_export_generate_export_file( XmlExportEngine::$exportID );			
 
-			$wp_uploads  = wp_upload_dir();
-
-			$target = $is_secure_import ? wp_all_export_secure_file($wp_uploads['basedir'] . DIRECTORY_SEPARATOR . PMXE_Plugin::UPLOADS_DIRECTORY) : $wp_uploads['path'];
-				
-			$export_file = $target . DIRECTORY_SEPARATOR . sanitize_file_name(preg_replace('%- \d{4}.*%', '', $exportOptions['friendly_name'])) . ' - ' . date("Y F d H_i") . '.' . $exportOptions['export_to'];								
-
+			// The BOM will help some programs like Microsoft Excel read your export file if it includes non-English characters.
 			if ($exportOptions['include_bom']) 
 			{
-				file_put_contents($export_file, chr(0xEF).chr(0xBB).chr(0xBF).wp_all_export_remove_colons(substr($xmlWriter->flush(true), 0, -8)));
+				file_put_contents($export_file, chr(0xEF).chr(0xBB).chr(0xBF).substr($xmlWriter->flush(true), 0, (strlen($exportOptions['main_xml_tag']) + 4) * (-1)));
 			}
 			else
 			{
-				file_put_contents($export_file, wp_all_export_remove_colons(substr($xmlWriter->flush(true), 0, -8)));
+				file_put_contents($export_file, substr($xmlWriter->flush(true), 0, (strlen($exportOptions['main_xml_tag']) + 4) * (-1)));
 			}
 
 			PMXE_Plugin::$session->set('file', $export_file);
@@ -456,7 +499,7 @@ function pmxe_export_xml($exportQuery, $exportOptions, $preview = false, $is_cro
 		}	
 		else
 		{
-			file_put_contents(PMXE_Plugin::$session->file, wp_all_export_remove_colons(substr(substr($xmlWriter->flush(true), 45), 0, -8)), FILE_APPEND);
+			file_put_contents(PMXE_Plugin::$session->file, substr(substr($xmlWriter->flush(true), 41 + strlen($exportOptions['main_xml_tag'])), 0, (strlen($exportOptions['main_xml_tag']) + 4) * (-1)), FILE_APPEND);
 		}
 
 		return true;

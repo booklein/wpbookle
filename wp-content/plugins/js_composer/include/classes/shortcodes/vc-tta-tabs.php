@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
+}
 VcShortcodeAutoloader::getInstance()->includeClass( 'WPBakeryShortCode_VC_Tta_Accordion' );
 
 class WPBakeryShortCode_VC_Tta_Tabs extends WPBakeryShortCode_VC_Tta_Accordion {
@@ -6,6 +9,7 @@ class WPBakeryShortCode_VC_Tta_Tabs extends WPBakeryShortCode_VC_Tta_Accordion {
 	public $layout = 'tabs';
 
 	public function enqueueTtaScript() {
+		wp_register_script( 'vc_tabs_script', vc_asset_url( 'lib/vc_tabs/vc-tabs.min.js' ), array( 'vc_accordion_script' ), WPB_VC_VERSION, true );
 		parent::enqueueTtaScript();
 		wp_enqueue_script( 'vc_tabs_script' );
 	}
@@ -18,7 +22,7 @@ class WPBakeryShortCode_VC_Tta_Tabs extends WPBakeryShortCode_VC_Tta_Accordion {
 		$autoplay = $this->atts['autoplay'];
 		if ( $autoplay && 'none' !== $autoplay && intval( $autoplay ) > 0 ) {
 			$attributes[] = 'data-vc-tta-autoplay="' . esc_attr( json_encode( array(
-					'delay' => intval( $autoplay ) * 1000
+					'delay' => intval( $autoplay ) * 1000,
 				) ) ) . '"';
 		}
 
@@ -142,9 +146,6 @@ class WPBakeryShortCode_VC_Tta_Tabs extends WPBakeryShortCode_VC_Tta_Accordion {
 	 */
 	public function getParamTabsList( $atts, $content ) {
 		$isPageEditabe = vc_is_page_editable();
-
-		$sectionClass = $this->sectionClass;
-
 		$html = array();
 		$html[] = '<div class="vc_tta-tabs-container">';
 		$html[] = '<ul class="vc_tta-tabs-list">';
@@ -175,7 +176,7 @@ class WPBakeryShortCode_VC_Tta_Tabs extends WPBakeryShortCode_VC_Tta_Accordion {
 		$html[] = '</ul>';
 		$html[] = '</div>';
 
-		return implode( '', $html );
+		return implode( '', apply_filters( 'vc-tta-get-params-tabs-list', $html, $atts, $content, $this ) );
 	}
 
 	/**

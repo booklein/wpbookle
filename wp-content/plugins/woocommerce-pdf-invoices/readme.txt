@@ -2,9 +2,9 @@
 Contributors: baaaaas
 Donate link: 
 Tags: woocommerce pdf invoices, invoice, generate, pdf, woocommerce, attachment, email, completed order, customer invoice, processing order, attach, automatic, vat, rate, sequential, number
-Requires at least: 3.5
-Tested up to: 4.3.1
-Stable tag: 2.3.11
+Requires at least: 3.8
+Tested up to: 4.4
+Stable tag: 2.3.20
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,7 +32,8 @@ This WooCommerce plugin generates PDF invoices, attaches it to the WooCommerce e
 > This plugin offers a premium version wich comes with the following features:<br /><br />
 > - Periodically bill by generating and sending global invoices.<br />
 > - Add additional PDF's to customer invoices.<br />
-> - Send customer invoices directly to suppliers and others.<br /><br />
+> - Send customer invoices directly to suppliers and others.<br />
+> - Compatible with [WooCommerce Subscriptions](http://www.woothemes.com/products/woocommerce-subscriptions) plugin emails.<br /><br />
 > [Upgrade to WooCommerce PDF Invoices Premium >>](http://wcpdfinvoices.com)
 
 = Support =
@@ -102,13 +103,89 @@ function add_hidden_order_items( $order_items ) {
     return $order_items;
 }`
 
+= How to change PDF margins/options? =
+To change the options of the PDF, use below example.
+
+`function custom_bewpi_mpdf_options( $options ) {
+ 	$options['mode'] = '';
+ 	$options['format'] = '';
+ 	$options['default_font_size'] = 0;
+ 	$options['default_font'] = 'opensans';
+ 	$options['margin_left'] = 14;
+ 	$options['margin_right'] = 14;
+ 	$options['margin_top'] = 14;
+ 	$options['margin_bottom'] = 0;
+ 	$options['margin_header'] = 14;
+ 	$options['margin_footer'] = 6;
+ 	$options['orientation'] = 'P';
+ 	return $options;
+ }
+ add_filter( 'bewpi_mpdf_options', 'custom_bewpi_mpdf_options' );`
+
+ = How to display invoice download button on specific template files? =
+ Let customers download there invoices from specific template pages by using below shortcode.
+
+ `echo do_shortcode( '[bewpi-download-invoice title="Download (PDF) Invoice {formatted_invoice_number}" order_id="ORDER_ID"]' );`
+
+ To use shortcode in WordPress editor:
+
+ `[bewpi-download-invoice title="Download (PDF) Invoice {formatted_invoice_number}" order_id="ORDER_ID"]`
+
 == Changelog ==
+
+= 2.3.20 - December 30, 2015 =
+
+- Improved: Changed textdomain to plugin slug due to preparation of WordPress translations packages
+
+= 2.3.19 - December 30, 2015 =
+
+- Fixed: Translations not properly configured by removing Domain Path.
+
+= 2.3.18 - December 30, 2015 =
+
+- Fixed: Syriac, Arabic, Indic, Hebrew (and more) fonts integration.
+- Improved: Number of zero digits for invoice number up to 20.
+
+= 2.3.17 - December 25, 2015 =
+
+- Added: Romanian language files
+- Fixed: Shop managers access to view invoices.
+- Fixed: Rating notice showing while activating plugin
+
+= 2.3.16 - December 19, 2015 =
+
+- Fixed: Permission for customers and admins to view invoices.
+
+= 2.3.15 - December 18, 2015 =
+
+- Added: Shortcode for downloading invoices
+- Added: Option to enable/disable download button on account page
+- Fixed: Invoice number always 1 due to no wp table prefix in query
+- Fixed: Date localization and timestamps
+
+= 2.3.14 - December 11, 2015 =
+
+- Fixed: Fatal errors due to Wordpress 4.4
+- Improved: Replaced textdomain variable by strongly typed string (properly prepared for translations)
+
+= 2.3.13 - November 28, 2015 =
+
+- Improved: Changed file_get_contents to wp_get_remote
+- Fixed: Logo not always showing
+- Fixed: Footer column (typo in code)
+
+= 2.3.12 - November 28, 2015 =
+
+- Improved: Micro and global (premium) template
+- Improved: Code in order to disable allow_url_fopen
+- Fixed: Header and footer repeating with too much content/text
 
 = 2.3.11 - November 6, 2015 =
 
 - Added: Do not attach option to email options
 - Added: Swedish language files
-- Improved: Shipping address not showing if empty
+- Improved: Address text not displayed if empty
+- Improved: Billing phone text not displayed if empty
 - Fixed: Invoice numbering gaps while cancelling invoice
 
 = 2.3.10 - October 29, 2015 =

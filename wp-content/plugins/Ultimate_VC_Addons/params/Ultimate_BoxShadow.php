@@ -29,21 +29,30 @@ if(!class_exists('Ultimate_BoxShadow'))
   {
     function __construct()
     {
-      if(function_exists('add_shortcode_param')) {
-        add_shortcode_param('ultimate_boxshadow', array($this, 'ultimate_boxshadow_callback'), plugins_url('../admin/vc_extend/js/vc-box-shadow-param.js',__FILE__));
+      if(defined('WPB_VC_VERSION') && version_compare(WPB_VC_VERSION, 4.8) >= 0) {
+        if(function_exists('vc_add_shortcode_param'))
+        {
+          vc_add_shortcode_param('ultimate_boxshadow', array($this, 'ultimate_boxshadow_callback'), plugins_url('../admin/vc_extend/js/vc-box-shadow-param.js',__FILE__));
+        }
       }
+      else {
+        if(function_exists('add_shortcode_param')) {
+          add_shortcode_param('ultimate_boxshadow', array($this, 'ultimate_boxshadow_callback'), plugins_url('../admin/vc_extend/js/vc-box-shadow-param.js',__FILE__));
+        }
+      }
+
       add_action( 'admin_enqueue_scripts', array( $this, 'ultimate_boxshadow_param_scripts' ) );
       add_filter('Ultimate_GetBoxShadow', array( $this, 'ultimate_get_box_shadow'),10,3);
     }
-    
+
     function ultimate_boxshadow_callback($settings, $value) {
 
-        $dependency = vc_generate_dependencies_attributes($settings);
+        $dependency = '';
         $positions = $settings['positions'];
         $enable_color = isset($settings['enable_color']) ? $settings['enable_color'] : true;
         //$enable_radius = isset($settings['enable_radius']) ? $settings['enable_radius'] : true ;
         $unit = isset($settings['unit']) ? $settings['unit'] : 'px';
-        
+
         $uid = 'ultimate-boxshadow-'. rand(1000, 9999); //$settings['param_name'];
         //$uid = uniqid('ultimate-boxshadow-'. $settings['param_name'] .'-'. rand());
           $html  = '<div class="ultimate-boxshadow" id="'.$uid.'" data-unit="'.$unit.'" >';
@@ -91,7 +100,7 @@ if(!class_exists('Ultimate_BoxShadow'))
         $html .= $this->get_units($unit);
         $html .= '</div>';
 
-                  
+
         //  Box Shadow - Color
         if($enable_color) {
           $label = "Box Shadow Color";
@@ -105,7 +114,7 @@ if(!class_exists('Ultimate_BoxShadow'))
           $html .= '    </div>';
           $html .= '  </div>';
         }
-        
+
         $html .= '  <input type="hidden" data-unit="'.$unit.'" name="'.$settings['param_name'].'" class="wpb_vc_param_value ultbs-result-value '.$settings['param_name'].' '.$settings['type'].'_field" value="'.$value.'" '.$dependency.' />';
         $html .= '</div>';
       return $html;
@@ -129,7 +138,7 @@ if(!class_exists('Ultimate_BoxShadow'))
     }
     function ultimate_get_box_shadow( $content = null, $data = '' ){
         //    e.g.    horizontal:14px|vertical:20px|blur:30px|spread:40px|color:#81d742|style:inset|
-      $final = ''; 
+      $final = '';
 
       if($content!='') {
 
@@ -163,7 +172,7 @@ if(!class_exists('Ultimate_BoxShadow'))
         if($data!='') {
           switch ($data) {
             case 'data':
-                          $final  = $rmkeys;      
+                          $final  = $rmkeys;
               break;
             case 'array':
                           $final = $mainArr;
@@ -176,13 +185,13 @@ if(!class_exists('Ultimate_BoxShadow'))
         } else {
           $final  = 'box-shadow:'.$rmkeys.';';
         }
-      } 
+      }
 
       return $final;
     }
     function ultimate_boxshadow_param_scripts($hook) {
       if($hook == "post.php" || $hook == "post-new.php"){
-        $bsf_dev_mode = bsf_get_option('dev_mode'); 
+        $bsf_dev_mode = bsf_get_option('dev_mode');
         if($bsf_dev_mode === 'enable') {
           wp_enqueue_style( 'wp-color-picker' );
 

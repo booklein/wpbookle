@@ -310,7 +310,7 @@ h6.text-shadow {
 }
 
 /* Responsive */
-@media (max-width: 479px) {
+@media #{$screen-small} {
 
 	h2 {
         line-height: 40px;
@@ -318,7 +318,7 @@ h6.text-shadow {
 
 }
 
-@media (max-width: 767px) {
+@media #{$screen-medium} {
 
 	h1.big {
         font-size: 3.2em;

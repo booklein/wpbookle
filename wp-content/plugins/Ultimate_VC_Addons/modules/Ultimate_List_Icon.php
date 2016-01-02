@@ -2,7 +2,7 @@
 /*
 * Add-on Name: Icons Block for Visual Composer
 */
-if(!class_exists('Ultimate_List_Icon')) 
+if(!class_exists('Ultimate_List_Icon'))
 {
 	class Ultimate_List_Icon
 	{
@@ -24,12 +24,12 @@ if(!class_exists('Ultimate_List_Icon'))
 						"icon" => "ultimate_icon_list",
 						"category" => "Ultimate VC Addons",
 						"description" => __("Add a set of multiple icons and give some custom style.","ultimate_vc"),
-						"as_parent" => array('only' => 'ultimate_icon_list_item'), 
+						"as_parent" => array('only' => 'ultimate_icon_list_item'),
 						"content_element" => true,
 						"show_settings_on_create" => true,
 						"js_view" => 'VcColumnView',
 						//"is_container"    => true,
-						"params" => array(							
+						"params" => array(
 							// Play with icon selector
 							array(
 								"type" => "number",
@@ -53,7 +53,7 @@ if(!class_exists('Ultimate_List_Icon'))
 								"max" => 100,
 								"suffix" => "px",
 								"description" => __("How much distance would you like in two icons?", "ultimate_vc"),
-								
+
 							),
 							array(
 								"type" => "textfield",
@@ -74,7 +74,7 @@ if(!class_exists('Ultimate_List_Icon'))
 					   "icon" => "icon_list_item",
 					   "category" => "Ultimate VC Addons",
 					   "description" => __("Add a list of icons with some content and give some custom style.","ultimate_vc"),
-					   "as_child" => array('only' => 'ultimate_icon_list'), 
+					   "as_child" => array('only' => 'ultimate_icon_list'),
 					   "show_settings_on_create" => true,
 					   "is_container"    => false,
 					   "params" => array(
@@ -96,7 +96,7 @@ if(!class_exists('Ultimate_List_Icon'))
 								"heading" => __("Select Icon ","ultimate_vc"),
 								"param_name" => "icon",
 								"value" => "",
-								"description" => __("Click and select icon of your choice. If you can't find the one that suits for your purpose","ultimate_vc").", ".__("you can","ultimate_vc")." <a href='admin.php?page=font-icon-Manager' target='_blank'>".__("add new here","ultimate_vc")."</a>.",
+								"description" => __("Click and select icon of your choice. If you can't find the one that suits for your purpose","ultimate_vc").", ".__("you can","ultimate_vc")." <a href='admin.php?page=bsf-font-icon-manager' target='_blank'>".__("add new here","ultimate_vc")."</a>.",
 								"dependency" => Array("element" => "icon_type","value" => array("selector")),
 							),
 							array(
@@ -115,7 +115,7 @@ if(!class_exists('Ultimate_List_Icon'))
 								"param_name" => "icon_color",
 								"value" => "#333333",
 								"description" => __("Give it a nice paint!", "ultimate_vc"),
-								"dependency" => Array("element" => "icon_type","value" => array("selector")),						
+								"dependency" => Array("element" => "icon_type","value" => array("selector")),
 							),
 							array(
 								"type" => "dropdown",
@@ -137,7 +137,7 @@ if(!class_exists('Ultimate_List_Icon'))
 								"heading" => __("Background Color", "ultimate_vc"),
 								"param_name" => "icon_color_bg",
 								"value" => "#ffffff",
-								"description" => __("Select background color for icon.", "ultimate_vc"),	
+								"description" => __("Select background color for icon.", "ultimate_vc"),
 								"dependency" => Array("element" => "icon_style", "value" => array("circle","square","advanced")),
 							),
 							array(
@@ -163,7 +163,7 @@ if(!class_exists('Ultimate_List_Icon'))
 								"heading" => __("Border Color", "ultimate_vc"),
 								"param_name" => "icon_color_border",
 								"value" => "#333333",
-								"description" => __("Select border color for icon.", "ultimate_vc"),	
+								"description" => __("Select border color for icon.", "ultimate_vc"),
 								"dependency" => Array("element" => "icon_border_style", "not_empty" => true),
 							),
 							array(
@@ -219,7 +219,83 @@ if(!class_exists('Ultimate_List_Icon'))
 								"param_name" => "el_class",
 								"value" => "",
 								"description" => __("Ran out of options? Need more styles? Write your own CSS and mention the class name here.", "ultimate_vc"),
-								
+
+							),
+							array(
+								"type" => "ult_param_heading",
+								"param_name" => "title_text_typography",
+								"heading" => __("List content settings","ultimate_vc"),
+								"value" => "",
+								"group" => "Typography",
+								"class" => "ult-param-heading",
+								'edit_field_class' => 'ult-param-heading-wrapper no-top-margin vc_column vc_col-sm-12',
+							),
+							array(
+								"type" => "ultimate_google_fonts",
+								"heading" => __("Font Family","ultimate_vc"),
+								"param_name" => "content_font_family",
+								"value" => "",
+								"group" => "Typography"
+							),
+							array(
+								"type" => "ultimate_google_fonts_style",
+								"heading" => __("Font Style","ultimate_vc"),
+								"param_name" => "content_font_style",
+								"value" => "",
+								"group" => "Typography"
+							),
+							// array(
+							// 	"type" => "number",
+							// 	"param_name" => "content_font_size",
+							// 	"heading" => __("Font size","ultimate_vc"),
+							// 	"value" => "",
+							// 	"suffix" => "px",
+							// 	"group" => "Typography"
+							// ),
+
+							// array(
+							// 	"type" => "number",
+							// 	"param_name" => "content_line_ht",
+							// 	"heading" => __("Line Height","ultimate_vc"),
+							// 	"value" => "",
+							// 	"suffix" => "px",
+							// 	"group" => "Typography",
+							// ),
+							array(
+		                    "type" => "ultimate_responsive",
+		                    "class" => "",
+		                    "heading" => __("Font size", 'ultimate_vc'),
+		                    "param_name" => "content_font_size",
+		                    "unit" => "px",
+		                    "media" => array(
+		                        "Desktop" => '',
+		                        "Tablet" => '',
+		                        "Tablet Portrait" => '',
+		                        "Mobile Landscape" => '',
+		                        "Mobile" => '',
+			                    ),
+			                    "group" => "Typography",
+			                ),
+			                array(
+		                    "type" => "ultimate_responsive",
+		                    "class" => "",
+		                    "heading" => __("Line Height", 'ultimate_vc'),
+		                    "param_name" => "content_line_ht",
+		                    "unit" => "px",
+		                    "media" => array(
+		                        "Desktop" => '',
+		                        "Tablet" => '',
+		                        "Tablet Portrait" => '',
+		                        "Mobile Landscape" => '',
+		                        "Mobile" => '',
+			                    ),
+			                    "group" => "Typography",
+			                ),
+							array(
+								"type" => "colorpicker",
+								"param_name" => "content_font_color",
+								"heading" => __("Color","ultimate_vc"),
+								"group" => "Typography"
 							),
 						),
 					)
@@ -236,28 +312,32 @@ if(!class_exists('Ultimate_List_Icon'))
 				"icon_margin" => "5",
 				"el_class" => ""
 			),$atts));
-			
+
+			$vc_version = (defined('WPB_VC_VERSION')) ? WPB_VC_VERSION : 0;
+			$is_vc_49_plus = (version_compare(4.9, $vc_version, '<=')) ? 'ult-adjust-bottom-margin' : '';
+
 			$vc_list_icon_size = $icon_size;
 			$vc_list_icon_margin = $icon_margin;
 			// enqueue js
 			//wp_enqueue_script('aio-tooltip',plugins_url('../assets/min-js/',__FILE__).'tooltip.min.js',array('jquery'));
 
-			$output = '<div class="uavc-list-icon '.$el_class.'">';
+			$output = '<div class="uavc-list-icon uavc-list-icon-wrapper '.$is_vc_49_plus.' '.$el_class.'">';
 			$output .= '<ul class="uavc-list">';
 			$output .= do_shortcode($content);
 			$output .= '</ul>';
 			$output .= '</div>';
-			
+
 			return $output;
 		}
-		
+
 		function icon_list_item_shortcode($atts, $content = null){
-			
+
 			$icon_type = $icon_img = $img_width = $icon = $icon_color = $icon_color_bg = $icon_size = $icon_style = $icon_border_style = $icon_border_radius = $icon_color_border = $icon_border_size = $icon_border_spacing = $icon_link = $el_class = $icon_animation =  $tooltip_disp = $tooltip_text = $icon_margin = '';
+			$content_font_family = $content_font_style = $content_font_size = $content_line_ht = $content_font_color = '';
 			extract(shortcode_atts( array(
 				'icon_type' => 'selector',
 				'icon'=> '',
-				'icon_img' => '',						
+				'icon_img' => '',
 				'icon_color' => '#333333',
 				'icon_style' => 'none',
 				'icon_color_bg' => '#ffffff',
@@ -269,40 +349,78 @@ if(!class_exists('Ultimate_List_Icon'))
 				"icon_size" => "",
 				"icon_margin" => "",
 				'el_class'=>'',
+				'content_font_family' => '',
+				'content_font_style' => '',
+				'content_font_size' => '',
+				'content_font_color' => '',
+				'content_line_ht' => '',
+				'content_font_size' => '',
 			),$atts));
-			
+
 			global $vc_list_icon_size, $vc_list_icon_margin;
 			if(empty($icon_size))
 				$icon_size = $vc_list_icon_size;
-			
+
 			if(empty($icon_margin))
 				$icon_margin = $vc_list_icon_margin;
-			
+
 			if($icon_animation !== 'none')
 			{
 				$css_trans = 'data-animation="'.$icon_animation.'" data-animation-delay="03"';
 			}
-			$output = $style = $link_sufix = $link_prefix = $target = $href = $icon_align_style = '';
-			
+			$output = $style = $link_sufix = $link_prefix = $target = $content_style = $href = $icon_align_style = '';
+
 			if($icon_margin !== '')
 				$style .= 'margin-right:'.$icon_margin.'px;';
-				
+			if($content_font_family != ''){
+				$apply_font_family = get_ultimate_font_family($content_font_family);
+				if($apply_font_family)
+					$content_style .= 'font-family:\''.$apply_font_family.'\';';
+			}
+			if($content_font_style != ''){
+					$content_style .= get_ultimate_font_style($content_font_style);
+				}
+			if($content_font_color !='')
+				$content_style .= 'color:'.$content_font_color.';';
+			// if($content_font_size != '')
+			// 	$content_style .= 'font-size:'.$content_font_size.'px;';
+			// if($content_line_ht)
+			// 	$content_style .='line-height:'.$content_line_ht.'px;';
+			if(is_numeric($content_font_size)){
+				$content_font_size = 'desktop:'.$content_font_size.'px;';
+			}
+
+			if(is_numeric($content_line_ht)){
+				$content_line_ht = 'desktop:'.$content_line_ht.'px;';
+			}
+
+			$list_icon_id = 'list-icon-wrap-'.rand(1000, 9999);
+
+			$list_icon_args = array(
+                'target' => '#'.$list_icon_id.' .uavc-list-desc', // set targeted element e.g. unique class/id etc.
+                'media_sizes' => array(
+                    'font-size' => $content_font_size, // set 'css property' & 'ultimate_responsive' sizes. Here $title_responsive_font_size holds responsive font sizes from user input.
+                   	'line-height' => $content_line_ht
+                ),
+            );
+
+            $list_icon_data_list = get_ultimate_vc_responsive_media_css($list_icon_args);
 			$icon_animation = $icon_link = '';
-			
-			$output .= '<div class="uavc-list-content">';
-			
+
+			$output .= '<div class="uavc-list-content" id="'.$list_icon_id.'">';
+
 			if($icon !== "" || $icon_img !== ''){
 				if($icon_type == 'custom'){
 					$icon_style = 'none';
 				}
 				$main_icon = do_shortcode('[just_icon icon_type="'.$icon_type.'" icon="'.$icon.'" icon_img="'.$icon_img.'" img_width="'.$icon_size.'" icon_size="'.$icon_size.'" icon_color="'.$icon_color.'" icon_style="'.$icon_style.'" icon_color_bg="'.$icon_color_bg.'" icon_color_border="'.$icon_color_border.'"  icon_border_style="'.$icon_border_style.'" icon_border_size="'.$icon_border_size.'" icon_border_radius="'.$icon_border_radius.'" icon_border_spacing="'.$icon_border_spacing.'" icon_link="'.$icon_link.'" icon_animation="'.$icon_animation.'"]');
 				$output .= "\n".'<div class="uavc-list-icon '.$el_class.'" '.$css_trans.' style="'.$style.'">';
-				$output .= $main_icon;				
+				$output .= $main_icon;
 				$output .= "\n".'</div>';
 			}
-			$output .= '<span class="uavc-list-desc">'.do_shortcode($content).'</span>';
+			$output .= '<span '.$list_icon_data_list.' class="uavc-list-desc ult-responsive" style="'.$content_style.'">'.do_shortcode($content).'</span>';
 			$output .= '</div>';
-			
+
 			$output = '<li>'.$output.'</li>';
 			return $output;
 		}

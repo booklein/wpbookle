@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Master Slider Import Theme's Sliders Class.
  *
@@ -47,7 +47,7 @@ class MSP_Import_Custom_Sliders {
 		global $ms_importer;
 
 		$this->decoded_sliders_data = $ms_importer->decode_import_data( $this->theme_sliders_data );
-		
+
 		if( $this->decoded_sliders_data ){
 			$this->init_import_page();
 		}
@@ -95,7 +95,7 @@ class MSP_Import_Custom_Sliders {
 				<tbody>
 
 					<tr class="option-site-visibility">
-						<th scope="row">Select sliders to import</th>
+						<th scope="row"><?php _e( 'Select sliders to import', MSWP_TEXT_DOMAIN ); ?></th>
 						<td>
 							<fieldset>
 								<?php wp_nonce_field('msp-im-theme-sliders'); ?>
@@ -110,7 +110,7 @@ class MSP_Import_Custom_Sliders {
 									<?php echo apply_filters( 'masterslider_import_theme_slider_title', $slider_data['title'], $slider_id ); ?>
 								</label><br />
 								<?php endforeach ?>
-								
+
 							</fieldset>
 						</td>
 					</tr>
@@ -140,7 +140,7 @@ class MSP_Import_Custom_Sliders {
 	 */
 	function footer() {
 		echo '</div>';
-		
+
 	}
 
 }

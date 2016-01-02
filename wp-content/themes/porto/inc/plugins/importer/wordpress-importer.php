@@ -851,7 +851,9 @@ if ( class_exists( 'WP_Importer' ) ) {
                 'menu-item-popup_bg_repeat' => isset($_menu_item_popup_bg_repeat) ? $_menu_item_popup_bg_repeat : '',
                 'menu-item-popup_bg_size' => isset($_menu_item_popup_bg_size) ? $_menu_item_popup_bg_size : '',
                 'menu-item-popup_style' => isset($_menu_item_popup_style) ? $_menu_item_popup_style : '',
-                'menu-item-block' => isset($_menu_item_block) ? $_menu_item_block : ''
+                'menu-item-block' => isset($_menu_item_block) ? $_menu_item_block : '',
+                'menu-item-preview' => isset($_menu_item_preview) ? $_menu_item_preview : '',
+                'menu-item-preview_fixed' => isset($_menu_item_preview_fixed) ? $_menu_item_preview_fixed : '',
             );
 
             $id = wp_update_nav_menu_item( $menu_id, 0, $args );

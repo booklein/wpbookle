@@ -59,15 +59,19 @@ body {
         .upb_row_bg {
             width: 50% !important;
             min-width: 50% !important;
-
             @media #{$screen-medium} {
                 display: none;
             }
         }
     }
+    &.bg-width50-right {
+        .upb_row_bg {
+            margin-#{$left}: 50%;
+        }
+    }
     &.bg-ml50 {
         .upb_row_bg {
-            margin-left: 50%;
+            margin-#{$left}: 50%;
         }
     }
 }
@@ -601,6 +605,17 @@ div.wpb_single_image {
         margin-top: 0;
         margin-bottom: 0;
     }
+    div {
+        top: auto;
+        background-color: transparent;
+    }
+    .vc_icon_element.vc_icon_element-outer .vc_icon_element-inner {
+        padding: 0;
+    }
+    .vc_icon_element:not(.vc_icon_element-have-style) + h4 {
+        margin-#{$left}: -0.5em;
+        padding-#{$right}: 1em;
+    }
 }
 
 .vc_separator.vc_separator_align_left {
@@ -851,7 +866,7 @@ div.wpb_single_image {
     }
 }
 
-@media (max-width: 767px) {
+@media #{$screen-medium} {
     .vc_general.vc_cta3.vc_cta3-actions-right .vc_cta3-actions {
         padding-top: 20px;
         > div:last-child {
@@ -1111,9 +1126,14 @@ h3.ult_modal-title {
 }
 body {
     .ult-carousel-wrapper {
+        padding-bottom: 0;
         .m-b-none {
             margin-bottom: -35px !important;
         }
+    }
+
+    .slick-dots {
+        @include transform(translateY(0));
     }
 
     .ult-carousel-wrapper.ult_horizontal ul.slick-dots,
@@ -1357,7 +1377,7 @@ body {
 div.stats-desc > div.counter_prefix,
 div.stats-desc > div.counter_suffix {
     font-size: 50px;
-    font-weight: 600;
+    font-weight: $font-weight-semibold;
     line-height: 1;
 }
 .aio-icon.none {
@@ -1403,6 +1423,11 @@ div.stats-desc > div.counter_suffix {
         .aio-icon-top,
         .stats-desc {
             text-align: $left;
+        }
+        .stats-number,
+        div.stats-desc > div.counter_prefix,
+        div.stats-desc > div.counter_suffix {
+            font-size: 14px;
         }
         div.counter_prefix,
         div.counter_suffix {

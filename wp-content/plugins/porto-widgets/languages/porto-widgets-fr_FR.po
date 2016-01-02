@@ -1,0 +1,285 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Porto Widgets\n"
+"POT-Creation-Date: 2015-12-04 01:25+0800\n"
+"PO-Revision-Date: 2015-12-18 20:41+0200\n"
+"Language-Team: porto <porto@example.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.6\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
+"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Last-Translator: Cristian Dragos <dpcdpc11@gmail.com>\n"
+"Language: fr_FR\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: widgets/block.php:12
+msgid "Show block."
+msgstr "Montrer bloc."
+
+#: widgets/block.php:16
+msgid "Porto: Block"
+msgstr "Porto: Bloc"
+
+#: widgets/block.php:63 widgets/contact_info.php:70 widgets/follow_us.php:170
+#: widgets/recent_portfolios.php:97 widgets/recent_posts.php:104
+#: widgets/twitter_tweets.php:145
+msgid "Title"
+msgstr "Titre"
+
+#: widgets/block.php:69
+msgid "Block Slug Name"
+msgstr "Slug Nom du Bloc"
+
+#: widgets/contact_info.php:12
+msgid "Add contact information."
+msgstr "Ajouter des coordonnées"
+
+#: widgets/contact_info.php:16
+msgid "Porto: Contact Info"
+msgstr "Porto: Contact Info"
+
+#: widgets/contact_info.php:38 widgets/contact_info.php:84
+msgid "Address"
+msgstr "Adresse"
+
+#: widgets/contact_info.php:39 widgets/contact_info.php:91
+msgid "Phone"
+msgstr "Téléphone"
+
+#: widgets/contact_info.php:40 widgets/contact_info.php:98
+msgid "Email"
+msgstr "Email"
+
+#: widgets/contact_info.php:41 widgets/contact_info.php:105
+msgid "Working Days/Hours"
+msgstr "Heures travaillées"
+
+#: widgets/contact_info.php:65
+msgid "Contact Us"
+msgstr "Contactez-nous"
+
+#: widgets/contact_info.php:77 widgets/follow_us.php:182
+msgid "Before Description"
+msgstr "Avant description"
+
+#: widgets/contact_info.php:112 widgets/follow_us.php:315
+msgid "After Description"
+msgstr "Après la description"
+
+#: widgets/follow_us.php:12
+msgid "Add Social Links."
+msgstr "Ajouter des liens sociaux."
+
+#: widgets/follow_us.php:16
+msgid "Porto: Follow Us"
+msgstr "Porto: Suivez-nous"
+
+#: widgets/follow_us.php:57 widgets/follow_us.php:189
+msgid "Facebook"
+msgstr "Facebook :"
+
+#: widgets/follow_us.php:61 widgets/follow_us.php:196
+msgid "Twitter"
+msgstr "Twitter"
+
+#: widgets/follow_us.php:65 widgets/follow_us.php:203
+msgid "RSS"
+msgstr "RSS"
+
+#: widgets/follow_us.php:69 widgets/follow_us.php:210
+msgid "Pinterest"
+msgstr "Pinterest"
+
+#: widgets/follow_us.php:73 widgets/follow_us.php:217
+msgid "Youtube"
+msgstr "Youtube"
+
+#: widgets/follow_us.php:77 widgets/follow_us.php:224
+msgid "Instagram"
+msgstr "Instagram"
+
+#: widgets/follow_us.php:81 widgets/follow_us.php:231
+msgid "Skype"
+msgstr "Skype"
+
+#: widgets/follow_us.php:85 widgets/follow_us.php:238
+msgid "Linkedin"
+msgstr "Linkedin"
+
+#: widgets/follow_us.php:89 widgets/follow_us.php:245
+msgid "Google +"
+msgstr "Google +"
+
+#: widgets/follow_us.php:93 widgets/follow_us.php:252
+msgid "VK"
+msgstr "VK"
+
+#: widgets/follow_us.php:97 widgets/follow_us.php:259
+msgid "Xing"
+msgstr "Xing"
+
+#: widgets/follow_us.php:101 widgets/follow_us.php:266
+msgid "Tumblr"
+msgstr "Tumblr"
+
+#: widgets/follow_us.php:105 widgets/follow_us.php:273
+msgid "Reddit"
+msgstr "Reddit"
+
+#: widgets/follow_us.php:109 widgets/follow_us.php:280
+msgid "Vimeo"
+msgstr "Vimeo"
+
+#: widgets/follow_us.php:113 widgets/follow_us.php:287
+msgid "Telegram"
+msgstr "Télégraphe"
+
+#: widgets/follow_us.php:117 widgets/follow_us.php:294
+msgid "Yelp"
+msgstr "Yelp"
+
+#: widgets/follow_us.php:121 widgets/follow_us.php:301
+msgid "Flickr"
+msgstr "Flickr"
+
+#: widgets/follow_us.php:125 widgets/follow_us.php:308
+msgid "WhatsApp"
+msgstr "WhatsApp"
+
+#: widgets/follow_us.php:165
+msgid "Follow Us"
+msgstr "Suivez-nous"
+
+#: widgets/follow_us.php:177
+msgid "Add rel=\"nofollow\" to links"
+msgstr "Ajouter rel =\"nofollow\" aux liens"
+
+#: widgets/recent_portfolios.php:13
+msgid "Show recent portfolios."
+msgstr "Afficher portefeuilles récents."
+
+#: widgets/recent_portfolios.php:17
+msgid "Porto: Recent Portfolios"
+msgstr "Porto: Portefeuilles récents"
+
+#: widgets/recent_portfolios.php:69
+msgid "View More"
+msgstr "En savoir plus"
+
+#: widgets/recent_portfolios.php:93
+msgid "Recent Portfolios"
+msgstr "Recent Portfolios"
+
+#: widgets/recent_portfolios.php:103
+msgid "Number of portfolios to show"
+msgstr "Nombre de portefeuilles pour montrer"
+
+#: widgets/recent_portfolios.php:109 widgets/recent_posts.php:116
+msgid "View Type"
+msgstr "Voir le Type"
+
+#: widgets/recent_portfolios.php:111 widgets/recent_posts.php:118
+msgid "Small"
+msgstr "Petite"
+
+#: widgets/recent_portfolios.php:112 widgets/recent_posts.php:119
+msgid "Large"
+msgstr "Grande"
+
+#: widgets/recent_portfolios.php:118 widgets/recent_posts.php:125
+msgid "Number of items per slide"
+msgstr "Nombre d'éléments par diapositive"
+
+#: widgets/recent_portfolios.php:124 widgets/recent_posts.php:131
+msgid "Category IDs"
+msgstr "IDs de Catégorie"
+
+#: widgets/recent_posts.php:13
+msgid "Show recent posts."
+msgstr "Afficher les articles récents"
+
+#: widgets/recent_posts.php:17
+msgid "Porto: Recent Posts"
+msgstr "Porto: Articles récents"
+
+#: widgets/recent_posts.php:100
+msgid "Recent Posts"
+msgstr "Portefeuilles récents"
+
+#: widgets/recent_posts.php:110
+msgid "Number of posts to show"
+msgstr "Nombre d'article à montrer"
+
+#: widgets/recent_posts.php:137
+msgid "Show Post Image"
+msgstr "Afficher l'image de l'article"
+
+#: widgets/twitter_tweets.php:51
+msgid "Oops, our twitter feed is unavailable right now."
+msgstr "Oups, notre flux twitter n'est pas disponible dès maintenant."
+
+#: widgets/twitter_tweets.php:52
+msgid "Follow us on Twitter"
+msgstr "Nous suivre sur Twitter"
+
+#: widgets/twitter_tweets.php:64
+msgid "The most recent tweets from twitter."
+msgstr "Les tweets les plus récents de twitter."
+
+#: widgets/twitter_tweets.php:68
+msgid "Porto: Twitter Tweets"
+msgstr "Porto: Twitter Tweets"
+
+#: widgets/twitter_tweets.php:90
+msgid "Please wait..."
+msgstr "Veuillez patienter…"
+
+#: widgets/twitter_tweets.php:119
+msgid "Please configure widget options."
+msgstr "Veuillez configurer les options du widget."
+
+#: widgets/twitter_tweets.php:140
+msgid "Latest Tweets"
+msgstr "Derniers Tweets"
+
+#: widgets/twitter_tweets.php:152
+msgid "Consumer Key"
+msgstr "Clé d'utilisateur"
+
+#: widgets/twitter_tweets.php:159
+msgid "Consumer Secret"
+msgstr "Secrète d'utilisateur"
+
+#: widgets/twitter_tweets.php:166
+msgid "Access Token"
+msgstr "Clé d'accés"
+
+#: widgets/twitter_tweets.php:173
+msgid "Access Token Secret"
+msgstr "Clé d'Accès secrète"
+
+#: widgets/twitter_tweets.php:180
+msgid "Twitter Screen Name"
+msgstr "Nom d'utilisateur Twitter"
+
+#: widgets/twitter_tweets.php:187
+msgid "Number of Tweets"
+msgstr "Nombre de Tweets"
+
+#: widgets/twitter_tweets.php:192
+msgid "Info"
+msgstr "Infos"
+
+#: widgets/twitter_tweets.php:192
+msgid ""
+"You can find or create <a href=\"http://dev.twitter.com/apps\" target="
+"\"_blank\">Twitter App here</a>."
+msgstr ""
+"Vous pouvez trouver ou créer <a href=\"http://dev.twitter.com/apps\" "
+"target=\"_blank\">Twitter App ici.</a>"

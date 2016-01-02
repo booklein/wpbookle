@@ -8,6 +8,12 @@
  * @var $offset
  *
  * Extra Params
+ * @var $is_sticky
+ * @var $sticky_container_selector
+ * @var $sticky_min_width
+ * @var $sticky_top
+ * @var $sticky_bottom
+ * @var $sticky_active_class
  * @var $animation_type
  * @var $animation_duration
  * @var $animation_delay
@@ -49,9 +55,30 @@ if ($animation_duration && $animation_duration != 1000)
     $wrapper_attributes[] = 'data-appear-animation-duration="'.$animation_duration.'"';
 
 $output .= '<div ' . implode( ' ', $wrapper_attributes ) . '>';
+
+if ($is_sticky) {
+    $output .= '<div class="porto-sticky"';
+    if ($sticky_container_selector)
+        $output .= ' data-container-selector="'.$sticky_container_selector.'"';
+    if ($sticky_min_width)
+        $output .= ' data-min-width="'.$sticky_min_width.'"';
+    if ($sticky_top)
+        $output .= ' data-top="'.$sticky_top.'"';
+    if ($sticky_bottom)
+        $output .= ' data-bottom="'.$sticky_bottom.'"';
+    if ($sticky_active_class)
+        $output .= ' data-active-class="'.$sticky_active_class.'"';
+    $output .= '>';
+}
+
 $output .= '<div class="wpb_wrapper">';
 $output .= wpb_js_remove_wpautop( $content );
 $output .= '</div>';
+
+if ($is_sticky) {
+    $output .= '</div>';
+}
+
 $output .= '</div>';
 
 echo $output;

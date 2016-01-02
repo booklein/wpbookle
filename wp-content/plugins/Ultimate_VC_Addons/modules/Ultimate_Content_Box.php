@@ -32,15 +32,16 @@
 					'responsive_margin' => '',
 					/*'img_overlay_hover_effect'	=> '',*/
 			  ), $atts ) );
-		  	
+
 		  	/* 	init var's 	*/
-		  	$style = $url = $link_title = $target = $responsive_margins = $normal_margins = $hover = $shadow = '';
+		  	$style = $url = $link_title = $target = $responsive_margins = $normal_margins = $hover = $shadow = $data_attr = '';
 
 		  	if($bg_type!='') {
 		  		switch ($bg_type) {
 		  			case 'bg_color':	/* 	background color 	*/
 										if($bg_color!='') {
 											$style .= 'background-color:'.$bg_color.';';
+											$data_attr .= ' data-bg="'.$bg_color.'" ';
 										}
 										if($hover_bg_color!='') {
 											$hover .= ' data-hover_bg_color="'.$hover_bg_color.'" ';
@@ -57,7 +58,7 @@
 					break;
 		  		}
 		  	}
-		  	
+
 
 		  	/* 	box shadow 	*/
 			if($box_shadow!='' ) {
@@ -78,15 +79,24 @@
 						$data = apply_filters('Ultimate_GetBoxShadow', $box_shadow, 'data');
 					}
 				}
-				
+
 				$hover .= ' data-hover_box_shadow="'.$data.'" ';
 			}
-			
+
 
 			/* 	border 	*/
 			if($border!=''){
+				$border_array = explode('|', $border);
+				$border_color = '';
+				foreach ($border_array as $border_val) {
+					$border_value_array = explode(':', $border_val);
+					if(isset($border_value_array[0]) && $border_value_array[0] === 'border-color') {
+						$border_color = (isset($border_value_array[1])) ? rtrim($border_value_array[1], ';') : '';
+					}
+				}
 				$temp_border = str_replace( '|', '', $border );
 				$style .= $temp_border;
+				$data_attr .= ' data-border_color="'.$border_color.'" ';
 			}
 
 			/* 	link 	*/
@@ -105,7 +115,9 @@
 			if($margin!=''){ 	$style .= $margin; 		}
 
 			// HOVER
-			if($hover_border_color!='') { 	$hover .= ' data-hover_border_color="'.$hover_border_color.'" '; }
+			if($hover_border_color!='') {
+				$hover .= ' data-hover_border_color="'.$hover_border_color.'" ';
+			}
 			if($min_height!='') { $style .= 'min-height:'.$min_height.'px;'; }
 
 			// Transition Effect
@@ -130,7 +142,7 @@
 			if($link!='') {
 				$output .= '	<a class="ult-content-box-anchor" href="'.$url.'" title="'.$link_title.'" target="'.$target.'" >';
 			}
-			$output .= '		<div class="ult-content-box" style="'.$style.'" '.$hover.' '.$responsive_margins.' '.$normal_margins.'>';
+			$output .= '		<div class="ult-content-box" style="'.$style.'" '.$hover.' '.$responsive_margins.' '.$normal_margins.' '.$data_attr.'>';
 			$output .=				do_shortcode( $content );
 			$output .= '		</div>';
 			if($link!='') {
@@ -140,7 +152,7 @@
 
 		  return $output;
 		}
-		
+
 		function ult_content_box_init() {
 			  if(function_exists("vc_map")){
 				  vc_map( array(
@@ -166,7 +178,7 @@
 				  					__("Background Color","ultimate_vc") => "bg_color",
 				  					__("Background Image","ultimate_vc") => "bg_image",
 				  				),
-					  		),		  		
+					  		),
 							/*array(
 								"type" => "dropdown",
 								"class" => "",
@@ -207,7 +219,7 @@
 					  				__("Left","ultimate_vc")    => ""
 					  			),
 					  			//"enable_radius" => false,                   					//  Enable border-radius. default true
-					  			"radius" => array(                          
+					  			"radius" => array(
 					  				__("Top Left","ultimate_vc")     => "",                	// use 'Top Left'
 					  			  	__("Top Right","ultimate_vc")    => "",                	// use 'Top Right'
 					  			  	__("Bottom Right","ultimate_vc") => "",                	// use 'Bottom Right'
@@ -328,7 +340,7 @@
 								"group" => "Background",
 								"dependency" => Array("element" => "bg_type", "value" => "bg_image" ),
 						  	),
-						  	
+
 						  	//	Hover
 							array(
 								"type" => "colorpicker",

@@ -1,7 +1,6 @@
 /* Scroll to Top */
 html {
     #topcontrol {
-        @include transition (all 0.3s);
         background: #404040;
         background: rgba(64, 64, 64, 0.75);
         border-radius: $border-base $border-base 0 0;
@@ -21,7 +20,7 @@ html {
 }
 
 /* Responsive */
-@media (max-width: 767px) {
+@media #{$screen-medium} {
 
     html #topcontrol {
         display: none;

@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
+}
 
 /**
  * Used to check for current less version during page open
@@ -15,10 +18,13 @@ add_action( 'vc_before_init', 'vc_check_for_custom_css_build' );
  */
 function vc_check_for_custom_css_build() {
 	$version = vc_settings()->getCustomCssVersion();
-	if ( vc_settings()->useCustomCss() && ( ! $version || version_compare( WPB_VC_VERSION, $version, '<>' ) ) ) {
-		if ( current_user_can( 'manage_options' ) ) {
-			add_action( 'admin_notices', 'vc_custom_css_admin_notice' );
-		}
+	if ( vc_user_access()
+			->wpAny( 'manage_options' )
+			->part( 'settings' )
+			->can( 'vc-color-tab' )
+			->get() && vc_settings()->useCustomCss() && ( ! $version || version_compare( WPB_VC_VERSION, $version, '<>' ) )
+	) {
+		add_action( 'admin_notices', 'vc_custom_css_admin_notice' );
 	}
 }
 
@@ -29,7 +35,7 @@ function vc_check_for_custom_css_build() {
  */
 function vc_custom_css_admin_notice() {
 	global $current_screen;
-	vc_settings()->set('compiled_js_composer_less', '');
+	vc_settings()->set( 'compiled_js_composer_less', '' );
 	$class = 'notice notice-warning vc_settings-custom-design-notice';
 	$message_important = __( 'Important notice', 'js_composer' );
 	if ( is_object( $current_screen ) && isset( $current_screen->id ) && 'visual-composer_page_vc-color' === $current_screen->id ) {
@@ -54,8 +60,8 @@ function vc_custom_css_admin_notice() {
 }
 
 function vc_page_settings_tab_color_submit_attributes( $submitButtonAttributes ) {
-	$submitButtonAttributes['data-vc-less-path'] = vc_asset_url( 'less/js_composer.less' );
-	$submitButtonAttributes['data-vc-less-root'] = vc_asset_url( 'less' );
+	$submitButtonAttributes['data-vc-less-path'] = vc_str_remove_protocol( vc_asset_url( 'less/js_composer.less' ) );
+	$submitButtonAttributes['data-vc-less-root'] = vc_str_remove_protocol( vc_asset_url( 'less' ) );
 	$submitButtonAttributes['data-vc-less-variables'] = json_encode( apply_filters( 'vc_settings-less-variables', array(
 		// Main accent color:
 		'vc_grey' => array(
@@ -65,7 +71,7 @@ function vc_page_settings_tab_color_submit_attributes( $submitButtonAttributes )
 		// Hover color
 		'vc_grey_hover' => array(
 			'key' => 'wpb_js_vc_color_hover',
-			'default' => vc_settings()->getDefault( 'vc_color_hover' )
+			'default' => vc_settings()->getDefault( 'vc_color_hover' ),
 		),
 		'vc_image_slider_link_active' => 'wpb_js_vc_color_hover',
 		// Call to action background color
@@ -79,7 +85,7 @@ function vc_page_settings_tab_color_submit_attributes( $submitButtonAttributes )
 				array(
 					'plain' => array(
 						'darken({{ value }}, 5%)',
-					)
+					),
 				),
 			),
 		),
@@ -130,11 +136,7 @@ function vc_page_settings_tab_color_submit_attributes( $submitButtonAttributes )
 
 function vc_page_settings_desing_options_load() {
 	add_filter( 'vc_settings-tab-submit-button-attributes-color', 'vc_page_settings_tab_color_submit_attributes' );
-	wp_enqueue_script( 'vc_less_js', vc_asset_url( 'lib/bower/lessjs/dist/less.min.js' ), array( 'wpb_js_composer_js_listeners' ), WPB_VC_VERSION );
-	wp_enqueue_script( 'vc_less_builder', vc_asset_url( 'js/lib/vc_less.js' ), array(
-		'vc_less_js',
-		'wpb_js_composer_js_tools'
-	), WPB_VC_VERSION );
+	wp_enqueue_script( 'vc_less_js', vc_asset_url( 'lib/bower/lessjs/dist/less.min.js' ), array(), WPB_VC_VERSION );
 }
 
-add_action( 'vc_settings_tab-color', 'vc_page_settings_desing_options_load' );
+add_action( 'vc-settings-render-tab-vc-color', 'vc_page_settings_desing_options_load' );

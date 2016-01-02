@@ -15,7 +15,7 @@ if(!class_exists('WooComposer_ViewProduct')){
 			if(function_exists('vc_map')){
 				$params =
 					array(
-						"name"		=> __("Single Product [Beta]", "ultimate_vc"),
+						"name"		=> __("Single Product", "ultimate_vc"),
 						"base"		=> "woocomposer_product",
 						"icon"		=> "woo_product",
 						"class"	   => "woo_product",
@@ -23,6 +23,7 @@ if(!class_exists('WooComposer_ViewProduct')){
 						"description" => __("Display single product from list","ultimate_vc"),
 						"controls" => "full",
 						"show_settings_on_create" => true,
+						"deprecated" => "3.13.5",
 						"params" => array(
 							array(
 								"type" => "product_search",

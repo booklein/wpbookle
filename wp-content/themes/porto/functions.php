@@ -122,6 +122,14 @@ if ( ! function_exists( 'porto_setup' ) ) :
 
         // add post formats
         add_theme_support('post-formats', array('aside', 'gallery', 'link', 'image', 'quote', 'video', 'audio', 'chat'));
+
+        // disable master slider woocommerce product slider
+        $options = get_option( 'msp_woocommerce' );
+
+        if ( isset( $options ) && isset($options['enable_single_product_slider'] ) && $options['enable_single_product_slider'] == 'on' ) {
+            $options['enable_single_product_slider'] = '';
+            update_option('msp_woocommerce', $options);
+        }
     }
 endif;
 add_action( 'after_setup_theme', 'porto_setup' );
@@ -141,6 +149,24 @@ function porto_css() {
     wp_deregister_style( 'font-awesome' );
     wp_deregister_style( 'yith-wcwl-font-awesome' );
     wp_deregister_style( 'bsf-Simple-Line-Icons' );
+
+    // load visual composer styles
+    if (!wp_style_is('js_composer_front'))
+        wp_enqueue_style('js_composer_front');
+
+    // load ultimate addons default js
+    $bsf_options = get_option('bsf_options');
+    $ultimate_global_scripts = (isset($bsf_options['ultimate_global_scripts'])) ? $bsf_options['ultimate_global_scripts'] : false;
+    if ($ultimate_global_scripts !== 'enable') {
+        $ultimate_css = get_option('ultimate_css');
+        if ($ultimate_css == "enable") {
+            if (!wp_style_is('ultimate-style-min'))
+                wp_enqueue_style('ultimate-style-min');
+        } else {
+            if (!wp_style_is('ultimate-style'))
+                wp_enqueue_style('ultimate-style');
+        }
+    }
 
     global $porto_settings;
 
@@ -318,7 +344,7 @@ function porto_css() {
         $font_family .= $font . ':300,300italic,400,400italic,600,600italic,700,700italic,800,800italic%7C';
 
     if ($font_family) {
-        wp_register_style( 'porto-google-fonts', "//fonts.googleapis.com/css?family=" . $font_family . "&amp;subset=latin,greek-ext,cyrillic,latin-ext,greek,cyrillic-ext,vietnamese" );
+        wp_register_style( 'porto-google-fonts', "//fonts.googleapis.com/css?family=" . $font_family . "&amp;subset=latin,greek-ext,cyrillic,latin-ext,greek,cyrillic-ext,vietnamese,khmer" );
         wp_enqueue_style( 'porto-google-fonts' );
     }
 
@@ -340,6 +366,28 @@ function porto_scripts() {
         // comment reply
         if ( is_singular() && get_option( 'thread_comments' ) ) {
             wp_enqueue_script( 'comment-reply' );
+        }
+
+        // load visual composer default js
+        if (!wp_script_is('wpb_composer_front_js')) {
+            wp_enqueue_script('wpb_composer_front_js');
+        }
+
+        // load ultimate addons default js
+        $bsf_options = get_option('bsf_options');
+        $ultimate_global_scripts = (isset($bsf_options['ultimate_global_scripts'])) ? $bsf_options['ultimate_global_scripts'] : false;
+        if ($ultimate_global_scripts !== 'enable') {
+            $isAjax = false;
+            $ultimate_ajax_theme = get_option('ultimate_ajax_theme');
+            if ($ultimate_ajax_theme == 'enable')
+                $isAjax = true;
+            $ultimate_js = get_option('ultimate_js', 'disable');
+            $bsf_dev_mode = (isset($bsf_options['dev_mode'])) ? $bsf_options['dev_mode'] : false;
+            if (($ultimate_js == 'enable' || $isAjax == true) && ($bsf_dev_mode != 'enable') ) {
+                if (!wp_script_is('ultimate-script')) {
+                    wp_enqueue_script('ultimate-script');
+                }
+            }
         }
 
         // porto scripts
@@ -368,9 +416,18 @@ function porto_scripts() {
         wp_register_script( 'porto-theme', porto_js .'/theme'.(WP_DEBUG?'':'.min').'.js', array('jquery'), porto_version, true );
         wp_enqueue_script( 'porto-theme' );
 
+        // compatible check with product filter plugin
+        $js_wc_prdctfltr = false;
+        if (class_exists('WC_Prdctfltr')) {
+            $porto_settings['category-ajax'] = false;
+            if ( get_option( 'wc_settings_prdctfltr_use_ajax', 'no' ) == 'yes' ) {
+                $js_wc_prdctfltr = true;
+            }
+        }
+
         wp_localize_script( 'porto-theme', 'js_porto_vars', array(
             'rtl' => esc_js(is_rtl() ? true : false),
-            'ajax_url' => esc_js(admin_url( 'admin-ajax.php' )),
+            'ajax_url' => esc_js(admin_url( 'admin-ajax.php', 'relative' )),
             'change_logo' => esc_js($porto_settings['change-header-logo']),
             'post_zoom' => esc_js($porto_settings['post-zoom']),
             'portfolio_zoom' => esc_js($porto_settings['portfolio-zoom']),
@@ -383,12 +440,21 @@ function porto_scripts() {
             'show_sticky_header_mobile' => esc_js($porto_settings['enable-sticky-header-mobile']),
             'request_error' => esc_js(__('The requested content cannot be loaded.<br/>Please try again later.', 'porto')),
             'ajax_loader_url' => esc_js(str_replace(array('http:', 'https'), array('', ''), porto_uri . '/images/ajax-loader@2x.gif')),
-            'category_ajax' => esc_js($porto_settings['category-ajax'])
+            'category_ajax' => esc_js($porto_settings['category-ajax']),
+            'prdctfltr_ajax' => esc_js($js_wc_prdctfltr),
+            'show_minicart' => esc_js($porto_settings['show-minicart']),
+            'slider_autoplay' => esc_js($porto_settings['slider-autoplay']),
+            'slider_speed' => esc_js($porto_settings['slider-speed'])
         ) );
     }
 }
 
 function porto_admin_css() {
+    // simple line icon font
+    wp_deregister_style( 'bsf-Simple-Line-Icons' );
+    wp_deregister_style( 'porto_shortcodes_simpleline' );
+    wp_enqueue_style('porto-sli-font', porto_css . '/Simple-Line-Icons/Simple-Line-Icons.css', false, porto_version, 'all');
+    // admin style
     wp_enqueue_style('porto_admin_css', porto_css . '/admin.css', false, porto_version, 'all');
 }
 

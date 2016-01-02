@@ -14,13 +14,12 @@
 	function contentBoxInit() {
 		$('.ult-content-box').each(function(index, el) {
 			var normal_bg_color = $(el).css('background-color') || '';
-			var normal_border_color = $(el).css('border-color') || '';
+			var normal_border_color = $(el).data('border_color') || 'transparent';
 			var normal_box_shadow = $(el).css('box-shadow') || '';
 
 			var hover_bg_color = $(el).data('hover_bg_color') || $(el).css('background-color');
-			var hover_border_color = $(el).data('hover_border_color') || $(el).css('border-color');
+			var hover_border_color = $(el).data('hover_border_color') || 'transparent';
 			var hover_box_shadow = $(el).data('hover_box_shadow') || $(el).css('box-shadow');
-
 
 			$(el).hover(function() {
 				$(el).css('background-color', hover_bg_color);
@@ -100,15 +99,15 @@
 					var nm = val.split(':');
 					if(typeof nm[0] != undefined && nm[0] != null && typeof nm[1] != undefined && nm[1] != null ) {
 						switch(nm[0]) {
-							case 'margin' : 	tmOj['margin'] = parseInt(nm[1]);
+							case 'margin' : 	tmOj['margin'] = (nm[1]);
 								break;
-							case 'margin-left' :  	tmOj['margin-left'] = parseInt(nm[1]);
+							case 'margin-left' :  	tmOj['margin-left'] = (nm[1]);
 								break;
-							case 'margin-right' : 	tmOj['margin-right'] = parseInt(nm[1]);
+							case 'margin-right' : 	tmOj['margin-right'] = (nm[1]);
 								break;
-							case 'margin-top' : 	tmOj['margin-top'] = parseInt(nm[1]);
+							case 'margin-top' : 	tmOj['margin-top'] = (nm[1]);
 								break;
-							case 'margin-bottom' : 	tmOj['margin-bottom'] = parseInt(nm[1]);
+							case 'margin-bottom' : 	tmOj['margin-bottom'] = (nm[1]);
 								break;
 						}
 					}
@@ -130,5 +129,5 @@
 		}
 	}
 
-	
+
 }(jQuery, window));

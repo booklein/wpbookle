@@ -1,19 +1,18 @@
 {
-    "showing-loading-overlay":false,
+    "show-loading-overlay":false,
     "wrapper":"full",
     "layout":"right-sidebar",
     "sidebar":"blog-sidebar",
-    "show-breadcrumbs":true,
-    "show-pagetitle":true,
     "header-wrapper": "full",
     "banner-wrapper": "wide",
     "breadcrumbs-wrapper": "full",
     "main-wrapper": "wide",
     "footer-wrapper": "full",
+    "rich-snippets": true,
     "show-content-type-skin":true,
     "show-category-skin":true,
     "logo":{
-        "url": "<?php echo porto_uri . '/images/logo/logo_white_plus.png' ?>"
+        "url": "<?php echo porto_uri ?>/images/logo/logo.png"
     },
     "logo-width":"170",
     "logo-width-wide":"250",
@@ -21,22 +20,44 @@
     "logo-width-mobile":"110",
     "logo-width-sticky":"80",
     "favicon":{
-        "url": "<?php echo porto_uri . '/images/logo/favicon.ico' ?>"
+        "url": "<?php echo porto_uri ?>/images/logo/favicon.ico"
     },
     "icon-iphone":{
-        "url": "<?php echo porto_uri . '/images/logo/apple-touch-icon.png' ?>"
+        "url": "<?php echo porto_uri ?>/images/logo/apple-touch-icon.png"
     },
     "icon-iphone-retina":{
-        "url": "<?php echo porto_uri . '/images/logo/apple-touch-icon_114x114.png' ?>"
+        "url": "<?php echo porto_uri ?>/images/logo/apple-touch-icon_114x114.png"
     },
     "icon-ipad":{
-        "url": "<?php echo porto_uri . '/images/logo/apple-touch-icon_72x72.png' ?>"
+        "url": "<?php echo porto_uri ?>/images/logo/apple-touch-icon_72x72.png"
     },
     "icon-ipad-retina":{
-        "url": "<?php echo porto_uri . '/images/logo/apple-touch-icon_144x144.png' ?>"
+        "url": "<?php echo porto_uri ?>/images/logo/apple-touch-icon_144x144.png"
     },
     "js-code":"jQuery(document).ready(function(){\n\n});",
     "theme-type":"",
+    "compress-skin-css":false,
+    "button-style":"",
+    "skin-color":"#0088cc",
+    "skin-color-inverse":"#ffffff",
+    "secondary-color":"#e36159",
+    "secondary-color-inverse":"#ffffff",
+    "tertiary-color":"#2baab1",
+    "tertiary-color-inverse":"#ffffff",
+    "quaternary-color":"#383f48",
+    "quaternary-color-inverse":"#ffffff",
+    "dark-color":"#2e353e",
+    "dark-color-inverse":"#ffffff",
+    "light-color":"#ffffff",
+    "light-color-inverse":"#777777",
+    "social-color":"",
+    "compress-default-css":false,
+    "css-type":"",
+    "color-dark":"#1d2127",
+    "container-width":"1170",
+    "grid-gutter-width":"20",
+    "border-radius":true,
+    "thumb-padding":true,
     "body-font":{
         "color":"#777777",
         "google":true,
@@ -102,25 +123,27 @@
         "font-size":"14px",
         "line-height":"18px"
     },
-    "button-style":"",
-    "skin-color":"#0088cc",
-    "skin-color-inverse":"#ffffff",
-    "secondary-color":"#e36159",
-    "secondary-color-inverse":"#ffffff",
-    "tertiary-color":"#2baab1",
-    "tertiary-color-inverse":"#ffffff",
-    "quaternary-color":"#383f48",
-    "quaternary-color-inverse":"#ffffff",
-    "dark-color":"#2e353e",
-    "dark-color-inverse":"#ffffff",
-    "light-color":"#ffffff",
-    "light-color-inverse":"#777777",
-    "css-type":"",
-    "color-dark":"#1d2127",
-    "container-width":"1170",
-    "grid-gutter-width":"20",
-    "border-radius":true,
-    "thumb-padding":true,
+    "menu-font":{
+        "google":true,
+        "font-weight":"700",
+        "font-family":"Open Sans",
+        "font-size":"12px",
+        "line-height":"20px"
+    },
+    "menu-side-font":{
+        "google":true,
+        "font-weight":"400",
+        "font-family":"Open Sans",
+        "font-size":"14px",
+        "line-height":"18px"
+    },
+    "menu-popup-font":{
+        "google":true,
+        "font-weight":"400",
+        "font-family":"Open Sans",
+        "font-size":"14px",
+        "line-height":"24px"
+    },
     "body-bg":{
         "background-color":"#ffffff",
         "background-repeat":"repeat",
@@ -206,10 +229,10 @@
         "to":""
     },
     "sticky-header-opacity":"100%",
-    "header-text-color":"#777777",
+    "header-text-color":"#999999",
     "header-link-color":{
-        "regular":"#0088cc",
-        "hover":"#0099e6"
+        "regular":"#999999",
+        "hover":"#999999"
     },
     "header-opacity":"80%",
     "searchform-opacity":"50%",
@@ -217,12 +240,12 @@
     "menu-opacity":"30%",
     "header-fixed-show-bottom":false,
     "header-top-border":{
-        "border-color":"#0088cc",
+        "border-color":"#ededed",
         "border-top":"0"
     },
-    "header-top-bg-color":"#f0f0ed",
+    "header-top-bg-color":"#f4f4f4",
     "header-top-bottom-border":{
-        "border-color":"#0088cc",
+        "border-color":"#ededed",
         "border-top":"0"
     },
     "header-top-text-color":"#777777",
@@ -233,14 +256,14 @@
     "side-social-bg-color":"#9e9e9e",
     "side-social-color":"#ffffff",
     "side-copyright-color":"#777777",
-    "mainmenu-wrap-bg-color":"#ffffff",
+    "mainmenu-wrap-bg-color":"transparent",
     "mainmenu-wrap-padding":{
         "padding-top":0,
         "padding-bottom":0,
         "padding-left":0,
         "padding-right":0
     },
-    "mainmenu-bg-color":"#f0f0ed",
+    "mainmenu-bg-color":"transparent",
     "mainmenu-toplevel-link-color":{
         "regular":"#0088cc",
         "hover":"#ffffff"
@@ -269,11 +292,41 @@
     "mainmenu-popup-text-hbg-color":"#f4f4f4",
     "mainmenu-popup-narrow-type":"",
     "mainmenu-tip-bg-color":"#0cc485",
-    "menu-custom-text-color":"#0088cc",
+    "menu-custom-text-color":"#006fa4",
     "menu-custom-link":{
         "regular":"#0088cc",
-        "hover":"#0099e6"
+        "hover":"#006fa4"
     },
+    "breadcrumbs-bg":{
+        "background-color":"#171717",
+        "background-repeat":"repeat",
+        "background-size":"auto",
+        "background-attachment":"scroll",
+        "background-position":"initial",
+        "background-image":"none"
+    },
+    "breadcrumbs-bg-gradient":false,
+    "breadcrumbs-bg-gcolor":{
+        "from":"",
+        "to":""
+    },
+    "breadcrumbs-top-border":{
+        "border-color":"#384045",
+        "border-top":"0"
+    },
+    "breadcrumbs-bottom-border":{
+        "border-color":"#cccccc",
+        "border-top":"0"
+    },
+    "breadcrumbs-padding":{
+        "padding-top":0,
+        "padding-bottom":0,
+        "padding-left":0,
+        "padding-right":0
+    },
+    "breadcrumbs-text-color":"#ffffff",
+    "breadcrumbs-link-color":"#ffffff",
+    "breadcrumbs-title-color":"#ffffff",
     "footer-bg":{
         "background-color":"#0e0e0e",
         "background-repeat":"repeat",
@@ -333,38 +386,8 @@
         "hover":"#ffffff"
     },
     "footer-opacity":"80%",
-    "footer-social-bg-color":"#9e9e9e",
-    "footer-social-link-color":"#ffffff",
-    "breadcrumbs-bg":{
-        "background-color":"#171717",
-        "background-repeat":"repeat",
-        "background-size":"auto",
-        "background-attachment":"scroll",
-        "background-position":"initial",
-        "background-image":"none"
-    },
-    "breadcrumbs-bg-gradient":false,
-    "breadcrumbs-bg-gcolor":{
-        "from":"",
-        "to":""
-    },
-    "breadcrumbs-top-border":{
-        "border-color":"transparent",
-        "border-top":"0"
-    },
-    "breadcrumbs-bottom-border":{
-        "border-color":"transparent",
-        "border-top":"0"
-    },
-    "breadcrumbs-padding":{
-        "padding-top":0,
-        "padding-bottom":0,
-        "padding-left":0,
-        "padding-right":0
-    },
-    "breadcrumbs-text-color":"#ffffff",
-    "breadcrumbs-link-color":"#ffffff",
-    "breadcrumbs-title-color":"#ffffff",
+    "footer-social-bg-color":"#ffffff",
+    "footer-social-link-color":"#555555",
     "panel-bg-color":"#1d2127",
     "panel-text-color":"#ffffff",
     "panel-link-color":{
@@ -372,21 +395,29 @@
         "hover":"#ffffff"
     },
     "switcher-bg-color":"transparent",
-    "switcher-hbg-color":"#0088cc",
+    "switcher-hbg-color":"#ededed",
     "switcher-link-color":{
         "regular":"#777777",
-        "hover":"#ffffff"
+        "hover":"#777777"
     },
     "searchform-bg-color":"#ffffff",
     "searchform-border-color":"#cccccc",
     "searchform-popup-border-color":"#cccccc",
-    "searchform-text-color":"#777777",
-    "searchform-hover-color":"#0088cc",
+    "searchform-text-color":"#555555",
+    "searchform-hover-color":"#333333",
+    "sticky-searchform-popup-border-color":"#cccccc",
+    "sticky-searchform-toggle-text-color":"#777777",
+    "sticky-searchform-toggle-hover-color":"#0088cc",
     "minicart-icon-color":"#0088cc",
-    "minicart-item-color":"#ffffff",
-    "minicart-border-color":"#ffffff",
-    "minicart-bg-color":"#ffffff",
+    "minicart-item-color":"#0088cc",
+    "minicart-border-color":"transparent",
+    "minicart-bg-color":"transparent",
     "minicart-popup-border-color":"#0088cc",
+    "sticky-minicart-icon-color":"#0088cc",
+    "sticky-minicart-item-color":"#ffffff",
+    "sticky-minicart-border-color":"#ffffff",
+    "sticky-minicart-bg-color":"#ffffff",
+    "sticky-minicart-popup-border-color":"#0088cc",
     "wishlist-color":"#e36159",
     "wishlist-color-inverse":"#ffffff",
     "quickview-color":"#2baab1",
@@ -396,16 +427,17 @@
     "sale-color":"#e27c7c",
     "sale-color-inverse":"#ffffff",
     "css-code":"",
-    "header-type":"1",
+    "header-type":"10",
     "show-header-top":true,
     "change-header-logo":true,
     "wpml-switcher":false,
     "wcml-switcher":false,
     "switcher-effect":"",
-    "welcome-msg":"WELCOME TO PORTO WORDPRESS",
-    "header-contact-info":"<i class='fa fa-phone'></i> +(404) 158 14 25 78 <span class='gap'>|</span><a href='#'>CONTACT US</a>",
+    "welcome-msg":"",
+    "header-contact-info":"",
     "header-copyright":"&copy; Copyright 2015. All Rights Reserved.",
     "show-header-socials":false,
+    "header-socials-nofollow":false,
     "header-social-facebook":"",
     "header-social-twitter":"",
     "header-social-rss":"",
@@ -420,6 +452,9 @@
     "header-social-tumblr":"",
     "header-social-reddit":"",
     "header-social-vimeo":"",
+    "header-social-telegram":"",
+    "header-social-yelp":"",
+    "header-social-flickr":"",
     "header-social-whatsapp":"",
     "show-minicart":true,
     "minicart-type":"",
@@ -443,23 +478,31 @@
     "menu-sidebar-home":true,
     "menu-title":"All Department",
     "menu-toggle-onhome":false,
-    "menu-block":"<a href=\"#\">Special Offer!</a><a href=\"#\">Buy this Theme!<em class=\"tip hot\">HOT<i class=\"tip-arrow\"></i></em></a>",
+    "menu-block":"",
+    "show-breadcrumbs":true,
+    "show-pagetitle":true,
+    "breadcrumbs-prefix":"",
+    "breadcrumbs-blog-link":true,
+    "breadcrumbs-archives-link":true,
+    "breadcrumbs-categories":true,
+    "breadcrumbs-type":"1",
     "footer-type":"1",
     "footer-logo":{
-        "url": "<?php echo porto_uri . '/images/logo/logo_footer.png' ?>"
+        "url": "<?php echo porto_uri ?>/images/logo/logo_footer.png"
     },
-    "footer-ribbon":"Get in Touch!",
+    "footer-ribbon":"",
     "footer-copyright":"&copy; Copyright 2015. All Rights Reserved.",
-    "footer-copyright-pos":"right",
-    "footer-payments":"1",
+    "footer-copyright-pos":"left",
+    "footer-payments":false,
     "footer-payments-image":{
-        "url": "<?php echo porto_uri . '/images/payments.png' ?>"
+        "url": "<?php echo porto_uri ?>/images/payments.png"
     },
     "footer-payments-link":"",
-    "page-comment":"0",
+    "page-comment":false,
     "page-zoom":true,
     "page-share":false,
     "post-format":true,
+    "hot-label":"",
     "post-zoom":true,
     "blog-title":"Blog",
     "post-archive-layout":"right-sidebar",
@@ -515,8 +558,9 @@
     "member-title":"Meet the <strong>Team<\/strong>",
     "member-archive-layout":"fullwidth",
     "member-infinite":true,
+    "member-overview":true,
     "member-excerpt":true,
-    "member-excerpt-length":"80",
+    "member-excerpt-length":"15",
     "member-single-layout":"fullwidth",
     "member-related":true,
     "member-related-count":"10",
@@ -537,6 +581,7 @@
     "category-hover":true,
     "product-wishlist":true,
     "product-quickview":true,
+    "product-quickview-label":"",
     "category-mobile-filter":true,
     "product-single-layout":"right-sidebar",
     "product-related":true,
@@ -553,7 +598,9 @@
     "product-upsells-count":"10",
     "product-upsells-cols":"4",
     "product-hot":true,
+    "product-hot-label":"",
     "product-sale":true,
+    "product-sale-label":"",
     "product-sale-percent":true,
     "product-stock":true,
     "product-share":true,

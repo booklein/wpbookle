@@ -90,6 +90,11 @@ body.boxed {
                 margin-right: -($grid-gutter-width / 2) !important;
             }
         }
+        .ult-vc-hide-row {
+            @media (min-width: 768px) {
+                overflow: visible;
+            }
+        }
     }
 
     #header {

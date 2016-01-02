@@ -4,7 +4,7 @@
 .wpb_column .wpb_wrapper .ult_pricing_table_wrap,
 .wpb_column .wpb_wrapper .ult_pricing_table_wrap:last-child {
     display: block;
-    margin-bottom: 30px;
+    margin-bottom: 35px;
     float: left
 }
 .ult_pricing_table,
@@ -44,19 +44,19 @@
     font-size: 16px;
     font-weight: bold;
     line-height: 1.4em;
-    color: inherit !important
+    color: inherit
 }
 .ult_pricing_table .ult_pricing_heading h5 {
     padding: 0;
     margin: 4px 20px 15px;
     font-size: 12px;
     font-weight: normal;
-    color: inherit !important
+    color: inherit;
 }
 .ult_pricing_table .ult_price_body,
 .wpb_column>.wpb_wrapper>.ult_pricing_table_wrap .ult_pricing_table .ult_price_body {
     display: table;
-    margin: 15px auto
+    margin: 15px auto;
 }
 .ult_price_body .ult_price {
     vertical-align: middle;
@@ -75,7 +75,7 @@
     display: block
 }
 .ult_pricing_table .ult_price_features {
-    padding: 15px;
+    padding: 15px 15px 0px 15px;
     margin: 0
 }
 .ult_pricing_table .ult_price_features ul {
@@ -103,7 +103,7 @@
     line-height: 1.5em
 }
 .ult_pricing_table .ult_price_link {
-    padding: 15px 0
+    padding: 0 0 15px 0;
 }
 .ult_pricing_table .ult_price_link .ult_price_action_button {
     display: inline-block;
@@ -647,17 +647,15 @@
     background: #d9dee0;
     color: #5d5d5d
 }
-.ult_price_table_ht .ult_price_link {
-    position: absolute;
-    bottom: 0;
-}
 .ult_design_2 .ult_price_table_ht .ult_price_link {
     position: relative;
 }
-.info_min_ht .ult_price_link {
-    position: absolute;
-    bottom: 0;
-}
 .ult_design_2 .info_min_ht .ult_price_link {
     position: relative;
+}
+.ult_design_1 .ult_pricing_table .ult_price_link {
+    padding-top: 15px;
+}
+a.ult_price_action_button {
+    border: none;
 }

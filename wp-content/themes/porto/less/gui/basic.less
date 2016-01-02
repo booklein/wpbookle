@@ -1,5 +1,11 @@
 
 // mixins
+.opacity (@opacity) {
+    opacity: 		@opacity;
+    @opacity_ie: (@opacity * 100);
+    filter: alpha(opacity=@opacity-ie);
+}
+
 .boxShadowByOpacity(@b) when not (@b = alpha(transparent)) {
 
 }

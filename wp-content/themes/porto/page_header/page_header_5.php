@@ -14,7 +14,11 @@ if (( is_front_page() && is_home()) || is_front_page() ) {
     <div class="row">
         <div class="col-md-12 clearfix">
             <div class="pt-right <?php if (!($title = porto_page_title()) || !$page_title) : ?> hide<?php endif; ?>">
-                <h1 class="page-title"><?php echo $title; ?></h1>
+                <?php if (function_exists('is_product') && is_product()) : ?>
+                    <div class="page-title"><?php echo $title; ?></div>
+                <?php else: ?>
+                    <h1 class="page-title"><?php echo $title; ?></h1>
+                <?php endif; ?>
                 <?php
                 if (function_exists('porto_woocommerce_product_nav')) {
                     porto_woocommerce_product_nav();

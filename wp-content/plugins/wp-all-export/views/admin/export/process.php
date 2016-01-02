@@ -40,6 +40,12 @@
 				<div class="input">
 					<button class="button button-primary button-hero wpallexport-large-button download_data" rel="<?php echo add_query_arg(array('action' => 'download', 'id' => $update_previous->id, '_wpnonce' => wp_create_nonce( '_wpnonce-download_feed' )), $this->baseUrl); ?>"><?php echo strtoupper($update_previous->options['export_to']); ?></button>
 				</div>
+				<?php if ( ! empty($update_previous->options['split_large_exports']) ): ?>
+				<div class="input" style="margin-left: 10px;">
+					<button class="button button-primary button-hero wpallexport-large-button download_data" rel="<?php echo add_query_arg(array('page' => 'pmxe-admin-manage', 'id' => $update_previous->id, 'action' => 'split_bundle', '_wpnonce' => wp_create_nonce( '_wpnonce-download_split_bundle' )), $this->baseUrl); ?>"><?php printf(__('Split %ss', 'wp_all_export_plugin'), strtoupper($update_previous->options['export_to'])); ?></button>
+					<!--span><?php _e('Settings & Data for WP All Import', 'wp_all_export_plugin'); ?></span-->
+				</div>
+				<?php endif; ?>
 				<?php if ( empty($update_previous->options['cpt']) or ! in_array('shop_order', $update_previous->options['cpt'])): ?>
 				<div class="input" style="margin-left: 10px;">
 					<button class="button button-primary button-hero wpallexport-large-button download_data" rel="<?php echo add_query_arg(array('page' => 'pmxe-admin-manage', 'id' => $update_previous->id, 'action' => 'bundle', '_wpnonce' => wp_create_nonce( '_wpnonce-download_bundle' )), $this->baseUrl); ?>"><?php _e('Bundle', 'wp_all_export_plugin'); ?></button>

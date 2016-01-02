@@ -55,6 +55,9 @@ abstract class PMXE_Controller_Admin extends PMXE_Controller {
 		if ( version_compare(get_bloginfo('version'), '3.8-RC1') >= 0 ){			
 			wp_enqueue_style('pmxe-admin-style-wp-3.8', PMXE_ROOT_URL . '/static/css/admin-wp-3.8.css');
 		}
+		if ( version_compare(get_bloginfo('version'), '4.4') >= 0 ){			
+			wp_enqueue_style('pmxe-admin-style-wp-4.4', PMXE_ROOT_URL . '/static/css/admin-wp-4.4.css');
+		}
 
 		$scheme_color = get_user_option('admin_color') and is_file(PMXE_Plugin::ROOT_DIR . '/static/css/admin-colors-' . $scheme_color . '.css') or $scheme_color = 'fresh';
 		if (is_file(PMXE_Plugin::ROOT_DIR . '/static/css/admin-colors-' . $scheme_color . '.css')) {

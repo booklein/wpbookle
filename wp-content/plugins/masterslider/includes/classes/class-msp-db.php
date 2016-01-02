@@ -23,7 +23,7 @@ class MSP_DB {
 	/**
 	 * Current database version
 	 */
-	const DB_VERSION = 1.03;
+	const DB_VERSION = "1.4";
 
 
 	/**
@@ -94,7 +94,7 @@ class MSP_DB {
 
 		if( is_admin() ) {
 
-			$this->update_tables();
+			$this->maybe_update_tables();
 			add_filter( 'wpmu_drop_tables', array( $this, 'wpmu_drop_tables' ), 11, 2 );
 		}
 
@@ -135,20 +135,22 @@ class MSP_DB {
 	 */
 	private function create_table_sliders() {
 
-		$sql_create_table = "CREATE TABLE IF NOT EXISTS {$this->sliders}  (
-          ID mediumint unsigned NOT NULL AUTO_INCREMENT,
-          title varchar(100) NOT NULL,
-		  type varchar(64) NOT NULL,
-		  slides_num smallint unsigned NOT NULL,
-		  date_created  datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-		  date_modified datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-		  params mediumtext NOT NULL,
-		  custom_styles text NOT NULL DEFAULT '',
-		  custom_fonts  text NOT NULL DEFAULT '',
-		  status varchar(10) NOT NULL DEFAULT 'draft',
-		  PRIMARY KEY (ID),
-		  KEY  date_created (date_created)
-        ) {$this->charset_collate};";
+		$sql_create_table = "CREATE TABLE {$this->sliders}  (
+            ID mediumint unsigned NOT NULL AUTO_INCREMENT,
+            title  varchar(100) NOT NULL,
+            alias  varchar(100) NOT NULL,
+            type  varchar(64) NOT NULL,
+            slides_num smallint unsigned NOT NULL,
+            date_created  datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+            date_modified datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+            params mediumtext NOT NULL,
+            custom_styles text NOT NULL DEFAULT '',
+            custom_fonts  text NOT NULL DEFAULT '',
+            status varchar(10) NOT NULL DEFAULT 'draft',
+            PRIMARY KEY  (ID),
+            KEY date_created (date_created),
+            KEY alias (alias)
+        ) {$this->charset_collate};\n";
 
 	 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		dbDelta( $sql_create_table );
@@ -163,13 +165,13 @@ class MSP_DB {
 	 */
 	private function create_table_options() {
 
-		$sql_create_table = "CREATE TABLE IF NOT EXISTS {$this->options}  (
-          ID smallint unsigned NOT NULL AUTO_INCREMENT,
-          option_name varchar(120) NOT NULL,
-		  option_value text NOT NULL DEFAULT '',
-		  PRIMARY KEY (ID),
-		  UNIQUE KEY option_name (option_name)
-        ) $this->charset_collate; ";
+		$sql_create_table = "CREATE TABLE {$this->options}  (
+            ID smallint unsigned NOT NULL AUTO_INCREMENT,
+            option_name varchar(120) NOT NULL,
+            option_value text NOT NULL DEFAULT '',
+            PRIMARY KEY  (ID),
+            UNIQUE KEY option_name (option_name)
+        ) $this->charset_collate;\n";
 
 	 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		dbDelta( $sql_create_table );
@@ -188,16 +190,16 @@ class MSP_DB {
 		global $wpdb, $charset_collate;
 
 		// set database character collate
-		if (!empty ($wpdb->charset))
+		if ( ! empty( $wpdb->charset ) )
 	        $this->charset_collate = "DEFAULT CHARACTER SET {$wpdb->charset}";
-	    if (!empty ($wpdb->collate))
+	    if ( ! empty( $wpdb->collate ) )
 	        $this->charset_collate .= " COLLATE {$wpdb->collate}";
 
-	    if ( $wpdb->get_var( "SHOW TABLES LIKE '{$this->sliders}'" )  != $this->sliders  )
-			$this->create_table_sliders();
+	    // if ( $wpdb->get_var( "SHOW TABLES LIKE '{$this->sliders}'" )  != $this->sliders  )
+		$this->create_table_sliders();
 
-	    if ( $wpdb->get_var( "SHOW TABLES LIKE '{$this->options}'" ) != $this->options )
-			$this->create_table_options();
+	    // if ( $wpdb->get_var( "SHOW TABLES LIKE '{$this->options}'" ) != $this->options )
+        $this->create_table_options();
 
 		// update tables version to current version
 		update_option( "masterslider_db_version", self::DB_VERSION );
@@ -206,6 +208,31 @@ class MSP_DB {
 	}
 
 
+    /**
+     * Update master slider tables
+     *
+     * Should be invoked on plugin updates
+     *
+     * @since 1.1
+     * @return null
+     */
+    public function update_tables() {
+
+        if( version_compare( self::DB_VERSION, '1.3', '>=') ){
+
+            // pull mulitple row results from sliders table
+            if( $results = $this->get_sliders_list( 0, 0, 'ID', 'DESC', "1") ){
+                foreach ( $results as $row_index => $row ) {
+                    if( isset( $row['alias'] ) && empty( $row['alias'] ) ){
+                        $row['alias'] = $this->generate_slider_alias( $row['ID'] );
+                        $this->update_slider( $row['ID'], array( 'alias' => $row['alias'] ) );
+                    }
+                }
+            }
+        }
+
+    }
+
 
 	/**
 	 * Updates masterslider tables if update is required
@@ -213,14 +240,16 @@ class MSP_DB {
 	 * @since 1.0
 	 * @return bool  is any update required for tabels?
 	 */
-	public function update_tables(){
+	public function maybe_update_tables(){
 		// check if the tables need update
 		if( get_option( 'masterslider_db_version', '0' ) == self::DB_VERSION )
 			return false;
 
-		$this->create_tables();
+        $this->create_tables();
+		$this->update_tables();
 
 		do_action( 'masterslider_tables_updated', $this->tables );
+
 		return true;
 	}
 
@@ -231,7 +260,7 @@ class MSP_DB {
 	 * @since 1.0
 	 * @return null
 	 */
-	public function delete_tables() {
+	public function delete_tables(){
 		global $wpdb;
 
 		foreach ( $this->tables as $table_id => $table_name) {
@@ -273,6 +302,7 @@ class MSP_DB {
 		// default fields in sliders table
 		$defaults = array(
 			'title' 		=> 'Untitled Slider',
+            'alias'         => $this->generate_slider_alias(),
 			'type'			=> '',  // custom, flickr, instagram, facebook, post
 			'slides_num'	=> 0,
 			'date_created'	=> '',
@@ -301,7 +331,7 @@ class MSP_DB {
 		$data = $this->maybe_serialize_fields($data);
 
 		// An array of formats to be mapped to each of the value in $data
-		$format = array('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');
+		$format = array('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');
 
 		// Insert a row into the table. returns false if the row could not be inserted.
 		$status = $wpdb->insert( $this->sliders, $data, $format );
@@ -359,41 +389,78 @@ class MSP_DB {
 
 
 	/**
-	 * Remove a specific slider data from sliders table
+	 * Remove a specific slider data from sliders table by both slider ID and alias
 	 *
-	 * @param  int $slider_id  The ID of the slider you'd like to be removed
+     * @param  int $slider_id  The ID of the slider you'd like to be removed
+     * @param  int $by         The field name where we search for slider. possible values 'ID' and 'alias'
+	 *
 	 * @return bool  returns true on success or false on error
 	 */
-	public function delete_slider($slider_id) {
+	public function delete_slider( $slider_id, $by = 'ID' ) {
 		global $wpdb;
 
-		if ( ! isset($slider_id) || ! is_numeric($slider_id) ) {
-			return  false;
-		}
+		if ( ! empty( $slider_id ) ) {
+            $by = strtolower( $by );
 
-		return $wpdb->delete(
-			$this->sliders,
-			array( 'ID' => (int)$slider_id ),
-			array( '%d' )
-		);
+            // Remove slider by ID
+            if( 'id' == $by && is_numeric( $slider_id ) ){
+
+                return $wpdb->delete(
+                    $this->sliders,
+                    array( 'ID' => (int)$slider_id ),
+                    array( '%d' )
+                );
+
+            // Remove slider by alias
+            } elseif ( 'alias' == $by ) {
+
+                return $wpdb->delete(
+                    $this->sliders,
+                    array( 'alias' => $slider_id ),
+                    array( '%s' )
+                );
+
+            }
+        }
+
+		return  false;
 	}
 
 
 	/**
-	 * Get slider data by slider id from slider table (for single )
+	 * Get slider data by slider id/alias from slider table (for single )
 	 *
 	 * @param  int $slider_id  The ID of the slider you'd like to get the content
-	 * @return array|null 	slider data in array or null if no result found
+     * @param  int $by         The field name where we search for slider. possible values 'ID' and 'alias'
+     *
+	 * @return array|null 	   Slider data in array or null if no result found
 	 */
-	public function get_slider( $slider_id ) {
+	public function get_slider( $slider_id, $by = 'ID' ) {
 		global $wpdb;
 
-		if ( ! isset($slider_id) || ! is_numeric($slider_id) ) {
-			return null;
+        $sql = '';
+
+		if ( ! empty( $slider_id ) ) {
+            $by = strtolower( $by );
+
+            // Remove slider by ID
+            if( 'id' == $by && is_numeric( $slider_id ) ){
+
+                $sql = $wpdb->prepare( "SELECT * FROM {$this->sliders} WHERE ID = %d", (int)$slider_id );
+
+            // Remove slider by alias
+            } elseif ( 'alias' == $by ) {
+
+                $sql = $wpdb->prepare( "SELECT * FROM {$this->sliders} WHERE alias = %s", $slider_id );
+
+            }
 		}
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$this->sliders} WHERE ID = %d", (int)$slider_id );
-		$result = $wpdb->get_row( $sql, ARRAY_A );
+		if( empty( $sql ) ){
+            return null;
+        }
+
+        $result = $wpdb->get_row( $sql, ARRAY_A );
 
 		return $this->maybe_unserialize_fields($result);
 	}
@@ -428,11 +495,69 @@ class MSP_DB {
 		if( ! isset( $fields['title'] ) || empty( $fields['title'] ) )
 			$fields['title'] = 'Untitled Slider';
 
-		$fields['title'] = $this->duplicate_title( $fields['title'] );
+        $fields['title'] = $this->duplicate_title( $fields['title'] );
+		$fields['alias'] = $this->validate_slider_alias( $fields['alias'] );
 
 		return $this->add_slider( $fields );
 	}
 
+
+    /**
+     * If the alias was registered before, it will change the alias to a unnique name
+     *
+     * @param  string $alias The slider alias name
+     * @return string        A unique slider alias
+     */
+    public function validate_slider_alias( $alias, $slider_id = null ){
+        $sanitized_alias = sanitize_title( $alias );
+        $valid_alias     = $sanitized_alias;
+        $counter         = 0;
+
+        while( $slider_data = $this->get_slider( $valid_alias, 'alias' ) ){
+            if( $slider_id && isset( $slider_data['ID'] ) && $slider_id == $slider_data['ID'] ){
+                return $valid_alias;
+            }
+            ++$counter;
+            $valid_alias = $sanitized_alias .'-'. $counter;
+        }
+
+        return $valid_alias;
+    }
+
+
+    /**
+     * Checks whether the slider alias exists in slider table or not
+     *
+     * @param  string $alias The slider alias name
+     * @return boolean       True if the slider alias exists in slider table, false otherwise
+     */
+    public function slider_alias_exists( $alias ){
+        return $this->get_slider( $alias, 'alias' ) ? true : false;
+    }
+
+
+    /**
+     * Generates a unique slider ID base on slider ID
+     *
+     * @param  string $new_slider_id    The slider ID
+     * @return string                   A unique slider alias
+     */
+    public function generate_slider_alias( $new_slider_id = '' ){
+
+        if( empty( $new_slider_id ) ){
+            $sliders = $this->get_sliders( 0, 0, 'ID', 'DESC' );
+
+            if( ! empty( $sliders ) && is_array( $sliders ) ){
+                $new_slider_id = $sliders[0]['ID'];
+            }
+
+            $new_slider_id = (int) $new_slider_id + 1;
+
+        }
+
+        $alias = 'ms-' . $new_slider_id;
+        return $this->validate_slider_alias( $alias );
+    }
 
 	/**
 	 * Get the value of a single field for a spesific slider
@@ -555,8 +680,8 @@ class MSP_DB {
 		}
 
 		// map through some fields and unserialize values if some data fields are serialized
-		foreach ($results as $row_index => $row) {
-			$results[$row_index] = $this->maybe_unserialize_fields($row);
+		foreach ( $results as $row_index => $row ) {
+			$results[ $row_index ] = $this->maybe_unserialize_fields($row);
 		}
 
 		return $results;

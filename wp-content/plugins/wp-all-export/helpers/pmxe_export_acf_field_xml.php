@@ -1,8 +1,10 @@
 <?php
 
-function pmxe_export_acf_field_xml($field_value, $exportOptions, $ID, $recordID, &$xmlWriter, $element_name = '', $fieldSnipped = '', $group_id = ''){	
+function pmxe_export_acf_field_xml($field_value, $exportOptions, $ID, $recordID, &$xmlWriter, $element_name = '', $element_name_ns = '', $fieldSnipped = '', $group_id = ''){	
 
-	if ( ! empty($field_value) ) {		
+	if ( ! empty($field_value) ) {	
+
+		global $acf;		
 
 		$field_value = maybe_unserialize($field_value);				
 
@@ -51,7 +53,7 @@ function pmxe_export_acf_field_xml($field_value, $exportOptions, $ID, $recordID,
 
 				if (!empty($localion_parts)){
 
-					$xmlWriter->startElement($element_name);
+					$xmlWriter->beginElement($element_name_ns, $element_name, null);
 						$xmlWriter->startElement('address');
 							$xmlWriter->writeCData($localion_parts[0]);
 						$xmlWriter->endElement();
@@ -76,10 +78,10 @@ function pmxe_export_acf_field_xml($field_value, $exportOptions, $ID, $recordID,
 				break;
 			case 'paypal_item':																																																								
 
-				$xmlWriter->startElement($element_name);
+				$xmlWriter->beginElement($element_name_ns, $element_name, null);
 					if ( is_array($field_value) ){
 						foreach ($field_value as $key => $value) {
-							$xmlWriter->startElement($key);
+							$xmlWriter->beginElement($element_name_ns, $key, null);
 								$xmlWriter->writeCData($value);
 							$xmlWriter->endElement();
 						}
@@ -91,7 +93,7 @@ function pmxe_export_acf_field_xml($field_value, $exportOptions, $ID, $recordID,
 				break;
 			case 'google_map':
 
-				$xmlWriter->startElement($element_name);
+				$xmlWriter->beginElement($element_name_ns, $element_name, null);
 					$xmlWriter->startElement('address');
 						$xmlWriter->writeCData($field_value['address']);
 					$xmlWriter->endElement();
@@ -201,7 +203,7 @@ function pmxe_export_acf_field_xml($field_value, $exportOptions, $ID, $recordID,
 				break;									
 			case 'taxonomy':
 
-				$xmlWriter->startElement($element_name);
+				$xmlWriter->beginElement($element_name_ns, $element_name, null);
 
 					if ( ! in_array($field_options['field_type'], array('radio', 'select'))){						
 						foreach ($field_value as $key => $tid) {
@@ -240,30 +242,37 @@ function pmxe_export_acf_field_xml($field_value, $exportOptions, $ID, $recordID,
 				
 				$field_value = implode(",", $field_value);																							
 
+				//var_dump($field_value);
+
 				break;
 			
 			case 'repeater':		
 
-				$xmlWriter->startElement($element_name);																			
-
+				$xmlWriter->beginElement($element_name_ns, $element_name, null);																			
+				
 				if( have_rows($field_name, $recordID) ): 
  										
 				    while( have_rows($field_name, $recordID) ): 				    	
 				    	
-				    	the_row(); 					
+				    	the_row(); 									    	
 
-				    	$row = XmlExportACF::acf_get_row();		
-
-				    	//$xmlWriter->startElementNs('key_' . $row['i'], 'row', null);					    		
+				    	$row = XmlExportACF::acf_get_row();						
 
 				    	$xmlWriter->startElement('row');				
 
 				    	foreach ($row['field']['sub_fields'] as $sub_field) {						    				    					    	
 
-				    		// get
-							$v = acf_format_value($row['value'][ $row['i'] ][ $sub_field['key'] ], $row['post_id'], $sub_field);
+				    		if ($acf and version_compare($acf->settings['version'], '5.0.0') >= 0)
+				    		{
+				    			// get
+								$v = acf_format_value($row['value'][ $row['i'] ][ $sub_field['key'] ], $row['post_id'], $sub_field);
+				    		}
+				    		else
+				    		{
+								$v = get_sub_field($sub_field['name']);				    			
+				    		}				    		
 							
-							pmxe_export_acf_field_xml($v, $sub_field, false, $recordID, $xmlWriter, $sub_field['name'], '', '');																						
+							pmxe_export_acf_field_xml($v, $sub_field, false, $recordID, $xmlWriter, $sub_field['name'], $element_name_ns, '', '');																						
 
 				    	}						    	
 
@@ -281,7 +290,7 @@ function pmxe_export_acf_field_xml($field_value, $exportOptions, $ID, $recordID,
 
 			case 'flexible_content':													
 
-				$xmlWriter->startElement($element_name);	
+				$xmlWriter->beginElement($element_name_ns, $element_name, null);	
 
 				// check if the flexible content field has rows of data
 				if( have_rows($field_name) ):					
@@ -303,7 +312,7 @@ function pmxe_export_acf_field_xml($field_value, $exportOptions, $ID, $recordID,
 							    		// get
 										$v = acf_format_value($row['value'][ $row['i'] ][ $sub_field['key'] ], $row['post_id'], $sub_field);
 									
-										pmxe_export_acf_field_xml($v, $sub_field, false, $recordID, $xmlWriter, $sub_field['name'], '', '');													
+										pmxe_export_acf_field_xml($v, $sub_field, false, $recordID, $xmlWriter, $sub_field['name'], $element_name_ns, '', '');													
 									}
 
 						    	}
@@ -334,7 +343,7 @@ function pmxe_export_acf_field_xml($field_value, $exportOptions, $ID, $recordID,
 
 		if ($put_to_xml){
 		
-			$xmlWriter->startElement($element_name);
+			$xmlWriter->beginElement($element_name_ns, $element_name, null);
 				$xmlWriter->writeCData(apply_filters('pmxe_acf_field', pmxe_filter( maybe_serialize($field_value), $fieldSnipped), $field_name, $recordID));
 			$xmlWriter->endElement();
 

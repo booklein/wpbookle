@@ -102,6 +102,21 @@
         &:hover { color: #fff; background: lighten(#52b8ea, 10%); }
         &:before { content: $fa-var-vimeo; }
     }
+    .share-telegram {
+        background: #0088cc;
+        &:hover { color: #fff; background: lighten(#0088cc, 10%); }
+        &:before { content: $fa-var-send; }
+    }
+    .share-yelp {
+        background: #c41200;
+        &:hover { color: #fff; background: lighten(#c41200, 10%); }
+        &:before { content: $fa-var-yelp; }
+    }
+    .share-flickr {
+        background: #0063DC;
+        &:hover { color: #fff; background: lighten(#0063DC, 10%); }
+        &:before { content: $fa-var-flickr; }
+    }
     .share-whatsapp {
         background: #3c8a38;
         &:hover { color: #fff; background: lighten(#3c8a38, 10%); }

@@ -12,9 +12,9 @@
 		var menu_items = [],
 			item_label;
 
-		for ( slider_id in __MS_EDITOR.sliders ) {
-			item_label = __MS_EDITOR.sliders[ slider_id ] + " [#" + slider_id + "]";
-			menu_items.push( { text: item_label, value: slider_id } );
+		for ( slider_alias in __MS_EDITOR.sliders ) {
+			item_label = __MS_EDITOR.sliders[ slider_alias ] + " [#" + slider_alias + "]";
+			menu_items.push( { text: item_label, value: slider_alias } );
 		};
 
 
@@ -27,8 +27,8 @@
 			menu: menu_items,
 			onselect: function(e) {
                 console.log( e );
-                var slider_id = e.control.settings.value;
-                ed.selection.setContent( '[masterslider id="' + slider_id + '"]' );
+                var slider_alias = e.control.settings.value;
+                ed.selection.setContent( '[masterslider alias="' + slider_alias + '"]' );
             }
 		});
 	});

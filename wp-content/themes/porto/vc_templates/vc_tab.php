@@ -7,20 +7,22 @@
  * @var $content - shortcode content
  *
  * Extra Params (will be use vc_tabs.php)
- * @var show_icon
- * @var icon
- * @var label
- * @var icon_skin
- * @var icon_color
- * @var icon_bg_color
- * @var icon_border_color
- * @var icon_wrap_border_color
- * @var icon_shadow_color
- * @var icon_hcolor
- * @var icon_hbg_color
- * @var icon_hborder_color
- * @var icon_wrap_hborder_color
- * @var icon_hshadow_color
+ * @var $show_icon
+ * @var $icon_type
+ * @var $icon
+ * @var $icon_simleline
+ * @var $label
+ * @var $icon_skin
+ * @var $icon_color
+ * @var $icon_bg_color
+ * @var $icon_border_color
+ * @var $icon_wrap_border_color
+ * @var $icon_shadow_color
+ * @var $icon_hcolor
+ * @var $icon_hbg_color
+ * @var $icon_hborder_color
+ * @var $icon_wrap_hborder_color
+ * @var $icon_hshadow_color
  *
  * Shortcode class
  * @var $this WPBakeryShortCode_VC_Tab

@@ -25,7 +25,9 @@
  * @var $divider_color
  * @var $divider_height
  * @var $show_divider_icon
+ * @var $divider_icon_type
  * @var $divider_icon
+ * @var $divider_icon_simpleline
  * @var $divider_icon_skin
  * @var $divider_icon_style
  * @var $divider_icon_pos
@@ -34,6 +36,12 @@
  * @var $divider_icon_bg_color
  * @var $divider_icon_border_color
  * @var $divider_icon_wrap_border_color
+ * @var $is_sticky
+ * @var $sticky_container_selector
+ * @var $sticky_min_width
+ * @var $sticky_top
+ * @var $sticky_bottom
+ * @var $sticky_active_class
  * @var $animation_type
  * @var $animation_duration
  * @var $animation_delay
@@ -113,13 +121,18 @@ if ($is_section && $show_divider) {
     if ($divider_inline_style)
         $divider_inline_style = ' style="' . esc_attr( $divider_inline_style ) . '"';
 
+    switch ($divider_icon_type) {
+        case 'simpleline': $divider_icon_class = $divider_icon_simpleline; break;
+        default: $divider_icon_class = $divider_icon;
+    }
+
     $divider_class = 'divider' . rand();
-    if ($divider_icon_skin == 'custom' && ($divider_icon_color || $divider_icon_bg_color || $divider_icon_border_color || $divider_icon_wrap_border_color)) :
+    if ($show_divider_icon && $divider_icon_class && $divider_icon_skin == 'custom' && ($divider_icon_color || $divider_icon_bg_color || $divider_icon_border_color || $divider_icon_wrap_border_color)) :
         $divider_classes[] = $divider_class;
         ?>
         <style type="text/css" data-type="vc_shortcodes-custom-css"><?php
             if ($divider_icon_color || $divider_icon_bg_color || $divider_icon_border_color) : ?>
-            .<?php echo $divider_class ?> .fa {
+            .<?php echo $divider_class ?> i {
                 <?php
                 if ($divider_icon_color) : ?>color: <?php echo $divider_icon_color ?> !important;<?php endif;
                 if ($divider_icon_bg_color) : ?>background-color: <?php echo $divider_icon_bg_color ?> !important;<?php endif;
@@ -127,7 +140,7 @@ if ($is_section && $show_divider) {
                 ?>
             }<?php endif;
             if ($divider_icon_wrap_border_color) : ?>
-            .<?php echo $divider_class ?> .fa:after {
+            .<?php echo $divider_class ?> i:after {
                 <?php
                 if ($divider_icon_wrap_border_color) : ?>border-color: <?php echo $divider_icon_wrap_border_color ?> !important;<?php endif;
                 ?>
@@ -136,7 +149,11 @@ if ($is_section && $show_divider) {
     <?php
     endif;
 
-    $divider_output = '<div class="' . implode( ' ', $divider_classes ) . '"' . $divider_inline_style . '><i class="' . esc_attr( $divider_icon ) . '"></i></div>';
+    $divider_output = '<div class="' . implode( ' ', $divider_classes ) . '"' . $divider_inline_style . '>';
+    if ($show_divider_icon && $divider_icon_class) {
+        $divider_output .= '<i class="' . esc_attr( $divider_icon_class ) . '"></i>';
+    }
+    $divider_output .= '</div>';
 }
 
 if ($text_align)
@@ -160,12 +177,31 @@ if ($show_divider && !$divider_pos) {
     $output .= $divider_output;
 }
 
+if ($is_sticky) {
+    $output .= '<div class="porto-sticky"';
+    if ($sticky_container_selector)
+        $output .= ' data-container-selector="'.$sticky_container_selector.'"';
+    if ($sticky_min_width)
+        $output .= ' data-min-width="'.$sticky_min_width.'"';
+    if ($sticky_top)
+        $output .= ' data-top="'.$sticky_top.'"';
+    if ($sticky_bottom)
+        $output .= ' data-bottom="'.$sticky_bottom.'"';
+    if ($sticky_active_class)
+        $output .= ' data-active-class="'.$sticky_active_class.'"';
+    $output .= '>';
+}
+
 $output .= '<div class="wpb_wrapper">';
 $output .= wpb_js_remove_wpautop( $content );
 $output .= '</div>';
 
 if ($show_divider && 'bottom' === $divider_pos) {
     $output .= $divider_output;
+}
+
+if ($is_sticky) {
+    $output .= '</div>';
 }
 
 $output .= '</div>';

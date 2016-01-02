@@ -125,7 +125,7 @@ $wrapper = porto_get_wrapper_type();
 get_template_part('panel');
 
 // category filter
-$is_category_filter = class_exists('WooCommerce') && $porto_settings['category-mobile-filter'] && (is_shop() || is_product_category());
+$is_category_filter = class_exists('WooCommerce') && $porto_settings['category-mobile-filter'] && (is_shop() || porto_is_product_archive());
 if ($is_category_filter && ($porto_layout == 'wide-left-sidebar' || $porto_layout == 'wide-right-sidebar' || $porto_layout == 'left-sidebar' || $porto_layout == 'right-sidebar')) {
     get_template_part('category-filter');
 }

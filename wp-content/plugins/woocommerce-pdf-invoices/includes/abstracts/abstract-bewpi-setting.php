@@ -10,12 +10,6 @@ if ( ! class_exists( 'BEWPI_Abstract_Setting' ) ) {
     abstract class BEWPI_Abstract_Setting {
 
 	    /**
-	     * The textdomain
-	     * @var string
-	     */
-	    public $textdomain = 'be-woocommerce-pdf-invoices';
-
-	    /**
 	     * Options and settings prefix
 	     * @var string
 	     */
@@ -93,12 +87,15 @@ if ( ! class_exists( 'BEWPI_Abstract_Setting' ) ) {
 	     * @return string|void
 	     */
 	    protected function get_allowed_tags_str() {
-		    ( count( $this->allowed_tags ) > 0 ) ? $str = __( 'Feel free to use ', $this->textdomain ) : $str = '';
-		    foreach ( $this->allowed_tags as $i => $tag ) {
-			    ( $i == count( $this->allowed_tags ) - 1 ) ? $str .= sprintf( '<code>%s</code>.', htmlspecialchars( $tag ) ) : $str .= sprintf( '<code>%s</code> ', htmlspecialchars( $tag ) );
+
+		    if( empty( $this->allowed_tags ) ) {
+			    return '';
 		    }
 
-		    return $str;
+		    $encoded_tags = array_map( 'htmlspecialchars', $this->allowed_tags );
+		    $tags_string = '<code>' . join( '</code>, <code>', $encoded_tags ) . '</code>';
+
+			return __( 'Allowed HTML tags: ', 'woocommerce-pdf-invoices' ) . $tags_string . '.';
 	    }
 
 	    public function select_callback( $args ) {
@@ -136,7 +133,7 @@ if ( ! class_exists( 'BEWPI_Abstract_Setting' ) ) {
 			    <?php
 			    if ( isset ( $args['attrs'] ) ) :
 				    foreach ( $args['attrs'] as $attr ) :
-					    echo $attr;
+					    echo $attr . ' ';
 				    endforeach;
 			    endif;
 			    ?>
@@ -173,7 +170,7 @@ if ( ! class_exists( 'BEWPI_Abstract_Setting' ) ) {
 				    <img id="<?php echo $args['id'] . '-delete'; ?>"
 				         src="<?php echo BEWPI_URL . '/assets/images/delete-icon.png'; ?>"
 				         onclick="Settings.removeCompanyLogo()"
-				         title="<?php _e( 'Remove logo', $this->textdomain ); ?>"/>
+				         title="<?php _e( 'Remove logo', 'woocommerce-pdf-invoices' ); ?>"/>
 			    </div>
 		    <?php
 		    endif;

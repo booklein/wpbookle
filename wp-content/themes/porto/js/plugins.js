@@ -2363,6 +2363,212 @@ if (typeof jQuery === 'undefined') {
 }(jQuery);
 
 
+/*
+ * jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
+ *
+ * Uses the built in easing capabilities added In jQuery 1.1
+ * to offer multiple easing options
+ *
+ * TERMS OF USE - jQuery Easing
+ * 
+ * Open source under the BSD License. 
+ * 
+ * Copyright © 2008 George McGinley Smith
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, 
+ * are permitted provided that the following conditions are met:
+ * 
+ * Redistributions of source code must retain the above copyright notice, this list of 
+ * conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list 
+ * of conditions and the following disclaimer in the documentation and/or other materials 
+ * provided with the distribution.
+ * 
+ * Neither the name of the author nor the names of contributors may be used to endorse 
+ * or promote products derived from this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY 
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ *  COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+ *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED 
+ * AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+ * OF THE POSSIBILITY OF SUCH DAMAGE. 
+ *
+*/
+
+// t: current time, b: begInnIng value, c: change In value, d: duration
+jQuery.easing['jswing'] = jQuery.easing['swing'];
+
+jQuery.extend( jQuery.easing,
+{
+	def: 'easeOutQuad',
+	swing: function (x, t, b, c, d) {
+		//alert(jQuery.easing.default);
+		return jQuery.easing[jQuery.easing.def](x, t, b, c, d);
+	},
+	easeInQuad: function (x, t, b, c, d) {
+		return c*(t/=d)*t + b;
+	},
+	easeOutQuad: function (x, t, b, c, d) {
+		return -c *(t/=d)*(t-2) + b;
+	},
+	easeInOutQuad: function (x, t, b, c, d) {
+		if ((t/=d/2) < 1) return c/2*t*t + b;
+		return -c/2 * ((--t)*(t-2) - 1) + b;
+	},
+	easeInCubic: function (x, t, b, c, d) {
+		return c*(t/=d)*t*t + b;
+	},
+	easeOutCubic: function (x, t, b, c, d) {
+		return c*((t=t/d-1)*t*t + 1) + b;
+	},
+	easeInOutCubic: function (x, t, b, c, d) {
+		if ((t/=d/2) < 1) return c/2*t*t*t + b;
+		return c/2*((t-=2)*t*t + 2) + b;
+	},
+	easeInQuart: function (x, t, b, c, d) {
+		return c*(t/=d)*t*t*t + b;
+	},
+	easeOutQuart: function (x, t, b, c, d) {
+		return -c * ((t=t/d-1)*t*t*t - 1) + b;
+	},
+	easeInOutQuart: function (x, t, b, c, d) {
+		if ((t/=d/2) < 1) return c/2*t*t*t*t + b;
+		return -c/2 * ((t-=2)*t*t*t - 2) + b;
+	},
+	easeInQuint: function (x, t, b, c, d) {
+		return c*(t/=d)*t*t*t*t + b;
+	},
+	easeOutQuint: function (x, t, b, c, d) {
+		return c*((t=t/d-1)*t*t*t*t + 1) + b;
+	},
+	easeInOutQuint: function (x, t, b, c, d) {
+		if ((t/=d/2) < 1) return c/2*t*t*t*t*t + b;
+		return c/2*((t-=2)*t*t*t*t + 2) + b;
+	},
+	easeInSine: function (x, t, b, c, d) {
+		return -c * Math.cos(t/d * (Math.PI/2)) + c + b;
+	},
+	easeOutSine: function (x, t, b, c, d) {
+		return c * Math.sin(t/d * (Math.PI/2)) + b;
+	},
+	easeInOutSine: function (x, t, b, c, d) {
+		return -c/2 * (Math.cos(Math.PI*t/d) - 1) + b;
+	},
+	easeInExpo: function (x, t, b, c, d) {
+		return (t==0) ? b : c * Math.pow(2, 10 * (t/d - 1)) + b;
+	},
+	easeOutExpo: function (x, t, b, c, d) {
+		return (t==d) ? b+c : c * (-Math.pow(2, -10 * t/d) + 1) + b;
+	},
+	easeInOutExpo: function (x, t, b, c, d) {
+		if (t==0) return b;
+		if (t==d) return b+c;
+		if ((t/=d/2) < 1) return c/2 * Math.pow(2, 10 * (t - 1)) + b;
+		return c/2 * (-Math.pow(2, -10 * --t) + 2) + b;
+	},
+	easeInCirc: function (x, t, b, c, d) {
+		return -c * (Math.sqrt(1 - (t/=d)*t) - 1) + b;
+	},
+	easeOutCirc: function (x, t, b, c, d) {
+		return c * Math.sqrt(1 - (t=t/d-1)*t) + b;
+	},
+	easeInOutCirc: function (x, t, b, c, d) {
+		if ((t/=d/2) < 1) return -c/2 * (Math.sqrt(1 - t*t) - 1) + b;
+		return c/2 * (Math.sqrt(1 - (t-=2)*t) + 1) + b;
+	},
+	easeInElastic: function (x, t, b, c, d) {
+		var s=1.70158;var p=0;var a=c;
+		if (t==0) return b;  if ((t/=d)==1) return b+c;  if (!p) p=d*.3;
+		if (a < Math.abs(c)) { a=c; var s=p/4; }
+		else var s = p/(2*Math.PI) * Math.asin (c/a);
+		return -(a*Math.pow(2,10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )) + b;
+	},
+	easeOutElastic: function (x, t, b, c, d) {
+		var s=1.70158;var p=0;var a=c;
+		if (t==0) return b;  if ((t/=d)==1) return b+c;  if (!p) p=d*.3;
+		if (a < Math.abs(c)) { a=c; var s=p/4; }
+		else var s = p/(2*Math.PI) * Math.asin (c/a);
+		return a*Math.pow(2,-10*t) * Math.sin( (t*d-s)*(2*Math.PI)/p ) + c + b;
+	},
+	easeInOutElastic: function (x, t, b, c, d) {
+		var s=1.70158;var p=0;var a=c;
+		if (t==0) return b;  if ((t/=d/2)==2) return b+c;  if (!p) p=d*(.3*1.5);
+		if (a < Math.abs(c)) { a=c; var s=p/4; }
+		else var s = p/(2*Math.PI) * Math.asin (c/a);
+		if (t < 1) return -.5*(a*Math.pow(2,10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )) + b;
+		return a*Math.pow(2,-10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )*.5 + c + b;
+	},
+	easeInBack: function (x, t, b, c, d, s) {
+		if (s == undefined) s = 1.70158;
+		return c*(t/=d)*t*((s+1)*t - s) + b;
+	},
+	easeOutBack: function (x, t, b, c, d, s) {
+		if (s == undefined) s = 1.70158;
+		return c*((t=t/d-1)*t*((s+1)*t + s) + 1) + b;
+	},
+	easeInOutBack: function (x, t, b, c, d, s) {
+		if (s == undefined) s = 1.70158; 
+		if ((t/=d/2) < 1) return c/2*(t*t*(((s*=(1.525))+1)*t - s)) + b;
+		return c/2*((t-=2)*t*(((s*=(1.525))+1)*t + s) + 2) + b;
+	},
+	easeInBounce: function (x, t, b, c, d) {
+		return c - jQuery.easing.easeOutBounce (x, d-t, 0, c, d) + b;
+	},
+	easeOutBounce: function (x, t, b, c, d) {
+		if ((t/=d) < (1/2.75)) {
+			return c*(7.5625*t*t) + b;
+		} else if (t < (2/2.75)) {
+			return c*(7.5625*(t-=(1.5/2.75))*t + .75) + b;
+		} else if (t < (2.5/2.75)) {
+			return c*(7.5625*(t-=(2.25/2.75))*t + .9375) + b;
+		} else {
+			return c*(7.5625*(t-=(2.625/2.75))*t + .984375) + b;
+		}
+	},
+	easeInOutBounce: function (x, t, b, c, d) {
+		if (t < d/2) return jQuery.easing.easeInBounce (x, t*2, 0, c, d) * .5 + b;
+		return jQuery.easing.easeOutBounce (x, t*2-d, 0, c, d) * .5 + c*.5 + b;
+	}
+});
+
+/*
+ *
+ * TERMS OF USE - EASING EQUATIONS
+ * 
+ * Open source under the BSD License. 
+ * 
+ * Copyright © 2001 Robert Penner
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, 
+ * are permitted provided that the following conditions are met:
+ * 
+ * Redistributions of source code must retain the above copyright notice, this list of 
+ * conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list 
+ * of conditions and the following disclaimer in the documentation and/or other materials 
+ * provided with the distribution.
+ * 
+ * Neither the name of the author nor the names of contributors may be used to endorse 
+ * or promote products derived from this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY 
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ *  COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+ *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED 
+ * AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+ * OF THE POSSIBILITY OF SUCH DAMAGE. 
+ *
+ */
+
 /**
  * Project: Bootstrap Hover Dropdown
  * Author: Cameron Spear
@@ -4434,9 +4640,9 @@ if (typeof Object.create !== "function") {
                 output = output.join(", ");
             }
             if(win.console && win.console.log){
-                win.console.log(output);
+                //win.console.log(output);
             } else {
-                alert(output);
+                //alert(output);
             }
         } : function(){
 
@@ -5429,9 +5635,9 @@ if (typeof Object.create !== "function") {
                 // Modern browsers
                 // Single argument, which is a string
                 if ((Array.prototype.slice.call(arguments)).length === 1 && typeof Array.prototype.slice.call(arguments)[0] === 'string') {
-                    console.log( (Array.prototype.slice.call(arguments)).toString() );
+                    //console.log( (Array.prototype.slice.call(arguments)).toString() );
                 } else {
-                    console.log( Array.prototype.slice.call(arguments) );
+                    //console.log( Array.prototype.slice.call(arguments) );
                 }
             } else if (!Function.prototype.bind && typeof console !== 'undefined' && typeof console.log === 'object') {
                 // IE8
@@ -6754,7 +6960,6 @@ if (typeof Object.create !== "function") {
      *
      * @param {Function[]} listeners Array of listeners to search through.
      * @param {Function} listener Method to look for.
-
      * @return {Number} Index of the specified listener, -1 if not found
      * @api private
      */
@@ -17774,7 +17979,6 @@ if ( typeof Object.create !== 'function' ) {
             height_ = wrap.height();
 
             canShrink = (width_ > maxWidth_ || height_ > maxHeight_) && width > minWidth && height > minHeight;
-
             canExpand = current.aspectRatio ? (width < origMaxWidth && height < origMaxHeight && width < origWidth && height < origHeight) : ((width < origMaxWidth || height < origMaxHeight) && (width < origWidth || height < origHeight));
 
             $.extend(current, {
@@ -18850,6 +19054,121 @@ var scrolltotop={
 })(jQuery);
 
 
+(function ($) {
+    "use strict";
+    $.fn.pin = function (options) {
+        var scrollY = 0, elements = [], disabled = false, $window = $(window);
+
+        options = options || {};
+
+        var recalculateLimits = function () {
+            for (var i=0, len=elements.length; i<len; i++) {
+                var $this = elements[i];
+
+                if (options.minWidth && $window.width() <= options.minWidth) {
+                    if ($this.parent().is(".pin-wrapper")) { $this.unwrap(); }
+                    $this.css({width: "", left: "", top: "", position: ""});
+                    if (options.activeClass) { $this.removeClass(options.activeClass); }
+                    disabled = true;
+                    continue;
+                } else {
+                    disabled = false;
+                }
+
+                var $container = options.containerSelector ? $this.closest(options.containerSelector) : $(document.body);
+                var offset = $this.offset();
+                var containerOffset = $container.offset();
+                var parentOffset = $this.parent().offset();
+
+                if (!$this.parent().is(".pin-wrapper")) {
+                    $this.wrap("<div class='pin-wrapper'>");
+                }
+
+                var pad = $.extend({
+                    top: 0,
+                    bottom: 0
+                }, options.padding || {});
+
+                $this.data("pin", {
+                    pad: pad,
+                    from: (options.containerSelector ? containerOffset.top : offset.top) - pad.top,
+                    to: containerOffset.top + $container.height() - $this.outerHeight() - pad.bottom,
+                    end: containerOffset.top + $container.height(),
+                    parentTop: parentOffset.top
+                });
+
+                $this.css({width: $this.outerWidth()});
+                $this.parent().css("height", $this.outerHeight());
+            }
+        };
+
+        var onScroll = function () {
+            if (disabled) { return; }
+
+            scrollY = $window.scrollTop();
+
+            var elmts = [];
+            for (var i=0, len=elements.length; i<len; i++) {
+                var $this = $(elements[i]),
+                    data  = $this.data("pin");
+
+                if (!data) { // Removed element
+                    continue;
+                }
+
+                elmts.push($this);
+
+                var from = data.from - data.pad.bottom,
+                    to = data.to - data.pad.top;
+
+                if (from + $this.outerHeight() > data.end) {
+                    $this.css('position', '');
+                    continue;
+                }
+
+                if (from < scrollY && to > scrollY) {
+                    !($this.css("position") == "fixed") && $this.css({
+                        left: $this.offset().left,
+                        top: data.pad.top
+                    }).css("position", "fixed");
+                    if (options.activeClass) { $this.addClass(options.activeClass); }
+                } else if (scrollY >= to) {
+                    $this.css({
+                        left: "",
+                        top: to - data.parentTop + data.pad.top
+                    }).css("position", "absolute");
+                    if (options.activeClass) { $this.addClass(options.activeClass); }
+                } else {
+                    $this.css({position: "", top: "", left: ""});
+                    if (options.activeClass) { $this.removeClass(options.activeClass); }
+                }
+            }
+            elements = elmts;
+        };
+
+        var update = function () { recalculateLimits(); onScroll(); };
+
+        this.each(function () {
+            var $this = $(this),
+                data  = $(this).data('pin') || {};
+
+            if (data && data.update) { return; }
+            elements.push($this);
+            $("img", this).one("load", recalculateLimits);
+            data.update = update;
+            $(this).data('pin', data);
+        });
+
+        $window.scroll(onScroll);
+        $window.resize(function () { recalculateLimits(); });
+        recalculateLimits();
+
+        $window.load(update);
+
+        return this;
+    };
+})(jQuery);
+
 /* Modernizr (Custom Build) | MIT & BSD
  * Build: http://modernizr.com/download/#-csstransforms3d-csstransitions-touch-shiv-load-cssclasses-prefixed-teststyles-testprops-testallprops-prefixes-domprefixes-mq-respond
  */
@@ -19221,6 +19540,7 @@ var scrolltotop={
 
 
 // @koala-prepend "vendor/bootstrap/bootstrap.js"
+// @koala-prepend "vendor/jquery.easing/jquery.easing.js"
 // @koala-prepend "vendor/bootstrap-hover-dropdown/bootstrap-hover-dropdown.js"
 // @koala-prepend "vendor/jquery-cookie/jquery-cookie.js"
 // @koala-prepend "vendor/owlcarousel/owl.carousel.js"
@@ -19238,5 +19558,6 @@ var scrolltotop={
 // @koala-prepend "vendor/jquery.fancybox/jquery.fancybox.js"
 // @koala-prepend "vendor/jquery.scrolltotop/jquery.scrolltotop.js"
 // @koala-prepend "vendor/jquery.match-height/jquery.match-height.js"
+// @koala-prepend "vendor/jquery.pin/jquery.pin.js"
 // @koala-prepend "vendor/modernizr/modernizr.js"
 // @koala-prepend "vendor/circle-flip-slideshow/js/jquery.flipshow.js"

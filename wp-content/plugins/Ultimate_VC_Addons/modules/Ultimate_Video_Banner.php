@@ -10,7 +10,7 @@ if(!class_exists('Ultimate_Video_Banner')) {
 			add_shortcode('ultimate_video_banner',array($this,'ultimate_video_banner_shortcode'));
 			add_action("wp_enqueue_scripts", array($this, "register_video_banner_assets"),1);
 		}
-		
+
 		function register_video_banner_assets() {
 			$bsf_dev_mode = bsf_get_option('dev_mode');
 			if($bsf_dev_mode === 'enable') {
@@ -26,7 +26,7 @@ if(!class_exists('Ultimate_Video_Banner')) {
 			wp_register_style('ultimate-video-banner-style',plugins_url($css_path.'video-banner'.$ext.'.css',__FILE__),array(),ULTIMATE_VERSION);
 			wp_register_script('ultimate-video-banner-script',plugins_url($js_path.'video-banner'.$ext.'.js',__FILE__),array('jquery'),ULTIMATE_VERSION);
 		}
-		
+
 		function ultimate_video_banner_init() {
 			if(function_exists('vc_map')) {
 				vc_map(
@@ -36,6 +36,7 @@ if(!class_exists('Ultimate_Video_Banner')) {
 						'icon' => 'vc_ultimate_video_banner',
 						'category' => 'Ultimate VC Addons',
 						'description' => __('Show your video in ease.','ultimate_vc'),
+						'deprecated' => '3.13.5',
 						'params' => array(
 							array(
 								'type' => 'textfield',
@@ -94,7 +95,7 @@ if(!class_exists('Ultimate_Video_Banner')) {
 								"type" => "ultimate_google_fonts",
 								"heading" => __("Font Family", "ultimate_vc"),
 								"param_name" => "title_font_family",
-								"description" => __("Select the font of your choice.","ultimate_vc")." ".__("You can","ultimate_vc")." <a target='_blank' href='".admin_url('admin.php?page=ultimate-font-manager')."'>".__("add new in the collection here","ultimate_vc")."</a>.",
+								"description" => __("Select the font of your choice.","ultimate_vc")." ".__("You can","ultimate_vc")." <a target='_blank' href='".admin_url('admin.php?page=bsf-google-font-manager')."'>".__("add new in the collection here","ultimate_vc")."</a>.",
 								"group" => "Typography"
 							),
 							array(
@@ -141,7 +142,7 @@ if(!class_exists('Ultimate_Video_Banner')) {
 								"type" => "ultimate_google_fonts",
 								"heading" => __("Font Family", "ultimate_vc"),
 								"param_name" => "desc_font_family",
-								"description" => __("Select the font of your choice.","ultimate_vc")." ".__("You can","ultimate_vc")." <a target='_blank' href='".admin_url('admin.php?page=ultimate-font-manager')."'>".__("add new in the collection here","ultimate_vc")."</a>.",
+								"description" => __("Select the font of your choice.","ultimate_vc")." ".__("You can","ultimate_vc")." <a target='_blank' href='".admin_url('admin.php?page=bsf-google-font-manager')."'>".__("add new in the collection here","ultimate_vc")."</a>.",
 								"group" => "Typography"
 							),
 							array(
@@ -230,7 +231,7 @@ if(!class_exists('Ultimate_Video_Banner')) {
 				);
 			}
 		}
-		
+
 		function ultimate_video_banner_shortcode($atts, $content = null) {
 			extract(
 				shortcode_atts(
@@ -261,11 +262,11 @@ if(!class_exists('Ultimate_Video_Banner')) {
 				)
 			);
 			$output = $placeholder = $placeholder_css = $vc_css_class = '';
-			
+
 			$vc_css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, vc_shortcode_custom_css_class( $video_banner_vc_css, ' ' ), 'ultimate_video_banner', $atts );
-			
+
 			$video_id = 'ult-video-banner-'.uniqid(rand());
-			
+
 			$args = array(
 		  		'target'		=>	'#'.$video_id,
 		  		'media_sizes' 	=> array(
@@ -273,7 +274,7 @@ if(!class_exists('Ultimate_Video_Banner')) {
 				),
 		  	);
 			$banner_height_responsive_data = get_ultimate_vc_responsive_media_css($args);
-			
+
 			if(preg_match('/^#[a-f0-9]{6}$/i', $video_banner_overlay_color)) //hex color is valid
 			{
 				$video_banner_overlay_color = hex2rgbUltParallax($video_banner_overlay_color, $opacity = 0.8);
@@ -282,7 +283,7 @@ if(!class_exists('Ultimate_Video_Banner')) {
 			{
 				$video_banner_overlay_hover_color = hex2rgbUltParallax($video_banner_overlay_hover_color, $opacity = 0.4);
 			}
-			
+
 			/* ---- main heading styles ---- */
 			$title_style_inline = '';
 			if($title_font_family != '')
@@ -296,13 +297,13 @@ if(!class_exists('Ultimate_Video_Banner')) {
 			//attach font size if set
 			if($title_font_size != '')
 				$title_style_inline .= 'font-size:'.$title_font_size.'px;';
-			//attach font color if set	
+			//attach font color if set
 			if($title_color != '')
 				$title_style_inline .= 'color:'.$title_color.';';
 			//line height
 			if($title_line_height != '')
 				$title_style_inline .= 'line-height:'.$title_line_height.'px;';
-				
+
 			/* ---- description styles ---- */
 			$desc_style_inline = '';
 			if($desc_font_family != '')
@@ -316,13 +317,13 @@ if(!class_exists('Ultimate_Video_Banner')) {
 			//attach font size if set
 			if($desc_font_size != '')
 				$desc_style_inline .= 'font-size:'.$desc_font_size.'px;';
-			//attach font color if set	
+			//attach font color if set
 			if($desc_color != '')
 				$desc_style_inline .= 'color:'.$desc_color.';';
 			//line height
 			if($desc_line_height != '')
 				$desc_style_inline .= 'line-height:'.$desc_line_height.'px;';
-				
+
 			if($video_banner_placeholder != '')
 
 			{
@@ -331,7 +332,7 @@ if(!class_exists('Ultimate_Video_Banner')) {
 				$placeholder = $img_info;
 				$placeholder_css = 'background-image:url('.$placeholder.');';
 			}
-			
+
 			$output = '<div id="'.$video_id.'" class="'.$vc_css_class.' ult-video-banner ult-vdo-effect '.$video_banner_effect.' utl-video-banner-item ult-responsive" '.$banner_height_responsive_data.' data-current-time="'.$video_banner_start_time.'" data-placeholder="'.$placeholder.'" style="'.$placeholder_css.'">';
 				if($video_banner_mp4_link != '' || $video_banner_webm_ogg_link != '') :
 					$output .= '<video autoplay loop '.$video_banner_mute.' poster="'.$placeholder.'">';

@@ -9,12 +9,12 @@ function porto_load_shortcodes() {
         $dark = porto_is_dark_skin();
 
         $section_group = __('Porto Options', 'porto');
+        $sticky_group = __('Sticky Options', 'porto');
         $animation_group = __('Animation', 'porto');
         $animation_type = array(
             "type" => "porto_theme_animation_type",
             "heading" => __("Animation Type", 'porto'),
             "param_name" => "animation_type",
-            "admin_label" => true,
             'group' => $animation_group
         );
         $animation_duration = array(
@@ -73,7 +73,6 @@ function porto_load_shortcodes() {
             'heading' => __('Section Skin Color', 'porto'),
             'param_name' => 'section_skin',
             'value' => porto_vc_commons('section_skin'),
-            'dependency' => array('element' => 'parallax', 'value' => array('')),
             'group' => $section_group
         ));
         vc_add_param('vc_row', array(
@@ -164,18 +163,41 @@ function porto_load_shortcodes() {
         ));
         vc_add_param('vc_row', array(
             'type' => 'checkbox',
-            'heading' => __('Show FontAwesome Icon', 'porto'),
+            'heading' => __('Show Divider Icon', 'porto'),
             'param_name' => 'show_divider_icon',
             'value' => array(__('Yes, please', 'js_composer') => 'yes'),
             'dependency' => array('element' => 'show_divider', 'not_empty' => true),
             'group' => $section_group
         ));
         vc_add_param('vc_row', array(
-            'type' => 'iconpicker',
-            'heading' => __('Select FontAwesome Icon', 'porto'),
-            'param_name' => 'divider_icon',
+            'type' => 'dropdown',
+            'heading' => __( 'Icon library', 'js_composer' ),
+            'value' => array(
+                __( 'Font Awesome', 'porto' ) => 'fontawesome',
+                __( 'Simple Line Icon', 'porto' ) => 'simpleline'
+            ),
+            'param_name' => 'divider_icon_type',
             'dependency' => array('element' => 'show_divider_icon', 'not_empty' => true),
+            'group' => $section_group,
+        ));
+        vc_add_param('vc_row', array(
+            'type' => 'iconpicker',
+            'heading' => __('Select Icon', 'porto'),
+            'param_name' => 'divider_icon',
+            'dependency' => array('element' => 'divider_icon_type', 'value' => 'fontawesome'),
             'group' => $section_group
+        ));
+        vc_add_param('vc_row', array(
+            'type' => 'iconpicker',
+            'heading' => __('Select Icon', 'porto'),
+            'param_name' => 'divider_icon_simpleline',
+            'value' => '',
+            'settings' => array(
+                'type' => 'simpleline',
+                'iconsPerPage' => 4000,
+            ),
+            'dependency' => array('element' => 'divider_icon_type', 'value' => 'simpleline'),
+            'group' => $section_group,
         ));
         vc_add_param('vc_row', array(
             'type' => 'dropdown',
@@ -238,10 +260,112 @@ function porto_load_shortcodes() {
             'dependency' => array('element' => 'show_divider_icon', 'not_empty' => true),
             'group' => $section_group
         ));
+        vc_add_param('vc_row', array(
+            'type' => 'checkbox',
+            'heading' => __('Enable Sticky Options?', 'porto'),
+            'param_name' => 'is_sticky',
+            'value' => array(__('Yes, please', 'js_composer') => 'yes'),
+            'group' => $sticky_group,
+            'admin_label' => true,
+        ));
+        vc_add_param('vc_row', array(
+            "type" => "textfield",
+            "heading" => __("Container Selector", 'porto'),
+            "param_name" => "sticky_container_selector",
+            "value" => ".main-content",
+            'dependency' => array('element' => 'is_sticky', 'not_empty' => true),
+            'group' => $sticky_group
+        ));
+        vc_add_param('vc_row', array(
+            "type" => "textfield",
+            "heading" => __("Min Width (unit: px)", 'porto'),
+            "param_name" => "sticky_min_width",
+            "" => __("Wll be disabled if window width is smaller than min width", 'porto'),
+            "value" => "767",
+            'dependency' => array('element' => 'is_sticky', 'not_empty' => true),
+            'group' => $sticky_group
+        ));
+        vc_add_param('vc_row', array(
+            "type" => "textfield",
+            "heading" => __("Top (unit: px)", 'porto'),
+            "param_name" => "sticky_top",
+            "" => __("Top position when active", 'porto'),
+            "value" => "110",
+            'dependency' => array('element' => 'is_sticky', 'not_empty' => true),
+            'group' => $sticky_group
+        ));
+        vc_add_param('vc_row', array(
+            "type" => "textfield",
+            "heading" => __("Bottom (unit: px)", 'porto'),
+            "param_name" => "sticky_bottom",
+            "" => __("Bottom position when active", 'porto'),
+            "value" => "0",
+            'dependency' => array('element' => 'is_sticky', 'not_empty' => true),
+            'group' => $sticky_group
+        ));
+        vc_add_param('vc_row', array(
+            "type" => "textfield",
+            "heading" => __("Active Class", 'porto'),
+            "param_name" => "sticky_active_class",
+            "value" => "sticky-active",
+            'dependency' => array('element' => 'is_sticky', 'not_empty' => true),
+            'group' => $sticky_group
+        ));
         vc_add_param('vc_row', $animation_type);
         vc_add_param('vc_row', $animation_duration);
         vc_add_param('vc_row', $animation_delay);
 
+        vc_add_param('vc_row_inner', array(
+            'type' => 'checkbox',
+            'heading' => __('Enable Sticky Options?', 'porto'),
+            'param_name' => 'is_sticky',
+            'value' => array(__('Yes, please', 'js_composer') => 'yes'),
+            'group' => $sticky_group,
+            'admin_label' => true,
+        ));
+        vc_add_param('vc_row_inner', array(
+            "type" => "textfield",
+            "heading" => __("Container Selector", 'porto'),
+            "param_name" => "sticky_container_selector",
+            "value" => ".vc_row",
+            'dependency' => array('element' => 'is_sticky', 'not_empty' => true),
+            'group' => $sticky_group
+        ));
+        vc_add_param('vc_row_inner', array(
+            "type" => "textfield",
+            "heading" => __("Min Width (unit: px)", 'porto'),
+            "param_name" => "sticky_min_width",
+            "" => __("Wll be disabled if window width is smaller than min width", 'porto'),
+            "value" => "767",
+            'dependency' => array('element' => 'is_sticky', 'not_empty' => true),
+            'group' => $sticky_group
+        ));
+        vc_add_param('vc_row_inner', array(
+            "type" => "textfield",
+            "heading" => __("Top (unit: px)", 'porto'),
+            "param_name" => "sticky_top",
+            "" => __("Top position when active", 'porto'),
+            "value" => "110",
+            'dependency' => array('element' => 'is_sticky', 'not_empty' => true),
+            'group' => $sticky_group
+        ));
+        vc_add_param('vc_row_inner', array(
+            "type" => "textfield",
+            "heading" => __("Bottom (unit: px)", 'porto'),
+            "param_name" => "sticky_bottom",
+            "" => __("Bottom position when active", 'porto'),
+            "value" => "0",
+            'dependency' => array('element' => 'is_sticky', 'not_empty' => true),
+            'group' => $sticky_group
+        ));
+        vc_add_param('vc_row_inner', array(
+            "type" => "textfield",
+            "heading" => __("Active Class", 'porto'),
+            "param_name" => "sticky_active_class",
+            "value" => "sticky-active",
+            'dependency' => array('element' => 'is_sticky', 'not_empty' => true),
+            'group' => $sticky_group
+        ));
         vc_add_param('vc_row_inner', $animation_type);
         vc_add_param('vc_row_inner', $animation_duration);
         vc_add_param('vc_row_inner', $animation_delay);
@@ -366,18 +490,41 @@ function porto_load_shortcodes() {
         ));
         vc_add_param('vc_column', array(
             'type' => 'checkbox',
-            'heading' => __('Show FontAwesome Icon', 'porto'),
+            'heading' => __('Show Divider Icon', 'porto'),
             'param_name' => 'show_divider_icon',
             'value' => array(__('Yes, please', 'js_composer') => 'yes'),
             'dependency' => array('element' => 'show_divider', 'not_empty' => true),
             'group' => $section_group
         ));
         vc_add_param('vc_column', array(
-            'type' => 'iconpicker',
-            'heading' => __('Select FontAwesome Icon', 'porto'),
-            'param_name' => 'divider_icon',
+            'type' => 'dropdown',
+            'heading' => __( 'Icon library', 'js_composer' ),
+            'value' => array(
+                __( 'Font Awesome', 'porto' ) => 'fontawesome',
+                __( 'Simple Line Icon', 'porto' ) => 'simpleline'
+            ),
+            'param_name' => 'divider_icon_type',
             'dependency' => array('element' => 'show_divider_icon', 'not_empty' => true),
+            'group' => $section_group,
+        ));
+        vc_add_param('vc_column', array(
+            'type' => 'iconpicker',
+            'heading' => __('Select Icon', 'porto'),
+            'param_name' => 'divider_icon',
+            'dependency' => array('element' => 'divider_icon_type', 'value' => 'fontawesome'),
             'group' => $section_group
+        ));
+        vc_add_param('vc_column', array(
+            'type' => 'iconpicker',
+            'heading' => __('Select Icon', 'porto'),
+            'param_name' => 'divider_icon_simpleline',
+            'value' => '',
+            'settings' => array(
+                'type' => 'simpleline',
+                'iconsPerPage' => 4000,
+            ),
+            'dependency' => array('element' => 'divider_icon_type', 'value' => 'simpleline'),
+            'group' => $section_group,
         ));
         vc_add_param('vc_column', array(
             'type' => 'dropdown',
@@ -440,10 +587,112 @@ function porto_load_shortcodes() {
             'dependency' => array('element' => 'show_divider_icon', 'not_empty' => true),
             'group' => $section_group
         ));
+        vc_add_param('vc_column', array(
+            'type' => 'checkbox',
+            'heading' => __('Enable Sticky Options?', 'porto'),
+            'param_name' => 'is_sticky',
+            'value' => array(__('Yes, please', 'js_composer') => 'yes'),
+            'group' => $sticky_group,
+            'admin_label' => true,
+        ));
+        vc_add_param('vc_column', array(
+            "type" => "textfield",
+            "heading" => __("Container Selector", 'porto'),
+            "param_name" => "sticky_container_selector",
+            "value" => ".vc_row",
+            'dependency' => array('element' => 'is_sticky', 'not_empty' => true),
+            'group' => $sticky_group
+        ));
+        vc_add_param('vc_column', array(
+            "type" => "textfield",
+            "heading" => __("Min Width (unit: px)", 'porto'),
+            "param_name" => "sticky_min_width",
+            "" => __("Wll be disabled if window width is smaller than min width", 'porto'),
+            "value" => "767",
+            'dependency' => array('element' => 'is_sticky', 'not_empty' => true),
+            'group' => $sticky_group
+        ));
+        vc_add_param('vc_column', array(
+            "type" => "textfield",
+            "heading" => __("Top (unit: px)", 'porto'),
+            "param_name" => "sticky_top",
+            "" => __("Top position when active", 'porto'),
+            "value" => "110",
+            'dependency' => array('element' => 'is_sticky', 'not_empty' => true),
+            'group' => $sticky_group
+        ));
+        vc_add_param('vc_column', array(
+            "type" => "textfield",
+            "heading" => __("Bottom (unit: px)", 'porto'),
+            "param_name" => "sticky_bottom",
+            "" => __("Bottom position when active", 'porto'),
+            "value" => "0",
+            'dependency' => array('element' => 'is_sticky', 'not_empty' => true),
+            'group' => $sticky_group
+        ));
+        vc_add_param('vc_column', array(
+            "type" => "textfield",
+            "heading" => __("Active Class", 'porto'),
+            "param_name" => "sticky_active_class",
+            "value" => "sticky-active",
+            'dependency' => array('element' => 'is_sticky', 'not_empty' => true),
+            'group' => $sticky_group
+        ));
         vc_add_param('vc_column', $animation_type);
         vc_add_param('vc_column', $animation_duration);
         vc_add_param('vc_column', $animation_delay);
 
+        vc_add_param('vc_column_inner', array(
+            'type' => 'checkbox',
+            'heading' => __('Enable Sticky Options?', 'porto'),
+            'param_name' => 'is_sticky',
+            'value' => array(__('Yes, please', 'js_composer') => 'yes'),
+            'group' => $sticky_group,
+            'admin_label' => true,
+        ));
+        vc_add_param('vc_column_inner', array(
+            "type" => "textfield",
+            "heading" => __("Container Selector", 'porto'),
+            "param_name" => "sticky_container_selector",
+            "value" => ".vc_row",
+            'dependency' => array('element' => 'is_sticky', 'not_empty' => true),
+            'group' => $sticky_group
+        ));
+        vc_add_param('vc_column_inner', array(
+            "type" => "textfield",
+            "heading" => __("Min Width (unit: px)", 'porto'),
+            "param_name" => "sticky_min_width",
+            "" => __("Wll be disabled if window width is smaller than min width", 'porto'),
+            "value" => "767",
+            'dependency' => array('element' => 'is_sticky', 'not_empty' => true),
+            'group' => $sticky_group
+        ));
+        vc_add_param('vc_column_inner', array(
+            "type" => "textfield",
+            "heading" => __("Top (unit: px)", 'porto'),
+            "param_name" => "sticky_top",
+            "" => __("Top position when active", 'porto'),
+            "value" => "110",
+            'dependency' => array('element' => 'is_sticky', 'not_empty' => true),
+            'group' => $sticky_group
+        ));
+        vc_add_param('vc_column_inner', array(
+            "type" => "textfield",
+            "heading" => __("Bottom (unit: px)", 'porto'),
+            "param_name" => "sticky_bottom",
+            "" => __("Bottom position when active", 'porto'),
+            "value" => "0",
+            'dependency' => array('element' => 'is_sticky', 'not_empty' => true),
+            'group' => $sticky_group
+        ));
+        vc_add_param('vc_column_inner', array(
+            "type" => "textfield",
+            "heading" => __("Active Class", 'porto'),
+            "param_name" => "sticky_active_class",
+            "value" => "sticky-active",
+            'dependency' => array('element' => 'is_sticky', 'not_empty' => true),
+            'group' => $sticky_group
+        ));
         vc_add_param('vc_column_inner', $animation_type);
         vc_add_param('vc_column_inner', $animation_duration);
         vc_add_param('vc_column_inner', $animation_delay);
@@ -556,16 +805,39 @@ function porto_load_shortcodes() {
         ));
         vc_add_param('vc_tab', array(
             'type' => 'checkbox',
-            'heading' => __('Show FontAwesome Icon', 'porto'),
+            'heading' => __('Show Icon', 'porto'),
             'param_name' => 'show_icon',
             'value' => array(__('Yes, please', 'js_composer') => 'yes'),
             'group' => $section_group,
         ));
         vc_add_param('vc_tab', array(
-            'type' => 'iconpicker',
-            'heading' => __('Select FontAwesome Icon', 'porto'),
-            'param_name' => 'icon',
+            'type' => 'dropdown',
+            'heading' => __( 'Icon library', 'js_composer' ),
+            'value' => array(
+                __( 'Font Awesome', 'porto' ) => 'fontawesome',
+                __( 'Simple Line Icon', 'porto' ) => 'simpleline'
+            ),
+            'param_name' => 'icon_type',
             'dependency' => array('element' => 'show_icon', 'not_empty' => true),
+            'group' => $section_group,
+        ));
+		vc_add_param('vc_tab', array(
+            'type' => 'iconpicker',
+            'heading' => __('Select Icon', 'porto'),
+            'param_name' => 'icon',
+            'dependency' => array('element' => 'icon_type', 'value' => 'fontawesome'),
+            'group' => $section_group,
+        ));
+        vc_add_param('vc_tab', array(
+            'type' => 'iconpicker',
+            'heading' => __('Select Icon', 'porto'),
+            'param_name' => 'icon_simpleline',
+            'value' => '',
+            'settings' => array(
+                'type' => 'simpleline',
+                'iconsPerPage' => 4000,
+            ),
+            'dependency' => array('element' => 'icon_type', 'value' => 'simpleline'),
             'group' => $section_group,
         ));
         vc_add_param('vc_tab', array(
@@ -724,17 +996,39 @@ function porto_load_shortcodes() {
         ));
         vc_add_param('vc_separator', array(
             'type' => 'checkbox',
-            'heading' => __('Show FontAwesome Icon', 'porto'),
+            'heading' => __('Show Icon', 'porto'),
             'param_name' => 'show_icon',
             'value' => array(__('Yes, please', 'js_composer') => 'yes'),
-            'dependency' => array('element' => 'type', 'value' => array('')),
+            'group' => $section_group,
+        ));
+        vc_add_param('vc_separator', array(
+            'type' => 'dropdown',
+            'heading' => __( 'Icon library', 'js_composer' ),
+            'value' => array(
+                __( 'Font Awesome', 'porto' ) => 'fontawesome',
+                __( 'Simple Line Icon', 'porto' ) => 'simpleline'
+            ),
+            'param_name' => 'icon_type',
+            'dependency' => array('element' => 'show_icon', 'not_empty' => true),
             'group' => $section_group,
         ));
         vc_add_param('vc_separator', array(
             'type' => 'iconpicker',
-            'heading' => __('Select FontAwesome Icon', 'porto'),
+            'heading' => __('Select Icon', 'porto'),
             'param_name' => 'icon',
-            'dependency' => array('element' => 'show_icon', 'not_empty' => true),
+            'dependency' => array('element' => 'icon_type', 'value' => 'fontawesome'),
+            'group' => $section_group,
+        ));
+        vc_add_param('vc_separator', array(
+            'type' => 'iconpicker',
+            'heading' => __('Select Icon', 'porto'),
+            'param_name' => 'icon_simpleline',
+            'value' => '',
+            'settings' => array(
+                'type' => 'simpleline',
+                'iconsPerPage' => 4000,
+            ),
+            'dependency' => array('element' => 'icon_type', 'value' => 'simpleline'),
             'group' => $section_group,
         ));
         vc_add_param('vc_separator', array(
@@ -877,16 +1171,39 @@ function porto_load_shortcodes() {
         ));
         vc_add_param('vc_accordion_tab', array(
             'type' => 'checkbox',
-            'heading' => __('Show FontAwesome Icon', 'porto'),
+            'heading' => __('Show Icon', 'porto'),
             'param_name' => 'show_icon',
             'value' => array(__('Yes, please', 'js_composer') => 'yes'),
             'group' => $section_group,
         ));
         vc_add_param('vc_accordion_tab', array(
-            'type' => 'iconpicker',
-            'heading' => __('Select FontAwesome Icon', 'porto'),
-            'param_name' => 'icon',
+            'type' => 'dropdown',
+            'heading' => __( 'Icon library', 'js_composer' ),
+            'value' => array(
+                __( 'Font Awesome', 'porto' ) => 'fontawesome',
+                __( 'Simple Line Icon', 'porto' ) => 'simpleline'
+            ),
+            'param_name' => 'icon_type',
             'dependency' => array('element' => 'show_icon', 'not_empty' => true),
+            'group' => $section_group,
+        ));
+        vc_add_param('vc_accordion_tab', array(
+            'type' => 'iconpicker',
+            'heading' => __('Select Icon', 'porto'),
+            'param_name' => 'icon',
+            'dependency' => array('element' => 'icon_type', 'value' => 'fontawesome'),
+            'group' => $section_group,
+        ));
+        vc_add_param('vc_accordion_tab', array(
+            'type' => 'iconpicker',
+            'heading' => __('Select Icon', 'porto'),
+            'param_name' => 'icon_simpleline',
+            'value' => '',
+            'settings' => array(
+                'type' => 'simpleline',
+                'iconsPerPage' => 4000,
+            ),
+            'dependency' => array('element' => 'icon_type', 'value' => 'simpleline'),
             'group' => $section_group,
         ));
 
@@ -898,16 +1215,39 @@ function porto_load_shortcodes() {
         vc_remove_param('vc_toggle', 'size');
         vc_add_param('vc_toggle', array(
             'type' => 'checkbox',
-            'heading' => __('Show FontAwesome Icon', 'porto'),
+            'heading' => __('Show Icon', 'porto'),
             'param_name' => 'show_icon',
             'value' => array(__('Yes, please', 'js_composer') => 'yes'),
             'group' => $section_group,
         ));
         vc_add_param('vc_toggle', array(
-            'type' => 'iconpicker',
-            'heading' => __('Select FontAwesome Icon', 'porto'),
-            'param_name' => 'icon',
+            'type' => 'dropdown',
+            'heading' => __( 'Icon library', 'js_composer' ),
+            'value' => array(
+                __( 'Font Awesome', 'porto' ) => 'fontawesome',
+                __( 'Simple Line Icon', 'porto' ) => 'simpleline'
+            ),
+            'param_name' => 'icon_type',
             'dependency' => array('element' => 'show_icon', 'not_empty' => true),
+            'group' => $section_group,
+        ));
+        vc_add_param('vc_toggle', array(
+            'type' => 'iconpicker',
+            'heading' => __('Select Icon', 'porto'),
+            'param_name' => 'icon',
+            'dependency' => array('element' => 'icon_type', 'value' => 'fontawesome'),
+            'group' => $section_group,
+        ));
+        vc_add_param('vc_toggle', array(
+            'type' => 'iconpicker',
+            'heading' => __('Select Icon', 'porto'),
+            'param_name' => 'icon_simpleline',
+            'value' => '',
+            'settings' => array(
+                'type' => 'simpleline',
+                'iconsPerPage' => 4000,
+            ),
+            'dependency' => array('element' => 'icon_type', 'value' => 'simpleline'),
             'group' => $section_group,
         ));
 
@@ -966,11 +1306,16 @@ function porto_load_shortcodes() {
         /* Add Single Image Parameters
         /* ---------------------------- */
         vc_add_param('vc_single_image', array(
+            'type' => 'label',
+            'heading' => __('Please select "On click action" as "Link to Large Image" in "Design Section" before configure.', 'porto'),
+            'param_name' => 'label',
+            'group' => $section_group,
+        ));
+        vc_add_param('vc_single_image', array(
             'type' => 'checkbox',
             'heading' => __('LightBox', 'porto'),
             'param_name' => 'lightbox',
             'value' => array( __( 'Yes, please', 'js_composer' ) => 'yes' ),
-            'dependency' => array('element' => 'img_link_large', 'not_empty' => true),
             'description' => __('Check it if you want to link to the lightbox with the large image.', 'porto'),
             'group' => $section_group,
         ));
@@ -980,7 +1325,6 @@ function porto_load_shortcodes() {
             'param_name' => 'image_gallery',
             'description' => __('Show all the images inside of same row.', 'porto'),
             'value' => array( __( 'Yes, please', 'js_composer' ) => 'yes' ),
-            'dependency' => array('element' => 'img_link_large', 'not_empty' => true),
             'group' => $section_group,
         ));
         vc_add_param('vc_single_image', array(
@@ -988,7 +1332,6 @@ function porto_load_shortcodes() {
             'heading' => __('Show Zoom Icon', 'porto'),
             'param_name' => 'zoom_icon',
             'value' => array( __( 'Yes, please', 'js_composer' ) => 'yes' ),
-            'dependency' => array('element' => 'img_link_large', 'not_empty' => true),
             'group' => $section_group,
         ));
         vc_add_param('vc_single_image', array(
@@ -996,7 +1339,6 @@ function porto_load_shortcodes() {
             'heading' => __('Show Hover Effect', 'porto'),
             'param_name' => 'hover_effect',
             'value' => array( __( 'Yes, please', 'js_composer' ) => 'yes' ),
-            'dependency' => array('element' => 'img_link_large', 'not_empty' => true),
             'group' => $section_group,
         ));
 
@@ -1457,7 +1799,7 @@ if (!class_exists('Porto_VcSharedLibrary')) {
 
         public static function getPortfolioGridView() {
             return array(
-                __('Classic', 'porto' ) => '',
+                __('Classic', 'porto' ) => 'classic',
                 __('Full', 'porto' ) => 'full'
             );
         }
@@ -1886,4 +2228,178 @@ function porto_theme_vc_animation_type_field($settings, $value) {
     $param_line .= '</select>';
 
     return $param_line;
+}
+
+// Add simple line icon font
+if (!function_exists('vc_iconpicker_type_simpleline')) {
+    add_filter( 'vc_iconpicker-type-simpleline', 'vc_iconpicker_type_simpleline' );
+
+    function vc_iconpicker_type_simpleline( $icons ) {
+        $simpleline_icons = array(
+            array( 'Simple-Line-Icons-user-female' => 'User Female' ),
+            array( 'Simple-Line-Icons-users' => 'Users' ),
+            array( 'Simple-Line-Icons-user-follow' => 'User Follow' ),
+            array( 'Simple-Line-Icons-user-following' => 'User Following' ),
+            array( 'Simple-Line-Icons-user-unfollow' => 'User Unfollow' ),
+            array( 'Simple-Line-Icons-user' => 'User' ),
+            array( 'Simple-Line-Icons-trophy' => 'Trophy' ),
+            array( 'Simple-Line-Icons-speedometer' => 'Speedometer' ),
+            array( 'Simple-Line-Icons-social-youtube' => 'Youtube' ),
+            array( 'Simple-Line-Icons-social-twitter' => 'Twitter' ),
+            array( 'Simple-Line-Icons-social-tumblr' => 'Tumblr' ),
+            array( 'Simple-Line-Icons-social-facebook' => 'Facebook' ),
+            array( 'Simple-Line-Icons-social-dropbox' => 'Dropbox' ),
+            array( 'Simple-Line-Icons-social-dribbble' => 'Dribbble' ),
+            array( 'Simple-Line-Icons-shield' => 'Shield' ),
+            array( 'Simple-Line-Icons-screen-tablet' => 'Tablet' ),
+            array( 'Simple-Line-Icons-screen-smartphone' => 'Smartphone' ),
+            array( 'Simple-Line-Icons-screen-desktop' => 'Desktop' ),
+            array( 'Simple-Line-Icons-plane' => 'Plane' ),
+            array( 'Simple-Line-Icons-notebook' => 'Notebook' ),
+            array( 'Simple-Line-Icons-moustache' => 'Moustache' ),
+            array( 'Simple-Line-Icons-mouse' => 'Mouse' ),
+            array( 'Simple-Line-Icons-magnet' => 'Magnet' ),
+            array( 'Simple-Line-Icons-magic-wand' => 'Magic Wand' ),
+            array( 'Simple-Line-Icons-hourglass' => 'Hourglass' ),
+            array( 'Simple-Line-Icons-graduation' => 'Graduation' ),
+            array( 'Simple-Line-Icons-ghost' => 'Ghost' ),
+            array( 'Simple-Line-Icons-game-controller' => 'Game Controller' ),
+            array( 'Simple-Line-Icons-fire' => 'Fire' ),
+            array( 'Simple-Line-Icons-eyeglasses' => 'Eyeglasses' ),
+            array( 'Simple-Line-Icons-envelope-open' => 'Envelope Open' ),
+            array( 'Simple-Line-Icons-envelope-letter' => 'Envelope Letter' ),
+            array( 'Simple-Line-Icons-energy' => 'Energy' ),
+            array( 'Simple-Line-Icons-emotsmile' => 'Emotsmile' ),
+            array( 'Simple-Line-Icons-disc' => 'Disc' ),
+            array( 'Simple-Line-Icons-cursor-move' => 'Cursor Move' ),
+            array( 'Simple-Line-Icons-crop' => 'Crop' ),
+            array( 'Simple-Line-Icons-credit-card' => 'Credit Card' ),
+            array( 'Simple-Line-Icons-chemistry' => 'Chemistry' ),
+            array( 'Simple-Line-Icons-bell' => 'Bell' ),
+            array( 'Simple-Line-Icons-badge' => 'Badge' ),
+            array( 'Simple-Line-Icons-anchor' => 'Anchor' ),
+            array( 'Simple-Line-Icons-wallet' => 'Wallet' ),
+            array( 'Simple-Line-Icons-vector' => 'Vector' ),
+            array( 'Simple-Line-Icons-speech' => 'Speech' ),
+            array( 'Simple-Line-Icons-puzzle' => 'Puzzle' ),
+            array( 'Simple-Line-Icons-printer' => 'Printer' ),
+            array( 'Simple-Line-Icons-present' => 'Present' ),
+            array( 'Simple-Line-Icons-playlist' => 'Playlist' ),
+            array( 'Simple-Line-Icons-pin' => 'Pin' ),
+            array( 'Simple-Line-Icons-picture' => 'Picture' ),
+            array( 'Simple-Line-Icons-map' => 'Map' ),
+            array( 'Simple-Line-Icons-layers' => 'Layers' ),
+            array( 'Simple-Line-Icons-handbag' => 'Handbag' ),
+            array( 'Simple-Line-Icons-globe-alt' => 'Globe Alt' ),
+            array( 'Simple-Line-Icons-globe' => 'Globe' ),
+            array( 'Simple-Line-Icons-frame' => 'Frame' ),
+            array( 'Simple-Line-Icons-folder-alt' => 'Folder Alt' ),
+            array( 'Simple-Line-Icons-film' => 'Film' ),
+            array( 'Simple-Line-Icons-feed' => 'Feed' ),
+            array( 'Simple-Line-Icons-earphones-alt' => 'Earphones Alt' ),
+            array( 'Simple-Line-Icons-earphones' => 'Earphones' ),
+            array( 'Simple-Line-Icons-drop' => 'Drop' ),
+            array( 'Simple-Line-Icons-drawer' => 'Drawer' ),
+            array( 'Simple-Line-Icons-docs' => 'Docs' ),
+            array( 'Simple-Line-Icons-directions' => 'Directions' ),
+            array( 'Simple-Line-Icons-direction' => 'Direction' ),
+            array( 'Simple-Line-Icons-diamond' => 'Diamond' ),
+            array( 'Simple-Line-Icons-cup' => 'Cup' ),
+            array( 'Simple-Line-Icons-compass' => 'Compass' ),
+            array( 'Simple-Line-Icons-call-out' => 'Call Out' ),
+            array( 'Simple-Line-Icons-call-in' => 'Call In' ),
+            array( 'Simple-Line-Icons-call-end' => 'Call End' ),
+            array( 'Simple-Line-Icons-calculator' => 'Calculator' ),
+            array( 'Simple-Line-Icons-bubbles' => 'Bubbles' ),
+            array( 'Simple-Line-Icons-briefcase' => 'Briefcase' ),
+            array( 'Simple-Line-Icons-book-open' => 'Book Open' ),
+            array( 'Simple-Line-Icons-basket-loaded' => 'Basket Loaded' ),
+            array( 'Simple-Line-Icons-basket' => 'Basket' ),
+            array( 'Simple-Line-Icons-bag' => 'Bag' ),
+            array( 'Simple-Line-Icons-action-undo' => 'Action Undo' ),
+            array( 'Simple-Line-Icons-action-redo' => 'Action Redo' ),
+            array( 'Simple-Line-Icons-wrench' => 'Wrench' ),
+            array( 'Simple-Line-Icons-umbrella' => 'Umbrella' ),
+            array( 'Simple-Line-Icons-trash' => 'Trash' ),
+            array( 'Simple-Line-Icons-tag' => 'Tag' ),
+            array( 'Simple-Line-Icons-support' => 'Support' ),
+            array( 'Simple-Line-Icons-size-fullscreen' => 'Size Fullscreen' ),
+            array( 'Simple-Line-Icons-size-actual' => 'Size Actual' ),
+            array( 'Simple-Line-Icons-shuffle' => 'Shuffle' ),
+            array( 'Simple-Line-Icons-share-alt' => 'Share Alt' ),
+            array( 'Simple-Line-Icons-share' => 'Share' ),
+            array( 'Simple-Line-Icons-rocket' => 'Rocket' ),
+            array( 'Simple-Line-Icons-question' => 'Question' ),
+            array( 'Simple-Line-Icons-pie-chart' => 'Pie Chart' ),
+            array( 'Simple-Line-Icons-pencil' => 'Pencil' ),
+            array( 'Simple-Line-Icons-note' => 'Note' ),
+            array( 'Simple-Line-Icons-music-tone-alt' => 'Music Tone Alt' ),
+            array( 'Simple-Line-Icons-music-tone' => 'Music Tone' ),
+            array( 'Simple-Line-Icons-microphone' => 'Microphone' ),
+            array( 'Simple-Line-Icons-loop' => 'Loop' ),
+            array( 'Simple-Line-Icons-logout' => 'Logout' ),
+            array( 'Simple-Line-Icons-login' => 'Login' ),
+            array( 'Simple-Line-Icons-list' => 'List' ),
+            array( 'Simple-Line-Icons-like' => 'Like' ),
+            array( 'Simple-Line-Icons-home' => 'Home' ),
+            array( 'Simple-Line-Icons-grid' => 'Grid' ),
+            array( 'Simple-Line-Icons-graph' => 'Graph' ),
+            array( 'Simple-Line-Icons-equalizer' => 'Equalizer' ),
+            array( 'Simple-Line-Icons-dislike' => 'Dislike' ),
+            array( 'Simple-Line-Icons-cursor' => 'Cursor' ),
+            array( 'Simple-Line-Icons-control-start' => 'Control Start' ),
+            array( 'Simple-Line-Icons-control-rewind' => 'Control Rewind' ),
+            array( 'Simple-Line-Icons-control-play' => 'Control Play' ),
+            array( 'Simple-Line-Icons-control-pause' => 'Control Pause' ),
+            array( 'Simple-Line-Icons-control-forward' => 'Control Forward' ),
+            array( 'Simple-Line-Icons-control-end' => 'Control End' ),
+            array( 'Simple-Line-Icons-calendar' => 'Calendar' ),
+            array( 'Simple-Line-Icons-bulb' => 'Bulb' ),
+            array( 'Simple-Line-Icons-bar-chart' => 'Bar Chart' ),
+            array( 'Simple-Line-Icons-arrow-up' => 'Arrow Up' ),
+            array( 'Simple-Line-Icons-arrow-right' => 'Arrow Right' ),
+            array( 'Simple-Line-Icons-arrow-left' => 'Arrow Left' ),
+            array( 'Simple-Line-Icons-arrow-down' => 'Arrow Down' ),
+            array( 'Simple-Line-Icons-ban' => 'Ban' ),
+            array( 'Simple-Line-Icons-bubble' => 'Bubble' ),
+            array( 'Simple-Line-Icons-camcorder' => 'Camcorder' ),
+            array( 'Simple-Line-Icons-camera' => 'Camera' ),
+            array( 'Simple-Line-Icons-check' => 'Check' ),
+            array( 'Simple-Line-Icons-clock' => 'Clock' ),
+            array( 'Simple-Line-Icons-close' => 'Close' ),
+            array( 'Simple-Line-Icons-cloud-download' => 'Cloud Download' ),
+            array( 'Simple-Line-Icons-cloud-upload' => 'Cloud Upload' ),
+            array( 'Simple-Line-Icons-doc' => 'Doc' ),
+            array( 'Simple-Line-Icons-envelope' => 'Envelope' ),
+            array( 'Simple-Line-Icons-eye' => 'Eye' ),
+            array( 'Simple-Line-Icons-flag' => 'Flag' ),
+            array( 'Simple-Line-Icons-folder' => 'Folder' ),
+            array( 'Simple-Line-Icons-heart' => 'Heart' ),
+            array( 'Simple-Line-Icons-info' => 'Info' ),
+            array( 'Simple-Line-Icons-key' => 'Key' ),
+            array( 'Simple-Line-Icons-link' => 'Link' ),
+            array( 'Simple-Line-Icons-lock' => 'Lock' ),
+            array( 'Simple-Line-Icons-lock-open' => 'Lock Open' ),
+            array( 'Simple-Line-Icons-magnifier' => 'Magnifier' ),
+            array( 'Simple-Line-Icons-magnifier-add' => 'Magnifier Add' ),
+            array( 'Simple-Line-Icons-magnifier-remove' => 'Magnifier Remove' ),
+            array( 'Simple-Line-Icons-paper-clip' => 'Paper Clip' ),
+            array( 'Simple-Line-Icons-paper-plane' => 'Paper Plane' ),
+            array( 'Simple-Line-Icons-plus' => 'Plus' ),
+            array( 'Simple-Line-Icons-pointer' => 'Pointer' ),
+            array( 'Simple-Line-Icons-power' => 'Power' ),
+            array( 'Simple-Line-Icons-refresh' => 'Refresh' ),
+            array( 'Simple-Line-Icons-reload' => 'Reload' ),
+            array( 'Simple-Line-Icons-settings' => 'Settings' ),
+            array( 'Simple-Line-Icons-star' => 'Star' ),
+            array( 'Simple-Line-Icons-symbol-fermale' => 'Symbol Fermale' ),
+            array( 'Simple-Line-Icons-symbol-male' => 'Symbol Male' ),
+            array( 'Simple-Line-Icons-target' => 'Target' ),
+            array( 'Simple-Line-Icons-volume-1' => 'Volume 1' ),
+            array( 'Simple-Line-Icons-volume-2' => 'Volume 2' ),
+            array( 'Simple-Line-Icons-volume-off' => 'Volume Off' )
+        );
+
+        return array_merge( $icons, $simpleline_icons );
+    }
 }

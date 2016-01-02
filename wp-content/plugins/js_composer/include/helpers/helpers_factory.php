@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
+}
+
 /**
  * WPBakery Visual Composer Main manager.
  *
@@ -199,7 +203,7 @@ if ( ! function_exists( 'vc_is_frontend_editor' ) ) {
 	 * @return bool
 	 */
 	function vc_is_frontend_editor() {
-		return vc_mode() === 'admin_frontend_editor';
+		return 'admin_frontend_editor' === vc_mode();
 	}
 }
 if ( ! function_exists( 'vc_is_page_editable' ) ) {
@@ -208,7 +212,7 @@ if ( ! function_exists( 'vc_is_page_editable' ) ) {
 	 * @return bool
 	 */
 	function vc_is_page_editable() {
-		return vc_mode() === 'page_editable';
+		return 'page_editable' === vc_mode();
 	}
 }
 if ( ! function_exists( 'vc_action' ) ) {
@@ -237,7 +241,7 @@ if ( ! function_exists( 'vc_is_inline' ) ) {
 	function vc_is_inline() {
 		global $vc_is_inline;
 		if ( is_null( $vc_is_inline ) ) {
-			$vc_is_inline = ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ) ) && vc_action() === 'vc_inline' || ! is_null( vc_request_param( 'vc_inline' ) ) || vc_request_param( 'vc_editable' ) === 'true';
+			$vc_is_inline = ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ) ) && 'vc_inline' === vc_action() || ! is_null( vc_request_param( 'vc_inline' ) ) || 'true' === vc_request_param( 'vc_editable' );
 		}
 
 		return $vc_is_inline;
@@ -249,10 +253,11 @@ if ( ! function_exists( 'vc_is_frontend_ajax' ) ) {
 	 * @return bool
 	 */
 	function vc_is_frontend_ajax() {
-		return vc_post_param( 'vc_inline' ) === 'true' || vc_get_param( 'vc_inline' );
+		return 'true' === vc_post_param( 'vc_inline' ) || vc_get_param( 'vc_inline' );
 	}
 }
 /**
+ * @depreacted since 4.8 ( use vc_is_frontend_editor )
  * @since 4.2
  * @return bool
  */
@@ -301,17 +306,16 @@ function vc_automapper_is_disabled() {
  * @return mixed|string
  */
 function vc_get_dropdown_option( $param, $value ) {
-	if ( $value === '' && is_array( $param['value'] ) ) {
+	if ( '' === $value && is_array( $param['value'] ) ) {
 		$value = array_shift( $param['value'] );
 	}
 	if ( is_array( $value ) ) {
 		reset( $value );
-		$value = isset( $value['value'] ) ? $value['value'] :
-			current( $value );
+		$value = isset( $value['value'] ) ? $value['value'] : current( $value );
 	}
 	$value = preg_replace( '/\s/', '_', $value );
 
-	return ( $value !== '' ? $value : '' );
+	return ( '' !== $value ? $value : '' );
 }
 
 /**
@@ -324,8 +328,11 @@ function vc_get_dropdown_option( $param, $value ) {
 function vc_get_css_color( $prefix, $color ) {
 	$rgb_color = preg_match( '/rgba/', $color ) ? preg_replace( array(
 		'/\s+/',
-		'/^rgba\((\d+)\,(\d+)\,(\d+)\,([\d\.]+)\)$/'
-	), array( '', 'rgb($1,$2,$3)' ), $color ) : $color;
+		'/^rgba\((\d+)\,(\d+)\,(\d+)\,([\d\.]+)\)$/',
+	), array(
+		'',
+		'rgb($1,$2,$3)',
+	), $color ) : $color;
 	$string = $prefix . ':' . $rgb_color . ';';
 	if ( $rgb_color !== $color ) {
 		$string .= $prefix . ':' . $color . ';';
@@ -348,6 +355,44 @@ function vc_shortcode_custom_css_class( $param_value, $prefix = '' ) {
 }
 
 /**
+ * @param $subject
+ * @param $property
+ * @param bool|false $strict
+ *
+ * @since 4.9
+ * @return bool
+ */
+function vc_shortcode_custom_css_has_property( $subject, $property, $strict = false ) {
+	$styles = array();
+	$pattern = '/\{([^\}]*?)\}/i';
+	preg_match( $pattern, $subject, $styles );
+	if ( array_key_exists( 1, $styles ) ) {
+		$styles = explode( ';', $styles[1] );
+	}
+	$new_styles = array();
+	foreach ( $styles as $val ) {
+		$val = explode( ':', $val );
+		if ( is_array( $property ) ) {
+			foreach ( $property as $prop ) {
+				$pos = strpos( $val[0], $prop );
+				$full = ( $strict ) ? ( $pos === 0 && strlen( $val[0] ) === strlen( $prop ) ) : true;
+				if ( $pos !== false && $full ) {
+					$new_styles[] = $val;
+				}
+			}
+		} else {
+			$pos = strpos( $val[0], $property );
+			$full = ( $strict ) ? ( $pos === 0 && strlen( $val[0] ) === strlen( $property ) ) : true;
+			if ( $pos !== false && $full ) {
+				$new_styles[] = $val;
+			}
+		}
+	}
+
+	return ! empty( $new_styles );
+}
+
+/**
  * Plugin name for VC.
  *
  * @since 4.2
@@ -364,7 +409,7 @@ function vc_plugin_name() {
  *
  * @return bool|mixed|string
  */
-function vc_file_get_contents( $filename ) {
+function vc_file_get_contents( $filename, $partial = false ) {
 	global $wp_filesystem;
 	if ( empty( $wp_filesystem ) ) {
 		require_once( ABSPATH . '/wp-admin/includes/file.php' );
@@ -385,6 +430,50 @@ function vc_file_get_contents( $filename ) {
 	}
 
 	return $output;
+}
+
+/**
+ * HowTo: vc_role_access()->who('administrator')->with('editor')->can('frontend_editor');
+ * @since 4.8
+ * @return Vc_Role_Access;
+ */
+function vc_role_access() {
+	return vc_manager()->getRoleAccess();
+}
+
+/**
+ * Get access manager for current user.
+ * HowTo: vc_user_access()->->with('editor')->can('frontend_editor');
+ * @since 4.8
+ * @return Vc_Current_User_Access;
+ */
+function vc_user_access() {
+	return vc_manager()->getCurrentUserAccess();
+}
+
+function vc_user_roles_get_all() {
+	require_once vc_path_dir( 'SETTINGS_DIR', 'class-vc-roles.php' );
+	$vc_roles = new Vc_Roles();
+	$capabilities = array();
+	foreach ( $vc_roles->getParts() as $part ) {
+		$partObj = vc_user_access()->part( $part );
+		$capabilities[ $part ] = array(
+			'state' => $partObj->getState(),
+			'state_key' => $partObj->getStateKey(),
+			'capabilities' => $partObj->getAllCaps(),
+		);
+	}
+
+	return $capabilities;
+}
+
+/**
+ * Return a $_GET action param for ajax
+ * @since 4.8
+ * @return bool
+ */
+function vc_wp_action() {
+	return isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : false;
 }
 
 /**
@@ -422,4 +511,93 @@ function vc_verify_admin_nonce( $nonce = '' ) {
  */
 function vc_verify_public_nonce( $nonce = '' ) {
 	return (bool) vc_verify_nonce( ( ! empty( $nonce ) ? $nonce : vc_request_param( '_vcnonce' ) ), 'vc-public-nonce' );
+}
+
+function vc_check_post_type( $type ) {
+	if ( empty( $type ) ) {
+		$type = get_post_type();
+	}
+	$valid = apply_filters( 'vc_check_post_type_validation', null, $type );
+	if ( is_null( $valid ) ) {
+		$state = vc_user_access()->part( 'post_types' )->getState();
+		if ( null === $state ) {
+			return in_array( $type, vc_default_editor_post_types() );
+		} else if ( true === $state && ! in_array( $type, vc_default_editor_post_types() ) ) {
+			$valid = false;
+		} else {
+			$valid = vc_user_access()
+				->part( 'post_types' )
+				->can( $type )
+				->get();
+		}
+	}
+
+	return $valid;
+}
+
+function vc_user_access_check_shortcode_edit( $shortcode ) {
+	$do_check = apply_filters( 'vc_user_access_check-shortcode_edit', null, $shortcode );
+
+	if ( is_null( $do_check ) ) {
+		$state_check = vc_user_access()
+			->part( 'shortcodes' )
+			->checkStateAny( true, 'edit', null )
+			->get();
+		if ( $state_check ) {
+			return true;
+		} else {
+			return vc_user_access()
+				->part( 'shortcodes' )
+				->canAny( $shortcode . '_all', $shortcode . '_edit' )
+				->get();
+		}
+	} else {
+		return $do_check;
+	}
+}
+
+function vc_user_access_check_shortcode_all( $shortcode ) {
+	$do_check = apply_filters( 'vc_user_access_check-shortcode_all', null, $shortcode );
+
+	if ( is_null( $do_check ) ) {
+		return vc_user_access()
+			->part( 'shortcodes' )
+			->checkStateAny( true, 'custom', null )
+			->can( $shortcode . '_all' )
+			->get();
+	} else {
+		return $do_check;
+	}
+}
+
+/**
+ * htmlspecialchars_decode_deep
+ * Call the htmlspecialchars_decode to a gived multilevel array
+ *
+ * @since 4.8
+ *
+ * @param mixed $value The value to be stripped.
+ *
+ * @return mixed Stripped value.
+ */
+function vc_htmlspecialchars_decode_deep( $value ) {
+	if ( is_array( $value ) ) {
+		$value = array_map( 'vc_htmlspecialchars_decode_deep', $value );
+	} elseif ( is_object( $value ) ) {
+		$vars = get_object_vars( $value );
+		foreach ( $vars as $key => $data ) {
+			$value->{$key} = vc_htmlspecialchars_decode_deep( $data );
+		}
+	} elseif ( is_string( $value ) ) {
+		$value = htmlspecialchars_decode( $value );
+	}
+
+	return $value;
+}
+
+function vc_str_remove_protocol( $str ) {
+	return str_replace( array(
+		'https://',
+		'http://',
+	), '//', $str );
 }

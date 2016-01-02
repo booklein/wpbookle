@@ -35,9 +35,10 @@
 }
 .ultimate-vticker.ticker,
 .ultimate-vticker.ticker-down {
-    display: inline-block !important
+    display: inline-block !important;
+    vertical-align: top
 }
-.ultimate-vticker.ticker, 
+.ultimate-vticker.ticker,
 .ultimate-vticker.ticker *,
 .ultimate-vticker.ticker-down,
 .ultimate-vticker.ticker-down * {

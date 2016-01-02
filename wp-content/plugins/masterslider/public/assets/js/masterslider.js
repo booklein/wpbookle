@@ -3,8 +3,8 @@
  * Copyright © 2015 All Rights Reserved. 
  *
  * @author Averta [www.averta.net]
- * @version 2.15.0
- * @date Jun 2015
+ * @version 2.16.6
+ * @date Dec 2015
  */
 
 
@@ -387,214 +387,228 @@ window.averta = {};
 
 /* ================== bin-debug/js/pro/tools/TouchSwipe.js =================== */
 ;(function($){
-	
-	"use strict";
-	
-	var isTouch 	= 'ontouchstart' in document,
-		isPointer 	= window.navigator.pointerEnabled,
-		isMSPoiner 	= !isPointer && window.navigator.msPointerEnabled,
-		usePointer  = isPointer || isMSPoiner,
-	// Events	
-		ev_start  = (isPointer ? 'pointerdown ' : '' ) + (isMSPoiner ? 'MSPointerDown ' : '' ) + (isTouch ? 'touchstart ' : '' ) + 'mousedown',
-		ev_move   = (isPointer ? 'pointermove ' : '' ) + (isMSPoiner ? 'MSPointerMove ' : '' ) + (isTouch ? 'touchmove '  : '' ) + 'mousemove',
-		ev_end    = (isPointer ? 'pointerup '   : '' ) + (isMSPoiner ? 'MSPointerUp '   : '' ) + (isTouch ? 'touchend '   : '' ) + 'mouseup', 
-		ev_cancel = (isPointer ? 'pointercancel '   : '' ) + (isMSPoiner ? 'MSPointerCancel ': '' ) + 'touchcancel';
-	
 
-	averta.TouchSwipe = function($element){
-		this.$element = $element;
-		this.enabled = true;
+    "use strict";
 
-		$element.bind(ev_start  , {target: this} , this.__touchStart);
+    var isTouch     = 'ontouchstart' in document,
+        isPointer   = window.navigator.pointerEnabled,
+        isMSPoiner  = !isPointer && window.navigator.msPointerEnabled,
+        usePointer  = isPointer || isMSPoiner,
+    // Events
+        ev_start  = (isPointer ? 'pointerdown ' : '' ) + (isMSPoiner ? 'MSPointerDown ' : '' ) + (isTouch ? 'touchstart ' : '' ) + 'mousedown',
+        ev_move   = (isPointer ? 'pointermove ' : '' ) + (isMSPoiner ? 'MSPointerMove ' : '' ) + (isTouch ? 'touchmove '  : '' ) + 'mousemove',
+        ev_end    = (isPointer ? 'pointerup '   : '' ) + (isMSPoiner ? 'MSPointerUp '   : '' ) + (isTouch ? 'touchend '   : '' ) + 'mouseup',
+        ev_cancel = (isPointer ? 'pointercancel '   : '' ) + (isMSPoiner ? 'MSPointerCancel ': '' ) + 'touchcancel';
 
-		$element[0].swipe = this;
-		
-		this.onSwipe    = null;
-		this.swipeType  = 'horizontal';
-		this.noSwipeSelector = 'input, textarea, button, .no-swipe, .ms-no-swipe';
 
-		this.lastStatus = {};
-	
-	};
-	
-	var p = averta.TouchSwipe.prototype;
-	
- 	/*-------------- METHODS --------------*/
-	
-	p.getDirection = function(new_x , new_y){
-		switch(this.swipeType){
-			case 'horizontal':
-				return new_x <= this.start_x ? 'left' : 'right';
-			break;
-			case 'vertical':
-				return new_y <= this.start_y ? 'up' : 'down';
-			break;
-			case 'all':
-				if(Math.abs(new_x - this.start_x) > Math.abs(new_y - this.start_y))
-					return new_x <= this.start_x ? 'left' : 'right';
-				else
-					return new_y <= this.start_y ? 'up' : 'down';
-			break;
-		}
-	};
-	
-	p.priventDefultEvent = function(new_x , new_y){
-		//if(this.priventEvt != null) return this.priventEvt;
-		var dx = Math.abs(new_x - this.start_x);
-		var dy = Math.abs(new_y - this.start_y);
-		
-		var horiz =  dx > dy;
-		
-		return (this.swipeType === 'horizontal' && horiz) ||
-			   (this.swipeType === 'vertical' && !horiz);
+    averta.TouchSwipe = function($element){
+        this.$element = $element;
+        this.enabled = true;
 
-		//return this.priventEvt;
-	};
-	
-	p.createStatusObject = function(evt){
-		var status_data = {} , temp_x , temp_y;
-		
-		temp_x = this.lastStatus.distanceX || 0;
-		temp_y = this.lastStatus.distanceY || 0;
-		
-		status_data.distanceX = evt.pageX - this.start_x;
-		status_data.distanceY = evt.pageY - this.start_y;
-		status_data.moveX = status_data.distanceX - temp_x;
-		status_data.moveY = status_data.distanceY - temp_y;
-		
-		status_data.distance  = parseInt( Math.sqrt(Math.pow(status_data.distanceX , 2) + Math.pow(status_data.distanceY , 2)) );
-		
-		status_data.duration  = new Date().getTime() - this.start_time;
-		status_data.direction = this.getDirection(evt.pageX , evt.pageY);
-		
-		return status_data;
-	};
-	
-	
-	p.__reset = function(event , jqevt){
-		this.reset = false;
-		this.lastStatus = {};
-		this.start_time = new Date().getTime();
-		this.start_x = isTouch ? event.touches[0].pageX : (usePointer ? event.pageX : jqevt.pageX);
-		this.start_y = isTouch ? event.touches[0].pageY : (usePointer ? event.pageY : jqevt.pageY);
-	};
-	
-	p.__touchStart = function(event){
-		
-		var swipe = event.data.target;
-		var jqevt = event;
-		if(!swipe.enabled) return;
+        $element.bind(ev_start  , {target: this} , this.__touchStart);
 
-		if ( $(event.target).closest(swipe.noSwipeSelector, swipe.$element).length > 0 ) {
-			return;
-		}
+        $element[0].swipe = this;
 
-		event = event.originalEvent;
-		
-		if( usePointer ) {
-			$(this).css('-ms-touch-action', swipe.swipeType === 'horizontal' ? 'pan-y' : 'pan-x');
-		}
+        this.onSwipe    = null;
+        this.swipeType  = 'horizontal';
+        this.noSwipeSelector = 'input, textarea, button, .no-swipe, .ms-no-swipe';
 
-		if(!swipe.onSwipe) {
-			$.error('Swipe listener is undefined');
-			return;
-		}
-		
-		if(swipe.touchStarted) return;
-		
-		swipe.start_x = isTouch ? event.touches[0].pageX : (usePointer ? event.pageX : jqevt.pageX);
-		swipe.start_y = isTouch ? event.touches[0].pageY : (usePointer ? event.pageY : jqevt.pageY);
-		
-		swipe.start_time = new Date().getTime(); 
-		
-		$(document).bind(ev_end    , {target: swipe} , swipe.__touchEnd).
-		 		    bind(ev_move   , {target: swipe} , swipe.__touchMove).
-					bind(ev_cancel , {target: swipe} , swipe.__touchCancel);
+        this.lastStatus = {};
 
-		var evt = isTouch ? event.touches[0] : (usePointer ? event : jqevt);
-		var status = swipe.createStatusObject(evt);
-		status.phase = 'start';
-		
-		swipe.onSwipe.call(null , status);
-		
-		if(!isTouch)
-			jqevt.preventDefault();
-		
-		swipe.lastStatus = status;
-		swipe.touchStarted = true;
-	};
-	
-	p.__touchMove = function(event){
-		var swipe = event.data.target;
-		var jqevt = event;
-		event = event.originalEvent;
-		
-		if(!swipe.touchStarted) return;
-		
-		clearTimeout(swipe.timo);
-		swipe.timo = setTimeout(function(){swipe.__reset(event , jqevt);} , 60);
-				
-		var evt = isTouch ? event.touches[0] : (usePointer ? event : jqevt);
+    };
 
-		var status = swipe.createStatusObject(evt);
-		
-		if(swipe.priventDefultEvent(evt.pageX , evt.pageY))
-			jqevt.preventDefault();
-		
-		status.phase = 'move';
-		
-		//if(swipe.lastStatus.direction !== status.direction) swipe.__reset(event , jqevt);
-		
-		swipe.lastStatus = status;
-		
-		swipe.onSwipe.call(null , status);
-	};
-	
-	p.__touchEnd = function(event){
-		
-		var swipe = event.data.target;
-		var jqevt = event;
-		event = event.originalEvent;
-		
-		clearTimeout(swipe.timo);
-		
-		var evt = isTouch ? event.touches[0] : (usePointer ? event : jqevt);
-		
-		var status = swipe.lastStatus;
-		
-		if(!isTouch)
-			jqevt.preventDefault();
-		
-		status.phase = 'end';
-		
-		swipe.touchStarted = false;
-		swipe.priventEvt   = null;
-		
-		$(document).unbind(ev_end     , swipe.__touchEnd).
-		 		    unbind(ev_move    , swipe.__touchMove).
-					unbind(ev_cancel  , swipe.__touchCancel);
-		
-		status.speed = status.distance / status.duration;
-				
-		swipe.onSwipe.call(null , status);
-		
-	};
-	
-	p.__touchCancel = function(event){
-		var swipe = event.data.target;
-		swipe.__touchEnd(event);
-	};
-	
-	p.enable = function(){
-		if(this.enabled) return;
-		this.enabled = true;
-	};
-	
-	p.disable = function(){
-		if(!this.enabled) return;
-		this.enabled = false;
-	};
-	
+    var p = averta.TouchSwipe.prototype;
+
+    /*-------------- METHODS --------------*/
+
+    p.getDirection = function(new_x , new_y){
+        switch(this.swipeType){
+            case 'horizontal':
+                return new_x <= this.start_x ? 'left' : 'right';
+            break;
+            case 'vertical':
+                return new_y <= this.start_y ? 'up' : 'down';
+            break;
+            case 'all':
+                if(Math.abs(new_x - this.start_x) > Math.abs(new_y - this.start_y))
+                    return new_x <= this.start_x ? 'left' : 'right';
+                else
+                    return new_y <= this.start_y ? 'up' : 'down';
+            break;
+        }
+    };
+
+    p.priventDefultEvent = function(new_x , new_y){
+        //if(this.priventEvt != null) return this.priventEvt;
+        var dx = Math.abs(new_x - this.start_x);
+        var dy = Math.abs(new_y - this.start_y);
+
+        var horiz =  dx > dy;
+
+        return (this.swipeType === 'horizontal' && horiz) ||
+               (this.swipeType === 'vertical' && !horiz);
+
+        //return this.priventEvt;
+    };
+
+    p.createStatusObject = function(evt){
+        var status_data = {} , temp_x , temp_y;
+
+        temp_x = this.lastStatus.distanceX || 0;
+        temp_y = this.lastStatus.distanceY || 0;
+
+        status_data.distanceX = evt.pageX - this.start_x;
+        status_data.distanceY = evt.pageY - this.start_y;
+        status_data.moveX = status_data.distanceX - temp_x;
+        status_data.moveY = status_data.distanceY - temp_y;
+
+        status_data.distance  = parseInt( Math.sqrt(Math.pow(status_data.distanceX , 2) + Math.pow(status_data.distanceY , 2)) );
+
+        status_data.duration  = new Date().getTime() - this.start_time;
+        status_data.direction = this.getDirection(evt.pageX , evt.pageY);
+
+        return status_data;
+    };
+
+
+    p.__reset = function(event , jqevt){
+        this.reset = false;
+        this.lastStatus = {};
+        this.start_time = new Date().getTime();
+
+        var point = this.__getPoint( event, jqevt );
+        this.start_x = point.pageX;
+        this.start_y = point.pageY;
+    };
+
+    p.__touchStart = function(event){
+
+        var swipe = event.data.target;
+        var jqevt = event;
+        if(!swipe.enabled) return;
+
+        if ( $(event.target).closest(swipe.noSwipeSelector, swipe.$element).length > 0 ) {
+            return;
+        }
+
+        event = event.originalEvent;
+
+        if( usePointer ) {
+            $(this).css('-ms-touch-action', swipe.swipeType === 'horizontal' ? 'pan-y' : 'pan-x');
+        }
+
+        if(!swipe.onSwipe) {
+            $.error('Swipe listener is undefined');
+            return;
+        }
+
+        // don't catch the touch start again, also don't go further if the delay between touchstart and mousedown is small
+        // if ( swipe.touchStarted ) {
+        if ( swipe.touchStarted || isTouch && swipe.start_time && event.type === 'mousedown' &&  new Date().getTime() - swipe.start_time < 600 ) {
+            return;
+        }
+
+        var point = swipe.__getPoint( event, jqevt );
+        swipe.start_x = point.pageX;
+        swipe.start_y = point.pageY;
+
+        swipe.start_time = new Date().getTime();
+
+        $(document).bind(ev_end    , {target: swipe} , swipe.__touchEnd).
+                    bind(ev_move   , {target: swipe} , swipe.__touchMove).
+                    bind(ev_cancel , {target: swipe} , swipe.__touchCancel);
+
+        var status = swipe.createStatusObject(point);
+        status.phase = 'start';
+
+        swipe.onSwipe.call(null , status);
+
+        if(!isTouch)
+            jqevt.preventDefault();
+
+        swipe.lastStatus = status;
+        swipe.touchStarted = true;
+    };
+
+    p.__touchMove = function(event){
+        var swipe = event.data.target;
+        var jqevt = event;
+        event = event.originalEvent;
+
+        if(!swipe.touchStarted) return;
+
+        clearTimeout(swipe.timo);
+        swipe.timo = setTimeout(function(){swipe.__reset(event , jqevt);} , 60);
+
+        var point = swipe.__getPoint( event, jqevt );
+
+        var status = swipe.createStatusObject(point);
+
+        if(swipe.priventDefultEvent(point.pageX , point.pageY))
+            jqevt.preventDefault();
+
+        status.phase = 'move';
+
+        //if(swipe.lastStatus.direction !== status.direction) swipe.__reset(event , jqevt);
+
+        swipe.lastStatus = status;
+
+        swipe.onSwipe.call(null , status);
+    };
+
+    p.__touchEnd = function(event){
+
+        var swipe = event.data.target;
+        var jqevt = event;
+        event = event.originalEvent;
+
+        clearTimeout(swipe.timo);
+
+        var status = swipe.lastStatus;
+
+        if(!isTouch)
+            jqevt.preventDefault();
+
+        status.phase = 'end';
+
+        swipe.touchStarted = false;
+        swipe.priventEvt   = null;
+
+        $(document).unbind(ev_end     , swipe.__touchEnd).
+                    unbind(ev_move    , swipe.__touchMove).
+                    unbind(ev_cancel  , swipe.__touchCancel);
+
+        status.speed = status.distance / status.duration;
+
+        swipe.onSwipe.call(null , status);
+
+    };
+
+    p.__touchCancel = function(event){
+        var swipe = event.data.target;
+        swipe.__touchEnd(event);
+    };
+
+    p.__getPoint = function( event, jqEvent ) {
+        if ( isTouch && event.type.indexOf('mouse') === -1 ) {
+            return event.touches[0];
+        } else if ( usePointer ) {
+            return event;
+        } else {
+            return jqEvent;
+        }
+    };
+
+    p.enable = function(){
+        if(this.enabled) return;
+        this.enabled = true;
+    };
+
+    p.disable = function(){
+        if(!this.enabled) return;
+        this.enabled = false;
+    };
+
 })(jQuery);
 
 /* ================== bin-debug/js/pro/tools/Timer.js =================== */
@@ -4815,7 +4829,7 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
  */
 
 ;(function($){
-	
+
 	"use strict";
 
 	var LayerTypes = {
@@ -4826,22 +4840,23 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 		'button'	: MSButtonLayer
 	};
 	window.MasterSlider = function(){
-		
+
 		// Default Options
 		this.options = {
+            forceInit           : true,       // Force calling init even an error occurs in jQuery's dom ready method.
 			autoplay 			: false,      // Enables the autoplay slideshow.
 			loop 				: false,	  // Enables the continuous sliding mode.
 			mouse				: true,		  // Whether the user can use mouse drag navigation.
 			swipe				: true,		  // Whether the drag/swipe navigation is enabled.
 			grabCursor			: true,		  // Whether the slider uses grab mouse cursor.
 			space  				: 0,		  // The spacing value between slides in pixels.
-			fillMode			: 'fill',  	  // Specifies the slide background scaling method. Its acceptable values are "fill", "fit", "stretch", "center" and "tile". 
+			fillMode			: 'fill',  	  // Specifies the slide background scaling method. Its acceptable values are "fill", "fit", "stretch", "center" and "tile".
 			start				: 1,		  // The slider starting slide number.
-			view				: 'basic',	  // The slide changing transition. 
+			view				: 'basic',	  // The slide changing transition.
 			width				: 300,		  // The base width of slides. It helps the slider to resize in correct ratio.
 			height				: 150,		  // The base height of slides, It helps the slider to resize in correct ratio.
 			inView				: 15, 		  // Specifies number of slides which will be added at a same time in DOM.
-			critMargin			: 1,		  // 
+			critMargin			: 1,		  //
 			heightLimit			: true,		  // It force the slide to use max height value as its base specified height value.
 			smoothHeight		: true,		  // Whether the slider uses smooth animation while its height changes.
 			autoHeight			: false,      // Whether the slider adapts its height to each slide height or not. It overrides heightLimit option.
@@ -4869,13 +4884,13 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 			deepLinkType 		: 'path', 	  // @since 2.1.0, type of hash value in page's url possible values, path and query (  #gallery/1 || #gallery=4 )
 			disablePlugins      : []		  // @since 2.9.6, list of disabled Master Slider plugin names for this instance.
 		};
-		
+
 		this.slides = [];
-		this.activePlugins = [];	
+		this.activePlugins = [];
 		this.$element = null;
 
 		// used by new layout method. to force fullwidth or fullscreen
-		this.lastMargin = 0; 
+		this.lastMargin = 0;
 
 		// Reserved side spaces of slider
 		this.leftSpace = 0;
@@ -4889,13 +4904,13 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 		var that = this;
 		this.resize_listener = function(){that._resize();};
 		$(window).bind('resize', this.resize_listener);
-				
+
 	};
-	
+
 	MasterSlider.author  		= 'Averta Ltd. (www.averta.net)';
-	MasterSlider.version 		= '2.15.0';
-	MasterSlider.releaseDate 	= 'Jun 2015';
-	
+	MasterSlider.version 		= '2.16.6';
+	MasterSlider.releaseDate 	= 'Dec 2015';
+
 	// Master Slider plugins.
 	MasterSlider._plugins = []
 	var MS = MasterSlider;
@@ -4906,7 +4921,7 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 	};
 
 	var p = MasterSlider.prototype;
-	
+
 	/*-------------- METHODS --------------*/
 
 	/**
@@ -4920,9 +4935,9 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 			ind = 0;
 
 		this.$element.children('.ms-slide').each(function(index) {
-			
+
 			var $slide_ele = $(this);
-			
+
 			new_slide 			= new MSSlide();
 			new_slide.$element 	= $slide_ele;
 			new_slide.slider 	= that;
@@ -4935,7 +4950,7 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 			if( slide_img.length > 0 ){
 				new_slide.setBG(slide_img[0]);
 			}
-			
+
 			// Slide Video Background
 			var slide_video = $slide_ele.children('video');
 			if( slide_video.length > 0 ) new_slide.setBGVideo(slide_video);
@@ -4944,7 +4959,7 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 				for(var i = 0 , l = that.controls.length; i<l ; ++i)
 					that.controls[i].slideAction(new_slide);
 			}
-			
+
 			// Slide Link and Video
 			var slide_link = $slide_ele.children('a').each(function(index) {
 			  var $this = $(this);
@@ -4952,7 +4967,7 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 				new_slide.video = this.getAttribute('href');
 
 				new_slide.videoAutoPlay = $this.data('autoplay');
-				
+
 				$this.remove();
 			  }else if(!$this.hasClass('ms-layer')) {
 				new_slide.link  = $(this);
@@ -4960,7 +4975,7 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 				//$this.remove();
 			  }
 			});//.remove();
-			
+
 			// Slide Layers
 			that.__createSlideLayers(new_slide , $slide_ele.find('.ms-layer'));
 			that.slides.push(new_slide);
@@ -4968,10 +4983,10 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 
 		});
 	};
-	
+
 	/**
 	 * Creates layers of specified layer
-	 * @param  {MSSlide} slide  
+	 * @param  {MSSlide} slide
 	 * @param  {Array} layers
 	 * @since 1.0
 	 * @private
@@ -4983,19 +4998,19 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 		layers.each(function(index , domEle){
 			var $layer_element = $(this),
 				$parent_ele;
-			
+
 			if( domEle.nodeName === 'A' && $layer_element.find('>img').data('type') === 'image' ) {
 				$parent_ele = $(this);
 				$layer_element = $parent_ele.find('img');
 			}
-			
+
 			var layer = new (LayerTypes[$layer_element.data('type') || 'text']) ();
 			layer.$element = $layer_element;
 			layer.link = $parent_ele;
-			
+
 			var eff_parameters = {},
 				end_eff_parameters = {};
-		
+
 			if($layer_element.data('effect') 	!== undefined)		eff_parameters.name 			= $layer_element.data('effect');
 			if($layer_element.data('ease')		!== undefined) 		eff_parameters.ease 			= $layer_element.data('ease');
 			if($layer_element.data('duration')  !== undefined)  	eff_parameters.duration 		= $layer_element.data('duration');
@@ -5008,13 +5023,12 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 
 			layer.setStartAnim(eff_parameters);
 			layer.setEndAnim(end_eff_parameters);
-			
+
 			slide.layerController.addLayer(layer);
-			
+
 		});
-		
+
 	};
-	
 	/**
 	 * remove slider initialize loading
 	 * @since 1.0
@@ -5032,7 +5046,7 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 		if(this.slideController)
 			this.slideController.__resize();
 	};
-	
+
 	/**
 	 * resize listener, it only used for aligning slider loading and after slider init it will be removed
 	 * @param  {Event} e
@@ -5043,12 +5057,12 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 		if(this.$loading){
 			var h = this.$loading[0].clientWidth / this.aspect;
 			h = this.options.heightLimit ? Math.min(h , this.options.height) : h;
-			
+
 			this.$loading.height(h);
-			this.$element.height(h);		
+			this.$element.height(h);
 		}
 	};
-	
+
 	/**
 	 * changes the order of slides element before setup slides
 	 * @since 1.0
@@ -5068,20 +5082,20 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 
 	/**
 	 * New method of setting up the layout of slider
-	 * @since 1.5.6 
+	 * @since 1.5.6
 	 */
 	p._setupSliderLayout = function(){
 
 		// create side spaces
 		this._updateSideMargins();
 		this.lastMargin = this.leftSpace;
-		
+
 		var lo = this.options.layout;
 
-	
+
 		if( lo !== 'boxed' && lo !== 'partialview' ){
 			this.options.fullwidth = true;  // enable slider fullscreen for fullwidth, fillwidth, autofill and fullscreen layouts.
-		} 
+		}
 		if( lo === 'fullscreen' || lo === 'autofill' ){
 			this.options.fullheight = true;
 
@@ -5094,7 +5108,7 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 
 		}
 
-		// partial view 
+		// partial view
 		if ( lo === 'partialview' ){
 			this.$element.addClass('ms-layout-partialview');
 		}
@@ -5103,7 +5117,7 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 			this._updateLayout();
 		}
 
-		// bind resize handler of slidecontroller __resize 
+		// bind resize handler of slidecontroller __resize
 		$(window).bind('resize', this.slideController.resize_listener);
 	};
 
@@ -5128,7 +5142,7 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 					.width(that.$autofillTarget.width() - that.leftSpace - that.rightSpace);
 			return;
 		}
-		// width 
+		// width
 		$element.width($win.width() - that.leftSpace - that.rightSpace);
 		var margin = -$element.offset().left + that.leftSpace + that.lastMargin;
 		$element.css('margin-left', margin );
@@ -5144,11 +5158,11 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 	 * @protected
 	 */
 	p._init = function(){
-	
+
 		if ( this._holdOn > 0 || !this._docReady ) {
 			return;
 		}
-		
+
 		this.initialized = true;
 
 		if(this.options.preload !== 'all'){
@@ -5156,13 +5170,13 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 		}
 		//else
 		//	this.$element.css('width' , this.$loading[0].clientWidth);
-		
+
 		if(this.options.shuffle) 	this._shuffleSlides();
 
 		MSLayerEffects.setup();
 		this.slideController.setupView();
 		this.view = this.slideController.view;
-				
+
 		this.$controlsCont = $('<div></div>').addClass('ms-inner-controls-cont');//.appendTo(this.$element);
 		if(this.options.centerControls){
 			this.$controlsCont.css('max-width' , this.options.width + 'px');
@@ -5171,12 +5185,12 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 		this.$controlsCont.prepend(this.view.$element);
 
 		this.$msContainer = $('<div></div>').addClass('ms-container').prependTo(this.$element).append(this.$controlsCont);
-		
+
 		if(this.controls){
 			for(var i = 0 , l = this.controls.length; i<l ; ++i){
 				this.controls[i].setup();
 			}
-		}	
+		}
 		/*else{
 			this.$element.append(this.view.$element);
 		}*/
@@ -5184,20 +5198,20 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 		this._setupSliderLayout();
 		this.__setupSlides();
 		this.slideController.setup();
-		
+
 		if(this.controls){
 			for(i = 0 , l = this.controls.length; i<l ; ++i)
 				this.controls[i].create();
 		}
-			
+
 		if(this.options.autoHeight){
 			this.slideController.view.$element.height(this.slideController.currentSlide.getHeight());
 		}
-			
+
 		// add grab cursor
 		if(this.options.swipe && !window._touch && this.options.grabCursor && this.options.mouse){
 			var $view = this.view.$element;
-			
+
 			$view.mousedown(function(){
 				$view.removeClass('ms-grab-cursor');
 				$view.addClass('ms-grabbing-cursor');
@@ -5207,7 +5221,7 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 				}
 
 			}).addClass('ms-grab-cursor');
-			
+
 			$(document).mouseup(function(){
 				$view.removeClass('ms-grabbing-cursor');
 				$view.addClass('ms-grab-cursor');
@@ -5221,7 +5235,7 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 
 		this.slideController.__dispatchInit();
 	};
-	
+
 	/**
 	 * changes the height of slider, it used in autoheight slider
 	 * @param {Number} value
@@ -5233,16 +5247,16 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 			if(this.htween){
 				if(this.htween.reset)this.htween.reset();
 				else	 			 this.htween.stop(true);
-			} 
+			}
 			this.htween = CTween.animate(this.slideController.view.$element , 500 , {height:value} , {ease:'easeOutQuart'});
 		}else
 			this.slideController.view.$element.height(value);
 	};
-	
+
 	/**
 	 * reserves white space in sides of slider, it used by controls
 	 * @param  {String} side  left|right|top|bottom
-	 * @param  {Number} space 
+	 * @param  {Number} space
 	 * @returns {Number} start position in space.
 	 * @since 1.5.7
 	 * @public
@@ -5252,7 +5266,7 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 			pos = this[sideSpace];
 
 		this[sideSpace] += space;
-		
+
 		this._updateSideMargins();
 
 		return pos;
@@ -5260,10 +5274,10 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 
 	/**
 	 * returns the reserved space, it used by controls and called when aligned control hides
-	 * @param  {String} side  
-	 * @param  {Number} space 
+	 * @param  {String} side
+	 * @param  {Number} space
 	 * @since 1.5.7
-	 * @public 
+	 * @public
 	 */
 	/*p.returnSpace = function(side, space){
 		var sideSpace = side+'Space';
@@ -5298,7 +5312,7 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 		var ins = new MSSlideController.SliderControlList[control](options);
 		ins.slider = this;
 		this.controls.push(ins);
-		
+
 		return this;
 	};
 
@@ -5312,10 +5326,10 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 	};
 
 	/**
-	 * Let the slider to initialize 
+	 * Let the slider to initialize
 	 * @since 2.9.6
 	 */
-	p.release = function () { 
+	p.release = function () {
 		this._holdOn --;
 		this._init();
 	};
@@ -5323,7 +5337,7 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 	/**
 	 * setup slider
 	 * @param  {String|jQuery object} id
-	 * @param  {Object} options 
+	 * @param  {Object} options
 	 * @since 1.0
 	 * @public
 	 */
@@ -5351,11 +5365,11 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 						 .addClass('ms-ie' + $.browser.version.slice(0 , $.browser.version.indexOf('.')));
 		} else if ( $.browser.webkit ) {
 			this.$element.addClass('ms-wk');
-		} else if ( $.browser.mozilla ) { 
+		} else if ( $.browser.mozilla ) {
 			this.$element.addClass('ms-moz');
 		}
 
-		
+
 		// Android prefix class
 		var ua = navigator.userAgent.toLowerCase();
 		var isAndroid = ua.indexOf("android") > -1;
@@ -5365,29 +5379,29 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 
 		var that = this;
 		$.extend(this.options, options);
-		
+
 		this.aspect = this.options.width / this.options.height;
-		
+
 		this.$loading = $('<div></div>').
 						addClass('ms-loading-container').
 						insertBefore(this.$element).
 						append($('<div></div>').addClass('ms-loading'));
 
 		this.$loading.parent().css('position' , 'relative');
-				
-		// old methods 
+
+		// old methods
 		if(this.options.autofill){
 			this.options.fullwidth = true;
 			this.options.fullheight = true;
 		}
-		
+
 		if(this.options.fullheight){
 			this.$element.addClass('ms-fullheight');
 		}
 
-		//this._setupSliderLayout();	
+		//this._setupSliderLayout();
 		this._resize();
-		
+
 		// define slide controller and api
 		this.slideController = new MSSlideController(this);
 		this.api = this.slideController;
@@ -5401,22 +5415,28 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 			}
 		}
 
+        if ( this.options.forceInit ) {
+            MasterSlider.addJQReadyErrorCheck( this );
+        }
+
 		$(document).ready(function(){
-			that._docReady = true;
-			that._init();
+            if ( !that.initialized ) {
+    			that._docReady = true;
+    			that._init();
+            }
 		});
 
 		return this;
 	};
-	
+
 	/**
-	 * destroy the slider instance 
+	 * destroy the slider instance
 	 * @param  {Boolean} insertMarkup	 whether add slider markup after destroy.
 	 * @since 1.4
 	 * @public
 	 */
 	p.destroy = function(insertMarkup){
-		
+
 		// destroy active plugins
 		for ( var i = 0, l = this.activePlugins.length; i !== l; i++ ) {
 			this.activePlugins[i].destroy();
@@ -5426,14 +5446,14 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 			for( i = 0, l = this.controls.length; i !== l; i++ )
 				this.controls[i].destroy();
 		}
-		
+
 		if(this.slideController) this.slideController._destroy();
 
 		if(this.$loading) this.$loading.remove();
 
 		if ( insertMarkup ) {
 			this.$element.html(this.setupMarkup).css('visibility' , 'hidden');
-		} else {	 
+		} else {
 			this.$element.remove();
 		}
 
@@ -5452,7 +5472,7 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 
 		this.activePlugins = null;
 	};
-		
+
 })(jQuery);
 
 /**
@@ -5479,8 +5499,8 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 			init : function () {
 
 				var self = this;
-				
-				// create new instance form Master Slider	
+
+				// create new instance form Master Slider
 				this._slider = new MasterSlider();
 
 				// add controls
@@ -5499,14 +5519,14 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 
 			},
 
-			api : function() { 
-				return this._slider.api; 
+			api : function() {
+				return this._slider.api;
 			},
-			
+
 			slider : function() {
 				return this._slider;
 			}
-		
+
 		});
 
 		$.fn[pluginName] = function ( options ) {
@@ -5545,7 +5565,7 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 						// Call the method of our plugin instance,
 						// and pass it the supplied arguments.
 						returns = instance[options].apply( instance, Array.prototype.slice.call( args, 1 ) );
-					} 
+					}
 
 					// Map slider api functions to slider jq plugin
 					if ( instance instanceof MasterSliderPlugin && typeof instance._slider.api[options] === 'function' ) {
@@ -5567,6 +5587,47 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 
 })( jQuery, window, document );
 
+;(function ( $, window, document, undefined ) {
+    "use strict";
+
+    /* ------------------------------------------------------------------------------ */
+
+    var sliderInstances = [];
+    MasterSlider.addJQReadyErrorCheck = function ( slider ) {
+        sliderInstances.push( slider );
+    };
+
+    var _ready = $.fn.ready,
+        _onerror = window.onerror;
+
+    // override jQuery ready
+    $.fn.ready = function() {
+
+        // override window on load event
+        window.onerror = function() {
+
+            if ( sliderInstances.length !== 0 ) {
+                for ( var i = 0, l = sliderInstances.length; i !== l; i++ ) {
+                    var slider = sliderInstances[i];
+                    if ( !slider.initialized ) {
+                        slider._docReady = true;
+                        slider._init();
+                    }
+                }
+            }
+
+            if ( _onerror ) {
+                return _onerror.apply( this, arguments );
+            }
+
+            return false;
+        }
+
+        return _ready.apply( this, arguments );
+    };
+
+})(jQuery, window, document);
+
 /* ================== bin-debug/js/pro/views/ViewEvents.js =================== */
 window.MSViewEvents = function (type, data){
 	this.type = type;
@@ -5583,11 +5644,11 @@ MSViewEvents.CHANGE_END	     	= 'slideChangeEnd';
 
 /* ================== bin-debug/js/pro/views/BasicView.js =================== */
 ;(function($){
-	
+
 	"use strict";
-	
+
 	window.MSBasicView = function(options){
-		
+
 		this.options = {
 			loop 			: false,
 			dir  			: 'h',
@@ -5600,13 +5661,13 @@ MSViewEvents.CHANGE_END	     	= 'slideChangeEnd';
 			viewNum			: 20,
 			critMargin		: 1
 		};
-		
+
 		$.extend(this.options , options);
-		
+
 		this.dir		= this.options.dir;
 		this.loop   	= this.options.loop;
 		this.spacing	= this.options.spacing;
-		
+
 		this.__width  = 0;
 		this.__height = 0;
 
@@ -5618,19 +5679,19 @@ MSViewEvents.CHANGE_END	     	= 'slideChangeEnd';
 
 		this.$slideCont	= $('<div></div>').addClass('ms-slide-container');
 		this.$element 	= $('<div></div>').addClass('ms-view').addClass('ms-basic-view').append(this.$slideCont);
-	
+
 		this.currentSlide 	= null;
 		this.index 			= -1;
 		this.slidesCount	= 0;
 
 		this.slides			= [];
 		this.slideList		= []; // All of slides with added priority sort;
-		this.viewSlidesList = []; 
-			
+		this.viewSlidesList = [];
+
 		this.css3 			= window._cssanim;
 		this.start_buffer = 0;
 		this.firstslide_snap = 0;
-		
+
 		this.slideChanged 	= false;
 
 		this.controller 	 = new Controller(0 , 0 , {
@@ -5641,36 +5702,36 @@ MSViewEvents.CHANGE_END	     	= 'slideChangeEnd';
 			friction		 : (100 - this.options.speed * 0.5) / 100,
 			endless			 : this.loop
 		});
-		
+
 		this.controller.renderCallback(this.dir === 'h'? this._horizUpdate : this._vertiUpdate , this);
 		this.controller.snappingCallback(this.__snapUpdate , this);
 		this.controller.snapCompleteCallback(this.__snapCompelet , this);
-		
+
 		averta.EventDispatcher.call(this);
 	};
-	
+
 	var p = MSBasicView.prototype;
-		
+
 	/*-------------- METHODS --------------*/
-	
+
 	p.__snapCompelet = function(snap , type){
 		// if(this.loop && Math.abs(this.__contPos) > 20000){
 		// 	this.__locateSlides();
 		// 	this.gotoSlide(this.index , true);
 		// }
-		// 
+		//
 
 		if ( !this.slideChanged ) {
 			return;
 		}
 
 		this.slideChanged = false;
-		
+
 		this.__locateSlides();
 		this.start_buffer = 0;
-		this.dispatchEvent(new MSViewEvents(MSViewEvents.CHANGE_END));	
+		this.dispatchEvent(new MSViewEvents(MSViewEvents.CHANGE_END));
 	};
-	
+
 	p.__snapUpdate = function(controller , snap , change){
 
 		if(this.loop){
@@ -5679,13 +5740,13 @@ MSViewEvents.CHANGE_END	     	= 'slideChangeEnd';
 
 			if(target_index >= this.slidesCount)	target_index = target_index - this.slidesCount;
 			if(target_index <  0)					target_index = this.slidesCount + target_index;
-		
+
 			this.index = target_index;
 		}else{
 			if(snap < 0 ||  snap >= this.slidesCount) return
 			this.index = snap;
 		}
-		
+
 		this._checkCritMargins();
 
 		if($.browser.mozilla){
@@ -5697,13 +5758,13 @@ MSViewEvents.CHANGE_END	     	= 'slideChangeEnd';
 		var new_slide = this.slideList[this.index];
 		if(new_slide === this.currentSlide)return;
 		this.currentSlide = new_slide;
-		
+
 		if ( this.autoUpdateZIndex ) {
 			this.__updateSlidesZindex();
 		}
-		
+
 		this.slideChanged = true;
-		this.dispatchEvent(new MSViewEvents(MSViewEvents.CHANGE_START));	
+		this.dispatchEvent(new MSViewEvents(MSViewEvents.CHANGE_START));
 	};
 
 
@@ -5720,7 +5781,7 @@ MSViewEvents.CHANGE_END	     	= 'slideChangeEnd';
 				size *= (inView - hlf);
 				this.__locateSlides(false ,  size + this.start_buffer );
 				this.start_buffer += size;
-			}	
+			}
 
 			return;
 		}
@@ -5733,31 +5794,31 @@ MSViewEvents.CHANGE_END	     	= 'slideChangeEnd';
 
 
 	p._vertiUpdate = function(controller , value){
-		
+
 		this.__contPos = value;
 		this.dispatchEvent(new MSViewEvents(MSViewEvents.SCROLL));
-		
+
 		if(this.css3){
 			this.$slideCont[0].style[window._jcsspfx + 'Transform'] = 'translateY('+-value+'px)' + this.__translate_end;
 			return;
 		}
 
 		this.$slideCont[0].style.top = -value + 'px';
-		
+
 	};
-	
+
 	p._horizUpdate = function(controller , value){
 
 		this.__contPos = value;
 		this.dispatchEvent(new MSViewEvents(MSViewEvents.SCROLL));
-		
+
 		if(this.css3) {
 			this.$slideCont[0].style[window._jcsspfx + 'Transform'] = 'translateX('+-value+'px)'+ this.__translate_end;
 			return;
 		}
-		
+
 		this.$slideCont[0].style.left = -value + 'px';
-		
+
 	};
 
 
@@ -5770,8 +5831,8 @@ MSViewEvents.CHANGE_END	     	= 'slideChangeEnd';
 
 		var temp = this.viewSlidesList.slice();
 
-		// update view list 
-		this.viewSlidesList = [];	
+		// update view list
+		this.viewSlidesList = [];
 		var i = 0 , hlf = Math.floor(this.options.viewNum / 2) , l;
 
 		if(this.loop){
@@ -5780,7 +5841,7 @@ MSViewEvents.CHANGE_END	     	= 'slideChangeEnd';
 		}else{
 			// before
 			for(i = 0 ; i !== hlf && this.index - i !== -1 ; i++)
-				this.viewSlidesList.unshift(this.slideList[this.index - i]);	
+				this.viewSlidesList.unshift(this.slideList[this.index - i]);
 			// after
 			for(i = 1; i !== hlf && this.index + i !== this.slidesCount; i++)
 				this.viewSlidesList.push(this.slideList[this.index + i]);
@@ -5796,23 +5857,23 @@ MSViewEvents.CHANGE_END	     	= 'slideChangeEnd';
 			this.__updateSlidesZindex();
 		}
 	};
-	
+
 	p.__locateSlides = function(move , start){
 
 		this.__updateViewList();
 
-		start = !this.loop ? this.slides.indexOf(this.viewSlidesList[0]) * (this[this.__dimension] + this.spacing ) : start || 0; 
+		start = !this.loop ? this.slides.indexOf(this.viewSlidesList[0]) * (this[this.__dimension] + this.spacing ) : start || 0;
 
 		// old method
 		/*for(i = 0; i < this.slidesCount ; ++i){
 			var pos =  i * (this[this.__dimension] + this.spacing);
-			
+
 			this.slides[i].position = pos;
 			this.slides[i].$element[0].style[this.__cssProb] =  pos + 'px';
 		}*/
 
 		var l = this.viewSlidesList.length , slide;
-		
+
 		for(var i = 0; i !== l ; i++){
 			var pos =  start + i * (this[this.__dimension] + this.spacing );
 			slide = this.viewSlidesList[i];
@@ -5824,63 +5885,63 @@ MSViewEvents.CHANGE_END	     	= 'slideChangeEnd';
 		if(move !== false)this.controller.changeTo( this.slideList[this.index].position , false , null , null , false);
 
 	};
-		
-	p.__createLoopList = function(){ 
+
+	p.__createLoopList = function(){
 		var return_arr = [];
 		var i = 0,
 			count = this.slidesCount / 2;
-		
+
 		var before_count  = (this.slidesCount % 2 === 0)? count - 1	: Math.floor(count);
 		var after_count	  = (this.slidesCount % 2 === 0)? count 	: Math.floor(count);
-		
+
 		this.currentSlideLoc = before_count;
 
 		// before
 		for(i = 1 ; i <= before_count ; ++i)
 			return_arr.unshift(this.slideList[(this.index - i < 0)? this.slidesCount -  i + this.index: this.index - i]);
-		
+
 		// current
 		return_arr.push(this.slideList[this.index]);
-		
+
 		// after
 		for(i = 1; i <= after_count; ++i)
 			return_arr.push(this.slideList[(this.index + i >= this.slidesCount)? this.index + i - this.slidesCount : this.index + i]);
-		
+
 		return return_arr;
-		
+
 	};
-	
+
 	/*
 	 * Calculate shortest distance from index to target.
 	 * It will used in loop gesture.
-	 * 
+	 *
 	 * Negative values means left direction.
 	 */
-	
-	p.__getSteps = function(index , target){ 
+
+	p.__getSteps = function(index , target){
 		var right = (target < index)?  this.slidesCount - index + target : target - index;
 		var left  = Math.abs(this.slidesCount - right);
-		
-		return (right < left)? right : -left;		
+
+		return (right < left)? right : -left;
 	};
-	
-	p.__pushEnd = function(){ 
+
+	p.__pushEnd = function(){
 		var first_slide = this.slides.shift();
 		var last_slide = this.slides[this.slidesCount - 2];
-		
+
 		this.slides.push(first_slide);
-		
+
 		if(!this.normalMode) return;
 
 		var pos = last_slide.$element[0][this.__offset] + this.spacing + this[this.__dimension];
 		first_slide.$element[0].style[this.__cssProb] = pos + 'px';
 		first_slide.position = pos;
 	};
-	
-	p.__pushStart = function(){ 
+
+	p.__pushStart = function(){
 		var last_slide =  this.slides.pop();
 		var first_slide = this.slides[0];
-		
+
 		this.slides.unshift(last_slide);
 
 		if(!this.normalMode) return;
@@ -5893,7 +5954,7 @@ MSViewEvents.CHANGE_END	     	= 'slideChangeEnd';
 	// @since 1.7.0
 	// adds z-index to slides
 	p.__updateSlidesZindex = function(){
-		
+
 
 		var slide,
 			l = this.viewSlidesList.length,
@@ -5906,10 +5967,10 @@ MSViewEvents.CHANGE_END	     	= 'slideChangeEnd';
 				this.viewSlidesList[i].$element.css('z-index', i<=loc ? i+1 : l-i);
 			}
 		} else {
-			
+
 			var beforeNum = this.currentSlide.index - this.viewSlidesList[0].index,
 				afterNum = l - beforeNum,
-				diff = beforeNum - afterNum; 
+				diff = beforeNum - afterNum;
 
 			for ( var i = 0; i!==l; i++ ){
 				this.viewSlidesList[i].$element.css('z-index', i<=beforeNum ? i+1 : l-i);
@@ -5917,16 +5978,16 @@ MSViewEvents.CHANGE_END	     	= 'slideChangeEnd';
 
 			this.currentSlide.$element.css('z-index', l);
 		}
-		
+
 	};
 
-	p.addSlide = function(slide){ 
+	p.addSlide = function(slide){
 		slide.view = this;
 		this.slides.push(slide);
 		this.slideList.push(slide);
 		this.slidesCount++;
 	};
-	
+
 	p.appendSlide = function(slide){
 		this.$slideCont.append(slide.$element);
 	};
@@ -5934,18 +5995,18 @@ MSViewEvents.CHANGE_END	     	= 'slideChangeEnd';
 	p.updateLoop = function(index){
 		if(this.loop){
 			var steps = this.__getSteps(this.index , index);
-			
+
 			for(var i = 0 , l = Math.abs(steps) ; i < l ; ++ i){
 				if(steps < 0) 	this.__pushStart();
 				else			this.__pushEnd();
 			}
 		}
 	};
-	
+
 	p.gotoSlide = function(index , fast){
 		this.updateLoop(index);
 		this.index = index;
-		
+
 		var target_slide = this.slideList[index];
 
 		this._checkCritMargins();
@@ -5960,10 +6021,10 @@ MSViewEvents.CHANGE_END	     	= 'slideChangeEnd';
 		}
 
 		this.dispatchEvent(new MSViewEvents(MSViewEvents.CHANGE_START));
-		if(fast)this.dispatchEvent(new MSViewEvents(MSViewEvents.CHANGE_END));	
-	}; 
-	
-	p.next = function(checkLoop){ 
+		if(fast)this.dispatchEvent(new MSViewEvents(MSViewEvents.CHANGE_END));
+	};
+
+	p.next = function(checkLoop){
 		if ( checkLoop && !this.loop && this.index + 1 >= this.slidesCount ) {
 			this.controller.bounce(10);
 			return;
@@ -5971,8 +6032,8 @@ MSViewEvents.CHANGE_END	     	= 'slideChangeEnd';
 
 		this.gotoSlide((this.index + 1 >= this.slidesCount)? 0 : this.index + 1);
 	};
-	
-	p.previous = function(checkLoop){ 
+
+	p.previous = function(checkLoop){
 		if ( checkLoop && !this.loop && this.index - 1 < 0 ) {
 			this.controller.bounce(-10);
 			return;
@@ -5980,15 +6041,15 @@ MSViewEvents.CHANGE_END	     	= 'slideChangeEnd';
 
 		this.gotoSlide((this.index - 1 < 0)? this.slidesCount - 1 : this.index - 1);
 	};
-	
-	/* --------------- Swipe control ------------------*/	
-	
-	p.setupSwipe = function(){ 
-		
+
+	/* --------------- Swipe control ------------------*/
+
+	p.setupSwipe = function(){
+
 		this.swipeControl = new averta.TouchSwipe(this.$element);
 		this.swipeControl.swipeType = this.dir === 'h'? 'horizontal' : 'vertical';
 		var that = this;
-		
+
 		if(this.dir === 'h'){
 			this.swipeControl.onSwipe = function(status){
 				that.horizSwipeMove(status);
@@ -5998,22 +6059,23 @@ MSViewEvents.CHANGE_END	     	= 'slideChangeEnd';
 				that.vertSwipeMove(status);
 			};
 		}
-		
+
 	};
-	
+
 	p.vertSwipeMove = function(status){
 		var phase = status.phase;
 		if(phase === 'start'){
 			this.controller.stop();
-			this.dispatchEvent(new MSViewEvents(MSViewEvents.SWIPE_START, status));		
+			this.dispatchEvent(new MSViewEvents(MSViewEvents.SWIPE_START, status));
 		}else if(phase === 'move' && (!this.loop || Math.abs(this.currentSlide.position - this.controller.value + status.moveY ) < this.cont_size / 2)){
 			this.controller.drag(status.moveY);
 			this.dispatchEvent(new MSViewEvents(MSViewEvents.SWIPE_MOVE, status));
 		}else if(phase === 'end' || phase === 'cancel'){
-			
-			var speed = status.distanceY / status.duration * 50/3;
-			
-			if(Math.abs(speed) > 0.1){
+
+            var speed = status.distanceY / status.duration * 50/3,
+			    speedh = Math.abs( status.distanceY / status.duration * 50/3 );
+
+			if ( Math.abs(speed) > 0.1 && Math.abs(speed) >= speedh ){
 				this.controller.push(-speed);
 				if(speed > this.controller.options.snappingMinSpeed)
 				this.dispatchEvent(new MSViewEvents(MSViewEvents.SWIPE_END, status));
@@ -6021,24 +6083,25 @@ MSViewEvents.CHANGE_END	     	= 'slideChangeEnd';
 				this.controller.cancel();
 				this.dispatchEvent(new MSViewEvents(MSViewEvents.SWIPE_CANCEL, status));
 			}
-			
+
 		}
 	};
-	
-	p.horizSwipeMove = function(status){	
+
+	p.horizSwipeMove = function(status){
 		var phase = status.phase;
-		//console.log(this.loop)
+
 		if(phase === 'start'){
 			this.controller.stop();
-			this.dispatchEvent(new MSViewEvents(MSViewEvents.SWIPE_START, status));		
+			this.dispatchEvent(new MSViewEvents(MSViewEvents.SWIPE_START, status));
 		}else if(phase === 'move' && (!this.loop || Math.abs(this.currentSlide.position - this.controller.value + status.moveX ) < this.cont_size / 2)){
 			this.controller.drag(status.moveX);
 			this.dispatchEvent(new MSViewEvents(MSViewEvents.SWIPE_MOVE, status));
 		}else if(phase === 'end' || phase === 'cancel'){
-			
-			var speed = status.distanceX / status.duration * 50/3;
-			
-			if(Math.abs(speed) > 0.1){
+
+			var speed = status.distanceX / status.duration * 50/3,
+                speedv = Math.abs( status.distanceY / status.duration * 50/3 );
+
+			if ( Math.abs(speed) > 0.1 && Math.abs(speed) >= speedv ) {
 				this.controller.push(-speed );
 				if(speed > this.controller.options.snappingMinSpeed)
 				this.dispatchEvent(new MSViewEvents(MSViewEvents.SWIPE_END, status));
@@ -6046,42 +6109,42 @@ MSViewEvents.CHANGE_END	     	= 'slideChangeEnd';
 				this.controller.cancel();
 				this.dispatchEvent(new MSViewEvents(MSViewEvents.SWIPE_CANCEL, status));
 			}
-			
+
 		}
 	};
-		
-	/* ------------------------------------------------*/	
-	
+
+	/* ------------------------------------------------*/
+
 	p.setSize = function(width , height , hard){
 		if(this.lastWidth === width && height === this.lastHeight && !hard) return;
 
 		this.$element.width(width).height(height);
-		
+
 		for(var i = 0; i < this.slidesCount ; ++i)
 				this.slides[i].setSize(width , height , hard);
-				
+
 		this.__width 	= width;
 		this.__height 	= height;
-			
-		if(this.__created){	
+
+		if(this.__created){
 			this.__locateSlides();
-			
+
 			this.cont_size = (this.slidesCount - 1) * (this[this.__dimension] + this.spacing);
 			if(!this.loop) 	this.controller._max_value = this.cont_size;
-				
+
 			this.controller.options.snapsize = this[this.__dimension] + this.spacing;
 			this.controller.changeTo(this.currentSlide.position , false , null , null , false );
 			this.controller.cancel();
-			
+
 			this.lastWidth = width;
 			this.lastHeight = height;
 		}
 	};
-	
+
 	p.create = function(index){
-		
+
 		this.__created = true;
-		
+
 		this.index = Math.min((index || 0), this.slidesCount - 1);
 		this.lastSnap = this.index; // it will be used to check snap changed or not on snap complete
 
@@ -6089,40 +6152,40 @@ MSViewEvents.CHANGE_END	     	= 'slideChangeEnd';
 			this.slides = this.__createLoopList();
 
 		this.normalMode = this.slidesCount <= this.options.viewNum;
-				
+
 		for(var i = 0; i < this.slidesCount ; ++i)
 			this.slides[i].create();
-		
+
 		this.__locateSlides();
-			
-		this.controller.options.snapsize = this[this.__dimension] + this.spacing;		
+
+		this.controller.options.snapsize = this[this.__dimension] + this.spacing;
 		if(!this.loop)	this.controller._max_value = (this.slidesCount - 1) * (this[this.__dimension] + this.spacing);
-		
+
 		this.gotoSlide(this.index , true);
-		
+
 		if(this.options.swipe && (window._touch || this.options.mouseSwipe))
 			this.setupSwipe();
 
 	};
-	
+
 	p.destroy = function(){
 		if(!this.__created) return;
-		
+
 		for(var i = 0; i < this.slidesCount ; ++i)
 			this.slides[i].destroy();
-			
+
 		this.slides = null;
 		this.slideList = null;
 		this.$element.remove();
-		
+
 		this.controller.destroy();
 		this.controller = null;
 	};
-	
+
 	averta.EventDispatcher.extend(p);
-	
+
 	MSSlideController.registerView('basic' , MSBasicView);
-	
+
 })(jQuery);
 
 /* ================== bin-debug/js/pro/views/WaveView.js =================== */
@@ -6956,6 +7019,53 @@ MSViewEvents.CHANGE_END	     	= 'slideChangeEnd';
 	MSSlideController.registerView('partialWave' , MSPartialWaveView);
 	
 })();
+
+/* ================== bin-debug/js/pro/views/BoxView.js =================== */
+;(function($){
+
+    "use strict";
+
+    window.MSBoxView = function(options){
+        MSBasicView.call(this , options);
+        this.$element.removeClass('ms-basic-view').addClass('ms-box-view');
+        this.controller.renderCallback(this.__update , this);
+    };
+
+    MSBoxView.extend(MSFadeView);
+    MSBoxView._3dreq = true;
+
+    var p  = MSBoxView.prototype;
+    var _super  = MSFadeView.prototype;
+
+    /*-------------- METHODS --------------*/
+
+    p.__updateSlides = function(slide , distance){
+        var value =  Math.abs(distance / this[this.__dimension]),
+            element = slide.$element[0];
+
+        if(1 - value <= 0){
+            //element.style.opacity = 0.5;
+            element.style.visibility = 'hidden';
+            element.style[window._jcsspfx + 'Transform'] = '';
+        }else{
+            //element.style.opacity = 0.5 + (1 - value) * 0.5;
+            element.style.visibility = '';
+            element.style[window._jcsspfx + 'Transform'] = 'rotate' + this._rotateDir + '('+(value* (distance < 0 ? 1 : -1)) * 90 * this._calcFactor +'deg)';
+            element.style[window._jcsspfx + 'TransformOrigin'] = '50% 50% -' + ( slide[this.__dimension] / 2 ) + 'px' ;
+            element.style.zIndex = Math.ceil((1 - value) * 2);
+        }
+    };
+
+    p.create = function(index){
+        _super.create.call(this , index);
+        this.controller.options.minValidDist = 0.03;
+        this._rotateDir = this.options.dir === 'h' ? 'Y' : 'X';
+        this._calcFactor = this.options.dir === 'h' ? 1 :  -1;
+
+    };
+
+    MSSlideController.registerView('box' , MSBoxView);
+})(jQuery);
 
 /* ================== bin-debug/js/pro/uicontrols/BaseControl.js =================== */
 ;(function($){
@@ -9195,6 +9305,22 @@ MSViewEvents.CHANGE_END	     	= 'slideChangeEnd';
 	MasterSlider.registerPlugin( ScrollToAction );
 
 })(jQuery, document, window);
+
+/* ================== bin-debug/js/pro/plugins/MSReadyCheck.js =================== */
+;(function ( $, window, document, undefined ) {
+    "use strict";
+
+    // sample of using MSReady
+    // ( window.MSReady = MSReady || [] ).push( function( jQuery ) {
+
+    // });
+
+    if ( window.MSReady ) {
+        for ( var i = 0, l = MSReady.length; i !== l; i++ ) {
+            MSReady[i].call( null, $ );
+        }
+    }
+})(jQuery, window, document);
 /**
  * Addon file, it will be appended to master slider front-end main js file.
  */

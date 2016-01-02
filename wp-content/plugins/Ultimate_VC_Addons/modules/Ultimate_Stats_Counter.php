@@ -62,7 +62,7 @@ if(!class_exists('AIO_Stats_Counter'))
 								"heading" => __("Select Icon ","ultimate_vc"),
 								"param_name" => "icon",
 								"value" => "",
-								"description" => __("Click and select icon of your choice. If you can't find the one that suits for your purpose","ultimate_vc").", ".__("you can","ultimate_vc")." <a href='admin.php?page=font-icon-Manager' target='_blank'>".__("add new here","ultimate_vc")."</a>.",
+								"description" => __("Click and select icon of your choice. If you can't find the one that suits for your purpose","ultimate_vc").", ".__("you can","ultimate_vc")." <a href='admin.php?page=bsf-font-icon-manager' target='_blank'>".__("add new here","ultimate_vc")."</a>.",
 								"dependency" => Array("element" => "icon_type","value" => array("selector")),
 							),
 							array(
@@ -105,7 +105,7 @@ if(!class_exists('AIO_Stats_Counter'))
 								"param_name" => "icon_color",
 								"value" => "#333333",
 								"description" => __("Give it a nice paint!", "ultimate_vc"),
-								"dependency" => Array("element" => "icon_type","value" => array("selector")),						
+								"dependency" => Array("element" => "icon_type","value" => array("selector")),
 							),
 							array(
 								"type" => "dropdown",
@@ -127,7 +127,7 @@ if(!class_exists('AIO_Stats_Counter'))
 								"heading" => __("Background Color", "ultimate_vc"),
 								"param_name" => "icon_color_bg",
 								"value" => "#ffffff",
-								"description" => __("Select background color for icon.", "ultimate_vc"),	
+								"description" => __("Select background color for icon.", "ultimate_vc"),
 								"dependency" => Array("element" => "icon_style", "value" => array("circle","square","advanced")),
 							),
 							array(
@@ -153,7 +153,7 @@ if(!class_exists('AIO_Stats_Counter'))
 								"heading" => __("Border Color", "ultimate_vc"),
 								"param_name" => "icon_color_border",
 								"value" => "#333333",
-								"description" => __("Select border color for icon.", "ultimate_vc"),	
+								"description" => __("Select border color for icon.", "ultimate_vc"),
 								"dependency" => Array("element" => "icon_border_style", "not_empty" => true),
 							),
 							array(
@@ -232,8 +232,8 @@ if(!class_exists('AIO_Stats_Counter'))
 							 "value" => array(
 							 		__('Top','ultimate_vc') => 'top',
 									__('Right','ultimate_vc') => 'right',
-									__('Left','ultimate_vc') => 'left',	
-							 		),							
+									__('Left','ultimate_vc') => 'left',
+							 		),
 							 "description" => __("Enter Position of Icon", "ultimate_vc")
 							 ),
 						  array(
@@ -296,37 +296,29 @@ if(!class_exists('AIO_Stats_Counter'))
 								"suffix" => "seconds",
 								"description" => __("How many seconds the counter should roll?", "ultimate_vc")
 							),
+						 //  array(
+							// 	"type" => "number",
+							// 	"class" => "",
+							// 	"heading" => __("Title Font Size", "ultimate_vc"),
+							// 	"param_name" => "font_size_title",
+							// 	"value" => 18,
+							// 	"min" => 10,
+							// 	"max" => 72,
+							// 	"suffix" => "px",
+							// 	"description" => __("Enter value in pixels.", "ultimate_vc")
+							// ),
+						 //  array(
+							// 	"type" => "number",
+							// 	"class" => "",
+							// 	"heading" => __("Counter Font Size", "ultimate_vc"),
+							// 	"param_name" => "font_size_counter",
+							// 	"value" => 28,
+							// 	"min" => 12,
+							// 	"max" => 72,
+							// 	"suffix" => "px",
+							// 	"description" => __("Enter value in pixels.", "ultimate_vc"),
+							// ),
 						  array(
-								"type" => "number",
-								"class" => "",
-								"heading" => __("Title Font Size", "ultimate_vc"),
-								"param_name" => "font_size_title",
-								"value" => 18,
-								"min" => 10,
-								"max" => 72,
-								"suffix" => "px",
-								"description" => __("Enter value in pixels.", "ultimate_vc")
-							),
-						  array(
-								"type" => "number",
-								"class" => "",
-								"heading" => __("Counter Font Size", "ultimate_vc"),
-								"param_name" => "font_size_counter",
-								"value" => 28,
-								"min" => 12,
-								"max" => 72,
-								"suffix" => "px",
-								"description" => __("Enter value in pixels.", "ultimate_vc")
-							),
-							array(
-								"type" => "colorpicker",
-								"class" => "",
-								"heading" => __("Counter Text Color", "ultimate_vc"),
-								"param_name" => "counter_color_txt",
-								"value" => "",
-								"description" => __("Select text color for counter title and digits.", "ultimate_vc"),	
-							),
-							array(
 								"type" => "textfield",
 								"class" => "",
 								"heading" => __("Extra Class",  "ultimate_vc"),
@@ -357,23 +349,62 @@ if(!class_exists('AIO_Stats_Counter'))
 								"value" => "",
 								"group" => "Typography"
 							),
+							// array(
+							// 	"type" => "number",
+							// 	"param_name" => "title_font_size",
+							// 	"heading" => __("Font size","ultimate_vc"),
+							// 	"value" => "",
+							// 	"suffix" => "px",
+							// 	"min" => 10,
+							// 	"group" => "Typography"
+							// ),
+							// array(
+							// 	"type" => "number",
+							// 	"param_name" => "title_font_line_height",
+							// 	"heading" => __("Font Line Height","ultimate_vc"),
+							// 	"value" => "",
+							// 	"suffix" => "px",
+							// 	"min" => 10,
+							// 	"group" => "Typography"
+							// ),
 							array(
-								"type" => "number",
-								"param_name" => "title_font_size",
-								"heading" => __("Font size","ultimate_vc"),
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Font size", 'ultimate_vc'),
+                                "param_name" => "title_font_size",
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
+                            array(
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Line Height", 'ultimate_vc'),
+                                "param_name" => "title_font_line_height",
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
+                            array(
+								"type" => "colorpicker",
+								"class" => "",
+								"heading" => __("Color", "ultimate_vc"),
+								"param_name" => "counter_color_txt",
 								"value" => "",
-								"suffix" => "px",
-								"min" => 10,
-								"group" => "Typography"
-							),
-							array(
-								"type" => "number",
-								"param_name" => "title_font_line_height",
-								"heading" => __("Font Line Height","ultimate_vc"),
-								"value" => "",
-								"suffix" => "px",
-								"min" => 10,
-								"group" => "Typography"
+								"description" => __("Select text color for counter title.", "ultimate_vc"),
+								'group' => "Typography"
 							),
 							array(
 								"type" => "ult_param_heading",
@@ -398,28 +429,120 @@ if(!class_exists('AIO_Stats_Counter'))
 								"value" => "",
 								"group" => "Typography"
 							),
+							// array(
+							// 	"type" => "number",
+							// 	"param_name" => "desc_font_size",
+							// 	"heading" => __("Font size","ultimate_vc"),
+							// 	"value" => "",
+							// 	"suffix" => "px",
+							// 	"min" => 10,
+							// 	"group" => "Typography"
+							// ),
+							// array(
+							// 	"type" => "number",
+							// 	"param_name" => "desc_font_line_height",
+							// 	"heading" => __("Font Line Height","ultimate_vc"),
+							// 	"value" => "",
+							// 	"suffix" => "px",
+							// 	"min" => 10,
+							// 	"group" => "Typography"
+							// ),
+
 							array(
-								"type" => "number",
-								"param_name" => "desc_font_size",
-								"heading" => __("Font size","ultimate_vc"),
-								"value" => "",
-								"suffix" => "px",
-								"min" => 10,
-								"group" => "Typography"
-							),
-							array(
-								"type" => "number",
-								"param_name" => "desc_font_line_height",
-								"heading" => __("Font Line Height","ultimate_vc"),
-								"value" => "",
-								"suffix" => "px",
-								"min" => 10,
-								"group" => "Typography"
-							),
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Font size", 'ultimate_vc'),
+                                "param_name" => "desc_font_size",
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
+                            array(
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Line Height", 'ultimate_vc'),
+                                "param_name" => "desc_font_line_height",
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
 							array(
 								"type" => "colorpicker",
 								"param_name" => "desc_font_color",
 								"heading" => __("Color","ultimate_vc"),
+								"description" => __("Select text color for counter digits.", "ultimate_vc"),
+								"group" => "Typography"
+							),
+							array(
+								"type" => "ult_param_heading",
+								"param_name" => "suf_pref_typography",
+								"heading" => __("Counter suffix-prefix Value settings","ultimate_vc"),
+								"value" => "",
+								"group" => "Typography",
+								"class" => "ult-param-heading",
+								'edit_field_class' => 'ult-param-heading-wrapper vc_column vc_col-sm-12',
+							),
+							array(
+								"type" => "ultimate_google_fonts",
+								"heading" => __("Font Family","ultimate_vc"),
+								"param_name" => "suf_pref_font",
+								"value" => "",
+								"group" => "Typography"
+							),
+							array(
+								"type" => "ultimate_google_fonts_style",
+								"heading" => __("Font Style","ultimate_vc"),
+								"param_name" => "suf_pref_font_style",
+								"value" => "",
+								"group" => "Typography"
+							),
+							array(
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Font size", 'ultimate_vc'),
+                                "param_name" => "suf_pref_font_size",
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
+							array(
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Line Height", 'ultimate_vc'),
+                                "param_name" => "suf_pref_line_height",
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
+                            array(
+								"type" => "colorpicker",
+								"param_name" => "suf_pref_font_color",
+								"heading" => __("Color","ultimate_vc"),
+								"description" => __("Select text color for counter prefix and suffix.", "ultimate_vc"),
 								"group" => "Typography"
 							),
 							array(
@@ -440,15 +563,15 @@ if(!class_exists('AIO_Stats_Counter'))
 			//wp_enqueue_script('ultimate-appear');
 			//wp_enqueue_script('ultimate-custom');
 			//wp_enqueue_script('front-js',plugins_url('../assets/min-js/countUp.min.js',__FILE__));
-			
+
 			$icon_type = $icon_img = $img_width = $icon = $icon_color = $icon_color_bg = $icon_size = $icon_style = $icon_border_style = $icon_border_radius = $icon_color_border = $icon_border_size = $icon_border_spacing = $icon_link = $el_class = $icon_animation = $counter_title = $counter_value = $icon_position = $counter_style = $font_size_title = $font_size_counter = $counter_font = $title_font = $speed = $counter_sep = $counter_suffix = $counter_prefix = $counter_decimal = $counter_color_txt = $desc_font_line_height = $title_font_line_height = '';
-			$title_font = $title_font_style = $title_font_size = $title_font_color = $desc_font = $desc_font_style = $desc_font_size = $desc_font_color = '';
+			$title_font = $title_font_style = $title_font_size = $title_font_color = $desc_font = $desc_font_style = $desc_font_size = $desc_font_color = $suf_pref_typography = $suf_pref_font = $suf_pref_font_style = $suf_pref_font_color = $suf_pref_font_size = $suf_pref_line_height = '';
 			extract(shortcode_atts( array(
 				'icon_type' => 'selector',
 				'icon' => '',
 				'icon_img' => '',
 				'img_width' => '48',
-				'icon_size' => '32',				
+				'icon_size' => '32',
 				'icon_color' => '#333333',
 				'icon_style' => 'none',
 				'icon_color_bg' => '#ffffff',
@@ -481,11 +604,16 @@ if(!class_exists('AIO_Stats_Counter'))
 				'desc_font_color' => '',
 				'desc_font_line_height'=> '',
 				'el_class'=>'',
-			),$atts));			 
-			$class = $style = $title_style = $desc_style = '';
+				'suf_pref_font' =>'',
+				'suf_pref_font_color' =>'',
+				'suf_pref_font_size' =>'',
+				'suf_pref_line_height' =>'',
+				'suf_pref_font_style' =>''
+			),$atts));
+			$class = $style = $title_style = $desc_style = $suf_pref_style = '';
 			//$font_args = array();
 			$stats_icon = do_shortcode('[just_icon icon_type="'.$icon_type.'" icon="'.$icon.'" icon_img="'.$icon_img.'" img_width="'.$img_width.'" icon_size="'.$icon_size.'" icon_color="'.$icon_color.'" icon_style="'.$icon_style.'" icon_color_bg="'.$icon_color_bg.'" icon_color_border="'.$icon_color_border.'"  icon_border_style="'.$icon_border_style.'" icon_border_size="'.$icon_border_size.'" icon_border_radius="'.$icon_border_radius.'" icon_border_spacing="'.$icon_border_spacing.'" icon_link="'.$icon_link.'" icon_animation="'.$icon_animation.'"]');
-			
+
 			/* title */
 			if($title_font != '')
 			{
@@ -495,11 +623,33 @@ if(!class_exists('AIO_Stats_Counter'))
 			}
 			if($title_font_style != '')
 				$title_style .= get_ultimate_font_style($title_font_style);
-			if($title_font_size != '')
-				$title_style .= 'font-size:'.$title_font_size.'px;';
-			if($title_font_line_height != '')
-				$title_style .= 'line-height:'.$title_font_line_height.'px;';
-				
+			// if($title_font_size != '')
+			// 	$title_style .= 'font-size:'.$title_font_size.'px;';
+			// if($title_font_line_height != '')
+			// 	$title_style .= 'line-height:'.$title_font_line_height.'px;';
+
+			//Responsive param
+			if($title_font_size != ''){
+				$font_size_title ='';
+			}
+			if(is_numeric($title_font_size)){
+				$title_font_size = 'desktop:'.$title_font_size.'px;';
+			}
+
+			if(is_numeric($title_font_line_height)){
+				$title_font_line_height = 'desktop:'.$title_font_line_height.'px;';
+			}
+			$counter_resp_id = "counter-responsv-wrap-".rand(1000,9999);
+			$stats_counter_args = array(
+                'target' => '#'.$counter_resp_id.' .stats-text', // set targeted element e.g. unique class/id etc.
+                'media_sizes' => array(
+                    'font-size' => $title_font_size, // set 'css property' & 'ultimate_responsive' sizes. Here $title_responsive_font_size holds responsive font sizes from user input.
+                   	'line-height' => $title_font_line_height
+                ),
+            );
+            $stats_counter_data_list = get_ultimate_vc_responsive_media_css($stats_counter_args);
+
+
 			/* description */
 			if($desc_font != '')
 			{
@@ -509,14 +659,38 @@ if(!class_exists('AIO_Stats_Counter'))
 			}
 			if($desc_font_style != '')
 				$desc_style .= get_ultimate_font_style($desc_font_style);
-			if($desc_font_size != '')
-				$desc_style .= 'font-size:'.$desc_font_size.'px;';
-			if($desc_font_line_height != '')
-				$desc_style .= 'line-height:'.$desc_font_line_height.'px;';
+			// if($desc_font_size != '')
+			// 	$desc_style .= 'font-size:'.$desc_font_size.'px;';
+			// if($desc_font_line_height != '')
+			// 	$desc_style .= 'line-height:'.$desc_font_line_height.'px;';
+
+			//Responsive param
+			if($desc_font_size !='' || $suf_pref_font_size !=''){
+				$font_size_counter ='';
+			}
+
+			if(is_numeric($desc_font_size)){
+				$desc_font_size = 'desktop:'.$desc_font_size.'px;';
+
+			}
+
+			if(is_numeric($desc_font_line_height)){
+				$desc_font_line_height = 'desktop:'.$desc_font_line_height.'px;';
+			}
+			$stats_counter_val_args = array(
+                'target' => '#'.$counter_resp_id.' .stats-number', // set targeted element e.g. unique class/id etc.
+                'media_sizes' => array(
+                    'font-size' => $desc_font_size, // set 'css property' & 'ultimate_responsive' sizes. Here $desc_responsive_font_size holds responsive font sizes from user input.
+                   	'line-height' => $desc_font_line_height
+                ),
+            );
+            $stats_counter_val_data_list = get_ultimate_vc_responsive_media_css($stats_counter_val_args);
+
+
 			if($desc_font_color != '')
 				$desc_style .= 'color:'.$desc_font_color.';';
 			//enquque_ultimate_google_fonts($font_args);
-			
+
 			if($counter_color_txt !== ''){
 				$counter_color = 'color:'.$counter_color_txt.';';
 			} else {
@@ -528,8 +702,46 @@ if(!class_exists('AIO_Stats_Counter'))
 			{
 				$css_trans = 'data-animation="'.$icon_animation.'" data-animation-delay="03"';
 			}
+			if($font_size_counter !== '')
 			$counter_font = 'font-size:'.$font_size_counter.'px;';
+
 			$title_font = 'font-size:'.$font_size_title.'px;';
+
+			// Responsive param
+
+			if($suf_pref_font != '')
+			{
+				$font_family = get_ultimate_font_family($suf_pref_font);
+				$suf_pref_style .= 'font-family:\''.$font_family.'\';';
+				//array_push($font_args, $title_font);
+			}
+			if($suf_pref_font_style != '')
+				$suf_pref_style .= get_ultimate_font_style($suf_pref_font_style);
+
+			// $suf_pref_style .= 'font-size:'.$suf_pref_font_size.'px;';
+			// $suf_pref_style .='line-height:'.$suf_pref_line_height.'px;';
+
+			// Responsive param
+
+			if(is_numeric($suf_pref_font_size)){
+				$suf_pref_font_size = 'desktop:'.$suf_pref_font_size.'px;';
+			}
+
+			if(is_numeric($suf_pref_line_height)){
+				$suf_pref_line_height = 'desktop:'.$suf_pref_line_height.'px;';
+			}
+			$stats_counter_sufpref_args = array(
+                'target' => '#'.$counter_resp_id.' .mycust', // set targeted element e.g. unique class/id etc.
+                'media_sizes' => array(
+                    'font-size' => $suf_pref_font_size, // set 'css property' & 'ultimate_responsive' sizes. Here $desc_responsive_font_size holds responsive font sizes from user input.
+                   	'line-height' => $suf_pref_line_height
+                ),
+            );
+            $stats_counter_sufpref_data_list = get_ultimate_vc_responsive_media_css($stats_counter_sufpref_args);
+
+			$suf_pref_style .= 'color:'.$suf_pref_font_color;
+
+
 			if($counter_style !=''){
 				$class = $counter_style;
 				if(strpos($counter_style, 'no_bg')){
@@ -557,20 +769,20 @@ if(!class_exists('AIO_Stats_Counter'))
 				}
 				if($icon_position !== "right")
 					$output .= '<div class="'.$ic_class.'">'.$stats_icon.'</div>';
-				$output .= '<div class="stats-desc">';
+				$output .= '<div class="stats-desc" id="'.$counter_resp_id.'">';
 					if($counter_prefix !== ''){
-						$output .= '<div class="counter_prefix" style="'.$counter_font.'">'.$counter_prefix.'</div>';
+						$output .= '<div class="counter_prefix mycust ult-responsive" '.$stats_counter_sufpref_data_list.' style="'.$counter_font.' '.$suf_pref_style.'">'.$counter_prefix.'</div>';
 					}
-					$output .= '<div id="'.$id.'" data-id="'.$id.'" class="stats-number" style="'.$counter_font.' '.$counter_color.' '.$desc_style.'" data-speed="'.$speed.'" data-counter-value="'.$counter_value.'" data-separator="'.$counter_sep.'" data-decimal="'.$counter_decimal.'">0</div>';
+					$output .= '<div id="'.$id.'" data-id="'.$id.'" '.$stats_counter_val_data_list.' class="stats-number ult-responsive" style="'.$counter_font.' '.$counter_color.' '.$desc_style.'" data-speed="'.$speed.'" data-counter-value="'.$counter_value.'" data-separator="'.$counter_sep.'" data-decimal="'.$counter_decimal.'">0</div>';
 					if($counter_suffix !== ''){
-						$output .= '<div class="counter_suffix" style="'.$counter_font.' '.$counter_color.'">'.$counter_suffix.'</div>';
+						$output .= '<div class="counter_suffix mycust ult-responsive" '.$stats_counter_sufpref_data_list.' style="'.$counter_font.' '.$suf_pref_style.'">'.$counter_suffix.'</div>';
 					}
-					$output .= '<div class="stats-text" style="'.$title_font.' '.$counter_color.' '.$title_style.'">'.$counter_title.'</div>';
+					$output .= '<div '.$counter_resp_id.' '.$stats_counter_data_list.' class="stats-text ult-responsive" style="'.$title_font.' '.$counter_color.' '.$title_style.'">'.$counter_title.'</div>';
 				$output .= '</div>';
 				if($icon_position == "right")
 					$output .= '<div class="'.$ic_class.'">'.$stats_icon.'</div>';
-			$output .= '</div>';				
-			return $output;		
+			$output .= '</div>';
+			return $output;
 		}
 	}
 }

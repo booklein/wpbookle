@@ -89,8 +89,13 @@ article {
                     }
                 }
             }
-            .fa {
-                margin-#{$right}: 4px;
+            .fa,
+            .post-views-icon.dashicons {
+                margin-#{$right}: 4px !important;
+                font-size: 1em !important;
+                height: 1.2em;
+                line-height: 1;
+                width: 1em;
             }
         }
     }
@@ -186,9 +191,12 @@ ul {
             margin: 15px 0 0;
             color: #999;
         }
-        ul.list-skills li {
-            margin-#{$right}: 10px;
-            margin-bottom: 5px;
+        ul.list-skills {
+            margin-#{$left}: 0;
+            li {
+                margin-#{$right}: 10px;
+                margin-bottom: 5px;
+            }
         }
 
         &.inline {

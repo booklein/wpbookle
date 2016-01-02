@@ -102,6 +102,11 @@ body.wide {
         .container .vc_row {
             margin-left: -($grid-gutter-width / 2);
             margin-right: -($grid-gutter-width / 2);
+
+            @media #{$screen-medium} {
+                margin-left: 0;
+                margin-right: 0;
+            }
         }
         .ads-container.vc_row {
             margin-left: 0;
@@ -196,4 +201,8 @@ body.wide {
 body.modal-open {
     padding-right: 0 !important;
     padding-left: 0 !important;
+}
+
+.clearfix {
+    overflow: visible;
 }

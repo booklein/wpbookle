@@ -2,11 +2,11 @@
  * Plugin Name: Ultimate Addons for Visual Composer
  * Plugin URI: http://codecanyon.net/item/ultimate-addons-for-visual-composer/6892199
  * Description: All in one plugin for your Visual Composer needs!
- * Version: 3.13.4
+ * Version: 3.14.1
  * Author: BrainstormForce
  * Author URI: http://codecanyon.net/user/BrainstormForce
- */ 
- 
+ */
+
 .aio-icon-component i,
 .align-icon i,
 .ult-banner-block i,
@@ -77,6 +77,12 @@
     -moz-box-sizing: border-box;
     box-sizing: border-box
 }
+.upb_video_class,
+.wpb_column,
+.wpb_row,
+.vc_row {
+    position: relative
+}
 .aio-icon,
 .vc_row .aio-icon {
     display: inline-block;
@@ -137,15 +143,12 @@
     width: auto;
     max-width: 100%
 }
-.smile_icon_list_wrap,
-.wpb_row .wpb_column .wpb_wrapper .smile_icon_list_wrap {
-    margin-bottom: 30px
-}
 .smile_icon_list {
     list-style: none !important;
     padding: 0 !important;
     margin-left: 0 !important;
-    margin-right: 0 !important
+    margin-right: 0 !important;
+    margin-bottom: 0 !important;
 }
 .smile_icon_list li.icon_list_item {
     padding: 0 !important;
@@ -203,10 +206,10 @@ a.ulimate-info-list-link {
     text-decoration: none
 }
 .smile_icon_list li .icon_description p {
-    font-size: inherit !important;
+    /*font-size: inherit !important;*/
     font-weight: inherit !important;
     font-style: inherit !important;
-    line-height: inherit !important;
+    /*line-height: inherit !important;*/
     color: inherit !important
 }
 .smile_icon_list li .icon_description div.icon_description_text {
@@ -323,9 +326,9 @@ a.ulimate-info-list-link {
     left: auto
 }
 .info-wrapper .smile_icon_list li .icon_description p {
-    font-size: 13px !important;
+    /*font-size: 13px !important;*/
     font-weight: normal !important;
-    line-height: 1.64em !important;
+    /*line-height: 1.64em !important;*/
     color: inherit !important
 }
 @media only screen and (max-width: 768px) {
@@ -438,10 +441,6 @@ a.ulimate-info-list-link {
     margin-bottom: 15px;
     line-height: 1
 }
-.uavc-icons:last-child,
-.wpb_column .wpb_wrapper .uavc-icons:last-child {
-    margin-bottom: 0
-}
 .uavc-icons-left.uavc-icons {
     text-align: left
 }
@@ -465,7 +464,7 @@ a.ulimate-info-list-link {
 }
 .vc_ultimate_icons a.vc_control-btn.vc_control-btn-append {
     /*margin-bottom: 10px;*/
-    
+
     margin-top: 20px;
     margin-left: 50%;
     z-index: 33000000;
@@ -499,19 +498,29 @@ a.ulimate-info-list-link {
 .vc_element.element-ult_hotspot {
     margin-top: 20%;
 }
-.aio-icon-description *,
-.ifb-flip-box-section-content *,
-.info-circle-text *,
-.timeline-header>div *,
-.uavc-list-desc *,
-.ult-tooltipster-content *,
-.ult_price_features *,
+.aio-icon-description p,
+.aio-icon-description div,
+.ifb-flip-box-section-content p,
+.ifb-flip-box-section-content div,
+.info-circle-text p,
+.info-circle-text div,
+.timeline-header>div p,
+.timeline-header>div div,
+.uavc-list-desc p,
+.uavc-list-desc div,
+.ult-tooltipster-content p,
+.ult-tooltipster-content div,
+.ult_price_features p,
+.ult_price_features div,
 .uvc-ctaction-data,
-.uvc-ctaction-data *,
-.uvc-sub-heading *,
-.ultimate-ticker-prefix,
-.ultimate-ticker-suffix,
-.ultimate-vticker * {
+.uvc-ctaction-data p,
+.uvc-ctaction-data div,
+.uvc-sub-heading p,
+.uvc-sub-heading div,
+.ultimate-vticker p,
+.ultimate-vticker div,
+.ult_modal-body p,
+.ult_modal-body div {
     font-family: inherit!important;
     font-weight: inherit !important;
     font-size: inherit!important;
@@ -519,12 +528,68 @@ a.ulimate-info-list-link {
     color: inherit !important;
     line-height: inherit !important;
 }
+.ultimate-ticker-prefix,
+.ultimate-ticker-suffix{
+    font-size: inherit;
+    line-height: inherit;
+}
 .ubtn-text,
-span.middle-text * {
+span.middle-text p,
+span.middle-text div,
+.strip_main_text p,
+.strip_main_text div,
+.strip_highlight_text p,
+.strip_highlight_text div,
+.ulsb-strip > h4 p,
+.ulsb-strip > h4 div {
     font-family: inherit;
     font-weight: inherit;
     font-size: inherit;
     font-style: inherit;
     color: inherit;
     line-height: inherit;
+}
+/* Creative  Link Style-10*/
+a.ult_colorlink p,
+a.ult_colorlink div {
+    font-family: inherit;
+    font-weight: inherit;
+    font-size: inherit;
+    font-style: inherit;
+    line-height: inherit;
+}
+/* Advanced Tab */
+li.ult_tab_li > a.ult_a span {
+    color: inherit;
+}
+/* vc 4.9 compatible */
+
+.ubtn-img-container,
+.ubtn-ctn-center,
+.ubtn-ctn-left,
+.ubtn-ctn-right,
+.ult_dual_button.ult-adjust-bottom-margin,
+html .ult_exp_section_layer.ult-adjust-bottom-margin,
+.uvc-type-wrap.ult-adjust-bottom-margin,
+.ultimate-map-wrapper.ult-adjust-bottom-margin,
+.ultimate-google-trends.ult-adjust-bottom-margin,
+.uvc-heading.ult-adjust-bottom-margin,
+.ultimate-call-to-action.ult-adjust-bottom-margin,
+.ultb3-box.ult-adjust-bottom-margin,
+.info-circle-wrapper.ult-adjust-bottom-margin,
+.smile_icon_list_wrap.ult-adjust-bottom-margin,
+.ult-banner-block.ult-adjust-bottom-margin,
+.uavc-list-icon-wrapper.ult-adjust-bottom-margin,
+.ult-modal-input-wrapper.ult-adjust-bottom-margin,
+html .ult-ih-container.ult-adjust-bottom-margin,
+html .ult_main_cl.ult-adjust-bottom-margin,
+html .ult_hotspot_container.ult-adjust-bottom-margin {
+    margin-bottom: 35px;
+}
+/*html .vc_col-has-fill a.ubtn-link.ult-adjust-bottom-margin {
+    margin-bottom: 50px;
+}
+*/
+html .vc_col-has-fill a.ubtn-link.ult-adjust-bottom-margin .ubtn.ult-adjust-bottom-margin {
+    margin-bottom: 0;
 }

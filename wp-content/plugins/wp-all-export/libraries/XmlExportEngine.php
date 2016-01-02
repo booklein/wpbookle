@@ -156,6 +156,7 @@ if ( ! class_exists('XmlExportEngine') ){
 		public static $post_types  = array();	
 		public static $exportOptions = array();
 		public static $exportQuery;
+		public static $exportID = false;
 
 		public function __construct( $post, & $errors ){		
 
@@ -240,13 +241,14 @@ if ( ! class_exists('XmlExportEngine') ){
 					}
 					else
 					{
-						self::$exportQuery = eval('return new WP_Query(array(' . $this->post['wp_query'] . ', \'orderby\' => \'ID\', \'order\' => \'ASC\', \'offset\' => 0, \'posts_per_page\' => 10));');
+						self::$exportQuery = eval('return new WP_Query(array(' . $this->post['wp_query'] . ', \'offset\' => 0, \'posts_per_page\' => 10));');
 						
 						if ( empty(self::$exportQuery) ) {
 							$this->errors->add('form-validation', __('Invalid query', 'pmxe_plugin'));		
 						}
 						elseif ( empty(self::$exportQuery->found_posts) ) {
-							$this->errors->add('form-validation', __('No matching posts found for WP_Query expression specified', 'pmxe_plugin'));		
+							$this->errors->add('count-validation', __('No matching posts found for WP_Query expression specified.', 'pmxe_plugin'));	
+							PMXE_Plugin::$session->set('found_posts', 0);	
 						}
 						else {						
 							PMXE_Plugin::$session->set('wp_query', $this->post['wp_query']);
@@ -266,13 +268,15 @@ if ( ! class_exists('XmlExportEngine') ){
 				{															
 					self::$exportQuery = new WP_Query( array( 'post_type' => self::$post_types, 'post_status' => 'any', 'orderby' => 'ID', 'order' => 'ASC', 'posts_per_page' => 10 ));							
 
+					PMXE_Plugin::$session->set('cpt', self::$post_types);
+
 					if (empty(self::$exportQuery->found_posts)){
-						$this->errors->add('form-validation', __('No matching posts found for selected post types', 'pmxe_plugin'));	
+						$this->errors->add('count-validation', __('No matching posts found for selected post types.', 'pmxe_plugin'));	
+						PMXE_Plugin::$session->set('found_posts', 0);										
 					}
-					else{					
-						PMXE_Plugin::$session->set('cpt', self::$post_types);	
+					else{												
 						PMXE_Plugin::$session->set('found_posts', self::$exportQuery->found_posts);										
-					}					
+					}				
 				}							
 			}
 

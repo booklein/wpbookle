@@ -1289,6 +1289,9 @@ ul.products.list,
 ul.products,
 .column2 ul.products {
     li.product-category {
+        a {
+            text-decoration: none;
+        }
         .thumbnail {
             min-height: 90px;
             margin-bottom: 0;
@@ -1310,12 +1313,12 @@ ul.products,
                 padding: 0;
                 text-transform: uppercase;
             }
+        }
 
-            mark {
-                padding: 0;
-                background: transparent;
-                color: inherit;
-            }
+        mark {
+            padding: 0;
+            background: transparent;
+            color: inherit;
         }
     }
 }
@@ -1430,3 +1433,6 @@ ul.products {
     height: 200px;
 }
 
+.prdctfltr_filter_title a {
+    text-decoration: none;
+}

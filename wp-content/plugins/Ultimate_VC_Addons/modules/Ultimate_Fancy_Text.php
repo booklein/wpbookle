@@ -5,7 +5,7 @@
 */
 if(!class_exists('Ultimate_FancyText')){
 	class Ultimate_FancyText{
-		
+
 		function __construct(){
 			add_action('init',array($this,'ultimate_fancytext_init'));
 			add_shortcode('ultimate_fancytext',array($this,'ultimate_fancytext_shortcode'));
@@ -113,7 +113,7 @@ if(!class_exists('Ultimate_FancyText')){
 								"dependency" => array("element" => "fancytext_effect", "value" => array("typewriter")),
 								"description" => __("Example - If set to 5000, the first string will appear after 5 seconds.", "ultimate_vc")
 							),
-							
+
 							array(
 								"type" => "number",
 								"heading" => __("Back Delay", "ultimate_vc"),
@@ -218,10 +218,19 @@ if(!class_exists('Ultimate_FancyText')){
 								"param_name" => "ex_class"
 							),
 							array(
+								"type" => "ult_param_heading",
+								"param_name" => "fancy_text_typography",
+								"text" => __("Fancy Text Settings","ultimate_vc"),
+								"value" => "",
+								"group" => "Typography",
+								"class" => "ult-param-heading",
+								'edit_field_class' => 'ult-param-heading-wrapper no-top-margin vc_column vc_col-sm-12',
+							),
+							array(
 								"type" => "ultimate_google_fonts",
 								"heading" => __("Font Family", "ultimate_vc"),
 								"param_name" => "strings_font_family",
-								"description" => __("Select the font of your choice.","ultimate_vc")." ".__("You can","ultimate_vc")." <a target='_blank' href='".admin_url('admin.php?page=ultimate-font-manager')."'>".__("add new in the collection here","ultimate_vc")."</a>.",
+								"description" => __("Select the font of your choice.","ultimate_vc")." ".__("You can","ultimate_vc")." <a target='_blank' href='".admin_url('admin.php?page=bsf-google-font-manager')."'>".__("add new in the collection here","ultimate_vc")."</a>.",
 								"group" => "Typography"
 							),
 							array(
@@ -230,24 +239,56 @@ if(!class_exists('Ultimate_FancyText')){
 								"param_name"	=>	"strings_font_style",
 								"group" => "Typography"
 							),
+							// array(
+							// 	"type" => "number",
+							// 	"class" => "font-size",
+							// 	"heading" => __("Font Size", "ultimate_vc"),
+							// 	"param_name" => "strings_font_size",
+							// 	"min" => 10,
+							// 	"suffix" => "px",
+							// 	"group" => "Typography"
+							// ),
 							array(
-								"type" => "number",
-								"class" => "font-size",
-								"heading" => __("Font Size", "ultimate_vc"),
-								"param_name" => "strings_font_size",
-								"min" => 10,
-								"suffix" => "px",
-								"group" => "Typography"
-							),
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Font Size", 'ultimate_vc'),
+                                "param_name" => "strings_font_size",
+                                "unit" => "px",
+                                "media" => array(
+                                    /*"Large Screen"      => '',*/
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography"
+                            ),
+							// array(
+							// 	"type" => "number",
+							// 	"class" => "",
+							// 	"heading" => __("Line Height", "ultimate_vc"),
+							// 	"param_name" => "strings_line_height",
+							// 	"value" => "",
+							// 	"suffix" => "px",
+							// 	"group" => "Typography"
+							// ),
 							array(
-								"type" => "number",
-								"class" => "",
-								"heading" => __("Line Height", "ultimate_vc"),
-								"param_name" => "strings_line_height",
-								"value" => "",
-								"suffix" => "px",
-								"group" => "Typography"
-							),
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Line Height", 'ultimate_vc'),
+                                "param_name" => "strings_line_height",
+                                "unit" => "px",
+                                "media" => array(
+                                    /*"Large Screen"      => '',*/
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography"
+                            ),
 							array(
 								"type" => "colorpicker",
 								"heading" => __("Fancy Text Color","ultimate_vc"),
@@ -265,10 +306,72 @@ if(!class_exists('Ultimate_FancyText')){
 								"dependency" => array("element" => "fancytext_effect", "value" => array("typewriter","ticker","ticker-down"))
 							),
 							array(
+								"type" => "ult_param_heading",
+								"param_name" => "fancy_prefsuf_text_typography",
+								"text" => __("Prefix Suffix Text Settings","ultimate_vc"),
+								"value" => "",
+								"group" => "Typography",
+								"class" => "ult-param-heading",
+								'edit_field_class' => 'ult-param-heading-wrapper no-top-margin vc_column vc_col-sm-12',
+							),
+							array(
+								"type" => "ultimate_google_fonts",
+								"heading" => __("Font Family", "ultimate_vc"),
+								"param_name" => "prefsuf_font_family",
+								"description" => __("Select the font of your choice.","ultimate_vc")." ".__("You can","ultimate_vc")." <a target='_blank' href='".admin_url('admin.php?page=bsf-google-font-manager')."'>".__("add new in the collection here","ultimate_vc")."</a>.",
+								"group" => "Typography"
+							),
+							array(
+								"type" => "ultimate_google_fonts_style",
+								"heading" 		=>	__("Font Style", "ultimate_vc"),
+								"param_name"	=>	"prefsuf_font_style",
+								"group" => "Typography"
+							),
+							array(
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Font Size", 'ultimate_vc'),
+                                "param_name" => "prefix_suffix_font_size",
+                                "unit" => "px",
+                                "media" => array(
+                                    /*"Large Screen"      => '',*/
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography"
+                            ),
+							array(
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Line Height", 'ultimate_vc'),
+                                "param_name" => "prefix_suffix_line_height",
+                                "unit" => "px",
+                                "media" => array(
+                                    /*"Large Screen"      => '',*/
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography"
+                            ),
+							array(
 								"type" => "colorpicker",
 								"class" => "",
 								"heading" => __("Prefix & Suffix Text Color", "ultimate_vc"),
-								"param_name" => "strings_color",
+								"param_name" => "sufpref_color",
+								"value" => "",
+								"group" => "Typography"
+							),
+							array(
+								"type" => "colorpicker",
+								"class" => "",
+								"heading" => __("Prefix & Suffix Background Color", "ultimate_vc"),
+								"param_name" => "sufpref_bg_color",
 								"value" => "",
 								"group" => "Typography"
 							),
@@ -307,10 +410,10 @@ if(!class_exists('Ultimate_FancyText')){
 			}
 		}
 		function ultimate_fancytext_shortcode($atts, $content = null){
-			$output = $fancytext_strings = $fancytext_prefix = $fancytext_suffix = $fancytext_effect = $strings_textspeed = $strings_tickerspeed = $typewriter_cursor = $typewriter_cursor_text = $typewriter_loop = $fancytext_align = $strings_font_family = $strings_font_style = $strings_font_size = $strings_color = $strings_line_height = $strings_startdelay = $strings_backspeed = $strings_backdelay = $ticker_wait_time = $ticker_show_items = $ticker_hover_pause = $ex_class = '';
-			
+			$output = $fancytext_strings = $fancytext_prefix = $fancytext_suffix = $fancytext_effect = $strings_textspeed = $strings_tickerspeed = $typewriter_cursor = $typewriter_cursor_text = $typewriter_loop = $fancytext_align = $strings_font_family = $strings_font_style = $strings_font_size = $sufpref_color = $strings_line_height = $strings_startdelay = $strings_backspeed = $strings_backdelay = $ticker_wait_time = $ticker_show_items = $ticker_hover_pause = $ex_class = '';
+			$prefsuf_font_family = $prefsuf_font_style = $prefix_suffix_font_size = $prefix_suffix_line_height = $sufpref_bg_color ='';
 			$id = uniqid(rand());
-			
+
 			extract(shortcode_atts(array(
 				'fancytext_strings' => '',
 				'fancytext_prefix' => '',
@@ -325,7 +428,7 @@ if(!class_exists('Ultimate_FancyText')){
 				'strings_font_family' => '',
 				'strings_font_style' => '',
 				'strings_font_size' => '',
-				'strings_color' => '',
+				'sufpref_color' => '',
 				'strings_line_height' => '',
 				'strings_startdelay' => '200',
 				'strings_backspeed' => '0',
@@ -337,46 +440,98 @@ if(!class_exists('Ultimate_FancyText')){
 				'ticker_hover_pause' => 'true',
 				'ticker_background' => '',
 				'fancytext_color' => '',
+				'prefsuf_font_family' => '',
+				'prefsuf_font_style' => '',
+				'prefix_suffix_font_size' =>'',
+				'prefix_suffix_line_height' =>'',
+				'sufpref_bg_color' => '',
 				'ex_class' => ''
 			),$atts));
-			
-			$string_inline_style = $vticker_inline = $valign = '';
-			
+
+			$vc_version = (defined('WPB_VC_VERSION')) ? WPB_VC_VERSION : 0;
+			$is_vc_49_plus = (version_compare(4.9, $vc_version, '<=')) ? 'ult-adjust-bottom-margin' : '';
+
+			$string_inline_style = $vticker_inline = $valign = $prefsuf_style = '';
+
 			if($strings_font_family != '')
 			{
 				$font_family = get_ultimate_font_family($strings_font_family);
-				$string_inline_style .= 'font-family:\''.$font_family.'\';';
+				if($font_family !== '')
+					$string_inline_style .= 'font-family:\''.$font_family.'\';';
 			}
-			
+
 			$string_inline_style .= get_ultimate_font_style($strings_font_style);
-			
-			if($strings_font_size != '')
-				$string_inline_style .= 'font-size:'.$strings_font_size.'px;';
-			
-			if($strings_color != '')
-				$string_inline_style .= 'color:'.$strings_color.';';
-				
-			if($strings_line_height != '')
-				$string_inline_style .= 'line-height:'.$strings_line_height.'px;';
-				
+
+			if($prefsuf_font_family != ''){
+				$font_family = get_ultimate_font_family($prefsuf_font_family);
+				if($font_family !== '')
+					$prefsuf_style .= 'font-family:\''.$font_family.'\';';
+			}
+			$prefsuf_style .= get_ultimate_font_style($prefsuf_font_style);
+			// if($strings_font_size != '')
+			// 	$string_inline_style .= 'font-size:'.$strings_font_size.'px;';
+			// if($strings_line_height != '')
+			// 	$string_inline_style .= 'line-height:'.$strings_line_height.'px;';
+
+			$fancy_text_id = 'uvc-type-wrap-'.rand(1000, 9999);
+
+			if (is_numeric($strings_font_size)) {
+                $strings_font_size = 'desktop:'.$strings_font_size.'px;';
+            }
+			if (is_numeric($strings_line_height)) {
+                $strings_line_height = 'desktop:'.$strings_line_height.'px;';
+            }
+
+            $fancy_args = array(
+                'target' => '#'.$fancy_text_id.
+                '', // set targeted element e.g. unique class/id etc.
+                'media_sizes' => array(
+                    'font-size' => $strings_font_size, // set 'css property' & 'ultimate_responsive' sizes. Here $title_responsive_font_size holds responsive font sizes from user input.
+                   	'line-height' => $strings_line_height
+                ),
+            );
+            $data_list = get_ultimate_vc_responsive_media_css($fancy_args);
+
+            if (is_numeric($prefix_suffix_font_size)) {
+                $prefix_suffix_font_size = 'desktop:'.$prefix_suffix_font_size.'px !important;';
+            }
+			if (is_numeric($prefix_suffix_line_height)) {
+                $prefix_suffix_line_height = 'desktop:'.$prefix_suffix_line_height.'px !important;';
+            }
+
+            $fancy_prefsuf_args = array(
+                'target' => '#'.$fancy_text_id.
+                ' .mycustfancy', // set targeted element e.g. unique class/id etc.
+                'media_sizes' => array(
+                    'font-size' => $prefix_suffix_font_size, // set 'css property' & 'ultimate_responsive' sizes. Here $title_responsive_font_size holds responsive font sizes from user input.
+                   	'line-height' => $prefix_suffix_line_height
+                ),
+            );
+            $prefsuf_data_list = get_ultimate_vc_responsive_media_css($fancy_prefsuf_args);
+
+			if($sufpref_color != '')
+				$prefsuf_style .= 'color:'.$sufpref_color.';';
+			if($sufpref_bg_color != '')
+				$prefsuf_style .= 'background :'.$sufpref_bg_color.';';
+
 			if($fancytext_align != '')
 				$string_inline_style .= 'text-align:'.$fancytext_align.';';
-			
+
 			// Order of replacement
 			$order   = array("\r\n", "\n", "\r", "<br/>", "<br>");
 			$replace = '|';
-			
+
 			// Processes \r\n's first so they aren't converted twice.
 			$str = str_replace($order, $replace, $fancytext_strings);
-			
+
 			$lines = explode("|", $str);
-			
+
 			$count_lines = count($lines);
-			
+
 			$ex_class .= ' uvc-type-align-'.$fancytext_align.' ';
 			if($fancytext_prefix == '')
 				$ex_class .= 'uvc-type-no-prefix';
-				
+
 			if($fancytext_color != '')
 				$vticker_inline .= 'color:'.$fancytext_color.';';
 			if($ticker_background != '')
@@ -387,13 +542,14 @@ if(!class_exists('Ultimate_FancyText')){
 				else
 					$valign = 'fancytext-background-enabled';
 			}
-			
+
 			$ultimate_js = get_option('ultimate_js');
-			
-			$output = '<'.$fancytext_tag.' class="uvc-type-wrap '.$ex_class.' uvc-wrap-'.$id.'" style="'.$string_inline_style.'">';
+
+			$output = '<'.$fancytext_tag.' id="'.$fancy_text_id.'" '.$data_list.' class="uvc-type-wrap '.$is_vc_49_plus.' ult-responsive '.$ex_class.' uvc-wrap-'.$id.'" style="'.$string_inline_style.'">';
+
 				if(trim($fancytext_prefix) != '')
 				{
-					$output .= '<span class="ultimate-'.$fancytext_effect.'-prefix">'.ltrim($fancytext_prefix).'</span>';
+					$output .= '<span '.$prefsuf_data_list.' class="ultimate-'.$fancytext_effect.'-prefix mycustfancy ult-responsive" style="'.$prefsuf_style.'">'.ltrim($fancytext_prefix).'</span>';
 				}
 				if($fancytext_effect == 'ticker' || $fancytext_effect == 'ticker-down')
 				{
@@ -409,7 +565,7 @@ if(!class_exists('Ultimate_FancyText')){
 						$direction = "down";
 					else
 						$direction = "up";
-					$output .= '<div id="vticker-'.$id.'" class="ultimate-vticker '.$fancytext_effect.' '.$valign.' '.$inherit_font_size.'" style="'.$vticker_inline.'"><ul>';
+					$output .= '<div id="vticker-'.$id.'" '.$data_list.' class="ultimate-vticker '.$fancytext_effect.' '.$valign.' '.$inherit_font_size.'" style="'.$vticker_inline.'"><ul>';
 						foreach($lines as $key => $line)
 						{
 							if($key == 0) {
@@ -420,29 +576,29 @@ if(!class_exists('Ultimate_FancyText')){
 							}
 							$output .= '<li '.$style.'>'.strip_tags($line).'</li>';
 						}
-					$output .= '</ul></div>'; 
+					$output .= '</ul></div>';
 				}
 				else
 				{
 					if($ultimate_js != 'enable')
 						wp_enqueue_script('ultimate-typed-js');
 					if($typewriter_loop != 'true')
-						$typewriter_loop = 'false';			
+						$typewriter_loop = 'false';
 					if($typewriter_cursor != 'true')
-						$typewriter_cursor = 'false';						
-					$strings = '['; 
-						foreach($lines as $key => $line)  
-						{ 
+						$typewriter_cursor = 'false';
+					$strings = '[';
+						foreach($lines as $key => $line)
+						{
 							$strings .= '"'.__(trim(htmlspecialchars_decode(strip_tags($line))),'js_composer').'"';
 							if($key != ($count_lines-1))
-								$strings .= ','; 
-						} 
+								$strings .= ',';
+						}
 					$strings .= ']';
 					$output .= '<span id="typed-'.$id.'" class="ultimate-typed-main '.$valign.'" style="'.$vticker_inline.'"></span>';
 				}
 				if(trim($fancytext_suffix) != '')
 				{
-					$output .= '<span class="ultimate-'.$fancytext_effect.'-suffix">'.rtrim($fancytext_suffix).'</span>';
+					$output .= '<span '.$prefsuf_data_list.' class="ultimate-'.$fancytext_effect.'-suffix mycustfancy ult-responsive" style="'.$prefsuf_style.'">'.rtrim($fancytext_suffix).'</span>';
 				}
 				if($fancytext_effect == 'ticker' || $fancytext_effect == 'ticker-down')
 				{
@@ -464,7 +620,7 @@ if(!class_exists('Ultimate_FancyText')){
 				}
 				else
 				{
-					$output .= '<script type="text/javascript"> jQuery(function($){ $("#typed-'.$id.'").typed({ 
+					$output .= '<script type="text/javascript"> jQuery(function($){ $("#typed-'.$id.'").typed({
 								strings: '.$strings.',
 								typeSpeed: '.$strings_textspeed.',
 								backSpeed: '.$strings_backspeed.',
@@ -488,12 +644,12 @@ if(!class_exists('Ultimate_FancyText')){
 					}
 				}
 			$output .= '</'.$fancytext_tag.'>';
-			
+
 			/*$args = array(
 				$strings_font_family
 			);
 			enquque_ultimate_google_fonts($args);*/
-			
+
 			return $output;
 		}
 	} // end class

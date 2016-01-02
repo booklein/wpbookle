@@ -3,7 +3,7 @@
 Plugin Name: Porto Shortcodes
 Plugin URI: http://themeforest.net/user/SW-THEMES
 Description: Shortcodes for Porto Wordpress Theme.
-Version: 1.3.4
+Version: 1.3.8
 Author: SW-THEMES
 Author URI: http://themeforest.net/user/SW-THEMES
 */
@@ -21,7 +21,7 @@ define('PORTO_SHORTCODES_WOO_TEMPLATES', dirname(__FILE__) . '/woo_templates/');
 
 class PortoShortcodesClass {
 
-    private $shortcodes = array("porto_block", "porto_container", "porto_animation", "porto_testimonial", "porto_content_box", "porto_history", "porto_grid_container", "porto_grid_item", "porto_links_block", "porto_links_item", "porto_recent_posts", "porto_recent_portfolios", "porto_recent_members", "porto_blog", "porto_portfolios", "porto_faqs", "porto_members", "porto_concept", "porto_map_section", "porto_section", "porto_toggles", "porto_blockquote", "porto_tooltip", "porto_popover", "porto_price_boxes", "porto_price_box","porto_sort_filters","porto_sort_filter","porto_sort_container","porto_sort_item","porto_preview_image");
+    private $shortcodes = array("porto_block", "porto_container", "porto_animation", "porto_testimonial", "porto_content_box", "porto_history", "porto_grid_container", "porto_grid_item", "porto_links_block", "porto_links_item", "porto_recent_posts", "porto_recent_portfolios", "porto_recent_members", "porto_blog", "porto_portfolios", "porto_faqs", "porto_members", "porto_concept", "porto_map_section", "porto_section", "porto_toggles", "porto_blockquote", "porto_tooltip", "porto_popover", "porto_price_boxes", "porto_price_box","porto_sort_filters","porto_sort_filter", "porto_sort_container", "porto_sort_item", "porto_preview_image", "porto_sticky", "porto_sticky_nav", "porto_sticky_nav_link");
 
     private $woo_shortcodes = array("porto_recent_products", "porto_featured_products", "porto_sale_products", "porto_best_selling_products", "porto_top_rated_products", "porto_products", "porto_product_category", "porto_product_attribute", "porto_product", "porto_product_categories", "porto_widget_woo_products", "porto_widget_woo_top_rated_products", "porto_widget_woo_recently_viewed", "porto_widget_woo_recent_reviews", "porto_widget_woo_product_tags");
 
@@ -54,6 +54,8 @@ class PortoShortcodesClass {
     function loadAdminCssAndJs() {
         wp_register_style( 'porto_shortcodes_admin', PORTO_SHORTCODES_URL . 'assets/css/admin.css' );
         wp_enqueue_style( 'porto_shortcodes_admin' );
+        wp_register_style( 'porto_shortcodes_simpleline', PORTO_SHORTCODES_URL . 'assets/css/Simple-Line-Icons/Simple-Line-Icons.css' );
+        wp_enqueue_style( 'porto_shortcodes_simpleline' );
     }
 
     // Add buttons to tinyMCE
@@ -125,16 +127,3 @@ class PortoShortcodesClass {
 
 // Finally initialize code
 new PortoShortcodesClass();
-
-global $porto_ult_assets;
-
-add_action('wp_loaded', 'porto_get_ult_path');
-
-function porto_get_ult_path() {
-    global $porto_ult_assets;
-    if (class_exists('Ultimate_VC_Addons')) {
-        $uvc_addons = new Ultimate_VC_Addons();
-        $uvc_addons->aio_front_scripts();
-        $porto_ult_assets = str_replace('js/', '', $uvc_addons->assets_js);
-    }
-}

@@ -135,7 +135,6 @@
                 bottom: -5px;
             }
             p {
-                font-family: $font-primary;
                 font-size: 1em;
                 font-style: normal;
             }
@@ -185,7 +184,6 @@
                 bottom: -5px;
             }
             p {
-                font-family: $font-primary;
                 font-size: 1em;
                 font-style: normal;
             }
@@ -212,7 +210,6 @@
                 display: none;
             }
             p {
-                font-family: $font-primary;
                 font-size: 1.2em;
                 font-style: normal;
             }
@@ -353,6 +350,24 @@
                     opacity: 0.6;
                     color: #FFF;
                 }
+            }
+        }
+    }
+
+    // Transparent Background
+    &.testimonial-trasnparent-background {
+        blockquote {
+            background: transparent !important;
+        }
+    }
+
+    // Alternative Font
+    &.testimonial-alternarive-font {
+        blockquote {
+            p {
+                font-family: Georgia, serif !important;
+                font-style: italic;
+                font-size: 1.2em;
             }
         }
     }

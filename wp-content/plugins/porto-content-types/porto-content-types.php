@@ -3,7 +3,7 @@
 Plugin Name: Porto Content Types
 Plugin URI: http://themeforest.net/user/SW-THEMES
 Description: Content Types for Porto Wordpress Theme.
-Version: 1.2.1
+Version: 1.2.2
 Author: SW-THEMES
 Author URI: http://themeforest.net/user/SW-THEMES
 */

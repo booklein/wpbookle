@@ -144,6 +144,11 @@
 
 .yith-wcan-select-wrapper ul.yith-wcan-select.yith-wcan li a, .widget .yit-wcan-select-open {
     width: auto;
+    display: block;
+}
+
+.yith-wcan-select-wrapper ul.yith-wcan-select.yith-wcan li.chosen a{
+    padding: 0;
 }
 
 .yith-wcan-select-wrapper ul.yith-wcan-select.yith-wcan li a:hover, .widget .yit-wcan-select-open:hover {
@@ -261,6 +266,11 @@ a.yith-wcan-price-link.active:before {
 .woocommerce .widget_layered_nav ul.yith-wcan-color li a.multicolor.round {
     border-radius: 50%;
 }
+
+.woocommerce .widget_price_filter .price_slider_amount button {
+    display: none;
+}
+
 .woocommerce .widget_price_filter .price_slider_amount #min_price.yith_wcan_no_slider,
 .woocommerce .widget_price_filter .price_slider_amount #max_price.yith_wcan_no_slider {
     margin-bottom: 10px;

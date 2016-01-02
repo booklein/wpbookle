@@ -1,4 +1,21 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
+}
+/**
+ * Lean map shortcodes
+ *
+ * @since 4.9
+ *
+ * @param $tag
+ * @param null $settings_function
+ * @param null $settings_file
+ */
+function vc_lean_map( $tag, $settings_function = null, $settings_file = null ) {
+	WPBMap::leanMap( $tag, $settings_function, $settings_file );
+}
+
 /**
  * @param $attributes
  *
@@ -6,7 +23,7 @@
  */
 function vc_map( $attributes ) {
 	if ( ! isset( $attributes['base'] ) ) {
-		trigger_error( __( "Wrong vc_map object. Base attribute is required", 'js_composer' ), E_USER_ERROR );
+		trigger_error( __( 'Wrong vc_map object. Base attribute is required', 'js_composer' ), E_USER_ERROR );
 		die();
 	}
 	WPBMap::map( $attributes['base'], $attributes );
@@ -19,6 +36,8 @@ function vc_map( $attributes ) {
  * @deprecated, use vc_map instead
  */
 function wpb_map( $attributes ) {
+	// _deprecated_function( 'wpb_map', '4.2 (will be removed in 4.10)', 'vc_map' );
+
 	vc_map( $attributes );
 }
 
@@ -39,6 +58,8 @@ function vc_remove_element( $shortcode ) {
  * @deprecated use vc_remove_element instead
  */
 function wpb_remove( $shortcode ) {
+	// _deprecated_function( 'wpb_remove', '4.2 (will be removed in 4.10)', 'vc_remove_element' );
+
 	vc_remove_element( $shortcode );
 }
 
@@ -80,6 +101,8 @@ function vc_add_params( $shortcode, $attributes ) {
  * @deprecated
  */
 function wpb_add_param( $shortcode, $attributes ) {
+	// _deprecated_function( 'wpb_add_param', '4.2 (will be removed in 4.10)', 'vc_add_param' );
+
 	vc_add_param( $shortcode, $attributes );
 }
 
@@ -106,7 +129,7 @@ function vc_map_update( $name = '', $setting = '', $value = '' ) {
  * @since 4.2
  * @return bool
  */
-function vc_update_shortcode_param( $name, $attribute = Array() ) {
+function vc_update_shortcode_param( $name, $attribute = array() ) {
 	return WPBMap::mutateParam( $name, $attribute );
 }
 
@@ -160,7 +183,7 @@ if ( ! function_exists( 'vc_default_editor_post_types' ) ) {
 	/**
 	 * Returns list of default post type.
 	 * @since 4.2
-	 * @return bool
+	 * @return array
 	 */
 	function vc_default_editor_post_types() {
 		return vc_manager()->editorDefaultPostTypes();
@@ -244,27 +267,21 @@ if ( ! function_exists( 'vc_set_template_dir' ) ) {
 	 * @param string - full directory path to new template directory with trailing slash
 	 */
 	function vc_set_template_dir( $dir ) {
+		// _deprecated_function( 'vc_set_template_dir', '4.2 (will be removed in 4.10)', 'vc_set_shortcodes_templates_dir' );
+
 		vc_set_shortcodes_templates_dir( $dir );
 	}
 }
 /**
  * @param bool $value
  *
+ * @todo check usage.
+ *
  * @since 4.3
  */
 function set_vc_is_inline( $value = true ) {
 	global $vc_is_inline;
 	$vc_is_inline = $value;
-}
-
-/**
- * New Vc now called Frontend editor
- * @deprecated
- * @return Vc_Frontend_Editor
- * @since 4.3
- */
-function new_vc() {
-	return vc_frontend_editor();
 }
 
 /**
@@ -283,7 +300,7 @@ function vc_disable_frontend( $disable = true ) {
  * @return bool
  */
 function vc_enabled_frontend() {
-	return vc_frontend_editor()->inlineEnabled();
+	return vc_frontend_editor()->frontendEditorEnabled();
 }
 
 if ( ! function_exists( 'vc_add_default_templates' ) ) {
@@ -296,12 +313,18 @@ if ( ! function_exists( 'vc_add_default_templates' ) ) {
 	 * @return bool
 	 */
 	function vc_add_default_templates( $data ) {
-		return visual_composer()->templatesPanelEditor()->addDefaultTemplates( $data );
+		return visual_composer()
+			->templatesPanelEditor()
+			->addDefaultTemplates( $data );
 	}
 }
 
 function vc_map_integrate_shortcode( $shortcode, $field_prefix = '', $group_prefix = '', $change_fields = null, $dependency = null ) {
-	$shortcode_data = WPBMap::getShortCode( $shortcode );
+	if ( is_string( $shortcode ) ) {
+		$shortcode_data = WPBMap::getShortCode( $shortcode );
+	} else {
+		$shortcode_data = $shortcode;
+	}
 	if ( is_array( $shortcode_data ) && ! empty( $shortcode_data ) ) {
 		/**
 		 * @var $shortcode WPBakeryShortCodeFishBones
@@ -331,18 +354,18 @@ function vc_map_integrate_shortcode( $shortcode, $field_prefix = '', $group_pref
 					}
 					$param = vc_map_integrate_add_dependency( $param, $dependency );
 
-				} else if ( ! empty( $dependency ) ) {
+				} elseif ( ! empty( $dependency ) ) {
 					$param = vc_map_integrate_add_dependency( $param, $dependency );
 				}
-				$param['integrated_shortcode'] = $shortcode;
+				$param['integrated_shortcode'] = is_array( $shortcode ) ? $shortcode['base'] : $shortcode;
 				$param['integrated_shortcode_field'] = $field_prefix;
 			}
 		}
 
-		return is_array( $params ) ? array_filter( $params ) : false;
+		return is_array( $params ) ? array_filter( $params ) : array();
 	}
 
-	return false;
+	return array();
 }
 
 /**
@@ -361,11 +384,11 @@ function vc_map_integrate_include_exclude_fields( $param, $change_fields ) {
 			$param = null;
 
 			return $param; // to prevent group adding to $param
-		} else if ( isset( $change_fields['exclude_regex'] ) ) {
+		} elseif ( isset( $change_fields['exclude_regex'] ) ) {
 			if ( is_array( $change_fields['exclude_regex'] ) && ! empty( $change_fields['exclude_regex'] ) ) {
 				$break_foreach = false;
 				foreach ( $change_fields['exclude_regex'] as $regex ) {
-					if ( @preg_match( $regex, null ) === false ) {
+					if ( false === @preg_match( $regex, null ) ) {
 						// Regular expression is invalid, (don't remove @).
 					} else {
 						if ( preg_match( $regex, $param['param_name'] ) ) {
@@ -380,8 +403,8 @@ function vc_map_integrate_include_exclude_fields( $param, $change_fields ) {
 				if ( $break_foreach ) {
 					return $param; // to prevent group adding to $param
 				}
-			} else if ( is_string( $change_fields['exclude_regex'] ) && strlen( $change_fields['exclude_regex'] ) > 0 ) {
-				if ( @preg_match( $change_fields['exclude_regex'], null ) === false ) {
+			} elseif ( is_string( $change_fields['exclude_regex'] ) && strlen( $change_fields['exclude_regex'] ) > 0 ) {
+				if ( false === @preg_match( $change_fields['exclude_regex'], null ) ) {
 					// Regular expression is invalid, (don't remove @).
 				} else {
 					if ( preg_match( $change_fields['exclude_regex'], $param['param_name'] ) ) {
@@ -398,11 +421,11 @@ function vc_map_integrate_include_exclude_fields( $param, $change_fields ) {
 			$param = null;
 
 			return $param; // to prevent group adding to $param
-		} else if ( isset( $change_fields['include_only_regex'] ) ) {
+		} elseif ( isset( $change_fields['include_only_regex'] ) ) {
 			if ( is_array( $change_fields['include_only_regex'] ) && ! empty( $change_fields['include_only_regex'] ) ) {
 				$break_foreach = false;
 				foreach ( $change_fields['include_only_regex'] as $regex ) {
-					if ( @preg_match( $regex, null ) === false ) {
+					if ( false === @preg_match( $regex, null ) ) {
 						// Regular expression is invalid, (don't remove @).
 					} else {
 						if ( ! preg_match( $regex, $param['param_name'] ) ) {
@@ -417,8 +440,8 @@ function vc_map_integrate_include_exclude_fields( $param, $change_fields ) {
 				if ( $break_foreach ) {
 					return $param; // to prevent group adding to $param
 				}
-			} else if ( is_string( $change_fields['include_only_regex'] ) && strlen( $change_fields['include_only_regex'] ) > 0 ) {
-				if ( @preg_match( $change_fields['include_only_regex'], null ) === false ) {
+			} elseif ( is_string( $change_fields['include_only_regex'] ) && strlen( $change_fields['include_only_regex'] ) > 0 ) {
+				if ( false === @preg_match( $change_fields['include_only_regex'], null ) ) {
 					// Regular expression is invalid, (don't remove @).
 				} else {
 					if ( ! preg_match( $change_fields['include_only_regex'], $param['param_name'] ) ) {
@@ -458,9 +481,9 @@ function vc_map_integrate_get_params( $base_shortcode, $integrated_shortcode, $f
 	$params = array();
 	if ( is_array( $shortcode_data ) && is_array( $shortcode_data['params'] ) && ! empty( $shortcode_data['params'] ) ) {
 		foreach ( $shortcode_data['params'] as $param ) {
-			if ( is_array( $param ) && isset( $param['integrated_shortcode'] ) && $integrated_shortcode == $param['integrated_shortcode'] ) {
+			if ( is_array( $param ) && isset( $param['integrated_shortcode'] ) && $integrated_shortcode === $param['integrated_shortcode'] ) {
 				if ( ! empty( $field_prefix ) ) {
-					if ( isset( $param['integrated_shortcode_field'] ) && $field_prefix == $param['integrated_shortcode_field'] ) {
+					if ( isset( $param['integrated_shortcode_field'] ) && $field_prefix === $param['integrated_shortcode_field'] ) {
 						$params[] = $param;
 					}
 				} else {
@@ -482,7 +505,7 @@ function vc_map_integrate_get_atts( $base_shortcode, $integrated_shortcode, $fie
 			if ( isset( $param['value'] ) ) {
 				if ( isset( $param['std'] ) ) {
 					$value = $param['std'];
-				} else if ( is_array( $param['value'] ) ) {
+				} elseif ( is_array( $param['value'] ) ) {
 					reset( $param['value'] );
 					$value = current( $param['value'] );
 				} else {
@@ -529,9 +552,9 @@ function vc_map_add_css_animation( $label = true ) {
 			__( 'Bottom to top', 'js_composer' ) => 'bottom-to-top',
 			__( 'Left to right', 'js_composer' ) => 'left-to-right',
 			__( 'Right to left', 'js_composer' ) => 'right-to-left',
-			__( 'Appear from center', 'js_composer' ) => 'appear'
+			__( 'Appear from center', 'js_composer' ) => 'appear',
 		),
-		'description' => __( 'Select type of animation for element to be animated when it "enters" the browsers viewport (Note: works only in modern browsers).', 'js_composer' )
+		'description' => __( 'Select type of animation for element to be animated when it "enters" the browsers viewport (Note: works only in modern browsers).', 'js_composer' ),
 	);
 
 	return apply_filters( 'vc_map_add_css_animation', $data, $label );
@@ -596,14 +619,26 @@ function vc_map_get_defaults( $tag ) {
 }
 
 /**
- * @param $tag - shortcode tag
+ * @param $tag - shortcode tag3
  * @param $atts - shortcode attributes
  *
- * @return array - return merged values with provided attributes ( 'a'=>1,'b'=>2 + 'b'=>3,'c'=>4 == 'a'=>1,'b'=>3 )
+ * @return array - return merged values with provided attributes ( 'a'=>1,'b'=>2 + 'b'=>3,'c'=>4 --> 'a'=>1,'b'=>3 )
  *
- * @see vc_shortcode_attribute_parse - return union of provided attributes ( 'a'=>1,'b'=>2 + 'b'=>3,'c'=>4 == 'a'=>1,
+ * @see vc_shortcode_attribute_parse - return union of provided attributes ( 'a'=>1,'b'=>2 + 'b'=>3,'c'=>4 --> 'a'=>1,
  *     'b'=>3, 'c'=>4 )
  */
 function vc_map_get_attributes( $tag, $atts = array() ) {
 	return shortcode_atts( vc_map_get_defaults( $tag ), $atts, $tag );
+}
+
+/**
+ * New Vc now called Frontend editor
+ * @deprecated 4.7
+ * @return Vc_Frontend_Editor
+ * @since 4.3
+ */
+function new_vc() {
+	// _deprecated_function( 'new_vc', '4.7 (will be removed in 4.10)', 'vc_frontend_editor' );
+
+	return vc_frontend_editor();
 }

@@ -28,7 +28,7 @@ function porto_load_sort_item_shortcode() {
                 "type" => "textfield",
                 "heading" => __("Filter Classes", "porto-shortcodes"),
                 "param_name" => "filter",
-                "desc" => __('Please add several identifying classes like "transition metal".', 'porto-shortcodes'),
+                "description" => __('Please add several identifying classes like "transition metal".', 'porto-shortcodes'),
                 "admin_label" => true
             ),
             array(

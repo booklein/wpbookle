@@ -65,6 +65,9 @@
         padding: 30px 20px;
         top: -10px;
         z-index: 2;
+        @media #{$screen-medium} {
+            top: 0;
+        }
         h3 {
             @if $dark == 1 {
                 background-color: $color-dark-3;
@@ -190,7 +193,6 @@
                     border-radius: 0;
                     border: 0;
                     background: #666;
-                    font-family: $font-primary;
                     font-size: 600;
                     box-shadow: none;
                     width: 100%;
@@ -250,7 +252,7 @@
 }
 
 /* Responsive */
-@media (max-width: 767px) {
+@media #{$screen-medium} {
 
     /* Pricing Tables */
     .pricing-table {

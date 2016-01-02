@@ -38,6 +38,10 @@
 .porto_vc_tooltip        { background-position: 0 -640px !important; }
 .porto_vc_popover        { background-position: 0 -672px !important; }
 .porto_vc_price_boxes,
-.porto_vc_price_box      { background-position: 0 -704px !important; }.porto_vc_sort_filters   { background-position: 0 -736px !important; }
+.porto_vc_price_box      { background-position: 0 -704px !important; }
+.porto_vc_sort_filters   { background-position: 0 -736px !important; }
 .porto_vc_sort_filter    { background-position: 0 -768px !important; }
-.porto_vc_preview_image     { background-position: 0 -256px !important; }
+.porto_vc_preview_image  { background-position: 0 -256px !important; }
+.porto_vc_sticky         { background-position: 0 -800px !important; }
+.porto_vc_sticky_nav     { background-position: 0 -832px !important; }
+.porto_vc_sticky_nav_link { background-position: 0 -864px !important; }

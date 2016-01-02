@@ -112,26 +112,31 @@ class MSP_Admin_Assets {
 	public function add_panel_variables() {
 
 		wp_localize_script( 'jquery', '__MSP_SKINS', msp_get_skins() );
+        global $mspdb;
+
+        $slider_alias = '';
 
 		// get and print slider id
 		if ( isset( $_REQUEST['slider_id'] ) ) {
 
 			$slider_id  = $_REQUEST['slider_id'];
 
-		} else {
-			global $mspdb;
-			$slider_id = 0;
+        } else {
 
-			if ( isset( $_REQUEST['action'] ) && 'add' == $_REQUEST['action'] ) {
-				$slider_id = $mspdb->add_slider( array( 'status' => 'draft' ) );
-				wp_localize_script( 'jquery', '__MSP_SLIDER_ID', (string) $slider_id );
-			}
-		}
+            $slider_id = 0;
+
+            if ( isset( $_REQUEST['action'] ) && 'add' == $_REQUEST['action'] ) {
+                $slider_id = $mspdb->add_slider( array( 'status' => 'draft' ) );
+                wp_localize_script( 'jquery', '__MSP_SLIDER_ID', (string) $slider_id );
+
+                $slider_alias = $mspdb->generate_slider_alias( $slider_id );
+                wp_localize_script( 'jquery', '__MSP_SLIDER_ALIAS', $slider_alias );
+            }
+        }
 
 		// Get and print panel data
 		if ( $slider_id ) {
 
-			global $mspdb;
 			$slider_data = $mspdb->get_slider( $slider_id );
 
 			$slider_type = isset( $slider_data[ 'type' ] ) ? $slider_data[ 'type' ] : 'custom';
@@ -148,10 +153,14 @@ class MSP_Admin_Assets {
 			$msp_preset_effect = empty( $msp_preset_effect ) ? NULL : $msp_preset_effect;
 			$msp_buttons_style = empty( $msp_buttons_style ) ? NULL : $msp_buttons_style;
 
-			wp_localize_script( 'jquery', '__MSP_DATA'			, $msp_data    );
+            if( empty( $slider_alias ) ){
+                $slider_alias  = isset( $slider_data[ 'alias' ] ) && ! empty( $slider_data[ 'alias' ] ) ? $slider_data[ 'alias' ] : $mspdb->generate_slider_alias( $slider_id );
+                wp_localize_script( 'jquery', '__MSP_SLIDER_ALIAS'  , $slider_alias );
+            }
+			wp_localize_script( 'jquery', '__MSP_DATA'			, $msp_data          );
 			wp_localize_script( 'jquery', '__MSP_PRESET_STYLE'  , $msp_preset_style  );
 			wp_localize_script( 'jquery', '__MSP_PRESET_EFFECT' , $msp_preset_effect );
-			wp_localize_script( 'jquery', '__MSP_TYPE'			, $slider_type );
+			wp_localize_script( 'jquery', '__MSP_TYPE'			, $slider_type       );
 			wp_localize_script( 'jquery', '__MSP_PRESET_BUTTON'	, $msp_buttons_style );
 		}
 

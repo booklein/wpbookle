@@ -5,6 +5,9 @@
     position: relative;
     text-decoration: none;
     max-width: 100%;
+    border-radius: $border-base;
+    backface-visibility: hidden;
+    @include transform(translate3d(0,0,0));
     &:hover {
         .thumb-info-action-icon {
             #{$right}: 0;
@@ -202,11 +205,19 @@
 /* Thumb Info Caption  */
 .thumb-info-caption {
     padding: 10px 0;
-    p {
+    .thumb-info-caption-text {
+        display: block;
+        margin: 0 0 8px;
         font-size: 0.9em;
         line-height: 20px;
-        margin: 0 0 8px;
         padding: 10px;
+        > *:last-child {
+            margin-bottom: 0;
+        }
+    }
+    p {
+        line-height: 20px;
+        margin: 0 0 8px;
     }
 }
 
@@ -218,7 +229,7 @@
         border-top: 1px dotted #ddd;
     }
     margin: 0;
-    padding: 15px 0;
+    padding: 15px 10px;
     display: block;
     a {
         border-radius: $thumb-link-border;

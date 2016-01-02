@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
+}
+
 /**
  * WPBakery Visual Composer shortcode attributes fields loader
  *
@@ -41,6 +45,7 @@ $vc_params_list = array(
 	'taxonomies',
 	'taxomonies',
 	'exploded_textarea',
+	'exploded_textarea_safe',
 	'textarea_raw_html',
 	'textarea_safe',
 	'textarea',

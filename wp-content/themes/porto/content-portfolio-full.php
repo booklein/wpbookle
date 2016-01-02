@@ -52,6 +52,16 @@ $portfolio_layout = 'full';
                         <i class="fa fa-tags"></i> <?php echo $cat_list ?>
                     </li>
                 <?php endif; ?>
+                <?php
+                if (function_exists('Post_Views_Counter') && Post_Views_Counter()->options['display']['position'] == 'manual') {
+                    $post_count = do_shortcode('[post-views]');
+                    if ($post_count) : ?>
+                        <li>
+                            <?php echo $post_count ?>
+                        </li>
+                    <?php endif;
+                }
+                ?>
             </ul>
         </div>
 
@@ -93,7 +103,7 @@ $portfolio_layout = 'full';
             <div class="post-gap"></div>
         <?php endif; ?>
 
-        <ul class="portfolio-details inline clearfix">
+        <ul class="portfolio-details inline">
             <?php
             if ($skill_list) : ?>
                 <li>

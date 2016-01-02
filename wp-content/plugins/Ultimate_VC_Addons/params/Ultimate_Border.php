@@ -7,21 +7,29 @@ if(!class_exists('Ultimate_Border'))
     function __construct()
     {
       add_action( 'admin_enqueue_scripts', array( $this, 'ultimate_border_param_scripts' ) );
-     
-      if(function_exists('add_shortcode_param'))
-      {
-        add_shortcode_param('ultimate_border', array($this, 'ultimate_border_callback'), plugins_url('../admin/vc_extend/js/ultimate-border.js',__FILE__));
+
+      if(defined('WPB_VC_VERSION') && version_compare(WPB_VC_VERSION, 4.8) >= 0) {
+        if(function_exists('vc_add_shortcode_param'))
+        {
+          vc_add_shortcode_param('ultimate_border', array($this, 'ultimate_border_callback'), plugins_url('../admin/vc_extend/js/ultimate-border.js',__FILE__));
+        }
+      }
+      else {
+        if(function_exists('add_shortcode_param'))
+        {
+          add_shortcode_param('ultimate_border', array($this, 'ultimate_border_callback'), plugins_url('../admin/vc_extend/js/ultimate-border.js',__FILE__));
+        }
       }
     }
-    
+
     function ultimate_border_callback($settings, $value)
     {
-        $dependency = vc_generate_dependencies_attributes($settings);
+        $dependency = '';
         $positions = $settings['positions'];
         $enable_radius = isset($settings['enable_radius']) ? $settings['enable_radius'] : true ;
         $label = isset($settings['label_border']) ? $settings['label_border'] : 'Border Style';
         $unit = isset($settings['unit']) ? $settings['unit'] : 'px';
-        
+
         $uid = 'ultimate-border-'. rand(1000, 9999); //$settings['param_name'];
         //$uid = uniqid('ultimate-border-'. $settings['param_name'] .'-'. rand());
           $html  = '<div class="ultimate-border" id="'.$uid.'" data-unit="'.$unit.'" >';
@@ -110,7 +118,7 @@ if(!class_exists('Ultimate_Border'))
           $html .= '</div>';
           $html .= '</div><!-- .ultimate-four-input-section -->';
 
-                  
+
         /**    BORDER - {RADIUS}
          *---------------------------------------------------*/
         if($enable_radius) :
@@ -193,7 +201,7 @@ if(!class_exists('Ultimate_Border'))
         $html .= '      <input name="" class="ultimate-colorpicker cs-wp-color-picker" data-id="border-color" type="text" value="" />';
         $html .= '    </div>';
         $html .= '  </div>';
-        
+
         $html .= '  <input type="hidden" data-unit="'.$unit.'" name="'.$settings['param_name'].'" class="wpb_vc_param_value ultimate-border-value '.$settings['param_name'].' '.$settings['type'].'_field" value="'.$value.'" '.$dependency.' />';
         $html .= '</div>';
       return $html;
@@ -226,7 +234,7 @@ if(!class_exists('Ultimate_Border'))
             wp_enqueue_style( 'wp-color-picker' );
             wp_enqueue_style( 'ultimate-border-style');
             wp_enqueue_style( 'ultimate-chosen-style');
-          
+
             wp_enqueue_script('ultimate-chosen-script');
           }
         }

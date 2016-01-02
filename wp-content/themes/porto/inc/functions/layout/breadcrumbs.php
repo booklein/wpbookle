@@ -230,7 +230,12 @@ function porto_breadcrumb_leaf( $object_type = '' ) {
             $title = $user->display_name;
             break;
         case 'search':
-            $title = sprintf( __( 'Search - %s', 'porto' ), esc_html( get_search_query() ) );
+            $search = esc_html( get_search_query() );
+            if ( $product_cat = get_query_var('product_cat') ) {
+                $product_cat = get_term_by('slug', $product_cat, 'product_cat');
+                $search = '<a href="' . get_term_link($product_cat, 'product_cat') . '">' . esc_html( $product_cat->name ) . '</a>' . ( $search ? ' / ' : '' ) . $search;
+            }
+            $title = sprintf( __( 'Search - %s', 'porto' ), $search );
             break;
         case '404':
             $title = __( '404', 'porto' );
@@ -274,7 +279,7 @@ function porto_breadcrumbs_shop_link( $linked = true ) {
             $shop_page_name = $post_type_object->labels->name;
         }
         if ($linked ) {
-            $link = $shop_page_id ? get_permalink($shop_page_id) : get_post_type_archive_link( $post_type );
+            $link = $shop_page_id !== -1 ? get_permalink($shop_page_id) : get_post_type_archive_link( $post_type );
         }
         $output .= porto_breadcrumbs_link( $shop_page_name, $link );
     }

@@ -56,8 +56,8 @@
     }
     var r = "ulttooltipster",
         i = {
-        	/*ultContentSize: "auto", 		      /* ultimate */
-        	/*ultContainerWidth: "auto",*/ 		/* ultimate */
+            /*ultContentSize: "auto",             /* ultimate */
+            /*ultContainerWidth: "auto",*/      /* ultimate */
             animation: "fade",
             arrow: true,
             arrowColor: "",
@@ -104,7 +104,11 @@
             theme: "ult-tooltipster-default",
             touchDevices: true,
             trigger: "hover",
-            updateAnimation: true
+            updateAnimation: true,
+            ult_adv_id: 0,
+            ultimate_target: 0,
+            responsive_json_new: 0,
+            
         };
     s.prototype = {
         _init: function() {
@@ -156,6 +160,108 @@
                     })
                 }
             }
+            // t._responsive();
+        },
+        _responsive: function(){
+
+                /**
+                 *  init variables
+                 */
+                 var    large_screen        = '',
+                        desktop             = '',
+                        tablet              = '',
+                        tablet_portrait     = '',
+                        mobile_landscape    = '',
+                        mobile              = '';
+
+                /**
+                 *  generate responsive @media css
+                 *------------------------------------------------------------*/
+                jQuery(".ult-responsive").each(function(index, element) {
+
+                    var t                       = jQuery(element),
+                        n                       = t.attr('data-responsive-json-new'),
+                        target                  = t.data('ultimate-target'),
+                        temp_large_screen       = '',
+                        temp_desktop            = '',
+                        temp_tablet             = '',
+                        temp_tablet_portrait    = '',
+                        temp_mobile_landscape   = '',
+                        temp_mobile             = '';
+
+
+                    //  jUST FOR TESTING
+                    //  CHECK FOR TOOLTIP ONLY
+                    if( jQuery(element).hasClass('ult-tooltipster-content') ) {
+                        // console.log('n : ' + JSON.stringify(n) );
+                        // console.log('target : ' + target );
+                    }
+
+                    if (typeof n != "undefined" || n != null) {
+                        jQuery.each(jQuery.parseJSON(n), function (i, v) {
+                            // set css property
+                            var css_prop = i;
+                            if (typeof v != "undefined" && v != null) {
+                                var vals = v.split(";");
+                                jQuery.each(vals, function(i, vl) {
+                                    if (typeof vl != "undefined" || vl != null) {
+                                        var splitval = vl.split(":");
+                                        switch(splitval[0]) {
+                                            case 'large_screen':    temp_large_screen       += css_prop+":"+splitval[1]+";"; break;
+                                            case 'desktop':         temp_desktop            += css_prop+":"+splitval[1]+";"; break;
+                                            case 'tablet':          temp_tablet             += css_prop+":"+splitval[1]+";"; break;
+                                            case 'tablet_portrait': temp_tablet_portrait    += css_prop+":"+splitval[1]+";"; break;
+                                            case 'mobile_landscape':temp_mobile_landscape   += css_prop+":"+splitval[1]+";"; break;
+                                            case 'mobile':          temp_mobile             += css_prop+":"+splitval[1]+";"; break;
+                                        }
+                                    }
+                                });                 
+                            }
+                        });
+                    }
+
+                    /*  
+                     *      REMOVE Comments for TESTING
+                     *-------------------------------------------*/
+                    //if(temp_mobile!='') {             mobile              += '\n\t'+ target+ " { \t\t"+temp_mobile+" \t}"; }
+                    //if(temp_mobile_landscape!='') { mobile_landscape  += '\n\t'+ target+ " { \t\t"+temp_mobile_landscape+" \t}"; }
+                    //if(temp_tablet_portrait!='') { tablet_portrait        += '\n\t'+ target+ " { \t\t"+temp_tablet_portrait+" \t}"; }
+                    //if(temp_tablet!='') {             tablet              += '\n\t'+ target+ " { \t\t"+temp_tablet+" \t}"; }
+                    //if(temp_desktop!='') {            desktop             += '\n\t'+ target+ " { \t\t"+temp_desktop+" \t}"; }
+                    //if(temp_large_screen!='') {   large_screen        += '\n\t'+ target+ " { \t\t"+temp_large_screen+" \t}"; }
+
+                    if(temp_mobile!='') {           mobile              += target+ '{'+temp_mobile+'}'; }
+                    if(temp_mobile_landscape!='') { mobile_landscape    += target+ '{'+temp_mobile_landscape+'}'; }
+                    if(temp_tablet_portrait!='') { tablet_portrait      += target+ '{'+temp_tablet_portrait+'}'; }
+                    if(temp_tablet!='') {           tablet              += target+ '{'+temp_tablet+'}'; }
+                    if(temp_desktop!='') {          desktop             += target+ '{'+temp_desktop+'}'; }
+                    if(temp_large_screen!='') {     large_screen        += target+ '{'+temp_large_screen+'}'; }
+                });
+
+            /*  
+             *      REMOVE Comments for TESTING
+             *-------------------------------------------*/
+            var UltimateMedia      = '<style>\n/** Ultimate: Tooltipster Responsive **/ ';
+             UltimateMedia   += desktop;
+             UltimateMedia   += "\n@media (min-width: 1824px) { "+ large_screen      +"\n}";
+             UltimateMedia   += "\n@media (max-width: 1199px) { "+ tablet            +"\n}";
+             UltimateMedia   += "\n@media (max-width: 991px)  { "+ tablet_portrait   +"\n}";
+             UltimateMedia   += "\n@media (max-width: 767px)  { "+ mobile_landscape  +"\n}";
+             UltimateMedia   += "\n@media (max-width: 479px)  { "+ mobile            +"\n}";
+             UltimateMedia   += '\n/** Ultimate: Tooltipster Responsive - **/</style>';    
+             jQuery('head').append(UltimateMedia);
+             //console.log(UltimateMedia);
+
+            // var UltimateMedia    = '<style>/** Ultimate: Tooltipster Responsive **/ ';
+            //     UltimateMedia   += desktop;
+            //     /*UltimateMedia += "@media (min-width: 1824px) { "+ large_screen        +"}";*/
+            //     UltimateMedia   += "@media (max-width: 1199px) { "+ tablet              +"}";
+            //     UltimateMedia   += "@media (max-width: 991px)  { "+ tablet_portrait     +"}";
+            //     UltimateMedia   += "@media (max-width: 767px)  { "+ mobile_landscape    +"}";
+            //     UltimateMedia   += "@media (max-width: 479px)  { "+ mobile              +"}";
+            //     UltimateMedia   += '/** Ultimate: Tooltipster Responsive - **/</style>';  
+            //     jQuery('head').append(UltimateMedia);
+            //     //console.log(UltimateMedia);
         },
         _show: function() {
             var e = this;
@@ -164,10 +270,12 @@
                     e.timerShow = setTimeout(function() {
                         if (e.options.trigger == "click" || e.options.trigger == "hover" && e.mouseIsOverProxy) {
                             e._showNow()
+                            e._responsive()
                         }
                     }, e.options.delay)
                 } else e._showNow()
             }
+            e._responsive()
         },
         _showNow: function(n) {
             var r = this;
@@ -236,7 +344,7 @@
                             h = r.options.interactive ? "pointer-events: auto;" : "";
                         BaseStyle    = BaseStyle + ' ' +f+ ' ' +c+' ' +h+' ' +a;
 
-                        r.$tooltip = e('<div class="ult-tooltipster-base ' + r.options.theme + '" style="'+BaseStyle+'"><div class="ult-tooltipster-content" style="'+contentStyle+'"></div></div>');
+                        r.$tooltip = e('<div id="'+r.options.ult_adv_id+'" class="ult-tooltipster-base ' + r.options.theme + '" style="'+BaseStyle+'"><div class="ult-tooltipster-content ult-responsive" data-ultimate-target="'+r.options.ultimate_target+'" data-responsive-json-new = \''+r.options.responsive_json_new+'\' style="'+contentStyle+'"></div></div>');
                         /*r.$tooltip = e('<div class="ult-tooltipster-base ' + r.options.theme + '" style="' + ultCW + " " + f + " " + c + " " + h + " " + a + '"><div class="ult-tooltipster-content" style="'+ultSize+'"></div></div>');*/
                         if (l()) r.$tooltip.addClass(o);
                         r._content_insert();
@@ -740,7 +848,7 @@
                         X = '<span class="ult-tooltipster-arrow-border" style="' + V + " " + J + ';"></span>'
                     }
                     n.$tooltip.find(".ult-tooltipster-arrow").remove();
-                    var K = '<div class="' + R + ' ult-tooltipster-arrow" style="' + r + '">' + X + '<span style="border-color:' + U + ';"></span></div>';
+                    var K = '<div class="' + R + ' ult-tooltipster-arrow" style="' + r + '">' + X + '<span style="border-color:' + U + ';" ></span></div>';
                     n.$tooltip.append(K)
                 }
 
@@ -766,8 +874,6 @@
             if (t.$el[0] !== t.$elProxy[0]) t.$elProxy.remove();
             t.$el.removeData(t.namespace).off("." + t.namespace);
             var n = t.$el.data("ult-tooltipster-ns");
-            if(typeof n === 'undefined')
-                return false;
             if (n.length === 1) {
                 var r = typeof t.Content === "string" ? t.Content : e("<div></div>").append(t.Content).html();
                 t.$el.removeClass("ult-tooltipstered").attr("title", r).removeData(t.namespace).removeData("ult-tooltipster-ns").off("." + t.namespace)

@@ -14,27 +14,27 @@ if(!class_exists("WooComposer")){
 		} /* end constructor */
 		function generate_shortcode_params(){
 			/* Generate param type "woocomposer" */
-			if(function_exists('add_shortcode_param'))
-			{
-				add_shortcode_param('woocomposer', array($this,'woo_query_builder'), plugins_url("admin/js/mapping.js",__FILE__));
+			if(defined('WPB_VC_VERSION') && version_compare(WPB_VC_VERSION, 4.8) >= 0) {
+				if(function_exists('vc_add_shortcode_param'))
+				{
+					vc_add_shortcode_param('woocomposer', array($this,'woo_query_builder'), plugins_url("admin/js/mapping.js",__FILE__));
+					vc_add_shortcode_param('product_search', array($this,'woo_product_search'));
+					vc_add_shortcode_param('product_categories', array($this,'woo_product_categories'));
+				}
 			}
-			
-			/* Generate param type "product_search" */
-			if(function_exists('add_shortcode_param'))
-			{
-				add_shortcode_param('product_search', array($this,'woo_product_search'));
-			}
-			/* Generate param type "product_categories" */
-			if(function_exists('add_shortcode_param'))
-			{
-				add_shortcode_param('product_categories', array($this,'woo_product_categories'));
+			else {
+				if(function_exists('add_shortcode_param')) {
+					add_shortcode_param('woocomposer', array($this,'woo_query_builder'), plugins_url("admin/js/mapping.js",__FILE__));
+					add_shortcode_param('product_search', array($this,'woo_product_search'));
+					add_shortcode_param('product_categories', array($this,'woo_product_categories'));
+				}
 			}
 		}
 
 		function woo_query_builder($settings, $value)
 		{
 			$output = $asc = $desc = $post_count = $shortcode_str = $cat_id = '';
-			$labels = isset($settings['labels']) ? $settings['labels'] : ''; 
+			$labels = isset($settings['labels']) ? $settings['labels'] : '';
 			$pattern = get_shortcode_regex();
 			if($value !== ""){
 				$shortcode = rawurldecode( base64_decode( strip_tags( $value ) ) );
@@ -50,13 +50,13 @@ if(!class_exists("WooComposer")){
 			if(!isset($orderby)): $orderby = 'date'; endif;
 			if(!isset($category)): $category = ''; endif;
 			$catObj = get_term_by('name',$category,'product_cat');
-			if(is_object($catObj)){ 
+			if(is_object($catObj)){
   				$cat_id = $catObj->term_id;
 			}
 			$param_name = isset($settings['param_name']) ? $settings['param_name'] : '';
 			$type = isset($settings['type']) ? $settings['type'] : '';
 			$class = isset($settings['class']) ? $settings['class'] : '';
-			$module = isset($settings['module']) ? $settings['module'] : ''; 
+			$module = isset($settings['module']) ? $settings['module'] : '';
 			$displays = array(
 				__("Recent products","ultimate_vc") => "recent_products",
 				__("Featured Products","ultimate_vc") => "featured_products",
@@ -118,7 +118,7 @@ if(!class_exists("WooComposer")){
 			$param_name = isset($settings['param_name']) ? $settings['param_name'] : '';
 			$type = isset($settings['type']) ? $settings['type'] : '';
 			$class = isset($settings['class']) ? $settings['class'] : '';
-			
+
 			$products_array = new WP_Query(array(
 								'post_type' => 'product',
 								'posts_per_page' => -1,
@@ -167,7 +167,7 @@ if(!class_exists("WooComposer")){
 				$output .= '<option '.$selected.' value="'.$cat->term_id.'">'. __($cat->name,'ultimate_vc') .'</option>';
 			}
 			$output .= '</select>';
-			
+
 			$output .= "<input type='hidden' name='".$param_name."' value='".$value."' class='wpb_vc_param_value ".$param_name." ".$type." ".$class."' id='sel_cat'>";
 			$output .= '<script type="text/javascript">
 							jQuery("#sel2_cat").select2({
@@ -179,14 +179,14 @@ if(!class_exists("WooComposer")){
 							});
 						</script>';
 			return $output;
-			
+
 		} /* end woo_product_categories*/
 		function admin_scripts($hook)
 		{
 			if($hook == "post.php" || $hook == "post-new.php"){
 				if(defined('WOOCOMMERCE_VERSION') && version_compare( '2.1.0', WOOCOMMERCE_VERSION, '<' )) {
 					$bsf_dev_mode = bsf_get_option('dev_mode');
-					if($bsf_dev_mode === 'enable') { 
+					if($bsf_dev_mode === 'enable') {
 						wp_register_style("woocomposer-admin",plugins_url("admin/css/admin.css",__FILE__));
 						wp_register_style("woocomposer-select2-bootstrap",plugins_url("admin/css/select2-bootstrap.css",__FILE__));
 						wp_register_style("woocomposer-select2",plugins_url("admin/css/select2.css",__FILE__));
@@ -224,7 +224,7 @@ if(!class_exists("WooComposer")){
 				$shortcodes = array('woocomposer_product','woocomposer_list','woocomposer_grid','woocomposer_grid_cat','woocomposer_carousel_cat','woocomposer_carousel');
 				foreach($shortcodes as $shortcode){
 					if(has_shortcode($content, $shortcode)) {
-						$count++;	
+						$count++;
 					}
 				}
 
@@ -239,7 +239,7 @@ if(!class_exists("WooComposer")){
 
 				wp_register_script('woocomposer-script',plugins_url('assets/js/woocomposer.min.js',__FILE__),array('jquery'),WOOCOMPOSER_VERSION,true);
 				wp_register_style('woocomposer-style',plugins_url('assets/css/woocomposer.min.css',__FILE__),array(),WOOCOMPOSER_VERSION);
-				
+
 				if(defined('WOOCOMMERCE_VERSION') && version_compare( '2.1.0', WOOCOMMERCE_VERSION, '<' ) && $count !== 0) {
 					$ultimate_css = get_option('ultimate_css');
 					$bsf_dev_mode = bsf_get_option('dev_mode');
@@ -252,8 +252,8 @@ if(!class_exists("WooComposer")){
 						wp_enqueue_style("woocomposer-front-slick");
 						wp_enqueue_style("woocomposer-animate");
 					}
-					
-					$ultimate_js = get_option('ultimate_js'); 
+
+					$ultimate_js = get_option('ultimate_js');
 					wp_enqueue_script('jquery');
 					if($ultimate_js == 'enable') {
 						wp_enqueue_script("woocomposer-script");
@@ -281,14 +281,14 @@ if(!class_exists("WooComposer")){
 			add_action( 'admin_notices', 'woocomposer_admin_notice_for_vc_activation');
 			add_action( 'network_admin_notices', 'woocomposer_admin_notice_for_vc_activation');
 		}
-		
+
 	}/* end init_addons */
 	function woocomposer_admin_notice_for_version()
 	{
 		$is_multisite = is_multisite();
 		$is_network_admin = is_network_admin();
 		if(($is_multisite && $is_network_admin) || !$is_multisite)
-			echo '<div class="updated"><p>'.__('The','ultimate_vc').' <strong>WooComposer</strong> '.__('plugin requires','ultimate_vc').' <strong>Visual Composer</strong> '.__('version 3.7.2 or greater.','ultimate_vc').'</p></div>';	
+			echo '<div class="updated"><p>'.__('The','ultimate_vc').' <strong>WooComposer</strong> '.__('plugin requires','ultimate_vc').' <strong>Visual Composer</strong> '.__('version 3.7.2 or greater.','ultimate_vc').'</p></div>';
 	}
 	function woocomposer_admin_notice_for_vc_activation()
 	{
@@ -302,12 +302,12 @@ if(!class_exists("WooComposer")){
 // check the current post for the existence of a short code
 if(!function_exists("has_shortcode")){
 	function has_shortcode($shortcode = '') {
-		 
+
 		$post_to_check = get_post(get_the_ID());
-		 
+
 		// false because we have to search through the post content first
 		$found = false;
-		 
+
 		// if no short code was provided, return false
 		if (!$shortcode) {
 			return $found;
@@ -317,7 +317,7 @@ if(!function_exists("has_shortcode")){
 			// we have found the short code
 			$found = true;
 		}
-		 
+
 		// return our final results
 		return $found;
 	}

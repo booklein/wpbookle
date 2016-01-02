@@ -129,6 +129,8 @@ function porto_demo_types() {
         '_20' => array('alt' => __('Demo 20', 'porto'), 'img' => porto_options_uri.'/demos/demo_20.jpg'),
         '_21' => array('alt' => __('Demo 21', 'porto'), 'img' => porto_options_uri.'/demos/demo_21.jpg'),
         '_22' => array('alt' => __('Demo 22', 'porto'), 'img' => porto_options_uri.'/demos/demo_22.jpg'),
+        '_23' => array('alt' => __('Demo 23', 'porto'), 'img' => porto_options_uri.'/demos/demo_23.jpg'),
+        '_24' => array('alt' => __('Demo 24', 'porto'), 'img' => porto_options_uri.'/demos/demo_24.jpg'),
         '_rtl' => array('alt' => __('RTL Demo', 'porto'), 'img' => porto_options_uri.'/demos/demo_rtl.jpg'),
 
 

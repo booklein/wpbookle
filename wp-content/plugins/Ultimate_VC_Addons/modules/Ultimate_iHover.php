@@ -2,12 +2,12 @@
   if(!class_exists('ULT_iHover')) {
 	class ULT_iHover {
 		function __construct() {
-			
+
 			add_shortcode("ult_ihover",array($this,"ult_ihover_callback"));
 			add_shortcode("ult_ihover_item",array($this,"ult_ihover_item_callback"));
-			
+
 			add_action( 'init', array( $this, 'ult_ihover_init' ) );
-			
+
 			add_action( 'wp_enqueue_scripts', array( $this, 'ult_ihover_scripts' ), 1 );
 		}
 		function ult_ihover_callback($atts, $content = null){
@@ -16,7 +16,7 @@
 
 		  $glob_gutter_width = $glob_thumb_height_width = $glob_ihover_shape = /* $glob_ihover_effect = $glob_ihover_effectdirection = $glob_ihover_effectscale */  '';
 		  $thumb_height_width = $res_thumb_height_width = $thumb_shape = $el_class = $output = '';
-		  
+
 		  extract( shortcode_atts( array(
 				  'thumb_shape' 			=>	'circle',
 				  'el_class' 				=>	'',
@@ -26,7 +26,8 @@
 				  'align'					=>	'center',
 				  'gutter_width'			=> 	'30',
 			  ), $atts ) );
-		  		  
+		  	$vc_version = (defined('WPB_VC_VERSION')) ? WPB_VC_VERSION : 0;
+			$is_vc_49_plus = (version_compare(4.9, $vc_version, '<=')) ? 'ult-adjust-bottom-margin' : '';
 			  /* 		Shape
 			   *--------------------------------------*/
 			  $shape = '';
@@ -56,13 +57,13 @@
 						$res_height = ' data-res_height="' .thumb_height_width. " ';
 					}
 			  }*/
-			  
-		  
+
+
 			  /*		Gutter Width
 			   *--------------------------------------*/
 			  if($gutter_width!='') : 	$glob_gutter_width = $gutter_width;
 			  endif;
-		  		  
+
 			  /* 		Extra Class
 			   *--------------------------------------*/
 			  $exClass = '';
@@ -76,12 +77,12 @@
 		  //	If effect-5
 		  //$output 	.= 	'			<div class="ult-ih-spinner"></div>';
 
-		  $output 	.= 	'<div class="ult-ih-container ' .$exClass. ' " >';
+		  $output 	.= 	'<div class="ult-ih-container '.$is_vc_49_plus.' ' .$exClass. ' " >';
 		  $output 	.= 	'	<ul class="ult-ih-list " ' .$shape. '' .$width. '' .$height. '' .$res_width. '' .$res_height. ' style="'.$containerStyle.'">';
-		  $output 	.= 			do_shortcode($content); 
+		  $output 	.= 			do_shortcode($content);
 		  $output 	.= 	'	</ul>';
 		  $output 	.= 	'</div>';
-		  
+
 		  return $output;
 		}
 		function ult_ihover_item_callback($atts, $content = null){
@@ -89,7 +90,7 @@
 		  global $glob_gutter_width;
 		  global $glob_thumb_height_width;
 		  global $glob_ihover_effectdirection;
-		  
+
 		  //	Item
 		  $title_margin = $divider_margin = $description_margin = $spacer_border = $spacer_border_color = $spacer_width = $spacer_border_width = $thumbnail_border_styling = $block_border_color	= $block_border_size = $block_link = $info_color_bg = $effect_direction = $title_text_typography = $title_font = $title_font_style = $title_responsive_font_size = $title_responsive_font_line_height = $title_font_color = $desc_text_typography = $desc_font = $desc_font_style = $desc_font_size = $desc_font_line_height = $desc_font_color = $itemOutput = $title = $itemOutput = '';
 		  extract( shortcode_atts( array(
@@ -127,7 +128,7 @@
 				  'divider_margin'				=> 	'',
 				  'description_margin'			=> 	'',
 			  ), $atts ) );
-				
+
 			  $content = wpb_js_remove_wpautop($content, true); // fix unclosed/unwanted paragraph tags in $content
 
 			  $info_style 				= '';
@@ -135,9 +136,9 @@
 			  $desc_style 				= '';
 			  $thumbnail_border_style	= '';
 			 // $font_args = array();
-		  
+
 			  if($info_color_bg != '') :		$info_style .= 'background-color: ' .$info_color_bg. '; ';		endif;
-		  
+
 			  if($title_font != '') {
 				  $font_family = get_ultimate_font_family($title_font);
 				  $title_style .= 'font-family:\''.$font_family.'\';';
@@ -145,7 +146,7 @@
 			  }
 			  if($title_font_style != '') { $title_style .= get_ultimate_font_style($title_font_style); }
 			  if($title_font_color != '') { $title_style .= 'color:'.$title_font_color.';'; }
-						  
+
 			  if($desc_font != '') {
 				  $font_family = get_ultimate_font_family($desc_font);
 				  $desc_style .= 'font-family:\''.$font_family.'\';';
@@ -154,7 +155,7 @@
 			  if($desc_font_style != '') { $desc_style .= get_ultimate_font_style($desc_font_style); }
 			  if($desc_font_color != '') { $desc_style .= 'color:'.$desc_font_color.';'; }
 			  //enquque_ultimate_google_fonts($font_args);
-		  
+
 			  $spacer_line_style = $spacer_style = '';
 			  if($spacer_border!=''){
 				  $spacer_line_style .="border-style:".$spacer_border.";";
@@ -170,11 +171,11 @@
 					  $spacer_style .="height:".$spacer_border_width."px;";
 				  }
 			  }
-		  
+
 			  $thumb_url = '';
 			  if($thumb_img != '') {
 
-				  $img 		= apply_filters('ult_get_img_single', $thumb_img, 'url');				
+				  $img 		= apply_filters('ult_get_img_single', $thumb_img, 'url');
 				  $thumb_url  = $img;
 			  }
 
@@ -189,7 +190,7 @@
 				  $HeightWidth .= "height: " .$glob_thumb_height_width. "px; ";
 				  $HeightWidth .= "width: " .$glob_thumb_height_width. "px; ";
 			  }
-			  
+
 			  $effect = '';
 			  if($hover_effect!='') :
 				  $effect 			= $hover_effect;
@@ -200,7 +201,7 @@
 				  case 'effect6':	if($effect_scale!='') :  	$Scale = 'ult-ih-' .$effect_scale; 	endif;
 								  break;
 			  }
-		  
+
 			  //	Directions: [left, right, top, bottom]
 			  $Direction = '';
 			  switch ($effect) {
@@ -217,33 +218,33 @@
 				  case 'effect18':	if($effect_direction!='') : $Direction = 'ult-ih-' .$effect_direction;	endif;
 									  break;
 			  }
-		  
+
 			  $TopBottom = '';
 			  switch ($effect) {
 				  case 'effect10':
-		  
+
 				  case 'effect1':
 									  if($effect_top_bottom!='') :	$TopBottom = 'ult-ih-' .$effect_top_bottom;		endif;
 									  break;
 			  }
-		  
+
 			  $LeftRight = '';
 			  switch ($effect) {
 				  case 'effect16':
 									  if($effect_left_right!='') :	$LeftRight = 'ult-ih-' .$effect_left_right;		endif;
 									  break;
 			  }
-		  	
+
 			  $GutterMargin = '';
 			  if($glob_gutter_width != '') {
 				  $GutterMargin = 'margin: '.($glob_gutter_width / 2). 'px';
 			  }
-		  
+
 			  $heading_block = $description_block = '';
 			  if($title_margin!='') 		{ 	$heading_block 		.= $title_margin;	}
 			  if($description_margin!='') 	{	$description_block 	.= $description_margin;	}
 			  if($divider_margin!='') 		{	$spacer_style		.= $divider_margin;	}
-		  
+
 			  $url = '#';
 			  $link_title = $target = '';
 			  if($block_link !=''){
@@ -252,9 +253,9 @@
 				  $link_title	=	'title="'.$href['title'].'" ';
 				  $target		=	'target="'.trim($href['target']).'" ';
 			  }
-			  
+
 			$item_id = 'ult-ih-list-item-'. rand(1000,9999);
-		  
+
 		  	//responsive font size and line height for title
 		  	$args = array(
 		  		'target'		=>	'#'.$item_id.' .ult-ih-heading',
@@ -264,7 +265,7 @@
 				),
 		  	);
 			$title_responsive = get_ultimate_vc_responsive_media_css($args);
-			
+
 			//resposnive font size and line height for description
 			$args = array(
 		  		'target'		=>	'#'.$item_id.' .ult-ih-description, #'.$item_id.' .ult-ih-description p',
@@ -274,7 +275,7 @@
 				),
 		  	);
 			$desc_responsive = get_ultimate_vc_responsive_media_css($args);
-		  
+
 			$itemOutput			.=	'<li id="'.$item_id.'" class="ult-ih-list-item" style="' .$HeightWidth. ' ' .$GutterMargin. '">';
 			if($block_click!='') {
 				$itemOutput 	.= 	'<a class="ult-ih-link" href="' .$url. '" ' .$target. ' ' .$link_title. '><div style="' .$HeightWidth. '" class="ult-ih-item ult-ih-' .$effect. ' ' .$LeftRight.' ' .$Direction. ' ' .$Scale. ' ' .$TopBottom. '">';
@@ -283,7 +284,7 @@
 			  }
 
 			  switch ($effect) {
-		  
+
 				  case 'effect8':
 								  $itemOutput 	.= 	'<div class="ult-ih-image-block-container">';
 								  $itemOutput 	.= 	'	<div class="ult-ih-image-block" style="' .$HeightWidth. '">';
@@ -299,11 +300,11 @@
 					  			  $itemOutput 	.= 	'</div>';
 
 					  break;
-		  
+
 				  case 'effect1':
 				  case 'effect5':
 				  case 'effect18':
-		  
+
 					  $itemOutput 	.= 	'<div class="ult-ih-image-block" style="' .$HeightWidth. '">';
 					  $itemOutput 	.= 	'	<div class="ult-ih-wrapper" style="' .$thumbnail_border_style. '"></div>';
 					  $itemOutput 	.= 	'	<img class="ult-ih-image" src="' .$thumb_url. '" alt="">';
@@ -311,15 +312,15 @@
 
 					  $itemOutput 	.= 	'<div class="ult-ih-info" >';
 					  $itemOutput 	.= 	'	<div class="ult-ih-info-back" style="' .$info_style. '">';
-					  
+
 					  $itemOutput 	.= 	$this->commonStructure($desc_responsive, $title_responsive, $heading_block, $title_style, $title, $spacer_style, $spacer_line_style, $description_block, $desc_style, $content);
-					  
+
 					  $itemOutput 	.= 	'	</div>';
 					  $itemOutput 	.= 	'</div>';
 					  break;
-		  
+
 				  default:
-		  
+
 					  $itemOutput 	.= 	'<div class="ult-ih-image-block" style="' .$HeightWidth. '">';
 					  $itemOutput 	.= 	'	<div class="ult-ih-wrapper" style="' .$thumbnail_border_style. '"></div>';
 					  $itemOutput 	.= 	'	<img class="ult-ih-image" src="' .$thumb_url. '" alt="">';
@@ -341,13 +342,13 @@
 			  	$itemOutput 	.= 	'</div>';
 			  }
 			  $itemOutput 	.= 	'</li>';
-			
+
 		   	return $itemOutput;
 		}
 
 		function commonStructure($desc_responsive, $title_responsive, $heading_block, $title_style, $title, $spacer_style, $spacer_line_style, $description_block, $desc_style, $content) {
 			$itemOutput = '';
-			
+
 			$itemOutput .='	<div class="ult-ih-content">';
 
 			$itemOutput .='			<div class="ult-ih-heading-block" style="' .$heading_block. '">';
@@ -369,7 +370,7 @@
 
 			return $itemOutput; 	//ob_get_clean();
 		}
-		
+
 		function ult_ihover_init() {
 			  //Register "container" content element. It will hold all your inner (child) content elements
 			  if(function_exists("vc_map")){
@@ -463,7 +464,7 @@
 					  ),
 					  "js_view" => 'VcColumnView'
 				  ) );
-	  
+
 				  vc_map( array(
 					  "name" => __("iHover Item", "ultimate_vc"),
 					  "base" => "ult_ihover_item",
@@ -601,7 +602,7 @@
 								/*"Image Lightbox" 	=> "image_lightbox",*/
 							  ),
 							 /* "description" => __("Add .", 'ultimate')*/
-						  ),	  
+						  ),
 						  array(
 							  "type" => "vc_link",
 							  "class" => "",
@@ -678,8 +679,8 @@
 							  /*"description" => __("Thickness of the Thumbnail Border.", "ultimate"),*/
 							  "dependency" => array("element" => "thumbnail_border_styling", "value" => "solid" ),
 							  "group" => "Design",
-						  ),	                
-	  
+						  ),
+
 						  //	Divider
 						  array(
 							  "type" => "ult_param_heading",
@@ -703,7 +704,7 @@
 								__("Outset","ultimate_vc") => "outset",
 								__("None","ultimate_vc") => "none",
 							  ),
-							  "description" => __("Select Heading & Description's Divider Border Style.", "ultimate_vc"),  
+							  "description" => __("Select Heading & Description's Divider Border Style.", "ultimate_vc"),
 							  "group" => "Design"
 						  ),
  						  array(
@@ -712,7 +713,7 @@
 							  "heading" => __("Divider - Border Color", "ultimate_vc"),
 							  "param_name" => "spacer_border_color",
 							  "value" => "rgba(255,255,255,0.75)",
-							  "description" => __("Select Divider Border Color.", "ultimate_vc"),  
+							  "description" => __("Select Divider Border Color.", "ultimate_vc"),
 							  "dependency" => array("element" => "spacer_border", "value" => array("solid", "dashed", "dotted", "double", "inset", "outset") ),
 							  "group" => "Design"
 						  ),
@@ -740,7 +741,7 @@
 							  "dependency" => array("element" => "spacer_border", "value" => array("solid", "dashed", "dotted", "double", "inset", "outset") ),
 							  "group" => "Design"
 						  ),
-	  
+
 	  					  array(
 							  "type" => "ult_param_heading",
 							  "param_name" => "thumbnail_spacing_styling_text",
@@ -917,7 +918,7 @@
 	}
 	// Finally initialize code
 	new ULT_iHover;
-	
+
 	  if ( class_exists( 'WPBakeryShortCodesContainer' ) ) {
 			  class WPBakeryShortCode_ult_ihover extends WPBakeryShortCodesContainer {
 		  }

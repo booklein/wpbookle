@@ -43,7 +43,7 @@ function porto_load_grid_container_shortcode() {
                 "type" => "textfield",
                 "heading" => __("Max Width", 'porto-shortcodes'),
                 "param_name" => "max_width",
-                "description" => "Will be show as grid only when window width > max width.",
+                "description" => __("Will be show as grid only when window width > max width.", 'porto-shortcodes'),
                 "value" => "767px"
             ),
             $animation_type,

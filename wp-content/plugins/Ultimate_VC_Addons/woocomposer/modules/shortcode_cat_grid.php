@@ -24,7 +24,7 @@ if(!class_exists('WooComposer_Cat_Grid')){
 				);
 				vc_map(
 					array(
-						"name"		=> __("Categories Grid [Beta]", "ultimate_vc"),
+						"name"		=> __("Categories Grid", "ultimate_vc"),
 						"base"		=> "woocomposer_grid_cat",
 						"icon"		=> "woo_grid",
 						"class"	   => "woo_grid",
@@ -32,6 +32,7 @@ if(!class_exists('WooComposer_Cat_Grid')){
 						"description" => __("Display categories in grid view","ultimate_vc"),
 						"controls" => "full",
 						"wrapper_class" => "clearfix",
+						"deprecated" => "3.13.5",
 						"show_settings_on_create" => true,
 						"params" => array(
 							array(

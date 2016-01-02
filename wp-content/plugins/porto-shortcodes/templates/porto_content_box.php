@@ -10,7 +10,9 @@ extract(shortcode_atts(array(
     'bg_bottom_color' => '',
     'align' => '',
     'show_icon' => false,
+    'icon_type' => 'fontawesome',
     'icon' => '',
+    'icon_simpleline' => '',
     'box_style' => '',
     'box_effect' => '',
     'icon_color' => '',
@@ -31,12 +33,19 @@ extract(shortcode_atts(array(
 
 $el_class = porto_shortcode_extract_class( $el_class );
 
-if ($skin == 'custom' && ($box_style || $box_effect || $show_icon)) {
+switch ($icon_type) {
+    case 'simpleline': $icon_class = $icon_simpleline; break;
+    default: $icon_class = $icon;
+}
+if (!$show_icon)
+    $icon_class = '';
+
+if ($skin == 'custom' && ($box_style || $box_effect || $icon_class)) {
     $sc_class = 'porto-content-box'.rand();
     $el_class .= ' '.$sc_class;
     ?>
     <style type="text/css" data-type="vc_shortcodes-custom-css"><?php
-        if ($show_icon) :
+        if ($icon_class) :
             if ($icon_color || $icon_bg_color || $icon_border_color) : ?>
             .<?php echo $sc_class ?> .featured-box .icon-featured {
                 <?php if ($icon_color) : ?>color: <?php echo $icon_color ?>;<?php endif;
@@ -138,8 +147,8 @@ $output .= '<div class="featured-box ' . ($skin != 'custom' ? 'featured-box-' . 
     (($bg_top_color && $bg_bottom_color)?'background:-webkit-linear-gradient(top, '.$bg_top_color.' 1%, '.$bg_bottom_color.' 98%) repeat scroll 0 0 transparent; background: linear-gradient(to bottom, '.$bg_top_color.' 1%, '.$bg_bottom_color.' 98%) repeat scroll 0 0 transparent; ':'').'"' : '') . '>';
 $output .= '<div class="box-content" style="'.(($border_radius) ? 'border-radius:'.$border_radius.'px;' : '').
     ($border_top_color?'border-top-color:'.$border_top_color.';':'').($border_top_width?'border-top-width:'.$border_top_width.'px;':'').'">';
-if ($show_icon && $icon) {
-    $output .= '<i class="icon-featured ' . $icon . '"></i>';
+if ($icon_class) {
+    $output .= '<i class="icon-featured ' . $icon_class . '"></i>';
 }
 $output .= do_shortcode($content);
 $output .= '</div></div>';

@@ -340,6 +340,10 @@ div.products {
         padding: 0 4px 1px;
         overflow: hidden;
     }
+}
+
+.product-images {
+    direction: ltr;
 
     .ms-container {
         @if $dark == 1 {
@@ -520,10 +524,6 @@ div.products {
             }
         }
     }
-}
-
-.product-images {
-    direction: ltr;
 }
 
 .variations {

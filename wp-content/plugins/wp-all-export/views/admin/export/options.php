@@ -51,7 +51,7 @@
 							<?php wp_nonce_field('options', '_wpnonce_options') ?>
 							<input type="hidden" name="is_submitted" value="1" />		
 
-							<input type="submit" class="rad10" value="<?php _e('Confirm & Run Export', 'wp_all_export_plugin') ?>" />											
+							<input type="submit" class="rad10 wp_all_export_confirm_and_run" value="<?php _e('Confirm & Run Export', 'wp_all_export_plugin') ?>" />											
 						</form>	
 
 					</div>	
@@ -73,8 +73,9 @@
 								<div class="wpallexport-collapsed-content-inner">	
 									<div class="wpallexport-free-edition-notice" style="padding: 20px; margin-bottom: 10px;">
 										<a class="upgrade_link" target="_blank" href="http://www.wpallimport.com/upgrade-to-pro/?utm_source=free-plugin&amp;utm_medium=in-plugin&amp;utm_campaign=download-from-url"><?php _e('Upgrade to the professional edition of WP All Export to add filtering rules.','wp_all_export_plugin');?></a>
+										<p><?php _e('If you already own it, remove the free edition and install the professional edition.', 'wp_all_export_plugin'); ?></p>
 									</div>
-									<input type="hidden" name="selected_post_type" value="<?php echo array_shift($post['cpt']); ?>"/>
+									<input type="hidden" name="selected_post_type" value="<?php echo $post['cpt'][0]; ?>"/>
 									<div class="wp_all_export_rule_inputs">
 										<table>
 											<tr>
@@ -181,43 +182,7 @@
 
 					<?php endif; ?>
 
-					<div class="wpallexport-template">
-						<div class="wpallexport-collapsed wpallexport-section">
-							<div class="wpallexport-content-section">
-								<div class="wpallexport-collapsed-header" style="padding-left: 25px;">
-									<h3><?php _e('Advanced Export','wp_all_export_plugin');?></h3>	
-								</div>
-								<div class="wpallexport-collapsed-content" style="padding: 0;">
-									<div class="wpallexport-collapsed-content-inner">				
-										<table class="form-table" style="max-width:none;">
-											<tr>
-												<td colspan="3">
-													<div class="input" style="margin:5px 0px;">
-														<input type="hidden" name="include_bom" value="0" />
-														<input type="checkbox" id="include_bom" name="include_bom" value="1" <?php echo $post['include_bom'] ? 'checked="checked"': '' ?> />
-														<label for="include_bom"><?php _e('Include BOM in export file', 'wp_all_export_plugin') ?></label>															
-														<a href="#help" class="wpallexport-help" style="position: relative; top: -2px;" title="<?php _e('The BOM will help some programs like Microsoft Excel read your export file if it includes non-English characters.', 'wp_all_export_plugin'); ?>">?</a>							
-													</div>												
-													<div class="input" style="margin:5px 0px;">
-														<label for="records_per_request"><?php _e('In each iteration, process', 'wp_all_export_plugin');?> <input type="text" name="records_per_iteration" style="vertical-align:middle; font-size:11px; background:#fff !important; width: 40px; text-align:center;" value="<?php echo esc_attr($post['records_per_iteration']) ?>" /> <?php _e('records', 'wp_all_export_plugin'); ?></label>
-														<a href="#help" class="wpallexport-help" style="position: relative; top: -2px;" title="<?php _e('WP All Export must be able to process this many records in less than your server\'s timeout settings. If your export fails before completion, to troubleshoot you should lower this number.', 'wp_all_export_plugin'); ?>">?</a>							
-													</div>																																																																	
-													<br>
-													<hr>
-													<p style="text-align:right;">
-														<div class="input">
-															<label for="save_import_as" style="width: 103px;"><?php _e('Friendly Name:','pmxe_plugin');?></label> 
-															<input type="text" name="friendly_name" title="<?php _e('Save friendly name...', 'pmxi_plugin') ?>" style="vertical-align:middle; background:#fff !important;" value="<?php echo esc_attr($post['friendly_name']) ?>" />
-														</div>
-													</p>
-												</td>
-											</tr>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>	
-					</div>				
+					<?php include_once 'options/settings.php'; ?>				
 
 					<p class="wpallexport-submit-buttons" style="text-align: center;">
 						<?php wp_nonce_field('options', '_wpnonce_options') ?>

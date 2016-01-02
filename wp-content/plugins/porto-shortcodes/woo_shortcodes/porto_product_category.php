@@ -38,10 +38,7 @@ function porto_load_product_category_shortcode() {
     $product_categories_dropdown = array(
         __('Select', 'porto-shortcodes') => ''
     );
-    if (class_exists('Vc_Vendor_Woocommerce')) {
-        $vc_vendor_wc = new Vc_Vendor_Woocommerce();
-        $vc_vendor_wc->getCategoryChilds( 0, 0, $categories, 0, $product_categories_dropdown );
-    }
+    porto_getCategoryChildsFull( 0, 0, $categories, 0, $product_categories_dropdown );
 
     // woocommerce product category
     vc_map(
@@ -112,7 +109,7 @@ function porto_load_product_category_shortcode() {
                 array(
                     'type' => 'dropdown',
                     'heading' => __( 'Add Links Position', 'porto-shortcodes' ),
-                    'desc' => 'Select position of add to cart, add to wishlist, quickview.',
+                    'description' => __('Select position of add to cart, add to wishlist, quickview.', 'porto-shortcodes'),
                     'param_name' => 'addlinks_pos',
                     'value' => porto_vc_commons('products_addlinks_pos')
                 ),

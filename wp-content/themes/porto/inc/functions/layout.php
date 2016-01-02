@@ -5,6 +5,49 @@ require_once(porto_functions . '/layout/page-title.php');
 
 add_action('wp_head', 'porto_output_skin_options');
 
+function porto_logo( $sticky_logo = false) {
+    global $porto_settings;
+
+    ob_start();
+
+    if ( (( is_front_page() && is_home()) || is_front_page()) && !$sticky_logo ) : ?><h1 class="logo"><?php else : ?><div class="logo"><?php endif; ?>
+    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?> - <?php bloginfo( 'description' ); ?>" rel="home">
+        <?php if ($porto_settings['logo'] && $porto_settings['logo']['url']) {
+            $logo_width = '';
+            $logo_height = '';
+            $logo = $porto_settings['logo']['url'];
+            if ($sticky_logo && $porto_settings['sticky-logo'] && $porto_settings['sticky-logo']['url'])
+                $logo = $porto_settings['sticky-logo']['url'];
+            if ( isset($porto_settings['logo-retina-width']) && isset($porto_settings['logo-retina-height']) && $porto_settings['logo-retina-width'] && $porto_settings['logo-retina-height'] ) {
+                $logo_width = (int)$porto_settings['logo-retina-width'];
+                $logo_height = (int)$porto_settings['logo-retina-height'];
+            }
+
+            echo '<img class="img-responsive standard-logo"'.($logo_width?' width="'.$logo_width.'"':'').($logo_height?' height="'.$logo_height.'"':'').' src="' . esc_url(str_replace( array( 'http:', 'https:' ), '', $logo)) . '" alt="' . esc_attr( get_bloginfo( 'name', 'display' ) ) . '" />';
+
+            $retina_logo = '';
+            if (isset($porto_settings['logo-retina']) && $porto_settings['logo-retina'] && $porto_settings['logo-retina']['url']) {
+                $retina_logo = $porto_settings['logo-retina']['url'];
+            }
+            if ($sticky_logo && isset($porto_settings['sticky-logo-retina']) && $porto_settings['sticky-logo-retina'] && $porto_settings['sticky-logo-retina']['url']) {
+                $retina_logo = $porto_settings['sticky-logo-retina']['url'];
+            }
+
+            if ($retina_logo) {
+                echo '<img class="img-responsive retina-logo"'.($logo_width?' width="'.$logo_width.'"':'').($logo_height?' height="'.$logo_height.'"':'').' src="' . esc_url(str_replace( array( 'http:', 'https:' ), '', $retina_logo)) . '" alt="' . esc_attr( get_bloginfo( 'name', 'display' ) ) . '" style="max-height:'.$logo_height.'px;display:none;" />';
+            } else {
+                echo '<img class="img-responsive retina-logo"'.($logo_width?' width="'.$logo_width.'"':'').($logo_height?' height="'.$logo_height.'"':'').' src="' . esc_url(str_replace( array( 'http:', 'https:' ), '', $logo)) . '" alt="' . esc_attr( get_bloginfo( 'name', 'display' ) ) . '" style="display:none;" />';
+            }
+        } else {
+            bloginfo( 'name' );
+        } ?>
+    </a>
+    <?php if ( (( is_front_page() && is_home()) || is_front_page()) && !$sticky_logo ) : ?></h1><?php else : ?></div><?php
+    endif;
+
+    return ob_get_clean();
+}
+
 function porto_banner($banner_class = '') {
     global $porto_settings;
 
@@ -363,6 +406,8 @@ function porto_top_navigation() {
 
     if ($output && $html) {
         $output = preg_replace('/<\/ul>$/', $html . '</ul>', $output, 1);
+    } else if (!$output && $html) {
+        $output = '<ul class="' . 'top-links mega-menu' . ($porto_settings['menu-arrow']?' show-arrow':'') . ($porto_settings['menu-effect']?' '.$porto_settings['menu-effect']:'') . ($porto_settings['menu-sub-effect']?' '.$porto_settings['menu-sub-effect']:'') . '" id="menu-top-navigation">' . $html . '</ul>';
     }
 
     return $output;
@@ -422,6 +467,8 @@ function porto_mobile_top_navigation() {
 
     if ($output && $html) {
         $output = preg_replace('/<\/ul>$/', $html . '</ul>', $output, 1);
+    } else if (!$output && $html) {
+        $output = '<ul class="' . 'top-links accordion-menu' . ($porto_settings['menu-arrow']?' show-arrow':'') . '" id="menu-top-navigation-1">' . $html . '</ul>';
     }
 
     return $output;
@@ -491,7 +538,7 @@ function porto_main_menu() {
 
     if ($header_type == 1 || $header_type == 4 || $header_type == 13 || $header_type == 14) {
         if ($porto_settings['menu-block']) {
-            $html .= '<li class="'. ($porto_settings['menu-align'] == 'centered' ? 'inline-menu-item' : (is_rtl() ? 'pull-left' : 'pull-right')).'"><div class="menu-custom-block">'.force_balance_tags($porto_settings['menu-block']).'</div></li>';
+            $html .= '<li class="menu-custom-content '. ($porto_settings['menu-align'] == 'centered' ? 'inline-menu-item' : (is_rtl() ? 'pull-left' : 'pull-right')).'"><div class="menu-custom-block">'.force_balance_tags($porto_settings['menu-block']).'</div></li>';
         }
     }
 
@@ -520,6 +567,8 @@ function porto_main_menu() {
 
     if ($output && $html) {
         $output = preg_replace('/<\/ul>$/', $html . '</ul>', $output, 1);
+    } else if (!$output && $html) {
+        $output = '<ul class="' . 'main-menu mega-menu' . ($porto_settings['menu-arrow']?' show-arrow':'') . ($porto_settings['menu-effect']?' '.$porto_settings['menu-effect']:'') . ($porto_settings['menu-sub-effect']?' '.$porto_settings['menu-sub-effect']:'') . '" id="menu-main-menu">' . $html . '</ul>';
     }
 
     return $output;
@@ -623,6 +672,8 @@ function porto_header_side_menu() {
 
     if ($output && $html) {
         $output = preg_replace('/<\/ul>$/', $html . '</ul>', $output, 1);
+    } else if (!$output && $html) {
+        $output = '<ul class="' . 'main-menu sidebar-menu' . ((has_nav_menu( 'sidebar_menu' ) || porto_get_meta_value('sidebar_menu')) ? ' has-side-menu' : '') . ($porto_settings['menu-sub-effect']?' '.$porto_settings['menu-sub-effect']:'') . '" id="menu-main-menu">' . $html . '</ul>';
     }
 
     return $output;
@@ -706,6 +757,8 @@ function porto_sidebar_menu() {
 
         if ($output && $html) {
             $output = preg_replace('/<\/ul>$/', $html . '</ul>', $output, 1);
+        } else if (!$output && $html) {
+            $output = '<ul class="' . 'main-menu sidebar-menu' . ((has_nav_menu( 'sidebar_menu' ) || porto_get_meta_value('sidebar_menu')) ? ' has-side-menu' : '') . ($porto_settings['menu-sub-effect']?' '.$porto_settings['menu-sub-effect']:'') . '" id="menu-main-menu">' . $html . '</ul>';
         }
     }
 
@@ -818,6 +871,8 @@ function porto_mobile_menu() {
 
     if ($output && $html) {
         $output = preg_replace('/<\/ul>$/', $html . '</ul>', $output, 1);
+    } else if (!$output && $html) {
+        $output = '<ul class="' . 'mobile-menu accordion-menu' . '" id="menu-main-menu">' . $html . '</ul>';
     }
 
     return $output;
@@ -889,66 +944,82 @@ function porto_header_socials() {
 
     if (!$porto_settings['show-header-socials']) return '';
 
+    $nofollow = '';
+    if ($porto_settings['header-socials-nofollow'])
+        $nofollow = ' rel="nofollow"';
+
     ob_start();
     echo '<div class="share-links">';
     if ($porto_settings['header-social-facebook']) :
-        ?><a target="_blank" class="share-facebook" href="<?php echo esc_url($porto_settings['header-social-facebook']) ?>" title="<?php _e('Facebook', 'porto') ?>"></a><?php
+        ?><a target="_blank" <?php echo $nofollow ?> class="share-facebook" href="<?php echo esc_url($porto_settings['header-social-facebook']) ?>" title="<?php _e('Facebook', 'porto') ?>"></a><?php
     endif;
 
     if ($porto_settings['header-social-twitter']) :
-        ?><a target="_blank" class="share-twitter" href="<?php echo esc_url($porto_settings['header-social-twitter']) ?>" title="<?php _e('Twitter', 'porto') ?>"></a><?php
+        ?><a target="_blank" <?php echo $nofollow ?> class="share-twitter" href="<?php echo esc_url($porto_settings['header-social-twitter']) ?>" title="<?php _e('Twitter', 'porto') ?>"></a><?php
     endif;
 
     if ($porto_settings['header-social-rss']) :
-        ?><a target="_blank" class="share-rss" href="<?php echo esc_url($porto_settings['header-social-rss']) ?>" title="<?php _e('RSS', 'porto') ?>"></a><?php
+        ?><a target="_blank" <?php echo $nofollow ?> class="share-rss" href="<?php echo esc_url($porto_settings['header-social-rss']) ?>" title="<?php _e('RSS', 'porto') ?>"></a><?php
     endif;
 
     if ($porto_settings['header-social-pinterest']) :
-        ?><a target="_blank" class="share-pinterest" href="<?php echo esc_url($porto_settings['header-social-pinterest']) ?>" title="<?php _e('Pinterest', 'porto') ?>"></a><?php
+        ?><a target="_blank" <?php echo $nofollow ?> class="share-pinterest" href="<?php echo esc_url($porto_settings['header-social-pinterest']) ?>" title="<?php _e('Pinterest', 'porto') ?>"></a><?php
     endif;
 
     if ($porto_settings['header-social-youtube']) :
-        ?><a target="_blank" class="share-youtube" href="<?php echo esc_url($porto_settings['header-social-youtube']) ?>" title="<?php _e('Youtube', 'porto') ?>"></a><?php
+        ?><a target="_blank" <?php echo $nofollow ?> class="share-youtube" href="<?php echo esc_url($porto_settings['header-social-youtube']) ?>" title="<?php _e('Youtube', 'porto') ?>"></a><?php
     endif;
 
     if ($porto_settings['header-social-instagram']) :
-        ?><a target="_blank" class="share-instagram" href="<?php echo esc_url($porto_settings['header-social-instagram']) ?>" title="<?php _e('Instagram', 'porto') ?>"></a><?php
+        ?><a target="_blank" <?php echo $nofollow ?> class="share-instagram" href="<?php echo esc_url($porto_settings['header-social-instagram']) ?>" title="<?php _e('Instagram', 'porto') ?>"></a><?php
     endif;
 
     if ($porto_settings['header-social-skype']) :
-        ?><a target="_blank" class="share-skype" href="<?php echo esc_url($porto_settings['header-social-skype']) ?>" title="<?php _e('Skype', 'porto') ?>"></a><?php
+        ?><a target="_blank" <?php echo $nofollow ?> class="share-skype" href="<?php echo esc_attr($porto_settings['header-social-skype']) ?>" title="<?php _e('Skype', 'porto') ?>"></a><?php
     endif;
 
     if ($porto_settings['header-social-linkedin']) :
-        ?><a target="_blank" class="share-linkedin" href="<?php echo esc_url($porto_settings['header-social-linkedin']) ?>" title="<?php _e('LinkedIn', 'porto') ?>"></a><?php
+        ?><a target="_blank" <?php echo $nofollow ?> class="share-linkedin" href="<?php echo esc_url($porto_settings['header-social-linkedin']) ?>" title="<?php _e('LinkedIn', 'porto') ?>"></a><?php
     endif;
 
     if ($porto_settings['header-social-googleplus']) :
-        ?><a target="_blank" class="share-googleplus" href="<?php echo esc_url($porto_settings['header-social-googleplus']) ?>" title="<?php _e('Google Plus', 'porto') ?>"></a><?php
+        ?><a target="_blank" <?php echo $nofollow ?> class="share-googleplus" href="<?php echo esc_url($porto_settings['header-social-googleplus']) ?>" title="<?php _e('Google Plus', 'porto') ?>"></a><?php
     endif;
 
     if ($porto_settings['header-social-vk']) :
-        ?><a target="_blank" class="share-vk" href="<?php echo esc_url($porto_settings['header-social-vk']) ?>" title="<?php _e('VK', 'porto') ?>"></a><?php
+        ?><a target="_blank" <?php echo $nofollow ?> class="share-vk" href="<?php echo esc_url($porto_settings['header-social-vk']) ?>" title="<?php _e('VK', 'porto') ?>"></a><?php
     endif;
 
     if ($porto_settings['header-social-xing']) :
-        ?><a target="_blank" class="share-xing" href="<?php echo esc_url($porto_settings['header-social-xing']) ?>" title="<?php _e('Xing', 'porto') ?>"></a><?php
+        ?><a target="_blank" <?php echo $nofollow ?> class="share-xing" href="<?php echo esc_url($porto_settings['header-social-xing']) ?>" title="<?php _e('Xing', 'porto') ?>"></a><?php
     endif;
 
     if ($porto_settings['header-social-tumblr']) :
-        ?><a target="_blank" class="share-tumblr" href="<?php echo esc_url($porto_settings['header-social-tumblr']) ?>" title="<?php _e('Tumblr', 'porto') ?>"></a><?php
+        ?><a target="_blank" <?php echo $nofollow ?> class="share-tumblr" href="<?php echo esc_url($porto_settings['header-social-tumblr']) ?>" title="<?php _e('Tumblr', 'porto') ?>"></a><?php
     endif;
 
     if ($porto_settings['header-social-reddit']) :
-        ?><a target="_blank" class="share-reddit" href="<?php echo esc_url($porto_settings['header-social-reddit']) ?>" title="<?php _e('Reddit', 'porto') ?>"></a><?php
+        ?><a target="_blank" <?php echo $nofollow ?> class="share-reddit" href="<?php echo esc_url($porto_settings['header-social-reddit']) ?>" title="<?php _e('Reddit', 'porto') ?>"></a><?php
     endif;
 
     if ($porto_settings['header-social-vimeo']) :
-        ?><a target="_blank" class="share-vimeo" href="<?php echo esc_url($porto_settings['header-social-vimeo']) ?>" title="<?php _e('Vimeo', 'porto') ?>"></a><?php
+        ?><a target="_blank" <?php echo $nofollow ?> class="share-vimeo" href="<?php echo esc_url($porto_settings['header-social-vimeo']) ?>" title="<?php _e('Vimeo', 'porto') ?>"></a><?php
+    endif;
+
+    if ($porto_settings['header-social-telegram']) :
+        ?><a target="_blank" <?php echo $nofollow ?> class="share-telegram" href="<?php echo esc_url($porto_settings['header-social-telegram']) ?>" title="<?php _e('Telegram', 'porto') ?>"></a><?php
+    endif;
+
+    if ($porto_settings['header-social-yelp']) :
+        ?><a target="_blank" <?php echo $nofollow ?> class="share-yelp" href="<?php echo esc_url($porto_settings['header-social-yelp']) ?>" title="<?php _e('Yelp', 'porto') ?>"></a><?php
+    endif;
+
+    if ($porto_settings['header-social-flickr']) :
+        ?><a target="_blank" <?php echo $nofollow ?> class="share-flickr" href="<?php echo esc_url($porto_settings['header-social-flickr']) ?>" title="<?php _e('Flickr', 'porto') ?>"></a><?php
     endif;
 
     if ($porto_settings['header-social-whatsapp']) :
-        ?><a target="_blank" class="share-whatsapp" style="display:none" href="whatsapp://send?text=<?php echo esc_url($porto_settings['header-social-whatsapp']) ?>" title="<?php echo __('WhatsApp', 'porto') ?>"><?php echo __('WhatsApp', 'porto') ?></a><?php
+        ?><a target="_blank" <?php echo $nofollow ?> class="share-whatsapp" style="display:none" href="whatsapp://send?text=<?php echo esc_url($porto_settings['header-social-whatsapp']) ?>" title="<?php echo __('WhatsApp', 'porto') ?>"><?php echo __('WhatsApp', 'porto') ?></a><?php
     endif;
 
     echo '</div>';
@@ -995,27 +1066,6 @@ function porto_minicart() {
                     <div class="cart-loading"></div>
                 </div>
             </div>
-            <script type="text/javascript">
-                jQuery(document).ready(function($) {
-                    $.ajax({
-                        type: 'POST',
-                        dataType: 'json',
-                        url: theme.ajax_url,
-                        data: { action: "porto_refresh_cart_fragment" },
-                        success: function( response ) {
-                            var fragments = response.fragments;
-                            var cart_hash = response.cart_hash;
-
-                            if ( fragments ) {
-                                $.each(fragments, function(key, value) {
-                                    $(key).replaceWith(value);
-                                });
-                            }
-                            $( 'body' ).trigger( 'wc_fragments_loaded' );
-                        }
-                    });
-                });
-            </script>
         </div>
     <?php
     endif;

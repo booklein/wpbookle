@@ -465,7 +465,7 @@
             width: 30px;
             height: 30px;
             border-radius: 30px;
-            margin: 0 2px;
+            margin: 2px;
             overflow: hidden;
             box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
             @include transition(all 0.3s ease 0s);
@@ -558,6 +558,18 @@
         .share-vimeo {
             &:hover { background: #52b8ea; }
             &:after { content: $fa-var-vimeo; }
+        }
+        .share-telegram {
+            &:hover { background: #0088cc; }
+            &:after { content: $fa-var-send; }
+        }
+        .share-yelp {
+            &:hover { background: #c41200; }
+            &:after { content: $fa-var-yelp; }
+        }
+        .share-flickr {
+            &:hover { background: #0063DC; }
+            &:after { content: $fa-var-flickr; }
         }
         .share-whatsapp {
             &:hover { background: #3c8a38; }

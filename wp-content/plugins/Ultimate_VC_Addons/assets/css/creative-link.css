@@ -498,6 +498,8 @@ p .ult_main_cl {
     position: absolute;
     top: 50%;
     left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
     transform: translate(-50%, -50%);
     width: 100%
 }
@@ -555,4 +557,7 @@ p .ult_main_cl {
 }
 .ult_cl_link_1 span.ult_btn10_span {
     vertical-align: middle
+}
+a.ult_colorlink {
+    border-bottom: 0px solid #333;
 }

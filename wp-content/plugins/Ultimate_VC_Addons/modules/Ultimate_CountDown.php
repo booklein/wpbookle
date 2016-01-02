@@ -32,7 +32,7 @@ if(!class_exists('Ultimate_CountDown'))
 		}
 		function admin_scripts($hook) {
 		   if($hook == "post.php" || $hook == "post-new.php"){
-		   		$bsf_dev_mode = bsf_get_option('dev_mode'); 
+		   		$bsf_dev_mode = bsf_get_option('dev_mode');
 				if($bsf_dev_mode === 'enable') {
 					//wp_enqueue_script('jquery.datetimep',plugins_url('../admin/js/bootstrap-datetimepicker.min.js',__FILE__),'1.0','jQuery',true);
 		   			wp_register_style("ult-colorpicker-style",plugins_url('../admin/css/bootstrap-datetimepicker-admin.css',__FILE__));
@@ -70,10 +70,10 @@ if(!class_exists('Ultimate_CountDown'))
 								"class" => "",
 								"heading" => __("Target Time For Countdown", "ultimate_vc"),
 								"param_name" => "datetime",
-								"value" => "", 
+								"value" => "",
 								"description" => __("Date and time format (yyyy/mm/dd hh:mm:ss).", "ultimate_vc"),
 								"group" => "General Settings",
-							),	
+							),
 							array(
 						   		"type" => "dropdown",
 								"class" => "",
@@ -85,7 +85,7 @@ if(!class_exists('Ultimate_CountDown'))
 									),
 								//"description" => __("Select style for countdown timer.", "smile"),
 								"group" => "General Settings",
-							),						
+							),
 							array(
 						   		"type" => "checkbox",
 								"class" => "",
@@ -95,10 +95,10 @@ if(!class_exists('Ultimate_CountDown'))
 										__("Years","ultimate_vc") => "syear",
 										__("Months","ultimate_vc") => "smonth",
 										__("Weeks","ultimate_vc") => "sweek",
-										__("Days","ultimate_vc") => "sday",										
+										__("Days","ultimate_vc") => "sday",
 										__("Hours","ultimate_vc") => "shr",
 										__("Minutes","ultimate_vc") => "smin",
-										__("Seconds","ultimate_vc") => "ssec",										
+										__("Seconds","ultimate_vc") => "ssec",
 									),
 								//"description" => __("Select options for the video.", "smile"),
 								"group" => "General Settings",
@@ -113,21 +113,40 @@ if(!class_exists('Ultimate_CountDown'))
 								"group" => "General Settings",
 							),
 							array(
-						   		"type" => "number",
-								"class" => "",
-								"heading" => __("Timer Digit Text Size", "ultimate_vc"),
-								"param_name" => "tick_size",
-								"suffix"=>"px",
-								"min"=>"0",
-								"value" => "36",
-								//"description" => __("Font size of tick text.", "smile"),
-								"group" => "General Settings",
-							),
+                          	  	"type" => "ultimate_responsive",
+                          	  	"class" => "",
+                          	  	"heading" => __("Timer Digit Text Size", 'ultimate_vc'),
+                          	  	"param_name" => "tick_size",
+                          	  	"unit"  => "px",
+                          	  	"media" => array(
+                          	  	    "Desktop"           => '',
+                          	  	    "Tablet"            => '',
+                          	  	    "Tablet Portrait"   => '',
+                          	  	    "Mobile Landscape"  => '',
+                          	  	    "Mobile"            => '',
+                          	  	),
+                          	  	"group" => "General Settings"
+                          	),
+                          	array(
+                          	  	"type" => "ultimate_responsive",
+                          	  	"class" => "",
+                          	  	"heading" => __("Timer Digit Text Line height", 'ultimate_vc'),
+                          	  	"param_name" => "tick_line_height",
+                          	  	"unit"  => "px",
+                          	  	"media" => array(
+                          	  	    "Desktop"           => '',
+                          	  	    "Tablet"            => '',
+                          	  	    "Tablet Portrait"   => '',
+                          	  	    "Mobile Landscape"  => '',
+                          	  	    "Mobile"            => '',
+                          	  	),
+                          	  	"group" => "General Settings"
+                          	),
 							array(
 						   		"type" => "dropdown",
 								"class" => "",
 								"heading" => __("Timer Digit Text Style", "ultimate_vc"),
-								"param_name" => "tick_style",								
+								"param_name" => "tick_style",
 								"value" => array(
 												__("Normal","ultimate_vc")=>"",
 												__("Bold","ultimate_vc") =>"bold",
@@ -147,16 +166,35 @@ if(!class_exists('Ultimate_CountDown'))
 								"group" => "General Settings",
 							),
 							array(
-						   		"type" => "number",
-								"class" => "",
-								"heading" => __("Timer Unit Text Size", "ultimate_vc"),
-								"param_name" => "tick_sep_size",
-								"value" => "13",
-								"suffix"=>"px",
-								"min"=>"0",
-								//"description" => __("Font size of tick text Period.", "smile"),
-								"group" => "General Settings",
-							),
+                          	  	"type" => "ultimate_responsive",
+                          	  	"class" => "",
+                          	  	"heading" => __("Timer Unit Text Size", 'ultimate_vc'),
+                          	  	"param_name" => "tick_sep_size",
+                          	  	"unit"  => "px",
+                          	  	"media" => array(
+                          	  	    "Desktop"           => '',
+                          	  	    "Tablet"            => '',
+                          	  	    "Tablet Portrait"   => '',
+                          	  	    "Mobile Landscape"  => '',
+                          	  	    "Mobile"            => '',
+                          	  	),
+                          	  	"group" => "General Settings"
+                          	),
+                          	array(
+                          	  	"type" => "ultimate_responsive",
+                          	  	"class" => "",
+                          	  	"heading" => __("Timer Unit Line Height", 'ultimate_vc'),
+                          	  	"param_name" => "tick_sep_line_height",
+                          	  	"unit"  => "px",
+                          	  	"media" => array(
+                          	  	    "Desktop"           => '',
+                          	  	    "Tablet"            => '',
+                          	  	    "Tablet Portrait"   => '',
+                          	  	    "Mobile Landscape"  => '',
+                          	  	    "Mobile"            => '',
+                          	  	),
+                          	  	"group" => "General Settings"
+                          	),
 							array(
 						   		"type" => "dropdown",
 								"class" => "",
@@ -186,7 +224,7 @@ if(!class_exists('Ultimate_CountDown'))
 											"Outset"=>"outset",
 											),
 								//"description" => __("Border-style.", "smile"),
-								"group" => "General Settings",								
+								"group" => "General Settings",
 							),
 							array(
 						   		"type" => "number",
@@ -229,7 +267,7 @@ if(!class_exists('Ultimate_CountDown'))
 								"param_name" => "timer_bg_color",
 								"value" => "",
 								//"description" => __("Background-Color.", "smile"),
-								"group" => "General Settings",								
+								"group" => "General Settings",
 							),
 							array(
 						   		"type" => "number",
@@ -241,7 +279,7 @@ if(!class_exists('Ultimate_CountDown'))
 								"suffix"=>"px",
 								//"description" => __("Border-Timer Space.", "smile"),
 								"group" => "General Settings",
-							),							
+							),
 							array(
 						   		"type" => "textfield",
 								"class" => "",
@@ -358,7 +396,7 @@ if(!class_exists('Ultimate_CountDown'))
 								"value" => "Minutes",
 								//"description" => __("Enter your string for Minutes.", "smile"),
 								"group" => "Strings Translation",
-							),							
+							),
 							array(
 						   		"type" => "textfield",
 								"class" => "",
@@ -384,7 +422,7 @@ if(!class_exists('Ultimate_CountDown'))
 								'edit_field_class' => 'ult-param-important-wrapper ult-dashicon ult-align-right ult-bold-font ult-blue-font vc_column vc_col-sm-12',
 								"group" => "General Settings",
 							),
-						)	
+						)
 					)
 				);
 			}
@@ -392,7 +430,7 @@ if(!class_exists('Ultimate_CountDown'))
 		// Shortcode handler function for  icon block
 		function countdown_shortcode($atts)
 		{
-			$count_style = $datetime = $ult_tz = $countdown_opts = $tick_col = $tick_size = $tick_style = $tick_sep_col = $tick_sep_size = '';
+			$count_style = $datetime = $ult_tz = $countdown_opts = $tick_col = $tick_size = $tick_line_height = $tick_style = $tick_sep_col = $tick_sep_size = $tick_sep_line_height = '';
 			$tick_sep_style = $br_color = $br_style = $br_size = $timer_bg_color = $br_radius = $br_time_space = $el_class = '';
 			$string_days = $string_weeks = $string_months = $string_years = $string_hours = $string_minutes = $string_seconds = '';
 			$string_days2 = $string_weeks2 = $string_months2 = $string_years2 = $string_hours2 = $string_minutes2 = $string_seconds2 = '';
@@ -403,16 +441,18 @@ if(!class_exists('Ultimate_CountDown'))
 				'countdown_opts'=>'',
 				'tick_col'=>'',
 				'tick_size'=>'36',
+				'tick_line_height'=>'',
 				'tick_style'=>'',
 				'tick_sep_col'=>'',
 				'tick_sep_size'=>'13',
+				'tick_sep_line_height'=> '',
 				'tick_sep_style'=>'',
 				'br_color'=>'',
 				'br_style'=>'',
 				'br_size'=>'',
 				'timer_bg_color'=>'',
 				'br_radius'=>'',
-				'br_time_space'=>'0',				
+				'br_time_space'=>'0',
 				'el_class'=>'',
 				'string_days' => 'Day',
 				'string_days2' => 'Days',
@@ -428,11 +468,11 @@ if(!class_exists('Ultimate_CountDown'))
 				'string_minutes2' => 'Minutes',
 				'string_seconds' => 'Second',
 				'string_seconds2' => 'Seconds',
-			),$atts));	
+			),$atts));
 			$count_frmt = $labels = '';
 			$labels = $string_years2 .','.$string_months2.','.$string_weeks2.','.$string_days2.','.$string_hours2.','.$string_minutes2.','.$string_seconds2;
 			$labels2 = $string_years .','.$string_months.','.$string_weeks.','.$string_days.','.$string_hours.','.$string_minutes.','.$string_seconds;
-			$countdown_opt = explode(",",$countdown_opts);				
+			$countdown_opt = explode(",",$countdown_opts);
 				if(is_array($countdown_opt)){
 					foreach($countdown_opt as $opt){
 						if($opt == "syear") $count_frmt .= 'Y';
@@ -441,9 +481,22 @@ if(!class_exists('Ultimate_CountDown'))
 						if($opt == "sday") $count_frmt .= 'D';
 						if($opt == "shr") $count_frmt .= 'H';
 						if($opt == "smin") $count_frmt .= 'M';
-						if($opt == "ssec") $count_frmt .= 'S';	
+						if($opt == "ssec") $count_frmt .= 'S';
 					}
 				}
+			if (is_numeric($tick_size)) {
+                $tick_size = 'desktop:'.$tick_size.'px;';
+            }
+            $countdown_id = 'countdown-wrap-'.rand(1000, 9999);
+            $ult_countdown_args = array(
+                'target' => '#'.$countdown_id.' .ult_countdown_amount', // set targeted element e.g. unique class/id etc.
+                'media_sizes' => array(
+                    'font-size' => $tick_size, // set 'css property' & 'ultimate_responsive' sizes. Here $title_responsive_font_size holds responsive font sizes from user input.
+                   	//'line-height' => $title_font_line_height
+                ),
+            );
+			$data_list = get_ultimate_vc_responsive_media_css($ult_countdown_args);
+
 			$data_attr = '';
 			if($count_frmt=='') $count_frmt = 'DHMS';
 			if($br_size =='' || $br_color == '' || $br_style ==''){
@@ -454,15 +507,45 @@ if(!class_exists('Ultimate_CountDown'))
 			else{
 				$data_attr .=  'data-br-color="'.$br_color.'" data-br-style="'.$br_style.'" data-br-size="'.$br_size.'" ';
 			}
+			// Responsive param
+
+			if(is_numeric($tick_sep_size)) 	{ 	$tick_sep_size = 'desktop:'.$tick_sep_size.'px;';		}
+			if(is_numeric($tick_sep_line_height)) 	{ 	$tick_sep_line_height = 'desktop:'.$tick_sep_line_height.'px;';		}
+
+			$count_down_id = "count-down-wrap-".rand(1000,9999);
+		  	$count_down_sep_args = array(
+		  		'target'		=>	'#'.$count_down_id.' .ult_countdown-period',
+		  		'media_sizes' 	=> array(
+					'font-size' 	=> $tick_sep_size,
+					'line-height' 	=> $tick_sep_line_height,
+				),
+		  	);
+			$count_down_sep_data_list = get_ultimate_vc_responsive_media_css($count_down_sep_args);
+
 			$data_attr .= ' data-tick-style="'.$tick_style.'" ';
-			$data_attr .= ' data-tick-p-style="'.$tick_sep_style.'" ';	
+			$data_attr .= ' data-tick-p-style="'.$tick_sep_style.'" ';
 			$data_attr .= ' data-bg-color="'.$timer_bg_color.'" data-br-radius="'.$br_radius.'" data-padd="'.$br_time_space.'" ';
-			$output = '<div class="ult_countdown '.$el_class.' '.$count_style.'">';
+			$output = '<div "'.$count_down_sep_data_list.'" class="ult_countdown '.$el_class.' '.$count_style.'">';
+
+			//Responsive param
+
+			if(is_numeric($tick_size)) 	{ 	$tick_size = 'desktop:'.$tick_size.'px;';		}
+			if(is_numeric($tick_line_height)) 	{ 	$tick_line_height = 'desktop:'.$tick_line_height.'px;';		}
+
+		  	$count_down_args = array(
+		  		'target'		=>	'#'.$count_down_id.' .ult_countdown-amount',
+		  		'media_sizes' 	=> array(
+					'font-size' 	=> $tick_size,
+					'line-height' 	=> $tick_line_height,
+				),
+		  	);
+			$count_down_data_list = get_ultimate_vc_responsive_media_css($count_down_args);
+
 			if($datetime!=''){
-				$output .='<div class="ult_countdown-div ult_countdown-dateAndTime '.$ult_tz.'" data-labels="'.$labels.'" data-labels2="'.$labels2.'"  data-terminal-date="'.$datetime.'" data-countformat="'.$count_frmt.'" data-time-zone="'.get_option('gmt_offset').'" data-time-now="'.str_replace('-', '/', current_time('mysql')).'" data-tick-size="'.$tick_size.'" data-tick-col="'.$tick_col.'" data-tick-p-size="'.$tick_sep_size.'" data-tick-p-col="'.$tick_sep_col.'" '.$data_attr.'>'.$datetime.'</div>';
-			}			
+				$output .='<div id="'.$count_down_id.'"  class="ult_countdown-div ult_countdown-dateAndTime '.$ult_tz.'" data-labels="'.$labels.'" data-labels2="'.$labels2.'"  data-terminal-date="'.$datetime.'" data-countformat="'.$count_frmt.'" data-time-zone="'.get_option('gmt_offset').'" data-time-now="'.str_replace('-', '/', current_time('mysql')).'"  data-tick-col="'.$tick_col.'"  '.$count_down_data_list.' data-tick-p-col="'.$tick_sep_col.'" '.$data_attr.'>'.$datetime.'</div>';
+			}
 			$output .='</div>';
-			return $output;		
+			return $output;
 		}
 	}
 	//instantiate the class

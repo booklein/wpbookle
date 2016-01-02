@@ -39,7 +39,7 @@ function porto_load_sort_filter_shortcode() {
                 "type" => "textfield",
                 "heading" => __("Filter By", 'porto-shortcodes'),
                 "param_name" => "filter_by",
-                "desc" => __('Please add several identifying classes like "*" or ".transition, .metal".', 'porto-shortcodes'),
+                "description" => __('Please add several identifying classes like "*" or ".transition, .metal".', 'porto-shortcodes'),
             ),
             array(
                 'type' => 'checkbox',

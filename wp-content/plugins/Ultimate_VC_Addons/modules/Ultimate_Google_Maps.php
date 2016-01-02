@@ -12,7 +12,7 @@ if(!class_exists("Ultimate_Google_Maps")){
 		}
 		function ultimate_google_map_script()
 		{
-			wp_register_script("googleapis","https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false",array(),ULTIMATE_VERSION,false);
+			wp_register_script("googleapis","https://maps.googleapis.com/maps/api/js?v=3.21&sensor=false",array(),ULTIMATE_VERSION,false);
 		}
 		function google_maps_init(){
 			if ( function_exists('vc_map'))
@@ -151,14 +151,14 @@ if(!class_exists("Ultimate_Google_Maps")){
 							"value" => array(__("Disable", "ultimate_vc") => "false", __("Enable", "ultimate_vc") => "true"),
 							"group" => "Advanced"
 						),
-						array(
+						/*array(
 							"type" => "dropdown",
 							"class" => "",
 							"heading" => __("Map pan control", "ultimate_vc"),
 							"param_name" => "pancontrol",
 							"value" => array(__("Disable", "ultimate_vc") => "false", __("Enable", "ultimate_vc") => "true"),
 							"group" => "Advanced"
-						),
+						),*/
 						array(
 							"type" => "dropdown",
 							"class" => "",
@@ -176,7 +176,7 @@ if(!class_exists("Ultimate_Google_Maps")){
 							"dependency" => Array("element" => "zoomControl","value" => array("true")),
 							"group" => "Advanced"
 						),
-						
+
 						array(
 							"type" => "dropdown",
 							"class" => "",
@@ -191,8 +191,8 @@ if(!class_exists("Ultimate_Google_Maps")){
 							"heading" => __("Top margin", "ultimate_vc"),
 							"param_name" => "top_margin",
 							"value" => array(
-								__("Page (small)", "ultimate_vc") => "page_margin_top", 
-								__("Section (large)", "ultimate_vc") => "page_margin_top_section",  
+								__("Page (small)", "ultimate_vc") => "page_margin_top",
+								__("Section (large)", "ultimate_vc") => "page_margin_top_section",
 								__("None", "ultimate_vc") => "none"
 							),
 							"group" => "General Settings"
@@ -242,12 +242,66 @@ if(!class_exists("Ultimate_Google_Maps")){
 							'edit_field_class' => 'ult-param-important-wrapper ult-dashicon ult-align-right ult-bold-font ult-blue-font vc_column vc_col-sm-12',
 							"group" => "General Settings"
 						),
+						array(
+								"type" => "dropdown",
+								"class" => "",
+								"heading" => __("MapBorder Style", "ultimate_vc"),
+								"param_name" => "map_border_style",
+								"value" => array(
+									"None"=> "",
+									"Solid"=> "solid",
+									"Dashed" => "dashed",
+									"Dotted" => "dotted",
+									"Double" => "double",
+									"Inset" => "inset",
+									"Outset" => "outset",
+								),
+								"description" => "",
+								"group" => "Border"
+							),
+							array(
+								"type" => "colorpicker",
+								"class" => "",
+								"heading" => __("Border Color", "ultimate_vc"),
+								"param_name" => "map_color_border",
+								"value" => "",
+								"description" => "",
+								"dependency" => Array("element" => "map_border_style", "not_empty" => true),
+								"group" => "Border"
+							),
+							array(
+								"type" => "number",
+								"class" => "",
+								"heading" => __("Border Width", "ultimate_vc"),
+								"param_name" => "map_border_size",
+								"value" => 1,
+								"min" => 1,
+								"max" => 10,
+								"suffix" => "px",
+								"description" => "",
+								"dependency" => Array("element" => "map_border_style", "not_empty" => true),
+								"group" => "Border"
+							),
+							array(
+								"type" => "number",
+								"class" => "",
+								"heading" => __("Border Radius","ultimate_vc"),
+								"param_name" => "map_radius",
+								"value" => 3,
+								"min" => 0,
+								"max" => 500,
+								"suffix" => "px",
+								"description" => "",
+								"dependency" => Array("element" => "map_border_style", "not_empty" => true),
+								"group" => "Border"
+						  	),
 					)
 				));
 			}
 		}
-		function display_ultimate_map($atts,$content = null){			
-			$width = $height = $map_type = $lat = $lng = $zoom = $streetviewcontrol = $maptypecontrol = $top_margin = $pancontrol = $zoomcontrol = $zoomcontrolsize = $dragging = $marker_icon = $icon_img = $map_override = $output = $map_style = $scrollwheel = $el_class = '';
+		function display_ultimate_map($atts,$content = null){
+			$width = $height = $map_type = $lat = $lng = $zoom = $streetviewcontrol = $maptypecontrol = $top_margin = $pancontrol = $zoomcontrol = $zoomcontrolsize = $dragging = $marker_icon = $icon_img = $map_override = $output = $map_style = $scrollwheel = $el_class = $map_border_style = $map_color_border = $map_border_size = $map_radius ='';
+
 			extract(shortcode_atts(array(
 				//"id" => "map",
 				"width" => "100%",
@@ -256,7 +310,7 @@ if(!class_exists("Ultimate_Google_Maps")){
 				"lat" => "18.591212",
 				"lng" => "73.741261",
 				"zoom" => "14",
-				"scrollwheel" => "disable",
+				"scrollwheel" => "",
 				"streetviewcontrol" => "false",
 				"maptypecontrol" => "false",
 				"pancontrol" => "false",
@@ -269,10 +323,18 @@ if(!class_exists("Ultimate_Google_Maps")){
 				"map_override" => "0",
 				"map_style" => "",
 				"el_class" => "",
-				"infowindow_open" => "off",
-				"map_vc_template" => ""
+				"infowindow_open" => "infowindow_open_value",
+				"map_vc_template" => "",
+				"map_border_style" => "",
+				"map_color_border" => "",
+				"map_border_size" => "",
+				"map_radius" => ""
 			), $atts));
 
+			$vc_version = (defined('WPB_VC_VERSION')) ? WPB_VC_VERSION : 0;
+			$is_vc_49_plus = (version_compare(4.9, $vc_version, '<=')) ? 'ult-adjust-bottom-margin' : '';
+
+			$border_css='';
 			$marker_lat = $lat;
 			$marker_lng = $lng;
 			if($marker_icon == "default_self"){
@@ -280,24 +342,33 @@ if(!class_exists("Ultimate_Google_Maps")){
 			} elseif($marker_icon == "default"){
 				$icon_url = "";
 			} else {
-				$icon_url = apply_filters('ult_get_img_single', $icon_img, 'url'); 
+				$icon_url = apply_filters('ult_get_img_single', $icon_img, 'url');
 			}
 			$id = "map_".uniqid();
 			$wrap_id = "wrap_".$id;
 			$map_type = strtoupper($map_type);
 			$width = (substr($width, -1)!="%" && substr($width, -2)!="px" ? $width . "px" : $width);
 			$map_height = (substr($height, -1)!="%" && substr($height, -2)!="px" ? $height . "px" : $height);
-			
+
 			$margin_css = '';
 			if($top_margin != 'none')
 			{
 				$margin_css = $top_margin;
 			}
-			
+
+			if($map_border_style !='')
+				$border_css .='border-style:'.$map_border_style.';';
+			if($map_color_border != '')
+				$border_css .= 'border-color:'.$map_color_border.';';
+			if($map_border_size != '')
+				$border_css .= 'border-width:'.$map_border_size.'px;';
+			if($map_radius !='')
+				$border_css .='border-radius:'.$map_radius.'px;';
 			if($map_vc_template == 'map_vc_template_value')
 				$el_class .= 'uvc-boxed-layout';
-			
-			$output .= "<div id='".$wrap_id."' class='ultimate-map-wrapper ".$el_class."' style='".($map_height!="" ? "height:" . $map_height . ";" : "")."'><div id='" . $id . "' data-map_override='".$map_override."' class='ultimate_google_map wpb_content_element ".$margin_css."'" . ($width!="" || $map_height!="" ? " style='" . ($width!="" ? "width:" . $width . ";" : "") . ($map_height!="" ? "height:" . $map_height . ";" : "") . "'" : "") . "></div></div>";
+
+			$output .= "<div id='".$wrap_id."' class='ultimate-map-wrapper ".$is_vc_49_plus." ".$el_class."' style='".($map_height!="" ? "height:" . $map_height . ";" : "")."'><div id='" . $id . "' data-map_override='".$map_override."' class='ultimate_google_map wpb_content_element ".$margin_css."'" . ($width!="" || $map_height!="" ? " style='".$border_css . ($width!="" ? "width:" . $width . ";" : "") . ($map_height!="" ? "height:" . $map_height . ";" : "") . "'" : "") . "></div></div>";
+
 			if($scrollwheel == "disable"){
 				$scrollwheel = 'false';
 			} else {
@@ -310,11 +381,11 @@ if(!class_exists("Ultimate_Google_Maps")){
 			var coordinate_$id;
 			var isDraggable = $(document).width() > 641 ? true : $dragging;
 			try
-			{			
+			{
 				var map_$id = null;
 				var coordinate_$id;
 				coordinate_$id=new google.maps.LatLng($lat, $lng);
-				var mapOptions= 
+				var mapOptions=
 				{
 					zoom: $zoom,
 					center: coordinate_$id,
@@ -348,27 +419,29 @@ if(!class_exists("Ultimate_Google_Maps")){
 				}
 				if($marker_lat!="" && $marker_lng!="")
 				{
-				$output .= "var marker_$id = new google.maps.Marker({
+				$output .= "
+						var x = '".$infowindow_open."';
+						var marker_$id = new google.maps.Marker({
 						position: new google.maps.LatLng($marker_lat, $marker_lng),
 						animation:  google.maps.Animation.DROP,
 						map: map_$id,
 						icon: '".$icon_url."'
 					});
 					google.maps.event.addListener(marker_$id, 'click', toggleBounce);";
-					
+
 					if(trim($content) !== ""){
 						$output .= "var infowindow = new google.maps.InfoWindow();
 							infowindow.setContent('<div class=\"map_info_text\" style=\'color:#000;\'>".trim(preg_replace('/\s+/', ' ', do_shortcode($content)))."</div>');";
-							
+
 							if($infowindow_open == 'off')
 							{
 								$output .= "infowindow.open(map_$id,marker_$id);";
 							}
-							
+
 							$output .= "google.maps.event.addListener(marker_$id, 'click', function() {
 								infowindow.open(map_$id,marker_$id);
 						  	});";
-						
+
 					}
 				}
 				$output .= "}
@@ -415,7 +488,7 @@ if(!class_exists("Ultimate_Google_Maps")){
 						setTimeout(function(){
 							$(window).trigger('resize');
 						},200);
-					}	
+					}
 				});
 				$(document).on('click','.ult_tab_li',function(){
 					$(window).trigger('resize');

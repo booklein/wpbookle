@@ -131,6 +131,18 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
             <?php if ( version_compare($porto_woo_version, '2.4', '<')) : ?>
                 <div class="single_variation"></div>
 
+                <?php
+                // hide add to cart button in catalog mode
+                $show_cart_button = true;
+                if (isset($porto_settings['catalog-enable']) && $porto_settings['catalog-enable']) {
+                    if ($porto_settings['catalog-admin'] || (!$porto_settings['catalog-admin'] && !(current_user_can( 'administrator' ) && is_user_logged_in())) ) {
+                        if (!$porto_settings['catalog-cart']) {
+                            $show_cart_button = false;
+                        }
+                    }
+                }
+                if ($show_cart_button) :
+                ?>
                 <div class="variations_button">
 
                     <?php woocommerce_quantity_input( array(
@@ -138,6 +150,7 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
                     ) ); ?>
                     <button type="submit" class="single_add_to_cart_button button alt"><?php echo $product->single_add_to_cart_text(); ?></button>
                 </div>
+                <?php endif; ?>
 
                 <input type="hidden" name="add-to-cart" value="<?php echo $product->id; ?>" />
                 <input type="hidden" name="product_id" value="<?php echo esc_attr( $post->ID ); ?>" />

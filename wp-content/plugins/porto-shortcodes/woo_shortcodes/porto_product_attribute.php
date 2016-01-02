@@ -105,7 +105,7 @@ function porto_load_product_attribute_shortcode() {
                 array(
                     'type' => 'dropdown',
                     'heading' => __( 'Add Links Position', 'porto-shortcodes' ),
-                    'desc' => 'Select position of add to cart, add to wishlist, quickview.',
+                    'description' => __('Select position of add to cart, add to wishlist, quickview.', 'porto-shortcodes'),
                     'param_name' => 'addlinks_pos',
                     'value' => porto_vc_commons('products_addlinks_pos')
                 ),

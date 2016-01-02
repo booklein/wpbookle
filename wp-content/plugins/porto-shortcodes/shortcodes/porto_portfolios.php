@@ -43,7 +43,7 @@ function porto_load_portfolios_shortcode() {
                 "heading" => __("View Type", 'porto-shortcodes'),
                 "param_name" => "view",
                 'dependency' => Array('element' => 'portfolio_layout', 'value' => array( 'grid' )),
-                'std' => '',
+                'std' => 'classic',
                 "value" => porto_vc_commons('portfolio_grid_view')
             ),
             array(
@@ -75,8 +75,20 @@ function porto_load_portfolios_shortcode() {
             ),
             array(
                 'type' => 'checkbox',
-                'heading' => __("Show View More", 'porto-shortcodes'),
+                'heading' => __("Show Archive Link", 'porto-shortcodes'),
                 'param_name' => 'view_more',
+                'value' => array( __( 'Yes', 'js_composer' ) => 'yes' )
+            ),
+            array(
+                'type' => 'checkbox',
+                'heading' => __("Show Filter", 'porto-shortcodes'),
+                'param_name' => 'filter',
+                'value' => array( __( 'Yes', 'js_composer' ) => 'yes' )
+            ),
+            array(
+                'type' => 'checkbox',
+                'heading' => __("Show Pagination", 'porto-shortcodes'),
+                'param_name' => 'pagination',
                 'value' => array( __( 'Yes', 'js_composer' ) => 'yes' )
             ),
             $animation_type,

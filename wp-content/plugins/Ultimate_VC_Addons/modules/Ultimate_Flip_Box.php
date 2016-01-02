@@ -127,7 +127,7 @@ if(!class_exists('AIO_Flip_Box'))
 								"heading" => __("Select Icon ","ultimate_vc"),
 								"param_name" => "icon",
 								"value" => "",
-								"description" => __("Click and select icon of your choice. If you can't find the one that suits for your purpose, you can","ultimate_vc")." <a href='admin.php?page=font-icon-Manager' target='_blank'>".__('add new here','ultimate_vc')."</a>.",
+								"description" => __("Click and select icon of your choice. If you can't find the one that suits for your purpose, you can","ultimate_vc")." <a href='admin.php?page=bsf-font-icon-manager' target='_blank'>".__('add new here','ultimate_vc')."</a>.",
 								"dependency" => Array("element" => "icon_type","value" => array("selector")),
 								"group" => "Icon"
 							),
@@ -175,7 +175,7 @@ if(!class_exists('AIO_Flip_Box'))
 								"value" => "#333333",
 								"description" => __("Give it a nice paint!", "ultimate_vc"),
 								"dependency" => Array("element" => "icon_type","value" => array("selector")),
-								"group" => "Icon"				
+								"group" => "Icon"
 							),
 							array(
 								"type" => "dropdown",
@@ -198,7 +198,7 @@ if(!class_exists('AIO_Flip_Box'))
 								"heading" => __("Background Color", "ultimate_vc"),
 								"param_name" => "icon_color_bg",
 								"value" => "#ffffff",
-								"description" => __("Select background color for icon.", "ultimate_vc"),	
+								"description" => __("Select background color for icon.", "ultimate_vc"),
 								"dependency" => Array("element" => "icon_style", "value" => array("circle","square","advanced")),
 								"group" => "Icon"
 							),
@@ -225,7 +225,7 @@ if(!class_exists('AIO_Flip_Box'))
 								"heading" => __("Border Color", "ultimate_vc"),
 								"param_name" => "icon_color_border",
 								"value" => "#333333",
-								"description" => __("Select border color for icon.", "ultimate_vc"),	
+								"description" => __("Select border color for icon.", "ultimate_vc"),
 								"dependency" => Array("element" => "icon_border_style", "not_empty" => true),
 								"group" => "Icon"
 							),
@@ -274,7 +274,7 @@ if(!class_exists('AIO_Flip_Box'))
 								"heading" => __("Text Color", "ultimate_vc"),
 								"param_name" => "text_color",
 								"value" => "#333333",
-								"description" => __("Color of title & description text.", "ultimate_vc"),	
+								"description" => __("Color of title & description text.", "ultimate_vc"),
 								"dependency" => Array("element" => "flip_box_style", "value" => array("simple")),
 							),
 							array(
@@ -295,7 +295,7 @@ if(!class_exists('AIO_Flip_Box'))
 								 "value" => "",
 								 "description" => __("Perhaps, this is the most highlighted text.","ultimate_vc"),
 								 "group" => "Front"
-							),						  
+							),
 							array(
 								 "type" => "textarea",
 								 "class" => "",
@@ -305,16 +305,16 @@ if(!class_exists('AIO_Flip_Box'))
 								 "description" => __("Keep it short and simple!","ultimate_vc"),
 								 "group" => "Front"
 							),
-							
+
 							array(
 								"type" => "colorpicker",
 								"class" => "",
 								"heading" => __("Text Color", "ultimate_vc"),
 								"param_name" => "block_text_color",
 								"value" => "#333333",
-								"description" => __("Color of front side title & description text.", "ultimate_vc"),	
+								"description" => __("Color of front side title & description text.", "ultimate_vc"),
 								"dependency" => Array("element" => "flip_box_style", "value" => array("advanced")),
-								"group" => "Front"					
+								"group" => "Front"
 							),
 							array(
 								"type" => "colorpicker",
@@ -324,7 +324,7 @@ if(!class_exists('AIO_Flip_Box'))
 								"value" => "#efefef",
 								"description" => __("Light colors look better on front.", "ultimate_vc"),
 								"dependency" => Array("element" => "flip_box_style", "value" => array("advanced")),
-								"group" => "Front"						
+								"group" => "Front"
 							),
 							array(
 								"type" => "colorpicker",
@@ -372,8 +372,8 @@ if(!class_exists('AIO_Flip_Box'))
 								"param_name" => "block_back_color",
 								"value" => "#efefef",
 								"description" => __("Select the background color for back .", "ultimate_vc"),
-								"dependency" => Array("element" => "flip_box_style", "value" => array("advanced")),			
-								"group" => "Back"	
+								"dependency" => Array("element" => "flip_box_style", "value" => array("advanced")),
+								"group" => "Back"
 							),
 							array(
 								"type" => "colorpicker",
@@ -439,8 +439,8 @@ if(!class_exists('AIO_Flip_Box'))
 								"param_name" => "height_type",
 								"value" => array(
 									__("Display full the content and adjust height of box accordingly","ultimate_vc")=>"ifb-jq-height",
-									__("Hide extra content that doesn't fit in height of the box","ultimate_vc") => "ifb-auto-height",								
-									__("Give a custom height of your choice to the box","ultimate_vc") => "ifb-custom-height",								
+									__("Hide extra content that doesn't fit in height of the box","ultimate_vc") => "ifb-auto-height",
+									__("Give a custom height of your choice to the box","ultimate_vc") => "ifb-custom-height",
 								),
 								"description" => __("Select height option for this box.","ultimate_vc")
 							),
@@ -494,6 +494,7 @@ if(!class_exists('AIO_Flip_Box'))
 								"type" => "ultimate_google_fonts",
 								"heading" => __("Font Family","ultimate_vc"),
 								"param_name" => "title_font",
+								"description" => __("Select the font of your choice.","ultimate_vc")." ".__("You can","ultimate_vc")." <a target='_blank' href='".admin_url('admin.php?page=bsf-google-font-manager')."'>".__("add new in the collection here","ultimate_vc")."</a>.",
 								"value" => "",
 								"group" => "Typography"
 							),
@@ -504,24 +505,55 @@ if(!class_exists('AIO_Flip_Box'))
 								"value" => "",
 								"group" => "Typography"
 							),
+							// array(
+							// 	"type" => "number",
+							// 	"param_name" => "title_font_size",
+							// 	"heading" => __("Font size","ultimate_vc"),
+							// 	"value" => "",
+							// 	"suffix" => "px",
+							// 	"min" => 10,
+							// 	"group" => "Typography"
+							// ),
 							array(
-								"type" => "number",
-								"param_name" => "title_font_size",
-								"heading" => __("Font size","ultimate_vc"),
-								"value" => "",
-								"suffix" => "px",
-								"min" => 10,
-								"group" => "Typography"
-							),
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Font size", 'ultimate_vc'),
+                                "param_name" => "title_font_size",
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
+							// array(
+							// 	"type" => "number",
+							// 	"param_name" => "title_font_line_height",
+							// 	"heading" => __("Font Line Height","ultimate_vc"),
+							// 	"value" => "",
+							// 	"suffix" => "px",
+							// 	"min" => 10,
+							// 	"group" => "Typography"
+							// ),
 							array(
-								"type" => "number",
-								"param_name" => "title_font_line_height",
-								"heading" => __("Font Line Height","ultimate_vc"),
-								"value" => "",
-								"suffix" => "px",
-								"min" => 10,
-								"group" => "Typography"
-							),
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Font Line Heigh", 'ultimate_vc'),
+                                "param_name" => "title_font_line_height",
+                                "unit" => "px",
+                                "media" => array(
+                                    /*"Large Screen"      => '',*/
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography"
+                            ),
 							array(
 								"type" => "ult_param_heading",
 								"param_name" => "desc_text_typography",
@@ -535,6 +567,7 @@ if(!class_exists('AIO_Flip_Box'))
 								"type" => "ultimate_google_fonts",
 								"heading" => __("Font Family","ultimate_vc"),
 								"param_name" => "desc_font",
+								"description" => __("Select the font of your choice.","ultimate_vc")." ".__("You can","ultimate_vc")." <a target='_blank' href='".admin_url('admin.php?page=bsf-google-font-manager')."'>".__("add new in the collection here","ultimate_vc")."</a>.",
 								"value" => "",
 								"group" => "Typography"
 							),
@@ -545,24 +578,54 @@ if(!class_exists('AIO_Flip_Box'))
 								"value" => "",
 								"group" => "Typography"
 							),
+							// array(
+							// 	"type" => "number",
+							// 	"param_name" => "desc_font_size",
+							// 	"heading" => __("Font size","ultimate_vc"),
+							// 	"value" => "",
+							// 	"suffix" => "px",
+							// 	"min" => 10,
+							// 	"group" => "Typography"
+							// ),
 							array(
-								"type" => "number",
-								"param_name" => "desc_font_size",
-								"heading" => __("Font size","ultimate_vc"),
-								"value" => "",
-								"suffix" => "px",
-								"min" => 10,
-								"group" => "Typography"
-							),
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Font size", 'ultimate_vc'),
+                                "param_name" => "desc_font_size",
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
+							// array(
+							// 	"type" => "number",
+							// 	"param_name" => "desc_font_line_height",
+							// 	"heading" => __("Font Line Height","ultimate_vc"),
+							// 	"value" => "",
+							// 	"suffix" => "px",
+							// 	"min" => 10,
+							// 	"group" => "Typography"
+							// ),
 							array(
-								"type" => "number",
-								"param_name" => "desc_font_line_height",
-								"heading" => __("Font Line Height","ultimate_vc"),
-								"value" => "",
-								"suffix" => "px",
-								"min" => 10,
-								"group" => "Typography"
-							),
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Font Line Height", 'ultimate_vc'),
+                                "param_name" => "desc_font_line_height",
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
 							array(
 								"type" => "ult_param_heading",
 								"text" => "<span style='display: block;'><a href='http://bsf.io/1qnl6' target='_blank'>".__("Watch Video Tutorial","ultimate_vc")." &nbsp; <span class='dashicons dashicons-video-alt3' style='font-size:30px;vertical-align: middle;color: #e52d27;'></span></a></span>",
@@ -584,11 +647,11 @@ if(!class_exists('AIO_Flip_Box'))
 				'icon' => '',
 				'icon_img' => '',
 				'img_width' => '48',
-				'icon_size' => '32',				
+				'icon_size' => '32',
 				'icon_color' => '#333333',
 				'icon_style' => 'none',
 				'icon_color_bg' => '#ffffff',
-				'icon_color_border' => '#333333',			
+				'icon_color_border' => '#333333',
 				'icon_border_style' => 'solid',
 				'icon_border_size' => '1',
 				'icon_border_radius' => '500',
@@ -612,11 +675,11 @@ if(!class_exists('AIO_Flip_Box'))
 				'block_back_color' =>'#efefef',
 				'el_class' =>'',
 				'block_back_text_color' =>'#333333',
-				'border_size' => '2', 
-				'border_color' => '#A4A4A4', 
-				'box_border_style' => 'none', 
-				'box_border_size' => '2', 
-				'box_border_color' => '#A4A4A4', 
+				'border_size' => '2',
+				'border_color' => '#A4A4A4',
+				'box_border_style' => 'none',
+				'box_border_size' => '2',
+				'box_border_color' => '#A4A4A4',
 				'box_border_color_back' => '#A4A4A4',
 				'height_type' => 'ifb-jq-height',
 				'box_height' => '300',
@@ -631,7 +694,7 @@ if(!class_exists('AIO_Flip_Box'))
 				'desc_font_line_height'=> '',
 				'cont_align'=>'',
 
-			),$atts));	
+			),$atts));
 			$output = $f_style = $b_style = $ico_color = $box_border = $icon_border = $link_style = $height = $link_sufix = $link_prefix = $link_style = '';
 			$title_style = $desc_style = '';
 			$border_front = $border_back = '';
@@ -642,7 +705,7 @@ if(!class_exists('AIO_Flip_Box'))
 			$flip_icon = do_shortcode('[just_icon icon_type="'.$icon_type.'" icon="'.$icon.'" icon_img="'.$icon_img.'" img_width="'.$img_width.'" icon_size="'.$icon_size.'" icon_color="'.$icon_color.'" icon_style="'.$icon_style.'" icon_color_bg="'.$icon_color_bg.'" icon_color_border="'.$icon_color_border.'"  icon_border_style="'.$icon_border_style.'" icon_border_size="'.$icon_border_size.'" icon_border_radius="'.$icon_border_radius.'" icon_border_spacing="'.$icon_border_spacing.'" icon_link="'.$icon_link.'" icon_animation="'.$icon_animation.'"]');
 			$css_trans = $icon_border = $box_border = '';
 			$height = $target = '';
-			
+
 			/* title */
 			if($title_font != '')
 			{
@@ -652,11 +715,29 @@ if(!class_exists('AIO_Flip_Box'))
 			}
 			if($title_font_style != '')
 				$title_style .= get_ultimate_font_style($title_font_style);
-			if($title_font_size != '')
-				$title_style .= 'font-size:'.$title_font_size.'px;';
-			if($title_font_line_height != '')
-				$title_style .= 'line-height:'.$title_font_line_height.'px;';
-				
+
+			// if($title_font_size != '')
+			// 	$title_style .= 'font-size:'.$title_font_size.'px;';
+			// if($title_font_line_height != '')
+			// 	$title_style .= 'line-height:'.$title_font_line_height.'px;';
+
+			if (is_numeric($title_font_size)) {
+                $title_font_size = 'desktop:'.$title_font_size.'px;';
+            }
+
+            if (is_numeric($title_font_line_height)) {
+                $title_font_line_height = 'desktop:'.$title_font_line_height.'px;';
+            }
+            $flip_box_id = 'flip-box-wrap-'.rand(1000, 9999);
+            $ult_flip_box_args = array(
+                'target' => '#'.$flip_box_id. ' h3.ult-responsive', // set targeted element e.g. unique class/id etc.
+                'media_sizes' => array(
+                    'font-size' => $title_font_size, // set 'css property' & 'ultimate_responsive' sizes. Here $title_responsive_font_size holds responsive font sizes from user input.
+                   	'line-height' => $title_font_line_height
+                ),
+            );
+	$data_list = get_ultimate_vc_responsive_media_css($ult_flip_box_args);
+
 			/* description */
 			if($desc_font != '')
 			{
@@ -666,12 +747,30 @@ if(!class_exists('AIO_Flip_Box'))
 			}
 			if($desc_font_style != '')
 				$desc_style .= get_ultimate_font_style($desc_font_style);
-			if($desc_font_size != '')
-				$desc_style .= 'font-size:'.$desc_font_size.'px;';
-			if($desc_font_line_height != '')
-				$desc_style .= 'line-height:'.$desc_font_line_height.'px;';
+
+			// if($desc_font_size != '')
+			// 	$desc_style .= 'font-size:'.$desc_font_size.'px;';
+			// if($desc_font_line_height != '')
+			// 	$desc_style .= 'line-height:'.$desc_font_line_height.'px;';
+
+
+			if (is_numeric($desc_font_size)) {
+                $desc_font_size = 'desktop:'.$desc_font_size.'px;';
+            }
+			if (is_numeric($desc_font_line_height)) {
+                $desc_font_line_height = 'desktop:'.$desc_font_line_height.'px;';
+            }
+
+            $ult_flip_box_args_desc = array(
+                'target' => '#'.$flip_box_id. ' .ult-responsive', // set targeted element e.g. unique class/id etc.
+                'media_sizes' => array(
+                    'font-size' => $desc_font_size, // set 'css property' & 'ultimate_responsive' sizes. Here $title_responsive_font_size holds responsive font sizes from user input.
+                   	'line-height' => $desc_font_line_height
+                ),
+            );
+	$data_list_desc = get_ultimate_vc_responsive_media_css($ult_flip_box_args_desc);
 			//enquque_ultimate_google_fonts($font_args);
-			
+
 			if($icon_border_style !== 'none')
 			{
 				$icon_border .= 'border-style: '.$icon_border_style.';';
@@ -728,7 +827,7 @@ if(!class_exists('AIO_Flip_Box'))
 				}
 			}
 
-			
+
 			if($cont_align==''){
 				$cont_align='off';
 			}
@@ -736,29 +835,29 @@ if(!class_exists('AIO_Flip_Box'))
 			if($cont_align=='on'){
 				$verticalcont.='ifb-flip-box-section-vertical-middle';
 			}
-   
+
 			$output .= '<div class="flip-box-wrap">';
 			$output .= '<div class="flip-box '.$height_type.' '.$el_class.' '. $flip_type .' flip-'.$height_type.'" '.$css_trans.' style="'.$height.'" '.$box_style_data.'>';
-			$output .= '<div class="ifb-flip-box">';
-				$output .= '<div class="ifb-face ifb-front" style="'.$f_style.' '.$box_border.' '.$border_front.'">
+			$output .= '<div class="ifb-flip-box" id="'.$flip_box_id.'">';
+				$output .= '<div class="ifb-face ifb-front " style="'.$f_style.' '.$box_border.' '.$border_front.'">
 							<div class="ifb-flip-box-section '.$verticalcont.'">
 							';
 						if($icon !== '' || $icon_img !== '')
 								$output.='<div class="flip-box-icon">'.$flip_icon.'</div>';
 						if($block_title_front!='')
-							$output.='<h3 style="'.$front_text.' '.$title_style.'">'.$block_title_front.'</h3>';
+							$output.='<h3 class="ult-responsive" '.$data_list.' style="'.$front_text.' '.$title_style.'">'.$block_title_front.'</h3>';
 						if($block_desc_front!='')
-							$output.='<div class="ifb-flip-box-section-content" style="'.$desc_style.$front_text.'"><p>'.$block_desc_front.'</p></div>';
+							$output.='<div class="ifb-flip-box-section-content ult-responsive" '.$data_list_desc.' style="'.$desc_style.$front_text.'"><p>'.$block_desc_front.'</p></div>';
 					$output.='</div></div><!-- END .front -->
 						<div class="ifb-face ifb-back" style="'.$b_style.' '.$box_border.' '.$border_back.'">
 							<div class="ifb-flip-box-section '.$verticalcont.'">';
 							if($block_title_back!='')
-								$output.='<h3 style="'.$back_text.' '.$title_style.'">'.$block_title_back.'</h3>';
+								$output.='<h3 class="ult-responsive" '.$data_list.' style="'.$back_text.' '.$title_style.'">'.$block_title_back.'</h3>';
 							if($block_desc_back!=''){
 								if($button_link !== ''){
 									$output .= '<div class="ifb-desc-back">';
 								}
-								$output.='<div class="ifb-flip-box-section-content" style="'.$desc_style.$back_text.'"><p>'.$block_desc_back.'</p></div>';
+								$output.='<div class="ifb-flip-box-section-content ult-responsive" '.$data_list_desc.' style="'.$desc_style.$back_text.'"><p>'.$block_desc_back.'</p></div>';
 								if($button_link !== ''){
 									$output .= '</div>';
 								}
@@ -767,7 +866,7 @@ if(!class_exists('AIO_Flip_Box'))
 								$link_prefix = '<div class="flip_link">';
 								if($button_bg !== '' && $button_txt !== '')
 									$link_style = 'style="background:'.$button_bg.'; color:'.$button_txt.';"';
-								if($button_link!== ''){								
+								if($button_link!== ''){
 									$href = vc_build_link($button_link);
 									if(isset($href['target']) && $href['target'] != ''){
 										$target = 'target="'.$href['target'].'"';
@@ -782,7 +881,7 @@ if(!class_exists('AIO_Flip_Box'))
 					$output .= '</div> <!-- ifb-flip-box -->';
 				$output .= '</div> <!-- flip-box -->';
 			$output .='</div><!-- End icon block -->';
-			return $output;		
+			return $output;
 		}
 		function flip_box_scripts() {
 			$bsf_dev_mode = bsf_get_option('dev_mode');

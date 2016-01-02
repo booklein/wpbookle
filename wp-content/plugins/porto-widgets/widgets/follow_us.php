@@ -19,6 +19,7 @@ class Porto_Follow_Us_Widget extends WP_Widget {
     function widget($args, $instance) {
         extract($args);
         $title = apply_filters('widget_title', $instance['title']);
+        $nofollow = isset($instance['nofollow']) ? $instance['nofollow'] : '';
         $follow_before = $instance['follow_before'];
         $facebook = isset($instance['facebook']) ? $instance['facebook'] : '';
         $twitter = isset($instance['twitter']) ? $instance['twitter'] : '';
@@ -34,8 +35,14 @@ class Porto_Follow_Us_Widget extends WP_Widget {
         $tumblr = isset($instance['tumblr']) ? $instance['tumblr'] : '';
         $reddit = isset($instance['reddit']) ? $instance['reddit'] : '';
         $vimeo = isset($instance['vimeo']) ? $instance['vimeo'] : '';
+        $telegram = isset($instance['telegram']) ? $instance['telegram'] : '';
+        $yelp = isset($instance['yelp']) ? $instance['yelp'] : '';
+        $flickr = isset($instance['flickr']) ? $instance['flickr'] : '';
         $whatsapp = isset($instance['whatsapp']) ? $instance['whatsapp'] : '';
         $follow_after = $instance['follow_after'];
+
+        if ($nofollow)
+            $nofollow = ' rel="nofollow"';
 
         echo $before_widget;
 
@@ -47,63 +54,75 @@ class Porto_Follow_Us_Widget extends WP_Widget {
             <?php if ($follow_before) : ?><p><?php echo force_balance_tags($follow_before) ?></p><?php endif; ?>
             <?php
             if ($facebook) :
-                ?><a href="<?php echo esc_url($facebook) ?>" target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Facebook', 'porto-widgets') ?>" class="share-facebook"><?php echo __('Facebook', 'porto-widgets') ?></a><?php
+                ?><a href="<?php echo esc_url($facebook) ?>" <?php echo $nofollow ?> target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Facebook', 'porto-widgets') ?>" class="share-facebook"><?php echo __('Facebook', 'porto-widgets') ?></a><?php
             endif;
 
             if ($twitter) :
-                ?><a href="<?php echo esc_url($twitter) ?>" target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Twitter', 'porto-widgets') ?>" class="share-twitter"><?php echo __('Twitter', 'porto-widgets') ?></a><?php
+                ?><a href="<?php echo esc_url($twitter) ?>" <?php echo $nofollow ?> target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Twitter', 'porto-widgets') ?>" class="share-twitter"><?php echo __('Twitter', 'porto-widgets') ?></a><?php
             endif;
 
             if ($rss) :
-                ?><a href="<?php echo esc_url($rss) ?>" target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('RSS', 'porto-widgets') ?>" class="share-rss"><?php echo __('RSS', 'porto-widgets') ?></a><?php
+                ?><a href="<?php echo esc_url($rss) ?>" <?php echo $nofollow ?> target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('RSS', 'porto-widgets') ?>" class="share-rss"><?php echo __('RSS', 'porto-widgets') ?></a><?php
             endif;
 
             if ($pinterest) :
-                ?><a href="<?php echo esc_url($pinterest) ?>" target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Pinterest', 'porto-widgets') ?>" class="share-pinterest"><?php echo __('Pinterest', 'porto-widgets') ?></a><?php
+                ?><a href="<?php echo esc_url($pinterest) ?>" <?php echo $nofollow ?> target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Pinterest', 'porto-widgets') ?>" class="share-pinterest"><?php echo __('Pinterest', 'porto-widgets') ?></a><?php
             endif;
 
             if ($youtube) :
-                ?><a href="<?php echo esc_url($youtube) ?>" target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Youtube', 'porto-widgets') ?>" class="share-youtube"><?php echo __('Youtube', 'porto-widgets') ?></a><?php
+                ?><a href="<?php echo esc_url($youtube) ?>" <?php echo $nofollow ?> target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Youtube', 'porto-widgets') ?>" class="share-youtube"><?php echo __('Youtube', 'porto-widgets') ?></a><?php
             endif;
 
             if ($instagram) :
-                ?><a href="<?php echo esc_url($instagram) ?>" target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Instagram', 'porto-widgets') ?>" class="share-instagram"><?php echo __('Instagram', 'porto-widgets') ?></a><?php
+                ?><a href="<?php echo esc_url($instagram) ?>" <?php echo $nofollow ?> target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Instagram', 'porto-widgets') ?>" class="share-instagram"><?php echo __('Instagram', 'porto-widgets') ?></a><?php
             endif;
 
             if ($skype) :
-                ?><a href="<?php echo esc_url($skype) ?>" target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Skype', 'porto-widgets') ?>" class="share-skype"><?php echo __('Skype', 'porto-widgets') ?></a><?php
+                ?><a href="<?php echo esc_attr($skype) ?>" <?php echo $nofollow ?> target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Skype', 'porto-widgets') ?>" class="share-skype"><?php echo __('Skype', 'porto-widgets') ?></a><?php
             endif;
 
             if ($linkedin) :
-                ?><a href="<?php echo esc_url($linkedin) ?>" target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Linkedin', 'porto-widgets') ?>" class="share-linkedin"><?php echo __('Linkedin', 'porto-widgets') ?></a><?php
+                ?><a href="<?php echo esc_url($linkedin) ?>" <?php echo $nofollow ?> target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Linkedin', 'porto-widgets') ?>" class="share-linkedin"><?php echo __('Linkedin', 'porto-widgets') ?></a><?php
             endif;
 
             if ($googleplus) :
-                ?><a href="<?php echo esc_url($googleplus) ?>" target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Google +', 'porto-widgets') ?>" class="share-googleplus"><?php echo __('Google +', 'porto-widgets') ?></a><?php
+                ?><a href="<?php echo esc_url($googleplus) ?>" <?php echo $nofollow ?> target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Google +', 'porto-widgets') ?>" class="share-googleplus"><?php echo __('Google +', 'porto-widgets') ?></a><?php
             endif;
 
             if ($vk) :
-                ?><a href="<?php echo esc_url($vk) ?>" target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('VK', 'porto-widgets') ?>" class="share-vk"><?php echo __('VK', 'porto-widgets') ?></a><?php
+                ?><a href="<?php echo esc_url($vk) ?>" <?php echo $nofollow ?> target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('VK', 'porto-widgets') ?>" class="share-vk"><?php echo __('VK', 'porto-widgets') ?></a><?php
             endif;
 
             if ($xing) :
-                ?><a href="<?php echo esc_url($xing) ?>" target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Xing', 'porto-widgets') ?>" class="share-xing"><?php echo __('Xing', 'porto-widgets') ?></a><?php
+                ?><a href="<?php echo esc_url($xing) ?>" <?php echo $nofollow ?> target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Xing', 'porto-widgets') ?>" class="share-xing"><?php echo __('Xing', 'porto-widgets') ?></a><?php
             endif;
 
             if ($tumblr) :
-                ?><a href="<?php echo esc_url($tumblr) ?>" target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Tumblr', 'porto-widgets') ?>" class="share-tumblr"><?php echo __('Tumblr', 'porto-widgets') ?></a><?php
+                ?><a href="<?php echo esc_url($tumblr) ?>" <?php echo $nofollow ?> target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Tumblr', 'porto-widgets') ?>" class="share-tumblr"><?php echo __('Tumblr', 'porto-widgets') ?></a><?php
             endif;
 
             if ($reddit) :
-                ?><a href="<?php echo esc_url($reddit) ?>" target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Reddit', 'porto-widgets') ?>" class="share-reddit"><?php echo __('Reddit', 'porto-widgets') ?></a><?php
+                ?><a href="<?php echo esc_url($reddit) ?>" <?php echo $nofollow ?> target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Reddit', 'porto-widgets') ?>" class="share-reddit"><?php echo __('Reddit', 'porto-widgets') ?></a><?php
             endif;
 
             if ($vimeo) :
-                ?><a href="<?php echo esc_url($vimeo) ?>" target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Vimeo', 'porto-widgets') ?>" class="share-vimeo"><?php echo __('Vimeo', 'porto-widgets') ?></a><?php
+                ?><a href="<?php echo esc_url($vimeo) ?>" <?php echo $nofollow ?> target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Vimeo', 'porto-widgets') ?>" class="share-vimeo"><?php echo __('Vimeo', 'porto-widgets') ?></a><?php
+            endif;
+
+            if ($telegram) :
+                ?><a href="<?php echo esc_url($telegram) ?>" <?php echo $nofollow ?> target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Telegram', 'porto-widgets') ?>" class="share-telegram"><?php echo __('Telegram', 'porto-widgets') ?></a><?php
+            endif;
+
+            if ($yelp) :
+                ?><a href="<?php echo esc_url($yelp) ?>" <?php echo $nofollow ?> target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Yelp', 'porto-widgets') ?>" class="share-yelp"><?php echo __('Yelp', 'porto-widgets') ?></a><?php
+            endif;
+
+            if ($flickr) :
+                ?><a href="<?php echo esc_url($flickr) ?>" <?php echo $nofollow ?> target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('Flickr', 'porto-widgets') ?>" class="share-flickr"><?php echo __('Flickr', 'porto-widgets') ?></a><?php
             endif;
 
             if ($whatsapp) :
-                ?><a href="whatsapp://send?text=<?php echo esc_url($whatsapp) ?>" target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('WhatsApp', 'porto-widgets') ?>" class="share-whatsapp" style="display:none"><?php echo __('WhatsApp', 'porto-widgets') ?></a><?php
+                ?><a href="whatsapp://send?text=<?php echo esc_url($whatsapp) ?>" <?php echo $nofollow ?> target="_blank" data-toggle="tooltip" data-placement="bottom" title="<?php echo __('WhatsApp', 'porto-widgets') ?>" class="share-whatsapp" style="display:none"><?php echo __('WhatsApp', 'porto-widgets') ?></a><?php
             endif;
             ?>
             <?php if ($follow_after) : ?><p><?php echo force_balance_tags($follow_after) ?></p><?php endif; ?>
@@ -117,6 +136,7 @@ class Porto_Follow_Us_Widget extends WP_Widget {
         $instance = $old_instance;
 
         $instance['title'] = strip_tags($new_instance['title']);
+        $instance['nofollow'] = $new_instance['nofollow'];
         $instance['follow_before'] = $new_instance['follow_before'];
         $instance['facebook'] = $new_instance['facebook'];
         $instance['twitter'] = $new_instance['twitter'];
@@ -132,6 +152,9 @@ class Porto_Follow_Us_Widget extends WP_Widget {
         $instance['tumblr'] = $new_instance['tumblr'];
         $instance['reddit'] = $new_instance['reddit'];
         $instance['vimeo'] = $new_instance['vimeo'];
+        $instance['telegram'] = $new_instance['telegram'];
+        $instance['yelp'] = $new_instance['yelp'];
+        $instance['flickr'] = $new_instance['flickr'];
         $instance['whatsapp'] = $new_instance['whatsapp'];
         $instance['follow_after'] = $new_instance['follow_after'];
 
@@ -139,7 +162,7 @@ class Porto_Follow_Us_Widget extends WP_Widget {
     }
 
     function form($instance) {
-        $defaults = array('title' => __('Follow Us', 'porto-widgets'), 'follow_before' => '', 'facebook' => '', 'twitter' => '', 'rss' => '', 'pinterest' => '', 'youtube' => '', 'instagram' => '', 'skype' => '', 'linkedin' => '', 'googleplus' => '', 'vk' => '', 'xing' => '', 'tumblr' => '', 'reddit' => '', 'vimeo' => '', 'whatsapp' => '', 'follow_after' => '');
+        $defaults = array('title' => __('Follow Us', 'porto-widgets'), 'nofollow' => '', 'follow_before' => '', 'facebook' => '', 'twitter' => '', 'rss' => '', 'pinterest' => '', 'youtube' => '', 'instagram' => '', 'skype' => '', 'linkedin' => '', 'googleplus' => '', 'vk' => '', 'xing' => '', 'tumblr' => '', 'reddit' => '', 'vimeo' => '', 'telegram' => '', 'yelp' => '', 'flickr' => '', 'whatsapp' => '', 'follow_after' => '');
         $instance = wp_parse_args((array) $instance, $defaults); ?>
 
         <p>
@@ -147,6 +170,11 @@ class Porto_Follow_Us_Widget extends WP_Widget {
                 <strong><?php echo __('Title', 'porto-widgets') ?>:</strong>
                 <input type="text" class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" value="<?php if (isset($instance['title'])) echo $instance['title']; ?>" />
             </label>
+        </p>
+
+        <p>
+            <input class="checkbox" type="checkbox" <?php checked($instance['nofollow'], 'on'); ?> id="<?php echo $this->get_field_id('nofollow'); ?>" name="<?php echo $this->get_field_name('nofollow'); ?>" />
+            <label for="<?php echo $this->get_field_id('nofollow'); ?>"><?php echo __('Add rel="nofollow" to links', 'porto-widgets') ?></label>
         </p>
 
         <p>
@@ -251,6 +279,27 @@ class Porto_Follow_Us_Widget extends WP_Widget {
             <label for="<?php echo $this->get_field_id('vimeo'); ?>">
                 <strong><?php echo __('Vimeo', 'porto-widgets') ?>:</strong>
                 <input type="text" class="widefat" id="<?php echo $this->get_field_id('vimeo'); ?>" name="<?php echo $this->get_field_name('vimeo'); ?>" value="<?php if (isset($instance['vimeo'])) echo $instance['vimeo']; ?>" />
+            </label>
+        </p>
+
+        <p>
+            <label for="<?php echo $this->get_field_id('telegram'); ?>">
+                <strong><?php echo __('Telegram', 'porto-widgets') ?>:</strong>
+                <input type="text" class="widefat" id="<?php echo $this->get_field_id('telegram'); ?>" name="<?php echo $this->get_field_name('telegram'); ?>" value="<?php if (isset($instance['telegram'])) echo $instance['telegram']; ?>" />
+            </label>
+        </p>
+
+        <p>
+            <label for="<?php echo $this->get_field_id('yelp'); ?>">
+                <strong><?php echo __('Yelp', 'porto-widgets') ?>:</strong>
+                <input type="text" class="widefat" id="<?php echo $this->get_field_id('yelp'); ?>" name="<?php echo $this->get_field_name('yelp'); ?>" value="<?php if (isset($instance['yelp'])) echo $instance['yelp']; ?>" />
+            </label>
+        </p>
+
+        <p>
+            <label for="<?php echo $this->get_field_id('flickr'); ?>">
+                <strong><?php echo __('Flickr', 'porto-widgets') ?>:</strong>
+                <input type="text" class="widefat" id="<?php echo $this->get_field_id('flickr'); ?>" name="<?php echo $this->get_field_name('flickr'); ?>" value="<?php if (isset($instance['flickr'])) echo $instance['flickr']; ?>" />
             </label>
         </p>
 

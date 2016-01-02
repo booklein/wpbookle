@@ -10,7 +10,7 @@
     position: relative;
     width: 100%;
     padding: 0;
-    margin: 0 auto 30px
+    margin: 0 auto
 }
 a.ult_a {
     text-align: center;
@@ -570,7 +570,7 @@ span.aio-icon.none.icon-top.ult_tab_iconTop {
 @media screen and (min-width: 450px) and (max-width: 650px) {
     span.ult-span-text {
         line-height: 2.5em;
-        font-size: 1em!important
+        font-size: 1em ;
     }
     .ult_tabmenu .aio-icon {
         padding-left: 5px;
@@ -705,7 +705,7 @@ a.ult_a:focus {
      -ms-transform: translate3d(0, 0, 0)
  }
  .ult_tabs .ult_tab_min_contain.tabanimate {
-    overflow: hidden; 
+    overflow: hidden;
     width: 100%;
     left: 0;
     display: block;
@@ -720,7 +720,7 @@ a.ult_a:focus {
     -webkit-transform: translate3d(0, 0, 0);
     -moz-transform: translate3d(0, 0, 0);
     -ms-transform: translate3d(0, 0, 0)
-} 
+}
   .ult_owl-origin {
      -webkit-perspective: 1200px;
      -webkit-perspective-origin-x: 50%;
@@ -914,4 +914,4 @@ a.ult_a:focus {
          opacity: 1;
          transform: translateZ(0) translateX(0)
      }
- } 
+ }

@@ -87,12 +87,19 @@ article {
             body.single-post & {
                 margin-bottom: 20px;
             }
-            > span {
+            > span,
+            > .post-views {
                 display: inline-block;
                 padding-#{$right}: 8px;
             }
-            i {
-                margin-#{$right}: 3px;
+            i,
+            .post-views-icon.dashicons {
+                margin-#{$right}: 3px !important;
+                font-size: 1em !important;
+                height: 1.2em;
+                line-height: 1;
+                width: 1em;
+                text-align: center;
             }
         }
 
@@ -428,12 +435,19 @@ article {
             body.single-post & {
                 margin-bottom: 20px;
             }
-            > span {
+            > span,
+            > .post-views {
                 display: inline-block;
                 padding-#{$right}: 8px;
             }
-            i {
-                margin-#{$right}: 3px;
+            i,
+            .post-views-icon.dashicons {
+                margin-#{$right}: 3px !important;
+                font-size: 1em !important;
+                height: 1.2em;
+                line-height: 1;
+                width: 1em;
+                text-align: center;
             }
         }
         &.style-2 {

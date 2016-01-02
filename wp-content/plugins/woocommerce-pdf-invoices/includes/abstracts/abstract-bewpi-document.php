@@ -15,11 +15,6 @@ if ( ! class_exists( 'BEWPI_Abstract_Document' ) ) {
 	     */
 	    protected $full_path;
 
-	    /**
-	     * @var string
-	     */
-	    protected $textdomain = 'be-woocommerce-pdf-invoices';
-
         /**
          * All options from general tab.
          * @var array
@@ -66,12 +61,19 @@ if ( ! class_exists( 'BEWPI_Abstract_Document' ) ) {
 	        $mpdf->useOnlyCoreFonts = false;    // false is default
 
 	        if ( (bool)$this->template_options[ 'bewpi_show_payment_status' ] && $paid ) {
-		        $mpdf->SetWatermarkText( __( 'Paid', $this->textdomain ) );
+		        $mpdf->SetWatermarkText( __( 'Paid', 'woocommerce-pdf-invoices' ) );
 		        $mpdf->showWatermarkText = true;
 	        }
 
 	        $mpdf->SetDisplayMode( 'fullpage' );
-	        $mpdf->useSubstitutions = true;
+	        //$mpdf->useSubstitutions = true;
+	        $mpdf->autoScriptToLang = true;
+	        $mpdf->autoLangToFont = true;
+	        $mpdf->setAutoTopMargin = 'stretch';
+	        $mpdf->setAutoBottomMargin = 'stretch';
+	        $mpdf->autoMarginPadding = 10;
+	        //$mpdf->debug = true;
+	        //$mpdf->showImageErrors = true;
 
 	        if ( ! empty ( $html_sections['header'] ) )
 		        $mpdf->SetHTMLHeader( $html_sections['header'] );
@@ -93,18 +95,19 @@ if ( ! class_exists( 'BEWPI_Abstract_Document' ) ) {
          * Get the invoice if exist and show.
          * @param $download
          */
-        public function view( $download ) {
-            if ( $download ) {
-		        header('Content-type: application / pdf');
-		        header('Content-Disposition: attachment; filename="' . $this->filename . '"');
-		        header('Content-Transfer-Encoding: binary');
-		        header('Content-Length: ' . filesize( $this->full_path ));
-		        header('Accept-Ranges: bytes');
+        public function view() {
+            if ( $this->general_options[ 'bewpi_view_pdf' ] === 'browser' ) {
+	            header( 'Content-type: application/pdf' );
+	            header( 'Content-Disposition: inline; filename = "' . $this->filename . '"' );
+	            header( 'Content-Transfer-Encoding: binary' );
+	            header( 'Content-Length: ' . filesize( $this->full_path ) );
+	            header( 'Accept-Ranges: bytes' );
 	        } else {
-		        header('Content-type: application/pdf');
-		        header('Content-Disposition: inline; filename="' . $this->filename . '"');
-		        header('Content-Transfer-Encoding: binary');
-		        header('Accept-Ranges: bytes');
+	            header('Content-type: application / pdf');
+	            header('Content-Disposition: attachment; filename="' . $this->filename . '"');
+	            header('Content-Transfer-Encoding: binary');
+	            header('Content-Length: ' . filesize( $this->full_path ));
+	            header('Accept-Ranges: bytes');
 	        }
 	        @readfile( $this->full_path );
 	        exit;
@@ -114,10 +117,6 @@ if ( ! class_exists( 'BEWPI_Abstract_Document' ) ) {
          * Delete invoice from tmp dir.
          */
         public function delete() {
-	        // decrement last invoice number
-	        $this->template_options[ 'bewpi_last_invoice_number' ] -= 1;
-	        update_option( 'bewpi_template_settings', $this->template_options );
-
 	        return unlink( $this->full_path );
         }
 
@@ -135,12 +134,12 @@ if ( ! class_exists( 'BEWPI_Abstract_Document' ) ) {
 			    'format' => '',
 			    'default_font_size' => 0,
 			    'default_font' => 'opensans',
-			    'margin_left' => 17,
-			    'margin_right' => 17,
-			    'margin_top' => 150,
-			    'margin_bottom' => 50,
-			    'margin_header' => 17,
-			    'margin_footer' => 0,
+			    'margin_left' => 14,
+			    'margin_right' => 14,
+			    'margin_top' => 14,
+			    'margin_bottom' => 0,
+			    'margin_header' => 14,
+			    'margin_footer' => 6,
 			    'orientation' => 'P'
 		    ));
 	    }

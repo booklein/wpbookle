@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
+}
 
 /**
  * LayerSlider loader.
@@ -17,7 +20,10 @@ class Vc_Vendor_Layerslider implements Vc_Vendor_Interface {
 	 * @since 4.3
 	 */
 	public function load() {
-		add_action( 'vc_after_mapping', array( &$this, 'buildShortcode' ) );
+		add_action( 'vc_after_mapping', array(
+			&$this,
+			'buildShortcode',
+		) );
 
 	}
 
@@ -26,8 +32,42 @@ class Vc_Vendor_Layerslider implements Vc_Vendor_Interface {
 	 * @since 4.3
 	 */
 	public function buildShortcode() {
+
+		vc_lean_map( 'layerslider_vc', array(
+			$this,
+			'addShortcodeSettings',
+		) );
+
+		// Load layer slider shortcode && change id
+		add_filter( 'vc_layerslider_shortcode', array(
+			&$this,
+			'setId',
+		) );
+	}
+
+	/**
+	 * @since 4.3
+	 *
+	 * @param $output
+	 *
+	 * @return string
+	 */
+	public function setId( $output ) {
+		return preg_replace( '/(layerslider_\d+)/', '$1_' . time() . '_' . self::$instanceIndex ++, $output );
+	}
+
+	/**
+	 * Mapping settings for lean method.
+	 *
+	 * @since 4.9
+	 *
+	 * @param $tag
+	 *
+	 * @return array
+	 */
+	public function addShortcodeSettings( $tag ) {
 		$use_old = class_exists( 'LS_Sliders' );
-		if ( ! class_exists( 'LS_Sliders' ) && defined( 'LS_ROOT_PATH' ) && strpos( LS_ROOT_PATH, '.php' ) === false ) {
+		if ( ! class_exists( 'LS_Sliders' ) && defined( 'LS_ROOT_PATH' ) && false === strpos( LS_ROOT_PATH, '.php' ) ) {
 			include_once LS_ROOT_PATH . '/classes/class.ls.sliders.php';
 			$use_old = false;
 		}
@@ -40,17 +80,14 @@ class Vc_Vendor_Layerslider implements Vc_Vendor_Interface {
 		 * @since 4.4.2
 		 */
 		$use_old = apply_filters( 'vc_vendor_layerslider_old', $use_old ); // @since 4.4.2 hook to use old style return true.
-		$layer_sliders = array();
 		if ( $use_old ) {
 			global $wpdb;
-			$ls = $wpdb->get_results(
-				"
+			$ls = $wpdb->get_results( '
   SELECT id, name, date_c
-  FROM " . $wpdb->prefix . "layerslider
+  FROM ' . $wpdb->prefix . "layerslider
   WHERE flag_hidden = '0' AND flag_deleted = '0'
   ORDER BY date_c ASC LIMIT 999
-  "
-			);
+  " );
 			$layer_sliders = array();
 			if ( ! empty( $ls ) ) {
 				foreach ( $ls as $slider ) {
@@ -73,8 +110,9 @@ class Vc_Vendor_Layerslider implements Vc_Vendor_Interface {
 				$layer_sliders[ __( 'No sliders found', 'js_composer' ) ] = 0;
 			}
 		}
-		vc_map( array(
-			'base' => 'layerslider_vc',
+
+		return array(
+			'base' => $tag,
 			'name' => __( 'Layer Slider', 'js_composer' ),
 			'icon' => 'icon-wpb-layerslider',
 			'category' => __( 'Content', 'js_composer' ),
@@ -84,7 +122,7 @@ class Vc_Vendor_Layerslider implements Vc_Vendor_Interface {
 					'type' => 'textfield',
 					'heading' => __( 'Widget title', 'js_composer' ),
 					'param_name' => 'title',
-					'description' => __( 'Enter text used as widget title (Note: located above content element).', 'js_composer' )
+					'description' => __( 'Enter text used as widget title (Note: located above content element).', 'js_composer' ),
 				),
 				array(
 					'type' => 'dropdown',
@@ -93,29 +131,15 @@ class Vc_Vendor_Layerslider implements Vc_Vendor_Interface {
 					'admin_label' => true,
 					'value' => $layer_sliders,
 					'save_always' => true,
-					'description' => __( 'Select your LayerSlider.', 'js_composer' )
+					'description' => __( 'Select your LayerSlider.', 'js_composer' ),
 				),
 				array(
 					'type' => 'textfield',
 					'heading' => __( 'Extra class name', 'js_composer' ),
 					'param_name' => 'el_class',
-					'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS.', 'js_composer' )
-				)
-			)
-		) );
-
-		// Load layer slider shortcode && change id
-		add_filter( 'vc_layerslider_shortcode', array( &$this, 'setId' ) );
-	}
-
-	/**
-	 * @since 4.3
-	 *
-	 * @param $output
-	 *
-	 * @return string
-	 */
-	public function setId( $output ) {
-		return preg_replace( '/(layerslider_\d+)/', '$1_' . time() . '_' . self::$instanceIndex ++, $output );
+					'description' => __( 'Style particular content element differently - add a class name and refer to it in custom CSS.', 'js_composer' ),
+				),
+			),
+		);
 	}
 }

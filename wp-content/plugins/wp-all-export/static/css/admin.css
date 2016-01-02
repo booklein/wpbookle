@@ -34,12 +34,18 @@
 	border: 1px solid #FF8383;
 	color: #000;
 }
+.wpallexport-plugin .wpallexport-free-edition-notice p{
+	color: #000 !important;
+	font-size: 1.3em !important;
+	margin-bottom: 0;
+}
 .wpallexport-plugin .upgrade_link{
 	color: #000 !important;
 	font-size: 1.3em;
 	text-decoration: underline !important;
 }
-.wpallexport-plugin .wpallexport-user-export-notice{
+.wpallexport-plugin .wpallexport-user-export-notice,
+.wpallexport-plugin .wpallexport-comments-export-notice{
 	padding: 20px;
 	display: none;
 	width: 558px;
@@ -521,6 +527,8 @@
 }
 	.wpallexport-plugin .step_description h2{
 		color: #425f9a;	
+		font-size: 23px;
+		font-weight: normal;
 	}
 	.wpallexport-plugin .step_description h3{
 		color: #777;
@@ -927,7 +935,12 @@
 	font-weight: bold;
 	font-size: 14px;
 }
-
+.wpallexport-plugin .wp_all_export_sub_input{
+	vertical-align:middle; 
+	font-size: 11px !important; 
+	background:#fff !important; 	
+	text-align:center;
+}
 /*--------------------------------------------------------------------------
 *
 *	WP All Export Layout
@@ -1493,6 +1506,12 @@
 	content: "\f110";
 	color: #555;
 }
+.wpallexport-plugin #file_selector .dd-option .dashicon-comments:before,
+.wpallexport-plugin #file_selector .dd-selected .dashicon-comments:before{
+	font-family: "dashicons";
+	content: "\f101";
+	color: #555;
+}
 .wpallexport-plugin #file_selector .dd-option:hover .dashicon:before,
 .wpallexport-plugin #file_selector .dd-option-selected .dashicon:before{
 	color: #555;
@@ -1793,7 +1812,7 @@
 		text-align: left;
 	}
 .wpallexport-plugin .ajax-console .founded_records{	
-	background: url('../img/elements.png') no-repeat !important;
+	background: url('../img/elements.png') no-repeat;
 	padding-left: 80px;	
 	margin-bottom: 0;	
 	margin-left: 40px;
@@ -2566,6 +2585,9 @@
 		margin-top: 5px;
 		font-size:20px;
 	}
+	.wpallexport-plugin .nothing_to_export{
+		background: url("../img/exclamation.png") no-repeat scroll 5px 5px rgba(0, 0, 0, 0) !important;
+	}
 .wpallexport-plugin .wpallexport-is-continue{
 	text-align: left; 
 	float: left; 
@@ -3067,7 +3089,7 @@
 }
 /*@*/
 .wpallexport-plugin form.settings p{
-	font-size: 14px !important;
+	font-size: 14px;
 }
 .wpallexport-plugin form.settings .wpallexport-header{
 	overflow: hidden;

@@ -20,9 +20,9 @@ if(!class_exists('AIO_Icon_Manager'))
 		var $unicode = '';
 		var $svg_config = array();
 		var $json_config = array();
-		static $charlist = array(); 
-		static $charlist_fallback = array(); 
-		static $iconlist = array(); 
+		static $charlist = array();
+		static $charlist_fallback = array();
+		static $iconlist = array();
 		var $assets_js;
 		var $assets_css;
 		var $admin_js;
@@ -55,14 +55,14 @@ if(!class_exists('AIO_Icon_Manager'))
 
 		// Icon font manager
 		public function get_icon_manager($input_name, $icon)
-		{	
+		{
 			$font_manager = self::get_font_manager($id);
 			$output = '<div class="my_param_block">';
 			$output .= '<input name="'.$input_name.'" class="textinput '.$input_name.' text_field" type="text" value="'.$icon.'"/>';
 			$output .= '</div>';
 			$output .= '<script type="text/javascript">
 				jQuery(document).ready(function(){
-					
+
 					//debugger;
 					//alert("'.$id.'");
 					jQuery(".preview-icon-'.$id.'").html("<i class=\''.$icon.'\'></i>");
@@ -78,7 +78,7 @@ if(!class_exists('AIO_Icon_Manager'))
 			$output .= $font_manager;
 			return $output;
 		}
-		
+
 		function icon_manager_menu()
 		{
 			$page = add_submenu_page(
@@ -98,7 +98,7 @@ if(!class_exists('AIO_Icon_Manager'))
 			wp_enqueue_script('media-upload');
 			wp_enqueue_media();
 			wp_enqueue_style('aio-icon-manager-admin',$this->admin_css.'icon-manager-admin.css');
-			
+
 			$fonts = get_option('smile_fonts');
 			if(is_array($fonts))
 			{
@@ -146,7 +146,7 @@ if(!class_exists('AIO_Icon_Manager'))
         }
 		public function get_font_manager($id)
 		{
-			
+
 			$fonts = get_option('smile_fonts');
 			$fonts =  get_option('smile_fonts');
 			$output = '<p><div class="preview-icon preview-icon-'.$id.'"><i class=""></i></div><input class="search-icon" type="text" placeholder="Search for a suitable icon.." /></p>';
@@ -246,7 +246,7 @@ if(!class_exists('AIO_Icon_Manager'))
 					foreach($icon_set as $icons)
 					{
 						foreach($icons as $icon)
-						{	
+						{
 							$output .= '<li title="'.$icon['class'].'" data-icons="'.$icon['class'].'" data-icons-tag="'.$icon['tags'].'">';
 							$output .= '<i class="'.$font.'-'.$icon['class'].'"></i><label class="icon">'.$icon['class'].'</label></li>';
 						}
@@ -286,13 +286,13 @@ if(!class_exists('AIO_Icon_Manager'))
 			</script>';
 			echo $script;
 		}
-		function add_zipped_font()
+		public function add_zipped_font()
 		{
 			//check if referer is ok
 			//if(function_exists('check_ajax_referer')) { check_ajax_referer('smile_nonce_save_backend'); }
 				//check if capability is ok
 			$cap = apply_filters('avf_file_upload_capability', 'update_plugins');
-			if(!current_user_can($cap)) 
+			if(!current_user_can($cap))
 			{
 				die( __("Using this feature is reserved for Super Admins. You unfortunately don't have the necessary permissions.","ultimate_vc") );
 			}
@@ -313,7 +313,7 @@ if(!class_exists('AIO_Icon_Manager'))
 			}
 			die(__('smile_font_added:','ultimate_vc').$this->font_name);
 		}
-		function remove_zipped_font()
+		public function remove_zipped_font()
 		{
 			//get the file path of the zip file
 			$font 		= $_POST['del_font'];
@@ -328,8 +328,8 @@ if(!class_exists('AIO_Icon_Manager'))
 			die(__('Was not able to remove Font','ultimate_vc'));
 		}
 		//extract the zip file to a flat folder and remove the files that are not needed
-		function zip_flatten ( $zipfile , $filter) 
-		{ 	
+		function zip_flatten ( $zipfile , $filter)
+		{
 			@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', WP_MAX_MEMORY_LIMIT ) );
 			if(is_dir($this->paths['tempdir'])){
 				$this->delete_folder($this->paths['tempdir']);
@@ -339,12 +339,12 @@ if(!class_exists('AIO_Icon_Manager'))
 			}
 			//$fontdir = smile_backend_create_folder($this->paths['fontdir'], false);
 			if(!$tempdir) die(__('Wasn\'t able to create temp folder','ultimate_vc'));
-				$zip = new ZipArchive; 
-			if ( $zip->open( $zipfile ) ) 
-			{ 
-				for ( $i=0; $i < $zip->numFiles; $i++ ) 
-				{ 
-					$entry = $zip->getNameIndex($i); 
+				$zip = new ZipArchive;
+			if ( $zip->open( $zipfile ) )
+			{
+				for ( $i=0; $i < $zip->numFiles; $i++ )
+				{
+					$entry = $zip->getNameIndex($i);
 					if(!empty($filter))
 					{
 						$delete 	= true;
@@ -360,23 +360,23 @@ if(!class_exists('AIO_Icon_Manager'))
 						}
 					}
 					if ( substr( $entry, -1 ) == '/' || !empty($delete)) continue; // skip directories and non matching files
-						$fp 	= $zip->getStream( $entry ); 
-					$ofp 	= fopen( $this->paths['tempdir'].'/'.basename($entry), 'w' ); 
-					if ( ! $fp ) 
-						die(__('Unable to extract the file.','ultimate_vc')); 
-					while ( ! feof( $fp ) ) 
-						fwrite( $ofp, fread($fp, 8192) ); 
-					fclose($fp); 
-					fclose($ofp); 
-				} 
-			 $zip->close(); 
+						$fp 	= $zip->getStream( $entry );
+					$ofp 	= fopen( $this->paths['tempdir'].'/'.basename($entry), 'w' );
+					if ( ! $fp )
+						die(__('Unable to extract the file.','ultimate_vc'));
+					while ( ! feof( $fp ) )
+						fwrite( $ofp, fread($fp, 8192) );
+					fclose($fp);
+					fclose($ofp);
+				}
+			 $zip->close();
 			}
 			else
 			{
 				die(__("Wasn't able to work with Zip Archive",'ultimate_vc'));
 			}
-			return true; 
-		} 
+			return true;
+		}
 		//iterate over xml file and extract the glyphs for the font
 		function create_config()
 		{
@@ -466,7 +466,7 @@ if(!class_exists('AIO_Icon_Manager'))
 						$this->delete_folder($this->paths['tempdir']);
 						die(__('Was not able to write a config file','ultimate_vc'));
 					}
-				} 	        
+				}
 				fclose( $handle );
 			}
 			else
@@ -485,10 +485,10 @@ if(!class_exists('AIO_Icon_Manager'))
 				$str = str_replace('icon-', $this->font_name.'-', $str);
 				$str = str_replace('.icon {', '[class^="'.$this->font_name.'-"], [class*=" '.$this->font_name.'-"] {', $str);
 				$str = str_replace('i {', '[class^="'.$this->font_name.'-"], [class*=" '.$this->font_name.'-"] {', $str);
-				
+
 				/* remove comments */
 				$str = preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $str );
-		
+
 				/* remove tabs, spaces, newlines, etc. */
 				$str = str_replace( array("\r\n", "\r", "\n", "\t", '  ', '    ', '    '), '', $str );
 
@@ -503,15 +503,15 @@ if(!class_exists('AIO_Icon_Manager'))
 		{
 			$extensions = array('eot','svg','ttf','woff','css');
 			$folder = trailingslashit($this->paths['tempdir']);
-			foreach(glob($folder.'*') as $file)   
-			{  
+			foreach(glob($folder.'*') as $file)
+			{
 				$path_parts = pathinfo($file);
 				if(strpos($path_parts['filename'], '.dev') === false && in_array($path_parts['extension'], $extensions) )
 				{
 					if($path_parts['filename'] !== $this->font_name)
 						rename($file, trailingslashit($path_parts['dirname']).$this->font_name.'.'.$path_parts['extension']);
 				}
-			} 
+			}
 		}
 		//rename the temp folder and all its font files
 		function rename_folder()
@@ -546,8 +546,8 @@ if(!class_exists('AIO_Icon_Manager'))
 		{
 			$fonts = get_option('smile_fonts');
 			if(empty($fonts)) $fonts = array();
-			$fonts[$this->font_name] = array( 
-				'include'   => trailingslashit($this->paths['fonts']).$this->font_name, 
+			$fonts[$this->font_name] = array(
+				'include'   => trailingslashit($this->paths['fonts']).$this->font_name,
 				'folder' 	=> trailingslashit($this->paths['fonts']).$this->font_name,
 				'style'	 => $this->font_name.'/'.$this->font_name.'.css',
 				'config' 	=> $this->paths['config']
@@ -568,7 +568,7 @@ if(!class_exists('AIO_Icon_Manager'))
 		{
 			$files = scandir($this->paths['tempdir']);
 			foreach($files as $file)
-			{ 
+			{
 				if(strpos(strtolower($file), '.json')  !== false && $file[0] != '.')
 				{
 					return $file;
@@ -580,7 +580,7 @@ if(!class_exists('AIO_Icon_Manager'))
 		{
 			$files = scandir($this->paths['tempdir']);
 			foreach($files as $file)
-			{ 
+			{
 				if(strpos(strtolower($file), '.svg')  !== false && $file[0] != '.')
 				{
 					return $file;
@@ -598,7 +598,7 @@ if(!class_exists('AIO_Icon_Manager'))
 			$path		= trailingslashit($upload_dir['basedir']);
 			$url		= trailingslashit($upload_dir['baseurl']);
 			foreach($font_configs as $key => $config)
-			{	
+			{
 				if(empty($config['full_path']))
 				{
 					$font_configs[$key]['include'] = $path.$font_configs[$key]['include'];
@@ -611,8 +611,8 @@ if(!class_exists('AIO_Icon_Manager'))
 		}
 		function AIO_move_fonts()
 		{
-			// Make destination directory 
-			if (!is_dir($this->vc_fonts)) { 
+			// Make destination directory
+			if (!is_dir($this->vc_fonts)) {
 				wp_mkdir_p($this->vc_fonts);
 			}
 			@chmod($this->vc_fonts,0777);
@@ -621,8 +621,8 @@ if(!class_exists('AIO_Icon_Manager'))
 				$new_file = basename($file);
 				@copy($file,$this->vc_fonts.'/'.$new_file);
 			}
-			$fonts['Defaults'] = array( 
-				'include'   => trailingslashit($this->paths['fonts']).'Defaults', 
+			$fonts['Defaults'] = array(
+				'include'   => trailingslashit($this->paths['fonts']).'Defaults',
 				'folder' 	=> trailingslashit($this->paths['fonts']).'Defaults',
 				'style'	 => 'Defaults'.'/'.'Defaults'.'.css',
 				'config' 	=> $this->paths['config']
@@ -659,5 +659,8 @@ if(!class_exists('AIO_Icon_Manager'))
 		}
 	}
 	// Instantiate the Icon Manager
-	new AIO_Icon_Manager;
 }
+$AIO_Icon_Manager = new AIO_Icon_Manager;
+
+add_action('wp_ajax_smile_ajax_add_zipped_font', array( $AIO_Icon_Manager, 'add_zipped_font'));
+add_action('wp_ajax_smile_ajax_remove_zipped_font', array($AIO_Icon_Manager, 'remove_zipped_font'));

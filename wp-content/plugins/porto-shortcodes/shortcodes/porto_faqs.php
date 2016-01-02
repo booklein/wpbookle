@@ -51,8 +51,20 @@ function porto_load_faqs_shortcode() {
             ),
             array(
                 'type' => 'checkbox',
-                'heading' => __("Show View More", 'porto-shortcodes'),
+                'heading' => __("Show Archive Link", 'porto-shortcodes'),
                 'param_name' => 'view_more',
+                'value' => array( __( 'Yes', 'js_composer' ) => 'yes' )
+            ),
+            array(
+                'type' => 'checkbox',
+                'heading' => __("Show Filter", 'porto-shortcodes'),
+                'param_name' => 'filter',
+                'value' => array( __( 'Yes', 'js_composer' ) => 'yes' )
+            ),
+            array(
+                'type' => 'checkbox',
+                'heading' => __("Show Pagination", 'porto-shortcodes'),
+                'param_name' => 'pagination',
                 'value' => array( __( 'Yes', 'js_composer' ) => 'yes' )
             ),
             $animation_type,

@@ -8,18 +8,19 @@
 				var single_element = this.$el;
 				var img_id = single_element.parent().attr("data-hotspot-image");
 
-				if (single_element.attr("data-latest-img") == void 0 || single_element.attr("data-latest-img").length === 0) 
+				if (single_element.attr("data-latest-img") == void 0 || single_element.attr("data-latest-img").length === 0)
 					var new_img_id = img_id;
-                else 
+                else
 					var new_img_id = single_element.attr("data-latest-img");
-				if (single_element.attr("data-hotspot-image", img_id), void 0 == single_element.parent().attr("data-hotspot-link") || 0 == single_element.parent().attr("data-hotspot-link").length || new_img_id != img_id) 
+				if (single_element.attr("data-hotspot-image", img_id), void 0 == single_element.parent().attr("data-hotspot-link") || 0 == single_element.parent().attr("data-hotspot-link").length || new_img_id != img_id)
 				$.ajax({
 					type: "POST",
 					url: window.ajaxurl,
 					data: {
 						action: "wpb_single_image_src",
 						content: img_id,
-						size: "full"
+						size: "full",
+						_vcnonce: window.vcAdminNonce // due to vc 4.7.4 update
 					},
 					dataType: "html",
 					success: function(response_img_link){
@@ -48,21 +49,22 @@
 				var hotspot_image = container_element_params.main_img;
 				var hotspot_size = container_element_params.main_img_size;
 				var hotspot_custom_size = container_element_params.main_img_width;
-				
+
 				if(typeof container_element_params.main_img_width != 'undefined')
 					hotspot_custom_size = container_element_params.main_img_width;
-				
+
 				vc_shortcodes.where({
 					parent_id: this.model.id
 				});
-				
+
 				_.isEmpty(hotspot_image) || ( container_element.find("> .wpb_element_wrapper .wpb_column_container").attr("data-hotspot-image", hotspot_image), container_element.find("> .wpb_element_wrapper .wpb_column_container").attr("data-hotspot-size", hotspot_size), container_element.find("> .wpb_element_wrapper .wpb_column_container").attr("data-hotspot-custom", hotspot_custom_size), container_element.attr("data-hotspot-image", hotspot_image), container_element.attr("data-hotspot-size", hotspot_size), container_element.attr("data-hotspot-custom", hotspot_custom_size), $.ajax({
 					type: "POST",
 					url: window.ajaxurl,
 					data: {
 						action: "wpb_single_image_src",
 						content: hotspot_image,
-						size: "full"
+						size: "full",
+						_vcnonce: window.vcAdminNonce // due to vc 4.7.4 update
 					},
 					dataType: "html",
 					success: function(img_link){
@@ -77,7 +79,7 @@
 				var img_link = this.$el.attr("data-hotspot-link");
 				var img_size = this.$el.attr("data-hotspot-size");
 				var img_custom_size = this.$el.attr("data-hotspot-custom");
-				
+
 				ULT_H_img_ID = img_id;
 				ULT_H_img_link = img_link;
 				ULT_H_Size = img_size;

@@ -61,8 +61,32 @@
         .share-vimeo {
             .socialGradient(#52b8ea, #fff);
         }
+        .share-telegram {
+            .socialGradient(#0088cc, #fff);
+        }
+        .share-yelp {
+            .socialGradient(#c41200, #fff);
+        }
+        .share-flickr {
+            .socialGradient(#0063DC, #fff);
+        }
         .share-whatsapp {
             .socialGradient(#3c8a38, #fff);
         }
     }
 }
+
+.socialIconColor(@c) when not (@c = 1) {
+
+}
+.socialIconColor(@c) when (@c = 1) {
+    #main .share-links a {
+        background-color: @color-primary !important;
+        color: @color-primary-inverse !important;
+        &:hover {
+            background-color: lighten(@skinColor, 5%) !important;
+        }
+    }
+}
+
+.socialIconColor(@social-color);

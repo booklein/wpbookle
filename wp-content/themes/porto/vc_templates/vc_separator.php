@@ -16,7 +16,9 @@
  * @var $gap
  * @var $pattern
  * @var $show_icon
+ * @var $icon_type
  * @var $icon
+ * @var $icon_simpleline
  * @var $icon_skin
  * @var $icon_style
  * @var $icon_size
@@ -50,10 +52,15 @@ if ($color == 'custom' || !$color)
     $color = $accent_color;
 if (!$align)
     $align = 'align_center';
-if (!$show_icon)
-    $icon = '';
 
-if ($icon) {
+switch ($icon_type) {
+    case 'simpleline': $icon_class = $icon_simpleline; break;
+    default: $icon_class = $icon;
+}
+if (!$show_icon)
+    $icon_class = '';
+
+if ($icon_class) {
     if ($icon_skin != 'custom') $css_class .= ' divider-' . $icon_skin;
     if ($icon_style) $css_class .= ' divider-' . $icon_style;
     if ($icon_size) $css_class .= ' divider-icon-' . $icon_size;
@@ -64,7 +71,7 @@ if ($type)
     $style = 'solid';
 
 if ($style) {
-    if ($style == 'solid') $css_class .= ($icon ? ' divider-' : ' ') . $style;
+    if ($style == 'solid') $css_class .= ($icon_class ? ' divider-' : ' ') . $style;
     else $css_class .= ' ' . $style;
 }
 
@@ -117,14 +124,14 @@ if ($custom_css) {
     echo '<style type="text/css" data-type="vc_shortcodes-custom-css">'.$custom_css.'</style>';
 }
 
-if ($icon) {
+if ($icon_class) {
     $divider_class = 'divider' . rand();
     if ($icon_skin == 'custom' && ($icon_color || $icon_bg_color || $icon_border_color || $icon_wrap_border_color)) :
         $css_class .= ' ' . $divider_class;
         ?>
         <style type="text/css" data-type="vc_shortcodes-custom-css"><?php
             if ($icon_color || $icon_bg_color || $icon_border_color) : ?>
-            .<?php echo $divider_class ?> .fa {
+            .<?php echo $divider_class ?> i {
                 <?php
                 if ($icon_color) : ?>color: <?php echo $icon_color ?> !important;<?php endif;
                 if ($icon_bg_color) : ?>background-color: <?php echo $icon_bg_color ?> !important;<?php endif;
@@ -132,7 +139,7 @@ if ($icon) {
                 ?>
             }<?php endif;
             if ($icon_wrap_border_color) : ?>
-            .<?php echo $divider_class ?> .fa:after {
+            .<?php echo $divider_class ?> i:after {
                 <?php
                 if ($icon_wrap_border_color) : ?>border-color: <?php echo $icon_wrap_border_color ?> !important;<?php endif;
                 ?>
@@ -140,10 +147,10 @@ if ($icon) {
         ?></style>
     <?php
     endif;
-    echo '<div class="divider ' . esc_attr( $css_class ) . ($el_width?' separator-line-' . esc_attr( $el_width ) :'') . '"' . $inline_style . '><i class="' . esc_attr( $icon ) . '"></i></div>';
+    echo '<div class="divider ' . esc_attr( $css_class ) . ($el_width?' separator-line-' . esc_attr( $el_width ) :'') . '"' . $inline_style . '><i class="' . esc_attr( $icon_class ) . '"></i></div>';
 } else {
     if ($type == 'small') {
-        echo '<div class="divider divider-small ' . ($align ? ($align == 'align_left' ? '' : str_replace('align_', 'divider-small-', $align)) : 'divider-small-center') . '">' . '<hr ' . $inline_style . '>' . '</div>';
+        echo '<div class="divider divider-small ' . esc_attr( $css_class ) . ' ' . ($align ? ($align == 'align_left' ? '' : str_replace('align_', 'divider-small-', $align)) : 'divider-small-center') . '">' . '<hr ' . $inline_style . '>' . '</div>';
     } else {
         echo '<hr class="separator-line ' . esc_attr( $css_class ) . ($el_width?' separator-line-'.$el_width:'').'"' . $inline_style . '>';
     }

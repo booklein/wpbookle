@@ -15,7 +15,7 @@ if(!class_exists("WooComposer_ViewList")){
 			if(function_exists('vc_map')){
 				vc_map(
 					array(
-						"name"		=> __("Product List [Beta]", "ultimate_vc"),
+						"name"		=> __("Product List", "ultimate_vc"),
 						"base"		=> "woocomposer_list",
 						"icon"		=> "woo_list",
 						"class"	   => "woo_list",
@@ -23,6 +23,7 @@ if(!class_exists("WooComposer_ViewList")){
 						"description" => __("Display products in list view","ultimate_vc"),
 						"controls" => "full",
 						"show_settings_on_create" => true,
+						"deprecated" => "3.13.5",
 						"params" => array(
 							array(
 								"type" => "woocomposer",

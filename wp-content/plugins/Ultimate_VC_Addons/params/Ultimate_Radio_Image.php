@@ -1,19 +1,19 @@
 <?php
 /*
 
-# Usage - 
+# Usage -
 	array(
 		'type' => 'radio_image_box',
 		'options' => array(
 			'image-1' => plugins_url('../assets/images/patterns/01.png',__FILE__),
 			'image-2' => plugins_url('../assets/images/patterns/12.png',__FILE__),
 		),
-		'useextension' => false, // if false it will use key as value instead file name. Eg - "image-1" instead "01.png" 
+		'useextension' => false, // if false it will use key as value instead file name. Eg - "image-1" instead "01.png"
 		'css' => array(
 			'width' => '40px',
 			'height' => '35px',
 			'background-repeat' => 'repeat',
-			'background-size' => 'cover' 
+			'background-size' => 'cover'
 		),
 	)
 
@@ -23,13 +23,21 @@ if(!class_exists('Ultimate_Radio_Image_Param'))
 	class Ultimate_Radio_Image_Param
 	{
 		function __construct()
-		{	
-			if(function_exists('add_shortcode_param'))
-			{
-				add_shortcode_param('radio_image_box' , array(&$this, 'radio_image_settings_field' ) );
+		{
+			if(defined('WPB_VC_VERSION') && version_compare(WPB_VC_VERSION, 4.8) >= 0) {
+				if(function_exists('vc_add_shortcode_param'))
+				{
+					vc_add_shortcode_param('radio_image_box' , array(&$this, 'radio_image_settings_field' ) );
+				}
+			}
+			else {
+				if(function_exists('add_shortcode_param'))
+				{
+					add_shortcode_param('radio_image_box' , array(&$this, 'radio_image_settings_field' ) );
+				}
 			}
 		}
-	
+
 		function radio_image_settings_field($settings, $value)
 		{
 			$default_css = array(
@@ -38,7 +46,7 @@ if(!class_exists('Ultimate_Radio_Image_Param'))
 				'background-repeat' => 'repeat',
 				'background-size' => 'cover'
 			);
-			$dependency = vc_generate_dependencies_attributes($settings, $value);
+			$dependency = '';
 			$param_name = isset($settings['param_name']) ? $settings['param_name'] : '';
 			$type = isset($settings['type']) ? $settings['type'] : '';
 			$options = isset($settings['options']) ? $settings['options'] : '';
@@ -46,9 +54,9 @@ if(!class_exists('Ultimate_Radio_Image_Param'))
 			$class = isset($settings['class']) ? $settings['class'] : '';
 			$useextension = (isset($settings['useextension']) && $settings['useextension'] != '' ) ? $settings['useextension'] : 'true';
 			$default = isset($settings['default']) ? $settings['default'] : 'transperant';
-			
+
 			$uni = uniqid();
-			
+
 			$output = '';
 			$output = '<input id="radio_image_setting_val_'.$uni.'" class="wpb_vc_param_value ' . $param_name . ' ' . $type . ' ' . $class . ' '.$value.' vc_ug_gradient" name="' . $param_name . '"  style="display:none"  value="'.$value.'" '.$dependency.'/>';
 			$output .= '<div class="ult-radio-image-box" data-uniqid="'.$uni.'">';
@@ -110,7 +118,7 @@ if(!class_exists('Ultimate_Radio_Image_Param'))
 			</script>';
 			return $output;
 		}
-		
+
 	}
 }
 

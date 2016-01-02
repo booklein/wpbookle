@@ -12,13 +12,13 @@ p {
         line-height: 1.5em;
     }
     &.short {
-        margin-bottom: 0;
+        margin-bottom: 0 !important;
     }
     &.tall {
-        margin-bottom: 20px;
+        margin-bottom: 20px !important;
     }
     &.taller {
-        margin-bottom: 40px;
+        margin-bottom: 40px !important;
     }
     .alternative-font {
         display: inline-block;

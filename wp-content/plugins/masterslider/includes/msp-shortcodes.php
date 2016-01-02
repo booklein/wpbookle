@@ -10,13 +10,18 @@ add_shortcode( 'master_slider'	, 'msp_masterslider_shortcode' );
 
 function msp_masterslider_shortcode( $atts, $content = null ) {
 	extract( shortcode_atts(
-					array( 'id' => ''),
+					array(
+                        'id'    => '',
+                        'alias' => ''
+                    ),
 					$atts,
 					'masterslider'
 				)
 	);
+    // take the slider markup by slider alias or ID
+    $slider_key = $alias ? $alias : $id;
 
-	return get_masterslider( $id );
+	return get_masterslider( $slider_key );
 }
 
 /*-----------------------------------------------------------------------------------*/
@@ -28,9 +33,10 @@ add_shortcode( 'masterslider_pb', 'msp_masterslider_pb_shortcode' );
 function msp_masterslider_pb_shortcode( $atts, $content = null ) {
 	$mixed = shortcode_atts(
 		array(
-		      'id' 	  => '',
-		      'title' => '',
-		      'class' => ''
+            'id'        => '',
+            'alias'     => '',
+            'title'     => '',
+            'class'     => ''
 		),
 		$atts,
 		'masterslider_pb'
@@ -38,10 +44,13 @@ function msp_masterslider_pb_shortcode( $atts, $content = null ) {
 
 	extract( $mixed );
 
+    // take the slider markup by slider alias or ID
+    $slider_key = $alias ? $alias : $id;
+
 	$wrapper_open_tag  = sprintf( '<div class="avt_masterslider_el %s" >', esc_attr( $class ) );
 	$the_title_tag     = empty( $title ) ? '' : sprintf( '<h2>%s</h2>', $title );
 	$wrapper_close_tag = '</div>';
-	$slider_markup     = get_masterslider( $id );
+	$slider_markup     = get_masterslider( $slider_key );
 	$output 		   = $wrapper_open_tag . $the_title_tag . $slider_markup . $wrapper_close_tag;
 
 	return apply_filters( 'masterslider_pb_shortcode', $output, $slider_markup, $wrapper_open_tag, $the_title_tag, $wrapper_close_tag );
@@ -267,7 +276,7 @@ function msp_masterslider_wrapper_shortcode( $atts, $content = null ) {
 	 wp_enqueue_script( 'prettyPhoto' );
 
 	// create an unique id for slider
-	$uid    = empty($uid ) ? uniqid("MS") : $uid;
+	$uid    = empty( $uid ) ? uniqid("MS") : $uid;
 	// unique id for parant wrapper
 	$puid   = 'P_' . $uid;
 
@@ -430,15 +439,14 @@ function msp_masterslider_wrapper_shortcode( $atts, $content = null ) {
 		<!-- END MasterSlider -->
 
 		<script>
-		(function ( $ ) {
+		( window.MSReady = window.MSReady || [] ).push( function( $ ) {
+
 			"use strict";
+			var <?php echo $instance_name; ?> = new MasterSlider();
 
-			$(function () {
-				var <?php echo $instance_name; ?> = new MasterSlider();
-
-				// slider controls
+			// slider controls
 <?php if($arrows  == 'true' || 'image-gallery' == $template ){
-						printf( "\t\t\t\t$instance_name.control('%s'     ,{ autohide:%s, overVideo:%s %s });",
+						printf( "\t\t\t$instance_name.control('%s'     ,{ autohide:%s, overVideo:%s %s });\n",
 									'arrows',
 									msp_is_true($arrows_autohide ),
 									msp_is_true($arrows_overvideo ),
@@ -446,7 +454,7 @@ function msp_masterslider_wrapper_shortcode( $atts, $content = null ) {
 								);
 } ?>
 <?php if($bullets == 'true'){
-						printf( "\t\t\t\t$instance_name.control('%s'    ,{ autohide:%s, overVideo:%s, dir:'%s', align:'%s', space:%d %s %s });\n",
+						printf( "\t\t\t$instance_name.control('%s'    ,{ autohide:%s, overVideo:%s, dir:'%s', align:'%s', space:%d %s %s });\n",
 									'bullets'  ,
 									msp_is_true($bullets_autohide ),
 									msp_is_true($bullets_overvideo ),
@@ -459,7 +467,7 @@ function msp_masterslider_wrapper_shortcode( $atts, $content = null ) {
 } ?>
 <?php if($thumbs  == 'true'){
 						$thumbs_custom_class = 'true' == $thumbs_in_tab ? 'ms-has-thumb' : '';
-						printf( "\t\t\t\t$instance_name.control('%s'  ,{ autohide:%s, overVideo:%s, dir:'%s', speed:%d, inset:%s, arrows:%s, hover:%s, customClass:'%s', align:'%s',type:'%s', margin:%d, width:%d, height:%d, space:%d, fillMode:'%s' %s });\n",
+						printf( "\t\t\t$instance_name.control('%s'  ,{ autohide:%s, overVideo:%s, dir:'%s', speed:%d, inset:%s, arrows:%s, hover:%s, customClass:'%s', align:'%s',type:'%s', margin:%d, width:%d, height:%d, space:%d, fillMode:'%s' %s });\n",
 									'thumblist',
 									msp_is_true( $thumbs_autohide  ),
 									msp_is_true( $thumbs_overvideo ),
@@ -480,7 +488,7 @@ function msp_masterslider_wrapper_shortcode( $atts, $content = null ) {
 								);
 } ?>
 <?php if($scroll  == 'true'){
-						printf( "\t\t\t\t$instance_name.control('%s'  ,{ autohide:%s, overVideo:%s, dir:'%s', inset:%s, align:'%s', color:'%s' %s %s %s });\n",
+						printf( "\t\t\t$instance_name.control('%s'  ,{ autohide:%s, overVideo:%s, dir:'%s', inset:%s, align:'%s', color:'%s' %s %s %s });\n",
 								  'scrollbar',
 									msp_is_true($scroll_autohide  ),
 									msp_is_true($scroll_overvideo ),
@@ -494,7 +502,7 @@ function msp_masterslider_wrapper_shortcode( $atts, $content = null ) {
 								);
 } ?>
 <?php if($circletimer == 'true'){
-						printf( "\t\t\t\t$instance_name.control('%s',{ autohide:%s, overVideo:%s, color:'%s', radius:%d, stroke:%d %s %s });\n",
+						printf( "\t\t\t$instance_name.control('%s',{ autohide:%s, overVideo:%s, color:'%s', radius:%d, stroke:%d %s %s });\n",
 								  "circletimer",
 									msp_is_true($circletimer_autohide ),
 									msp_is_true($circletimer_overvideo ),
@@ -506,7 +514,7 @@ function msp_masterslider_wrapper_shortcode( $atts, $content = null ) {
 								);
 } ?>
 <?php if($timebar == 'true'){
-						printf( "\t\t\t\t$instance_name.control('%s'    ,{ autohide:%s, overVideo:%s, align:'%s', color:'%s' %s %s });\n",
+						printf( "\t\t\t$instance_name.control('%s'    ,{ autohide:%s, overVideo:%s, align:'%s', color:'%s' %s %s });\n",
 								  "timebar",
 									msp_is_true($timebar_autohide  ),
 									msp_is_true($timebar_overvideo ),
@@ -517,7 +525,7 @@ function msp_masterslider_wrapper_shortcode( $atts, $content = null ) {
 								);
 } ?>
 <?php if($slideinfo == 'true'){
-						printf( "\t\t\t\t$instance_name.control('%s'  ,{ autohide:%s, overVideo:%s, dir:'%s', align:'%s',inset:%s %s %s %s });\n",
+						printf( "\t\t\t$instance_name.control('%s'  ,{ autohide:%s, overVideo:%s, dir:'%s', align:'%s',inset:%s %s %s %s });\n",
 								  "slideinfo",
 									msp_is_true($slideinfo_autohide  ),
 									msp_is_true($slideinfo_overvideo ),
@@ -529,47 +537,46 @@ function msp_masterslider_wrapper_shortcode( $atts, $content = null ) {
 									$slideinfo_size
 								);
 } ?>
-				// slider setup
-				<?php echo $instance_name; ?>.setup("<?php echo $uid; ?>", {
-						width           : <?php echo (int)$width; ?>,
-						height          : <?php echo (int) $height; ?>,
-						minHeight       : <?php echo (int) $min_height; ?>,
-						space           : <?php echo (int) $space;  ?>,
-						start           : <?php echo (int) $start;  ?>,
-						grabCursor      : <?php msp_is_true_e($grab_cursor); ?>,
-						swipe           : <?php msp_is_true_e($swipe); ?>,
-						mouse           : <?php msp_is_true_e($mouse); ?>,
-						keyboard        : <?php msp_is_true_e($keyboard); ?>,
-						layout          : "<?php echo $layout; ?>",
-						wheel           : <?php msp_is_true_e($wheel); ?>,
-						autoplay        : <?php msp_is_true_e($autoplay); ?>,
-						instantStartLayers:<?php msp_is_true_e( $instant_show_layers ); ?>,
-						loop            : <?php msp_is_true_e($loop); ?>,
-						shuffle         : <?php msp_is_true_e($shuffle); ?>,
-						preload         : <?php echo $preload; ?>,
-						heightLimit     : <?php msp_is_true_e($height_limit); ?>,
-						autoHeight      : <?php msp_is_true_e($auto_height); ?>,
-						smoothHeight    : <?php msp_is_true_e($smooth_height); ?>,
-						endPause        : <?php msp_is_true_e($end_pause); ?>,
-						overPause       : <?php msp_is_true_e($over_pause); ?>,
-						fillMode        : "<?php echo $fill_mode; ?>",
-						centerControls  : <?php msp_is_true_e($center_controls); ?>,
-						startOnAppear   : <?php msp_is_true_e($start_on_appear); ?>,
-						layersMode      : "<?php echo $layers_mode; ?>",
-						autofillTarget  : "<?php echo $autofill_target; ?>",
-						hideLayers      : <?php msp_is_true_e($hide_layers); ?>,
-						fullscreenMargin: <?php echo (int) $fullscreen_margin;  ?>,
-						speed           : <?php echo (int)$speed; ?>,
-						dir             : "<?php echo $direction; ?>",
+			// slider setup
+			<?php echo $instance_name; ?>.setup("<?php echo $uid; ?>", {
+				width           : <?php echo (int)$width; ?>,
+				height          : <?php echo (int) $height; ?>,
+				minHeight       : <?php echo (int) $min_height; ?>,
+				space           : <?php echo (int) $space;  ?>,
+				start           : <?php echo (int) $start;  ?>,
+				grabCursor      : <?php msp_is_true_e($grab_cursor); ?>,
+				swipe           : <?php msp_is_true_e($swipe); ?>,
+				mouse           : <?php msp_is_true_e($mouse); ?>,
+				keyboard        : <?php msp_is_true_e($keyboard); ?>,
+				layout          : "<?php echo $layout; ?>",
+				wheel           : <?php msp_is_true_e($wheel); ?>,
+				autoplay        : <?php msp_is_true_e($autoplay); ?>,
+				instantStartLayers:<?php msp_is_true_e( $instant_show_layers ); ?>,
+				loop            : <?php msp_is_true_e($loop); ?>,
+				shuffle         : <?php msp_is_true_e($shuffle); ?>,
+				preload         : <?php echo $preload; ?>,
+				heightLimit     : <?php msp_is_true_e($height_limit); ?>,
+				autoHeight      : <?php msp_is_true_e($auto_height); ?>,
+				smoothHeight    : <?php msp_is_true_e($smooth_height); ?>,
+				endPause        : <?php msp_is_true_e($end_pause); ?>,
+				overPause       : <?php msp_is_true_e($over_pause); ?>,
+				fillMode        : "<?php echo $fill_mode; ?>",
+				centerControls  : <?php msp_is_true_e($center_controls); ?>,
+				startOnAppear   : <?php msp_is_true_e($start_on_appear); ?>,
+				layersMode      : "<?php echo $layers_mode; ?>",
+				autofillTarget  : "<?php echo $autofill_target; ?>",
+				hideLayers      : <?php msp_is_true_e($hide_layers); ?>,
+				fullscreenMargin: <?php echo (int) $fullscreen_margin;  ?>,
+				speed           : <?php echo (int)$speed; ?>,
+				dir             : "<?php echo $direction; ?>",
 <?php if( 'staff-3' == $template      ) { echo "viewOption      : { centerSpace:1.6 },\n"; } ?>
-<?php if( 'off'     != $parallax_mode ) { echo "\t\t\t\t\t\tparallaxMode    : '$parallax_mode',\n"; } ?>
-<?php if( 'false'   != $use_deep_link ) { echo "\t\t\t\t\t\tdeepLink        : '$deep_link',\n";
-										  echo "\t\t\t\t\t\tdeepLinkType    : '$deep_link_type',\n"; } ?>
-						view            : "<?php echo $view; ?>"
-				});
+<?php if( 'off'     != $parallax_mode ) { echo "\t\t\t\tparallaxMode    : '$parallax_mode',\n"; } ?>
+<?php if( 'false'   != $use_deep_link ) { echo "\t\t\t\tdeepLink        : '$deep_link',\n";
+								  echo "\t\t\t\tdeepLinkType    : '$deep_link_type',\n"; } ?>
+				view            : "<?php echo $view; ?>"
+			});
 
-
-				<?php
+			<?php
 
 				if( ! empty( $on_init ) )
 					printf( "$instance_name.api.addEventListener(MSSliderEvent.INIT, %s );\n"		 , msp_maybe_base64_decode( $on_init ) ) ;
@@ -578,37 +585,37 @@ function msp_masterslider_wrapper_shortcode( $atts, $content = null ) {
 					printf( "$instance_name.api.addEventListener(MSSliderEvent.CHANGE_START, %s );\n"		 , msp_maybe_base64_decode( $on_change_start ) ) ;
 
 				if( ! empty( $on_change_end ) )
-					printf( "\t\t\t\t$instance_name.api.addEventListener(MSSliderEvent.CHANGE_END, %s );\n"  , msp_maybe_base64_decode( $on_change_end ) ) ;
+					printf( "\t\t\t$instance_name.api.addEventListener(MSSliderEvent.CHANGE_END, %s );\n"  , msp_maybe_base64_decode( $on_change_end ) ) ;
 
 				if( ! empty( $on_waiting ) )
-					printf( "\t\t\t\t$instance_name.api.addEventListener(MSSliderEvent.WAITING, %s );\n"     , msp_maybe_base64_decode( $on_waiting ) ) ;
+					printf( "\t\t\t$instance_name.api.addEventListener(MSSliderEvent.WAITING, %s );\n"     , msp_maybe_base64_decode( $on_waiting ) ) ;
 
 				if( ! empty( $on_resize ) )
-					printf( "\t\t\t\t$instance_name.api.addEventListener(MSSliderEvent.RESIZE, %s );\n"      , msp_maybe_base64_decode( $on_resize ) ) ;
+					printf( "\t\t\t$instance_name.api.addEventListener(MSSliderEvent.RESIZE, %s );\n"      , msp_maybe_base64_decode( $on_resize ) ) ;
 
 				if( ! empty( $on_video_play ) )
-					printf( "\t\t\t\t$instance_name.api.addEventListener(MSSliderEvent.VIDEO_PLAY, %s );\n"  , msp_maybe_base64_decode( $on_video_play ) ) ;
+					printf( "\t\t\t$instance_name.api.addEventListener(MSSliderEvent.VIDEO_PLAY, %s );\n"  , msp_maybe_base64_decode( $on_video_play ) ) ;
 
 				if( ! empty( $on_video_close ) )
-					printf( "\t\t\t\t$instance_name.api.addEventListener(MSSliderEvent.VIDEO_CLOSE, %s );\n" , msp_maybe_base64_decode( $on_video_close ) ) ;
+					printf( "\t\t\t$instance_name.api.addEventListener(MSSliderEvent.VIDEO_CLOSE, %s );\n" , msp_maybe_base64_decode( $on_video_close ) ) ;
 
 				if( $on_swipe_start || $on_swipe_move || $on_swipe_end ){
 
-					echo "\t\t\t\t$instance_name.api.addEventListener(MSSliderEvent.INIT, function(){\n";
+					echo "\t\t\t$instance_name.api.addEventListener(MSSliderEvent.INIT, function(){\n";
 
 					if( ! empty( $on_swipe_start ) ){
-						printf( "\t\t\t\t\t$instance_name.api.view.addEventListener(MSSliderEvent.SWIPE_START, %s );\n" , msp_maybe_base64_decode( $on_swipe_start ) ) ;
+						printf( "\t\t\t\t$instance_name.api.view.addEventListener(MSViewEvents.SWIPE_START, %s );\n" , msp_maybe_base64_decode( $on_swipe_start ) ) ;
 					}
 
 					if( ! empty( $on_swipe_move ) ){
-						printf( "\t\t\t\t\t$instance_name.api.view.addEventListener(MSSliderEvent.SWIPE_MOVE, %s );\n"  , msp_maybe_base64_decode( $on_swipe_move ) ) ;
+						printf( "\t\t\t\t$instance_name.api.view.addEventListener(MSViewEvents.SWIPE_MOVE, %s );\n"  , msp_maybe_base64_decode( $on_swipe_move ) ) ;
 					}
 
 					if( ! empty( $on_swipe_end ) ){
-						printf( "\t\t\t\t\t$instance_name.api.view.addEventListener(MSSliderEvent.SWIPE_END, %s );\n"   , msp_maybe_base64_decode( $on_swipe_end ) ) ;
+						printf( "\t\t\t\t$instance_name.api.view.addEventListener(MSViewEvents.SWIPE_END, %s );\n"   , msp_maybe_base64_decode( $on_swipe_end ) ) ;
 					}
 
-					echo "\t\t\t\t});\n";
+					echo "\t\t\t});\n";
 				}
 
 
@@ -629,20 +636,18 @@ function msp_masterslider_wrapper_shortcode( $atts, $content = null ) {
 				}
 
 				if ( 'true' == $scroll_parallax ) {
-					printf( "\t\t\t\tMSScrollParallax.setup( %s, %d, %d, %s );", $instance_name, $scroll_parallax_move, $scroll_parallax_bg_move, $scroll_parallax_fade );
+					printf( "\t\t\tMSScrollParallax.setup( %s, %d, %d, %s );", $instance_name, $scroll_parallax_move, $scroll_parallax_bg_move, $scroll_parallax_fade );
 				}
 
 				if ( ! empty( $gfonts ) ) {
 					$link_tag = sprintf( "<link rel='stylesheet' id='ms-fonts'  href='//fonts.googleapis.com/css?family=%s' type='text/css' media='all' />", $gfonts );
-					echo "\n\t\t\t\t" . sprintf( '$("head").append( "%s" );', $link_tag ) . "\n";
+					echo "\n\t\t\t" . sprintf( '$("head").append( "%s" );', $link_tag ) . "\n";
 				}
 				// add slider instance to global scope
-				echo "\n\t\t\t\twindow.masterslider_instances = window.masterslider_instances || [];";
-				echo "\n\t\t\t\twindow.masterslider_instances.push( $instance_name );\n";
+				echo "\n\t\t\twindow.masterslider_instances = window.masterslider_instances || [];";
+				echo "\n\t\t\twindow.masterslider_instances.push( $instance_name );\n";
 				?>
-			 });
-
-		})(jQuery);
+		});
 		</script>
 
 <?php
@@ -725,7 +730,7 @@ function msp_masterslider_slide_shortcode( $atts, $content = null ) {
 	$slide_start_tag = sprintf( '<div %s class="ms-slide%s" %s %s %s >', $css_id, $css_class, $data_delay, $data_align, $style_attr )."\n";
 
 	// making start tag filterable for extend purposes
-	$slide_start_tag = apply_filters( 'msp_masterslider_slide_start_tag', "\t\t\t\t".$slide_start_tag, $atts );
+	$slide_start_tag = apply_filters( 'msp_masterslider_slide_start_tag', "\t\t\t".$slide_start_tag, $atts );
 
 	// parse slide content ///////////////////////////////////////////
 
@@ -997,11 +1002,11 @@ function msp_masterslider_layer_shortcode( $atts, $content = null ) {
 	}
 
 
-	$rel_attr = empty( $rel ) ? '' : 'rel="'.$rel.'"';
+    $rel_attr   = empty( $rel   ) ? '' : 'rel="'.$rel.'"';
+	$title_attr = empty( $title ) ? '' : 'title="'.$title.'"';
 
-	$rel_attr = apply_filters( 'masterslider_layer_shortcode_attr_rel', $rel_attr, $rel );
-
-	$link     = apply_filters( 'masterslider_layer_shortcode_attr_link', $link );
+	$rel_attr   = apply_filters( 'masterslider_layer_shortcode_attr_rel', $rel_attr, $rel );
+	$link       = apply_filters( 'masterslider_layer_shortcode_attr_link', $link );
 
 	// create data-link attr if it's not default value
 	$data_link = empty( $link ) ? '' : 'data-link="'.$link.'"';
@@ -1018,7 +1023,7 @@ function msp_masterslider_layer_shortcode( $atts, $content = null ) {
 
 		} elseif( 'scrollTo' == $action ) {
 			if( ! empty( $scroll_target ) ){
-				$data_action  = 'data-action="'.$action.'('. (float)$action_scroll_duration .', '. $scroll_target .')"';
+				$data_action  = 'data-action="'.$action.'('. $scroll_target .', '. (float)$action_scroll_duration .')"';
 			}
 		} else {
 			$data_action  = 'data-action="'.$action.'"';
@@ -1058,21 +1063,21 @@ function msp_masterslider_layer_shortcode( $atts, $content = null ) {
 	 	// if was linked image
 		if( ! empty( $link ) && 'true' != $use_action ) {
 
-				$layer_image = "\n\t".sprintf( '<img src="%s" data-src="%s" alt="%s" style="%s" %s %s %s %s %s />',
-				                               $src_blank, $src, $alt, $style_size, $effect_attrs, $data_type, $data_parallax, $position_attrs, $data_resize )."\n";
+				$layer_image = "\n\t".sprintf( '<img src="%s" data-src="%s" alt="%s" style="%s" %s %s %s %s %s %s />',
+				                               $src_blank, $src, $alt, $style_size, $title_attr, $effect_attrs, $data_type, $data_parallax, $position_attrs, $data_resize )."\n";
 				$layer .= sprintf( '<a %s class="%s" href="%s" target="%s" %s %s >%s</a>', $id_attr, $wrapper_class, $link, $target, $rel_attr, $data_action, $layer_image ). "\n";
 
 		// or single image
 		} else {
-			$layer .= sprintf( '<img %s class="%s" src="%s" data-src="%s" alt="%s" style="%s" %s %s %s %s />',
-									 $id_attr, $wrapper_class, $src_blank, $src, $alt, $style_size, $effect_attrs, $common_attrs, $rel_attr, $position_attrs )."\n";
+			$layer .= sprintf( '<img %s class="%s" src="%s" data-src="%s" alt="%s" style="%s" %s %s %s %s %s />',
+									 $id_attr, $wrapper_class, $src_blank, $src, $alt, $style_size, $title_attr, $effect_attrs, $common_attrs, $rel_attr, $position_attrs )."\n";
 		}
 
 	} elseif( 'button' == $type ) {
 
 		$layer_content = ! empty( $content ) ? do_shortcode( wp_unslash( $content ) ) : '';
-	 	$layer = sprintf( '<a %s href="%s" target="%s" class="%s %s" %s %s %s %s >%s</a>',
-								 $id_attr, $link, $target, $wrapper_class, $btn_class, $effect_attrs, $common_attrs, $position_attrs, $rel_attr, $layer_content )."\n";
+	 	$layer = sprintf( '<a %s href="%s" target="%s" class="%s %s" %s %s %s %s %s >%s</a>',
+								 $id_attr, $link, $target, $wrapper_class, $btn_class, $effect_attrs, $common_attrs, $position_attrs, $rel_attr, $title_attr, $layer_content )."\n";
 
 	// if layer type was text, video or hotspot
 	} else {
@@ -1082,7 +1087,7 @@ function msp_masterslider_layer_shortcode( $atts, $content = null ) {
 		if( 'video' == $type ) {
 			// add cover image if src attr is set
 			if( ! empty( $src ) )
-				$layer_content .= sprintf( '<img src="%s" data-src="%s" alt="%s" />', $src_blank, $src, $alt );
+				$layer_content .= sprintf( '<img src="%s" data-src="%s" alt="%s" %s />', $src_blank, $src, $alt, $title_attr );
 			// add video iframe markup if video is set
 			if( ! empty( $video ) ){
 					$vid_width  = empty( $width  ) ? '460' : rtrim( $width , 'px' ) ;
@@ -1098,8 +1103,8 @@ function msp_masterslider_layer_shortcode( $atts, $content = null ) {
 		// create data-autoplay attr if video autoplay is enabled
 		$data_auto_play_video = ( 'true' === $auto_play_video ) ? 'data-autoplay="'. $auto_play_video .'"' : '' ;
 
-		$layer = sprintf( '<div %s class="%s" style="%s" %s %s %s %s %s>%s</div>',
-								 $id_attr, $wrapper_class, $style_size, $data_link, $effect_attrs, $common_attrs, $position_attrs, $data_auto_play_video, $layer_content )."\n";
+		$layer = sprintf( '<div %s class="%s" style="%s" %s %s %s %s %s %s>%s</div>',
+								 $id_attr, $wrapper_class, $style_size, $data_link, $title_attr, $effect_attrs, $common_attrs, $position_attrs, $data_auto_play_video, $layer_content )."\n";
 	}
 
 	// end layer markup generation //////////////////////////////////////////

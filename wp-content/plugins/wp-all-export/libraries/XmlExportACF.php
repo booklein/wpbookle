@@ -79,6 +79,8 @@ if ( ! class_exists('XmlExportACF') ){
 									$fieldData['label'] = $field->post_title;
 									$fieldData['key']   = $field->post_name;					
 
+									if (in_array($fieldData['type'], array('tab'))) continue;
+
 									if (empty($fieldData['name'])) $fieldData['name'] = $field->post_excerpt;
 
 									if ( ! empty($fieldData['name'])){ 
@@ -127,6 +129,7 @@ if ( ! class_exists('XmlExportACF') ){
 								array_multisort($sortArray[$orderby],SORT_ASC, $fields); 
 
 								foreach ($fields as $field){ 
+									if (in_array($field['type'], array('tab'))) continue;
 									$this->_acf_groups[$key]['fields'][] = $field;									
 									if ( ! empty($field['name'])) $this->_existing_acf_meta_keys[] = $field['name'];
 								}								

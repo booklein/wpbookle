@@ -62,6 +62,16 @@ $portfolio_layout = 'large';
                                     <i class="fa fa-tags"></i> <?php echo $cat_list ?>
                                 </li>
                             <?php endif; ?>
+                            <?php
+                            if (function_exists('Post_Views_Counter') && Post_Views_Counter()->options['display']['position'] == 'manual') {
+                                $post_count = do_shortcode('[post-views]');
+                                if ($post_count) : ?>
+                                    <li>
+                                        <?php echo $post_count ?>
+                                    </li>
+                                <?php endif;
+                            }
+                            ?>
                         </ul>
                     </div>
 

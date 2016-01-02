@@ -3,7 +3,7 @@
 Plugin Name: WP All Export
 Plugin URI: http://www.wpallimport.com/export/
 Description: Export any post type to a CSV or XML file. Edit the exported data, and then re-import it later using WP All Import.
-Version: 1.0.2
+Version: 1.0.3
 Author: Soflyy
 */
 
@@ -50,7 +50,7 @@ else {
 	 */
 	define('PMXE_PREFIX', 'pmxe_');
 
-	define('PMXE_VERSION', '1.0.2');
+	define('PMXE_VERSION', '1.0.3');
 
 	define('PMXE_EDITION', 'free');
 
@@ -228,9 +228,7 @@ else {
 		 * @param string $rootDir Plugin root dir
 		 * @param string $pluginFilePath Plugin main file
 		 */
-		protected function __construct() {
-			
-			$this->load_plugin_textdomain();
+		protected function __construct() {					
 
 			// regirster autoloading method
 			if (function_exists('__autoload') and ! in_array('__autoload', spl_autoload_functions())) { // make sure old way of autoloading classes is not broken
@@ -288,7 +286,13 @@ else {
 			
 			// register admin page pre-dispatcher
 			add_action('admin_init', array($this, '__adminInit'));									
+			add_action('admin_init', array($this, '__fix_db_schema'));	
+			add_action('init', array($this, 'init'));
 		}	
+
+		public function init(){
+			$this->load_plugin_textdomain();
+		}
 
 		/**
 		 * pre-dispatching logic for admin page controllers
@@ -552,6 +556,48 @@ else {
 			load_plugin_textdomain( 'wp_all_export_plugin', false, dirname( plugin_basename( __FILE__ ) ) . "/i18n/languages" );
 		}		
 
+		public function __fix_db_schema(){
+
+			global $wpdb;
+			
+			if ( ! empty($wpdb->charset))
+				$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+			if ( ! empty($wpdb->collate))
+				$charset_collate .= " COLLATE $wpdb->collate";
+
+			$table_prefix = $this->getTablePrefix();
+
+			$wpdb->query("CREATE TABLE IF NOT EXISTS {$table_prefix}templates (
+				id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+				name VARCHAR(200) NOT NULL DEFAULT '',
+				options LONGTEXT,				
+				PRIMARY KEY  (id)
+			) $charset_collate;");
+
+			$wpdb->query("CREATE TABLE IF NOT EXISTS {$table_prefix}posts (
+				id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+				post_id BIGINT(20) UNSIGNED NOT NULL,
+				export_id BIGINT(20) UNSIGNED NOT NULL,	
+				iteration BIGINT(20) NOT NULL DEFAULT 0,
+				PRIMARY KEY  (id)	
+			) $charset_collate;");
+
+			$table = $this->getTablePrefix() . 'exports';
+			$tablefields = $wpdb->get_results("DESCRIBE {$table};");
+			$iteration = false;
+
+			// Check if field exists
+			foreach ($tablefields as $tablefield) {
+				if ('iteration' == $tablefield->Field) $iteration = true;
+			}
+
+			if ( ! $iteration ){				
+
+				$wpdb->query("ALTER TABLE {$table} ADD `iteration` BIGINT(20) NOT NULL DEFAULT 0;");
+
+			}
+		}
+
 		/**
 		 * Method returns default import options, main utility of the method is to avoid warnings when new
 		 * option is introduced but already registered imports don't have it
@@ -564,6 +610,7 @@ else {
 				'filter_rules_hierarhy' => '',
 				'product_matching_mode' => 'strict',
 				'order_item_per_row' => 1,
+				'order_item_fill_empty_columns' => 0,
 				'filepath' => '',
 				'export_type' => 'specific',
 				'wp_query' => '',	
@@ -592,7 +639,18 @@ else {
 				'ids' => array(),
 				'rules' => array(),
 				'records_per_iteration' => 50,
-				'include_bom' => 0
+				'include_bom' => 0,
+				'include_functions' => 1,
+				'split_large_exports' => 0,
+				'split_large_exports_count' => 10000,
+				'split_files_list' => array(),
+				'main_xml_tag' => 'data',
+				'record_xml_tag' => 'post',
+				'save_template_as' => 0,
+				'name' => '',
+				'export_only_new_stuff' => 0,
+				'creata_a_new_export_file' => 0,
+				'attachment_list' => array()
 			);
 		}		
 

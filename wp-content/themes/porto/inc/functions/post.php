@@ -233,7 +233,7 @@ function porto_post_format() {
     }
 
     if ( is_sticky() && is_home() && ! is_paged() ) {
-        printf( '<span class="sticky">%s</span>', __( 'HOT', 'porto' ) );
+        printf( '<span class="sticky">%s</span>', ((isset($porto_settings['hot-label']) && $porto_settings['hot-label']) ? $porto_settings['hot-label'] : __('HOT', 'porto')) );
     }
 }
 
@@ -278,8 +278,10 @@ function porto_pagination($max_num_pages = null) {
     if ( $links ) :
         ?>
         <div class="clearfix"></div>
-        <div class="pagination" role="navigation">
-            <?php echo $links ?>
+        <div class="pagination-wrap">
+            <div class="pagination" role="navigation">
+                <?php echo preg_replace('/^\s+|\n|\r|\s+$/m', '', $links) ?>
+            </div>
         </div>
     <?php
     endif;

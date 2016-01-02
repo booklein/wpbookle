@@ -35,15 +35,36 @@ function porto_load_links_item_shortcode() {
             ),
             array(
                 'type' => 'checkbox',
-                'heading' => __('Show FontAwesome Icon', 'porto-shortcodes'),
+                'heading' => __('Show Icon', 'porto-shortcodes'),
                 'param_name' => 'show_icon',
-                'value' => array(__('Yes, please', 'js_composer') => 'true')
+                'value' => array(__('Yes, please', 'js_composer') => 'yes')
+            ),
+            array(
+                'type' => 'dropdown',
+                'heading' => __( 'Icon library', 'js_composer' ),
+                'value' => array(
+                    __( 'Font Awesome', 'porto-shortcodes' ) => 'fontawesome',
+                    __( 'Simple Line Icon', 'porto-shortcodes' ) => 'simpleline'
+                ),
+                'param_name' => 'icon_type',
+                'dependency' => array('element' => 'show_icon', 'not_empty' => true)
             ),
             array(
                 'type' => 'iconpicker',
-                'heading' => __('Select FontAwesome Icon', 'porto-shortcodes'),
+                'heading' => __('Select Icon', 'porto-shortcodes'),
                 'param_name' => 'icon',
-                'dependency' => array('element' => 'show_icon', 'not_empty' => true)
+                'dependency' => array('element' => 'icon_type', 'value' => 'fontawesome')
+            ),
+            array(
+                'type' => 'iconpicker',
+                'heading' => __('Select Icon', 'porto-shortcodes'),
+                'param_name' => 'icon_simpleline',
+                'value' => '',
+                'settings' => array(
+                    'type' => 'simpleline',
+                    'iconsPerPage' => 4000,
+                ),
+                'dependency' => array('element' => 'icon_type', 'value' => 'simpleline')
             ),
             $custom_class
         )

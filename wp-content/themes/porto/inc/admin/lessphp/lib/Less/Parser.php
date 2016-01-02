@@ -35,6 +35,8 @@ class Less_Parser{
 		'sourceMapWriteTo'		=> null,
 		'sourceMapURL'			=> null,
 
+		'indentation' 			=> '  ',
+
 		'plugins'				=> array(),
 
 	);
@@ -1989,7 +1991,7 @@ class Less_Parser{
 	}
 
 	private function parseImportOption(){
-		$opt = $this->MatchReg('/\\G(less|css|multiple|once|inline|reference)/');
+		$opt = $this->MatchReg('/\\G(less|css|multiple|once|inline|reference|optional)/');
 		if( $opt ){
 			return $opt[1];
 		}
@@ -2623,5 +2625,3 @@ class Less_Parser{
 	}
 
 }
-
-

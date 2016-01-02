@@ -51,7 +51,7 @@
     line-height: normal;
     margin: 0 auto
 }
-.uvc-sub-heading *, 
+.uvc-sub-heading div,
 .uvc-sub-heading p {
     font-family: inherit!important;
     font-weight: inherit!important;

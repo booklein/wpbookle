@@ -6,10 +6,13 @@
     &.header-13,
     &.header-14 {
         @media (min-width: 992px) {
-            .logo {
-                img {
-                    @include transition(none);
-                    @include transform(scale(1));
+            .header-main {
+                @include transition(none);
+                .logo {
+                    img {
+                        @include transition(none);
+                        @include transform(scale(1));
+                    }
                 }
             }
         }
@@ -181,6 +184,18 @@
                 &:hover { background: #52b8ea; }
                 &:after { content: $fa-var-vimeo; }
             }
+            .share-telegram {
+                &:hover { background: #0088cc; }
+                &:after { content: $fa-var-send; }
+            }
+            .share-yelp {
+                &:hover { background: #c41200; }
+                &:after { content: $fa-var-yelp; }
+            }
+            .share-flickr {
+                &:hover { background: #0063DC; }
+                &:after { content: $fa-var-flickr; }
+            }
             .share-whatsapp {
                 &:hover { background: #3c8a38; }
                 &:after { content: $fa-var-whatsapp; }
@@ -217,8 +232,7 @@
                 }
 
                 &.sticky {
-                    .header-contact,
-                    .searchform-popup {
+                    .header-right-top {
                         display: none;
                     }
 
@@ -436,6 +450,22 @@
         }
     }
 
+    &.header-12 {
+        .header-main {
+            .share-links {
+                @media (min-width: 992px) {
+                    margin-top: 14px;
+                }
+                @media #{$screen-normal} {
+                    margin-#{$left}: 0;
+                }
+                @media #{$screen-small} {
+                    display: none;
+                }
+            }
+        }
+    }
+
     &.header-11,
     &.header-15,
     &.header-16 {
@@ -538,6 +568,38 @@
         @media #{$screen-normal} {
             .header-main .container .header-left {
                 display: none;
+            }
+        }
+    }
+}
+
+.main-menu-wrap {
+    .sticky-header.header-9 & {
+        .menu-right {
+            position: absolute;
+            #{$right}: ($grid-gutter-width / 2);
+            top: 0;
+            bottom: 0;
+            height: 30px;
+            margin: auto;
+
+            #mini-cart {
+                top: auto;
+                bottom: auto;
+                padding-top: 2px;
+
+                &.minicart-inline {
+                    padding-top: 0;
+                }
+
+                &.minicart-box {
+                    height: 56px;
+                    margin: -38px auto -34px;
+
+                    .cart-head {
+                        margin-top: 9px;
+                    }
+                }
             }
         }
     }

@@ -34,7 +34,7 @@ $columns = array(
 	'info'			=> __('Info & Options', 'wp_all_export_plugin'),	
 );
 
-if ( ! wp_all_export_is_compatible()) unset($columns['info']);
+//if ( ! wp_all_export_is_compatible()) unset($columns['info']);
 
 $columns = apply_filters('pmxe_manage_imports_columns', $columns);
 
@@ -133,18 +133,25 @@ $columns = apply_filters('pmxe_manage_imports_columns', $columns);
 									<div class="row-actions">										
 										<span class="edit"><a class="edit" href="<?php echo esc_url(add_query_arg(array('id' => $item['id'], 'action' => 'template'), $this->baseUrl)) ?>"><?php _e('Edit Template', 'wp_all_export_plugin') ?></a></span> |
 										<span class="edit"><a class="edit" href="<?php echo esc_url(add_query_arg(array('id' => $item['id'], 'action' => 'options'), $this->baseUrl)) ?>"><?php _e('Edit Options', 'wp_all_export_plugin') ?></a></span> |										
+										
 										<?php if ( ! $is_secure_import and $item['attch_id']): ?>
 										<span class="update"><a class="update" href="<?php echo esc_url(add_query_arg(array('id' => $item['id'], 'action' => 'get_file', '_wpnonce' => wp_create_nonce( '_wpnonce-download_feed' )), $this->baseUrl)) ?>"><?php echo strtoupper($item['options']['export_to']); ?></a></span> |
 											<?php if (! empty($item['options']['tpl_data']) and (empty($item['options']['cpt']) or !in_array('shop_order', $item['options']['cpt']))):?>
 												<span class="update"><a class="update" href="<?php echo esc_url(add_query_arg(array('id' => $item['id'], 'action' => 'bundle', '_wpnonce' => wp_create_nonce( '_wpnonce-download_bundle' )), $this->baseUrl)) ?>"><?php _e('Bundle', 'wp_all_export_plugin'); ?></a></span> |
 											<?php endif; ?>
 										<?php endif; ?>
+										
 										<?php if ($is_secure_import and ! empty($item['options']['filepath'])): ?>
 										<span class="update"><a class="update" href="<?php echo esc_url(add_query_arg(array('id' => $item['id'], 'action' => 'get_file', '_wpnonce' => wp_create_nonce( '_wpnonce-download_feed' )), $this->baseUrl)) ?>"><?php echo strtoupper($item['options']['export_to']); ?></a></span> |
 											<?php if (! empty($item['options']['tpl_data']) and (empty($item['options']['cpt']) or !in_array('shop_order', $item['options']['cpt']))):?>
 												<span class="update"><a class="update" href="<?php echo esc_url(add_query_arg(array('id' => $item['id'], 'action' => 'bundle', '_wpnonce' => wp_create_nonce( '_wpnonce-download_bundle' )), $this->baseUrl)) ?>"><?php _e('Bundle', 'wp_all_export_plugin'); ?></a></span> |
 											<?php endif; ?>
 										<?php endif; ?>
+										
+										<?php if ( ! empty($item['options']['split_large_exports']) and ! empty($item['options']['split_files_list']) ): ?>
+											<span class="update"><a class="update" href="<?php echo esc_url(add_query_arg(array('id' => $item['id'], 'action' => 'split_bundle', '_wpnonce' => wp_create_nonce( '_wpnonce-download_split_bundle' )), $this->baseUrl)) ?>"><?php printf(__('Split %ss', 'wp_all_export_plugin'), strtoupper($item['options']['export_to'])); ?></a></span> |
+										<?php endif; ?>
+
 										<span class="delete"><a class="delete" href="<?php echo esc_url(add_query_arg(array('id' => $item['id'], 'action' => 'delete'), $this->baseUrl)) ?>"><?php _e('Delete', 'wp_all_export_plugin') ?></a></span>										
 									</div>
 								</td>

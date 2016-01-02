@@ -107,6 +107,16 @@ $portfolio_client = get_post_meta($post->ID, 'portfolio_client', true);
                             <i class="fa fa-tags"></i> <?php echo $cat_list ?>
                         </li>
                     <?php endif; ?>
+                    <?php
+                    if (function_exists('Post_Views_Counter') && Post_Views_Counter()->options['display']['position'] == 'manual') {
+                        $post_count = do_shortcode('[post-views]');
+                        if ($post_count) : ?>
+                            <li>
+                                <?php echo $post_count ?>
+                            </li>
+                        <?php endif;
+                    }
+                    ?>
                 </ul>
             </div>
             <a class="btn btn-xs btn-primary pt-right" href="<?php echo esc_url( apply_filters( 'the_permalink', get_permalink() ) ) ?>"><?php _e('Read more...', 'porto') ?></a>

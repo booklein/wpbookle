@@ -35,6 +35,7 @@ function pmxe_wp_ajax_wpallexport(){
 
 	XmlExportEngine::$exportOptions  = $exportOptions;	
 	XmlExportEngine::$is_user_export = $exportOptions['is_user_export'];
+	XmlExportEngine::$exportID = $export_id;
 
 	$posts_per_page = $exportOptions['records_per_iteration'];	
 
@@ -46,7 +47,7 @@ function pmxe_wp_ajax_wpallexport(){
 		}
 		else
 		{
-			$exportQuery = eval('return new WP_Query(array(' . $exportOptions['wp_query'] . ', \'orderby\' => \'ID\', \'order\' => \'ASC\', \'offset\' => ' . $export->exported . ', \'posts_per_page\' => ' . $posts_per_page . ' ));');
+			$exportQuery = eval('return new WP_Query(array(' . $exportOptions['wp_query'] . ', \'offset\' => ' . $export->exported . ', \'posts_per_page\' => ' . $posts_per_page . ' ));');
 		}		
 	}
 	else
@@ -71,15 +72,29 @@ function pmxe_wp_ajax_wpallexport(){
 
 	if ( ! $export->exported )
 	{
-		if ( ! empty($export->attch_id)){
-			wp_delete_attachment($export->attch_id, true);
+		$attachment_list = $export->options['attachment_list'];
+		if ( ! empty($attachment_list))
+		{
+			foreach ($attachment_list as $attachment) {
+				if ( ! is_numeric($attachment))
+				{					
+					@unlink($attachment);
+				}
+			}
 		}
+		$exportOptions['attachment_list'] = array();
+		$export->set(array(			
+			'options' => $exportOptions
+		))->save();
 
 		$is_secure_import = PMXE_Plugin::getInstance()->getOption('secure');
 
 		if ( $is_secure_import and ! empty($exportOptions['filepath'])){
 
-			wp_all_export_remove_source(wp_all_export_get_absolute_path($exportOptions['filepath']));
+			// if 'Create a new file each time export is run' disabled remove all previously generated source files
+			// if ( ! $exportOptions['creata_a_new_export_file'] or ! $export->iteration ){
+			// 	wp_all_export_remove_source(wp_all_export_get_absolute_path($exportOptions['filepath']));
+			// }
 
 			$exportOptions['filepath'] = '';
 
@@ -140,25 +155,51 @@ function pmxe_wp_ajax_wpallexport(){
 
 		if ( file_exists(PMXE_Plugin::$session->file)){
 
-			if ($exportOptions['export_to'] == 'xml') file_put_contents(PMXE_Plugin::$session->file, '</data>', FILE_APPEND);					
+			if ($exportOptions['export_to'] == 'xml') file_put_contents(PMXE_Plugin::$session->file, '</'.$exportOptions['main_xml_tag'].'>', FILE_APPEND);					
 
 			$is_secure_import = PMXE_Plugin::getInstance()->getOption('secure');
 
 			if ( ! $is_secure_import ){
-
-				$wp_filetype = wp_check_filetype(basename(PMXE_Plugin::$session->file), null );
-				$attachment_data = array(
-				    'guid' => $wp_uploads['baseurl'] . '/' . _wp_relative_upload_path( PMXE_Plugin::$session->file ), 
-				    'post_mime_type' => $wp_filetype['type'],
-				    'post_title' => preg_replace('/\.[^.]+$/', '', basename(PMXE_Plugin::$session->file)),
-				    'post_content' => '',
-				    'post_status' => 'inherit'
-				);		
-
-				$attach_id = wp_insert_attachment( $attachment_data, PMXE_Plugin::$session->file );			
+				
 				if ( ! $export->isEmpty() ){
+
+					$wp_filetype = wp_check_filetype(basename(PMXE_Plugin::$session->file), null );
+					$attachment_data = array(
+					    'guid' => $wp_uploads['baseurl'] . '/' . _wp_relative_upload_path( PMXE_Plugin::$session->file ), 
+					    'post_mime_type' => $wp_filetype['type'],
+					    'post_title' => preg_replace('/\.[^.]+$/', '', basename(PMXE_Plugin::$session->file)),
+					    'post_content' => '',
+					    'post_status' => 'inherit'
+					);		
+
+					if ( empty($export->attch_id) )
+					{
+						$attach_id = wp_insert_attachment( $attachment_data, PMXE_Plugin::$session->file );			
+					}					
+					elseif($export->options['creata_a_new_export_file'])
+					{
+						$attach_id = wp_insert_attachment( $attachment_data, PMXE_Plugin::$session->file );			
+					}
+					else
+					{
+						$attach_id = $export->attch_id;						
+						$attachment = get_post($attach_id);
+						if ($attachment)
+						{
+							update_attached_file( $attach_id, PMXE_Plugin::$session->file );
+							wp_update_attachment_metadata( $attach_id, $attachment_data );	
+						}
+						else
+						{
+							$attach_id = wp_insert_attachment( $attachment_data, PMXE_Plugin::$session->file );				
+						}						
+					}
+
+					if ( ! in_array($attach_id, $exportOptions['attachment_list'])) $exportOptions['attachment_list'][] = $attach_id;
+
 					$export->set(array(
-						'attch_id' => $attach_id
+						'attch_id' => $attach_id,
+						'options' => $exportOptions
 					))->save();
 				}
 
@@ -208,7 +249,7 @@ function pmxe_wp_ajax_wpallexport(){
 					'is_update_acf' => 0,
 					'update_acf_logic' => 'only',
 					'acf_list' => '',					
-					'is_update_product_type' => 0,
+					'is_update_product_type' => 1,
 					'is_update_attributes' => 0,
 					'update_attributes_logic' => 'only',
 					'attributes_list' => '',
@@ -342,6 +383,11 @@ function pmxe_wp_ajax_wpallexport(){
 						$target = $is_secure_import ? $wp_uploads['basedir'] . DIRECTORY_SEPARATOR . PMXE_Plugin::UPLOADS_DIRECTORY . DIRECTORY_SEPARATOR . $security_folder : $wp_uploads['path'];						
 
 						$csv = new PMXI_CsvParser( array( 'filename' => $xmlPath, 'targetDir' => $target ) );						
+						
+						if ( ! in_array($xmlPath, $exportOptions['attachment_list']) )
+						{
+							$exportOptions['attachment_list'][] = $csv->xml_path;							
+						}
 						
 						$historyPath = $csv->xml_path;
 

@@ -25,6 +25,19 @@ if ( ! empty($wpdb->collate))
 $table_prefix = PMXE_Plugin::getInstance()->getTablePrefix();
 
 $plugin_queries = <<<SCHEMA
+CREATE TABLE {$table_prefix}posts (
+	id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+	post_id BIGINT(20) UNSIGNED NOT NULL,
+	export_id BIGINT(20) UNSIGNED NOT NULL,	
+	iteration BIGINT(20) NOT NULL DEFAULT 0,
+	PRIMARY KEY  (id)	
+) $charset_collate;
+CREATE TABLE {$table_prefix}templates (
+	id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+	name VARCHAR(200) NOT NULL DEFAULT '',	
+	options LONGTEXT,				
+	PRIMARY KEY  (id)
+) $charset_collate;
 CREATE TABLE {$table_prefix}exports (
 	id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 	attch_id BIGINT(20) UNSIGNED NOT NULL,
@@ -40,6 +53,7 @@ CREATE TABLE {$table_prefix}exports (
   	processing BOOL NOT NULL DEFAULT 0,
   	executing BOOL NOT NULL DEFAULT 0,
   	triggered BOOL NOT NULL DEFAULT 0,
+  	iteration BIGINT(20) NOT NULL DEFAULT 0,
 	PRIMARY KEY  (id)
 ) $charset_collate;
 SCHEMA;

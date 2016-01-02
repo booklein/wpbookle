@@ -28,7 +28,7 @@
 						
 						<div class="wpallexport-import-types">
 							<h2><?php _e('First, choose what to export.', 'wp_all_export_plugin'); ?></h2>							
-							<a class="wpallexport-import-from wpallexport-url-type <?php echo 'specific' == $post['export_type'] ? 'selected' : '' ?>" rel="specific_type" href="javascript:void(0);">
+							<a class="wpallexport-import-from wpallexport-url-type <?php echo 'advanced' != $post['export_type'] ? 'selected' : '' ?>" rel="specific_type" href="javascript:void(0);">
 								<span class="wpallexport-icon"></span>
 								<span class="wpallexport-icon-label"><?php _e('Specific Post Type', 'wp_all_export_plugin'); ?></span>
 							</a>
@@ -45,7 +45,7 @@
 							<div class="wpallexport-file-type-options">
 								
 								<?php
-									$custom_types = get_post_types(array('_builtin' => true), 'objects') + get_post_types(array('_builtin' => false, 'show_ui' => true), 'objects'); 
+									$custom_types = get_post_types(array('_builtin' => true), 'objects') + get_post_types(array('_builtin' => false, 'show_ui' => true), 'objects') + get_post_types(array('_builtin' => false, 'show_ui' => false), 'objects'); 
 									foreach ($custom_types as $key => $ct) {
 										if (in_array($key, array('attachment', 'revision', 'nav_menu_item', 'import_users'))) unset($custom_types[$key]);										
 									}									
@@ -65,6 +65,7 @@
 										<?php endforeach ?>
 									<?php endif ?>	
 									<option value="users" data-imagesrc="dashicon dashicon-import_users" <?php if ('users' == $post['cpt']) echo 'selected="selected"'; ?>><?php _e("Users", "wp_all_export_plugin"); ?></option>
+									<option value="comments" data-imagesrc="dashicon dashicon-comments" <?php if ('comments' == $post['cpt']) echo 'selected="selected"'; ?>><?php _e("Comments", "wp_all_export_plugin"); ?></option>
 								</select>
 								
 								<input type="hidden" name="cpt" value="<?php echo $post['cpt']; ?>"/>									
@@ -73,8 +74,12 @@
 
 							<div class="wpallexport-free-edition-notice wpallexport-user-export-notice">
 								<a class="upgrade_link" target="_blank" href="http://www.wpallimport.com/upgrade-to-wp-all-export-pro/?utm_source=wordpress.org&amp;utm_medium=export-users&amp;utm_campaign=free+wp+all+export+plugin"><?php _e('Upgrade to the professional edition of WP All Export to export users.','wp_all_export_plugin');?></a>
+								<p><?php _e('If you already own it, remove the free edition and install the professional edition.', 'wp_all_export_plugin'); ?></p>
 							</div>
-
+							<div class="wpallexport-free-edition-notice wpallexport-comments-export-notice">
+								<a class="upgrade_link" target="_blank" href="http://www.wpallimport.com/upgrade-to-wp-all-export-pro/?utm_source=wordpress.org&amp;utm_medium=export-users&amp;utm_campaign=free+wp+all+export+plugin"><?php _e('Upgrade to the professional edition of WP All Export to export comments.','wp_all_export_plugin');?></a>
+								<p><?php _e('If you already own it, remove the free edition and install the professional edition.', 'wp_all_export_plugin'); ?></p>
+							</div>
 						</div>	
 
 						<div class="wpallexport-upload-type-container" rel="advanced_type">						
@@ -83,10 +88,17 @@
 								<select id="wp_query_selector">
 									<option value="wp_query" <?php if ('wp_query' == $post['wp_query_selector']) echo 'selected="selected"'; ?>><?php _e('Post Type Query', 'wp_all_export_plugin'); ?></option>
 									<option value="wp_user_query" <?php if ('wp_user_query' == $post['wp_query_selector']) echo 'selected="selected"'; ?>><?php _e('User Query', 'wp_all_export_plugin'); ?></option>
+									<option value="wp_comment_query" <?php if ('wp_comment_query' == $post['wp_query_selector']) echo 'selected="selected"'; ?>><?php _e('Comment Query', 'wp_all_export_plugin'); ?></option>
 								</select>
 								
 								<div class="wpallexport-free-edition-notice wpallexport-user-export-notice" style="margin-bottom: 20px;">
 									<a class="upgrade_link" target="_blank" href="http://www.wpallimport.com/upgrade-to-wp-all-export-pro/?utm_source=wordpress.org&amp;utm_medium=export-users&amp;utm_campaign=free+wp+all+export+plugin"><?php _e('Upgrade to the professional edition of WP All Export to export users.','wp_all_export_plugin');?></a>
+									<p><?php _e('If you already own it, remove the free edition and install the professional edition.', 'wp_all_export_plugin'); ?></p>
+								</div>
+
+								<div class="wpallexport-free-edition-notice wpallexport-comments-export-notice" style="margin-bottom: 20px;">
+									<a class="upgrade_link" target="_blank" href="http://www.wpallimport.com/upgrade-to-wp-all-export-pro/?utm_source=wordpress.org&amp;utm_medium=export-users&amp;utm_campaign=free+wp+all+export+plugin"><?php _e('Upgrade to the professional edition of WP All Export to export comments.','wp_all_export_plugin');?></a>
+									<p><?php _e('If you already own it, remove the free edition and install the professional edition.', 'wp_all_export_plugin'); ?></p>
 								</div>
 
 								<input type="hidden" name="wp_query_selector" value="<?php echo $post['wp_query_selector'];?>">

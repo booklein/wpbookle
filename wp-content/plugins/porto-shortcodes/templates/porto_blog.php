@@ -26,8 +26,10 @@ if (!$cats)
 if ($cats)
     $args['cat'] = $cats;
 
-if ($post_in)
+if ($post_in) {
     $args['post__in'] = explode(',', $post_in);
+    $args['orderby'] = 'post__in';
+}
 
 $posts = new WP_Query($args);
 

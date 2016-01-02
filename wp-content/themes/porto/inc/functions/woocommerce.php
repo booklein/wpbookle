@@ -406,7 +406,7 @@ function porto_woocommerce_single_excerpt() {
     }
     ?>
     <div class="description">
-        <?php echo apply_filters( 'woocommerce_short_description', $post->post_excerpt ) ?>
+        <?php echo force_balance_tags( apply_filters( 'woocommerce_short_description', $post->post_excerpt ) ) ?>
     </div>
     <?php
 }
@@ -576,6 +576,7 @@ function porto_woocommerce_init() {
             }
             if (!$porto_settings['catalog-cart']) {
                 remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30);
+                add_action( 'woocommerce_single_product_summary', 'porto_woocommerce_template_single_add_to_cart', 30 );
                 remove_action('woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart');
 
                 if ($porto_settings['catalog-readmore']) {
@@ -603,6 +604,14 @@ function porto_woocommerce_init() {
     }
 }
 
+function porto_woocommerce_template_single_add_to_cart() {
+    global $product;
+    if ($product->product_type == 'variable') {
+        remove_action( 'woocommerce_single_variation', 'woocommerce_single_variation_add_to_cart_button', 20 );
+        do_action( 'woocommerce_' . $product->product_type . '_add_to_cart'  );
+    }
+}
+
 function porto_woocommerce_get_price_html_empty($price, $product) {
     return '';
 }
@@ -618,13 +627,13 @@ function porto_woocommerce_disable_rating($false) {
 function porto_woocommerce_readmore_button() {
     global $porto_settings;
     $more_link = get_post_meta(get_the_id(), 'product_more_link', true);
-    if ($more_link) :
+    if (!$more_link)
+        $more_link = apply_filters( 'the_permalink', get_permalink() );
     ?>
         <div class="cart">
             <a href="<?php echo esc_url( $more_link ) ?>" class="single_add_to_cart_button button readmore"><?php echo $porto_settings['catalog-readmore-label'] ?></a>
         </div>
     <?php
-    endif;
 }
 
 // ajax products archive display
@@ -686,4 +695,22 @@ function porto_woocommerce_term_metadata_ajax($value, $object_id, $meta_key, $si
     }
 
     return $value;
+}
+
+function porto_is_product_archive() {
+    if (is_archive()) {
+        $term = get_term_by( 'slug', get_query_var( 'term' ), get_query_var( 'taxonomy' ) );
+        if ($term) {
+            switch ($term->taxonomy) {
+                case in_array($term->taxonomy, porto_get_taxonomies('product')):
+                case 'product_cat':
+                    return true;
+                    break;
+                default:
+                    return false;
+            }
+        }
+    }
+
+    return false;
 }

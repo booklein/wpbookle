@@ -60,12 +60,12 @@
 	background-position:0 0 !important;
 }
 .vc_ultimate_info_table{
-	background-image: url(../img/icon-info-table.png) !important;	
+	background-image: url(../img/icon-info-table.png) !important;
 	background-position:0 0 !important;
 }
 .vc_info_circle_item{
 	background-image: url(../img/icon-info-circle-block.png) !important;
-	background-position:0 0 !important;	
+	background-position:0 0 !important;
 }
 .vc_info_circle {
 	background-image: url(../img/icon-info-circle.png) !important;
@@ -77,7 +77,7 @@
 }
 .vc_ultimate_pricing{
 	background-image: url(../img/icon-price-box.png) !important;
-	background-position:0 0 !important;	
+	background-position:0 0 !important;
 }
 .vc_ultimate_spacer{
 	background-image: url(../img/icon-spacer.png) !important;
@@ -162,9 +162,29 @@
 	background-image: url(../img/icon-image-separator.png) !important;
 	background-position: 0 0 !important;
 }
-a#ult_tab_element .vc_element-icon {
+.vc_icon_team {
+	background-image: url(../img/icon-team.png) !important;
+	background-position: 0 0 !important;
+}
+a#ult_tab_element .vc_element-icon,
+.ult_tab_eleicon {
 	background-image: url(../img/tab-icon.png) !important;
 	background-position: 0 0 !important;
+}
+.uvc_creative_link {
+	background-image: url(../img/creative-link.png) !important;
+	background-position: 0 0 !important;
+}
+.uvc_expandable {
+	background-image: url(../img/collapsable.png) !important;
+	background-position: 0 0 !important;
+}
+.uvc_dual_button {
+	background-image: url(../img/dual_button.png) !important;
+	background-position: 0 0 !important;
+}
+.wpb_ult_tab_element.ult_tab_eleicon {
+    background: none !important;
 }
 /*icon-manager*/
 #smile_icon_search {

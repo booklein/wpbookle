@@ -46,6 +46,8 @@ $dark = $b['css-type'] == 'dark'
 @color-light: <?php echo $b['light-color'] ?>;
 @color-light-inverse: <?php echo $b['light-color-inverse'] ?>;
 
+@social-color: <?php echo $b['social-color'] ? '1' : '0' ?>;
+
 // Typography
 @body_font_family: <?php echo $b['body-font']['font-family'] ?>;
 @body_font_weight: <?php echo $b['body-font']['font-weight'] ?>;
@@ -94,6 +96,21 @@ $dark = $b['css-type'] == 'dark'
 @h6_font_size: <?php echo $b['h6-font']['font-size'] ?>;
 @h6_line_height: <?php echo $b['h6-font']['line-height'] ?>;
 @h6_color: <?php echo $b['h6-font']['color'] ?>;
+
+@menu_font_family: <?php echo $b['menu-font']['font-family'] ?>;
+@menu_font_weight: <?php echo $b['menu-font']['font-weight'] ?>;
+@menu_font_size: <?php echo $b['menu-font']['font-size'] ?>;
+@menu_line_height: <?php echo $b['menu-font']['line-height'] ?>;
+
+@menu_side_font_family: <?php echo $b['menu-side-font']['font-family'] ?>;
+@menu_side_font_weight: <?php echo $b['menu-side-font']['font-weight'] ?>;
+@menu_side_font_size: <?php echo $b['menu-side-font']['font-size'] ?>;
+@menu_side_line_height: <?php echo $b['menu-side-font']['line-height'] ?>;
+
+@menu_popup_font_family: <?php echo $b['menu-popup-font']['font-family'] ?>;
+@menu_popup_font_weight: <?php echo $b['menu-popup-font']['font-weight'] ?>;
+@menu_popup_font_size: <?php echo $b['menu-popup-font']['font-size'] ?>;
+@menu_popup_line_height: <?php echo $b['menu-popup-font']['line-height'] ?>;
 
 // Backgrounds
 @body_bg_color: <?php echo $b['body-bg']['background-color'] ?>;
@@ -265,6 +282,9 @@ $image = str_replace(array('http://', 'https://'), array('//', '//'), $b['sticky
 @searchform_popup_border_color: <?php echo $b['searchform-popup-border-color'] ?>;
 @searchform_text_color: <?php echo $b['searchform-text-color'] ?>;
 @searchform_hover_color: <?php echo $b['searchform-hover-color'] ?>;
+@sticky_searchform_popup_border_color: <?php echo $b['sticky-searchform-popup-border-color'] ?>;
+@sticky_searchform_toggle_text_color: <?php echo $b['sticky-searchform-toggle-text-color'] ?>;
+@sticky_searchform_toggle_hover_color: <?php echo $b['sticky-searchform-toggle-hover-color'] ?>;
 
 // Mini Cart
 @minicart_icon_color: <?php echo $b['minicart-icon-color'] ?>;
@@ -272,6 +292,11 @@ $image = str_replace(array('http://', 'https://'), array('//', '//'), $b['sticky
 @minicart_border_color: <?php echo $b['minicart-border-color'] ?>;
 @minicart_bg_color: <?php echo $b['minicart-bg-color'] ?>;
 @minicart_popup_border_color: <?php echo $b['minicart-popup-border-color'] ?>;
+@sticky_minicart_icon_color: <?php echo $b['sticky-minicart-icon-color'] ?>;
+@sticky_minicart_item_color: <?php echo $b['sticky-minicart-item-color'] ?>;
+@sticky_minicart_border_color: <?php echo $b['sticky-minicart-border-color'] ?>;
+@sticky_minicart_bg_color: <?php echo $b['sticky-minicart-bg-color'] ?>;
+@sticky_minicart_popup_border_color: <?php echo $b['sticky-minicart-popup-border-color'] ?>;
 
 // Main Menu
 @main_menu_wrapper_bg_color: <?php echo $b['mainmenu-wrap-bg-color'] ?>;

@@ -24,7 +24,7 @@ if(!class_exists('WooComposer_Cat_Carousel')){
 				);
 				vc_map(
 					array(
-						"name"		=> __("Categories Carousel [Beta]", "ultimate_vc"),
+						"name"		=> __("Categories Carousel", "ultimate_vc"),
 						"base"		=> "woocomposer_carousel_cat",
 						"icon"		=> "woo_grid",
 						"class"	   => "woo_grid",
@@ -33,6 +33,7 @@ if(!class_exists('WooComposer_Cat_Carousel')){
 						"controls" => "full",
 						"wrapper_class" => "clearfix",
 						"show_settings_on_create" => true,
+						"deprecated" => "3.13.5",
 						"params" => array(
 							array(
 								"type" => "number",

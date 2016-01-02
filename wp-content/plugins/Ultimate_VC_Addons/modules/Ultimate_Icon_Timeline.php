@@ -40,10 +40,10 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 					   "description" => __("Timeline of old memories and events.","smile"),
 					   "as_parent" => array('only' => 'icon_timeline_item,icon_timeline_sep,icon_timeline_feat',),
 					   "content_element" => true,
-					   "show_settings_on_create" => true,	
+					   "show_settings_on_create" => true,
 					   //"is_container"    => true,
-					   "front_enqueue_css" =>  preg_replace( '/\s/', '%20', plugins_url( '../assets/css/advacne_carosal_front.css', __FILE__ ) ),				   
-					   "params" => array(					   	
+					   "front_enqueue_css" =>  preg_replace( '/\s/', '%20', plugins_url( '../assets/css/advacne_carosal_front.css', __FILE__ ) ),
+					   "params" => array(
 						   	array(
 								 "type" => "dropdown",
 								 "class" => "",
@@ -51,7 +51,7 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								 "param_name" => "timeline_style",
 								 "value" => array(
 								 		__('Non-optimized (CSS)','ultimate_vc') => 'csstime',
-								 		__('Optimized with JavaScript','ultimate_vc') => 'jstime',										
+								 		__('Optimized with JavaScript','ultimate_vc') => 'jstime',
 								 ),
 								 "description" => __("How would you like the height of timeline.","smile")
 							  ),
@@ -62,18 +62,18 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 							 "param_name" => "timeline_line_style",
 							 "value" => array(
 							 		__('Dotted','ultimate_vc') => 'dotted',
-							 		__('Solid','ultimate_vc') => 'solid',									
-									__('Dashed','ultimate_vc') => 'dashed',									
+							 		__('Solid','ultimate_vc') => 'solid',
+									__('Dashed','ultimate_vc') => 'dashed',
 							 		),
 							 "description" => __("Select the style of line that connects timeline items.","ultimate_vc")
-						  ),					
+						  ),
 							array(
 								"type" => "colorpicker",
 								"class" => "",
 								"heading" => __("Color of Connecter Line:", "ultimate_vc"),
 								"param_name" => "timeline_line_color",
 								"value" => "",
-								"description" => __("Select the color for the line that connects timeline items.", "ultimate_vc"),								
+								"description" => __("Select the color for the line that connects timeline items.", "ultimate_vc"),
 							),
 							array(
 								"type" => "colorpicker",
@@ -81,7 +81,7 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								"heading" => __("Background color for timeline item block / container:", "ultimate_vc"),
 								"param_name" => "time_block_bg_color",
 								"value" => "",
-								"description" => __("Give a background color to the timeline item block.", "ultimate_vc"),								
+								"description" => __("Give a background color to the timeline item block.", "ultimate_vc"),
 							),
 							array(
 								"type" => "colorpicker",
@@ -89,15 +89,15 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								"heading" => __("Select font color of items separator:", "ultimate_vc"),
 								"param_name" => "time_sep_color",
 								"value" => "",
-								"description" => __("Select font color of items separator.", "ultimate_vc"),								
-							),							
+								"description" => __("Select font color of items separator.", "ultimate_vc"),
+							),
 							array(
 								"type" => "colorpicker",
 								"class" => "",
 								"heading" => __("Select background color for items separator:", "ultimate_vc"),
 								"param_name" => "time_sep_bg_color",
 								"value" => "",
-								"description" => __("Select the background color for item separator.", "ultimate_vc"),								
+								"description" => __("Select the background color for item separator.", "ultimate_vc"),
 							),
 							array(
 								"type" => "dropdown",
@@ -116,7 +116,7 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								"class" => "",
 								"heading" => __("Custom Width", "ultimate_vc"),
 								"param_name" => "custom_width",
-								"value" => 200,								
+								"value" => 200,
 								"suffix" => "px",
 								"description" => __("Provide custom width for each block", "ultimate_vc"),
 								"dependency" => Array("element" => "timeline_layout","value" => array("timeline-custom-width")),
@@ -130,7 +130,7 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 									__("None","ultimate_vc") => "",
 									__("Slide Out","ultimate_vc") => "tl-animation-slide-out",
 									__("Slide Up","ultimate_vc") => "tl-animation-slide-up",
-									__("Slide Down","ultimate_vc") => "tl-animation-slide-down",									
+									__("Slide Down","ultimate_vc") => "tl-animation-slide-down",
 									__("Shadow","ultimate_vc") => "tl-animation-shadow",
 								),
 								"description" => __("Hover animation can be given to the timeline item blocks.", "ultimate_vc"),
@@ -162,7 +162,7 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 					   "category" => __('Timeline','ultimate_vc'),
 					   "content_element" => true,
 					   "as_child" => array('only' => 'icon_timeline'),
-					   "is_container"    => false,					   
+					   "is_container"    => false,
 					   "params" => array(
 						 	array(
 								"type" => "textfield",
@@ -172,7 +172,7 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								"admin_label" => true,
 								"value" => "",
 								"description" => __("Provide the text for this timeline Separator.", "ultimate_vc"),
-							),	
+							),
 							array(
 								"type" => "colorpicker",
 								"param_name" => "time_sep_color",
@@ -220,7 +220,7 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								"param_name" => "seperator_title_font",
 								"heading" => __("Font Family","ultimate_vc"),
 								"value" => "",
-								"dependency" => Array("element" => "time_sep_title", "not_empty" => true),
+								//"dependency" => Array("element" => "time_sep_title", "not_empty" => true),
 								"group" => "Typography"
 							),
 							array(
@@ -228,18 +228,48 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								"heading" => __("Font Style","ultimate_vc"),
 								"param_name" => "seperator_title_font_style",
 								"value" => "",
-								"dependency" => Array("element" => "time_sep_title", "not_empty" => true),
+								//"dependency" => Array("element" => "time_sep_title", "not_empty" => true),
 								"group" => "Typography"
 							),
+							// array(
+							// 	"type" => "number",
+							// 	"heading" => __("Font size","ultimate_vc"),
+							// 	"param_name" => "font_size",
+							// 	"value" => "",
+							// 	"suffix" => "px",
+							// 	"dependency" => Array("element" => "time_sep_title", "not_empty" => true),
+							// 	"group" => "Typography"
+							// ),
 							array(
-								"type" => "number",
-								"heading" => __("Font size","ultimate_vc"),
-								"param_name" => "font_size",
-								"value" => "",
-								"suffix" => "px",
-								"dependency" => Array("element" => "time_sep_title", "not_empty" => true),
-								"group" => "Typography"
-							),						
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Font size", 'ultimate_vc'),
+                                "param_name" => "font_size",
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
+							array(
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Line Height", 'ultimate_vc'),
+                                "param_name" => "seperator_line_ht",
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
 							// Customize everything
 							array(
 								"type" => "textfield",
@@ -250,7 +280,7 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								"description" => __("Add extra class name that will be applied to the timeline, and you can use this class for your customizations.", "ultimate_vc"),
 							),
 					    )
-					) 
+					)
 				);
 				vc_map(
 					array(
@@ -260,8 +290,8 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 					   "icon" => "vc_timeline_item_icon",
 					   "category" => __('Timeline','ultimate_vc'),
 					   "content_element" => true,
-					   "as_child" => array('only' => 'icon_timeline'),	
-					   "is_container"    => false,				   
+					   "as_child" => array('only' => 'icon_timeline'),
+					   "is_container"    => false,
 					   "params" => array(
 						 	array(
 								"type" => "textfield",
@@ -295,14 +325,44 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								"value" => "",
 								"group" => "Typography"
 							),
+							// array(
+							// 	"type" => "number",
+							// 	"param_name" => "title_font_size",
+							// 	"heading" => __("Font size","ultimate_vc"),
+							// 	"value" => "",
+							// 	"suffix" => "px",
+							// 	"group" => "Typography"
+							// ),
 							array(
-								"type" => "number",
-								"param_name" => "title_font_size",
-								"heading" => __("Font size","ultimate_vc"),
-								"value" => "",
-								"suffix" => "px",
-								"group" => "Typography"
-							),
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Font size", 'ultimate_vc'),
+                                "param_name" => "title_font_size",
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
+                        	array(
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Line Height", 'ultimate_vc'),
+                                "param_name" => "title_line_height",
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
 							array(
 								"type" => "colorpicker",
 								"param_name" => "title_font_color",
@@ -342,14 +402,44 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								"value" => "",
 								"group" => "Typography"
 							),
+							// array(
+							// 	"type" => "number",
+							// 	"param_name" => "desc_font_size",
+							// 	"heading" => __("Font size","ultimate_vc"),
+							// 	"value" => "",
+							// 	"suffix" => "px",
+							// 	"group" => "Typography"
+							// ),
 							array(
-								"type" => "number",
-								"param_name" => "desc_font_size",
-								"heading" => __("Font size","ultimate_vc"),
-								"value" => "",
-								"suffix" => "px",
-								"group" => "Typography"
-							),
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Font size", 'ultimate_vc'),
+                                "param_name" => "desc_font_size",
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
+							array(
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Line Height", 'ultimate_vc'),
+                                "param_name" => "desc_line_height",
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
 							array(
 								"type" => "colorpicker",
 								"param_name" => "desc_font_color",
@@ -364,7 +454,7 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								"value" => array(
 									__("No Icon","ultimate_vc") => 'noicon',
 									__("Font Icon Manager","ultimate_vc") => "selector",
-									__("Custom Image Icon","ultimate_vc") => "custom",									
+									__("Custom Image Icon","ultimate_vc") => "custom",
 								),
 								"description" => __("Use an existing font icon</a> or upload a custom image.", "ultimate_vc")
 							),
@@ -374,7 +464,7 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								"heading" => __("Select Icon ","ultimate_vc"),
 								"param_name" => "icon",
 								"value" => "",
-								"description" => __("Click and select icon of your choice. If you can't find the one that suits for your purpose","ultimate_vc").", ".__("you can","ultimate_vc")." <a href='admin.php?page=font-icon-Manager' target='_blank'>".__("add new here","ultimate_vc")."</a>.",
+								"description" => __("Click and select icon of your choice. If you can't find the one that suits for your purpose","ultimate_vc").", ".__("you can","ultimate_vc")." <a href='admin.php?page=bsf-font-icon-manager' target='_blank'>".__("add new here","ultimate_vc")."</a>.",
 								"dependency" => Array("element" => "icon_type","value" => array("selector")),
 							),
 							array(
@@ -417,7 +507,7 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								"param_name" => "icon_color",
 								"value" => "#DE5034",
 								"description" => __("Give it a nice paint!", "ultimate_vc"),
-								"dependency" => Array("element" => "icon_type","value" => array("selector")),						
+								"dependency" => Array("element" => "icon_type","value" => array("selector")),
 							),
 							array(
 								"type" => "dropdown",
@@ -439,7 +529,7 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								"heading" => __("Background Color", "ultimate_vc"),
 								"param_name" => "icon_color_bg",
 								"value" => "#fff",
-								"description" => __("Select background color for icon.", "ultimate_vc"),										
+								"description" => __("Select background color for icon.", "ultimate_vc"),
 								"dependency" => Array("element" => "icon_type","value" => array("selector","custom")),
 							),
 							array(
@@ -465,7 +555,7 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								"heading" => __("Border Color", "ultimate_vc"),
 								"param_name" => "icon_color_border",
 								"value" => "#dbdbdb",
-								"description" => __("Select border color for icon.", "ultimate_vc"),	
+								"description" => __("Select border color for icon.", "ultimate_vc"),
 								"dependency" => Array("element" => "icon_border_style", "not_empty" => true),
 							),
 							array(
@@ -507,7 +597,7 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 							array(
 								"type" => "dropdown",
 								"class" => "",
-								"heading" => __("Animation","ultimate_vc"), 
+								"heading" => __("Animation","ultimate_vc"),
 								"param_name" => "icon_animation",
 								"value" => array(
 							 		__("No Animation","ultimate_vc") => "",
@@ -546,10 +636,10 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								"value" => array(
 									"Auto" =>'auto',
 									"Left" => "left",
-									"Right" => "right",									
+									"Right" => "right",
 								),
 								"description" => __("Alignment of timeline item with respect to the connecter line.", "smile"),
-							),*/						
+							),*/
 							array(
 									"type" => "dropdown",
 									"class" => "",
@@ -562,7 +652,7 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 										__("Display Read More","ultimate_vc") => "more",
 									),
 									"description" => __("Select the element for link.", "ultimate_vc")
-								),	
+								),
 								array(
 									"type" => "vc_link",
 									"class" => "",
@@ -571,7 +661,7 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 									"value" => "",
 									"dependency" => Array("element" => "time_link_apply","value" => array("more","title","box")),
 									"description" => __("Provide the link that will be applied to this timeline.", "ultimate_vc")
-								),								
+								),
 							array(
 								"type" => "textfield",
 								"class" => "",
@@ -580,7 +670,7 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								"value" => "Read More",
 								"description" => __("Customize the read more text.", "ultimate_vc"),
 								"dependency" => Array("element" => "time_link_apply","value" => array("more")),
-							),						
+							),
 							// Customize everything
 							array(
 								"type" => "textfield",
@@ -591,8 +681,8 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								"description" => __("Add extra class name that will be applied to the timeline, and you can use this class for your customizations.", "ultimate_vc"),
 							),
 					    )
-					) 
-				);							
+					)
+				);
 				vc_map(
 					array(
 					   "name" => __("Timeline Featured Item","ultimate_vc"),
@@ -601,8 +691,8 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 					   "icon" => "vc_timeline_feat_icon",
 					   "category" => __('Timeline','ultimate_vc'),
 					   "content_element" => true,
-					   "as_child" => array('only' => 'icon_timeline'),	
-					   "is_container"    => false,				   
+					   "as_child" => array('only' => 'icon_timeline'),
+					   "is_container"    => false,
 						 "params" => array(
 						 	array(
 								"type" => "textfield",
@@ -636,14 +726,44 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								"value" => "",
 								"group" => "Typography"
 							),
+							// array(
+							// 	"type" => "number",
+							// 	"param_name" => "title_font_size",
+							// 	"heading" => __("Font size","ultimate_vc"),
+							// 	"value" => "",
+							// 	"suffix" => "px",
+							// 	"group" => "Typography"
+							// ),
 							array(
-								"type" => "number",
-								"param_name" => "title_font_size",
-								"heading" => __("Font size","ultimate_vc"),
-								"value" => "",
-								"suffix" => "px",
-								"group" => "Typography"
-							),
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Font size", 'ultimate_vc'),
+                                "param_name" => "title_font_size",
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
+                            array(
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Line Height", 'ultimate_vc'),
+                                "param_name" => "title_line_ht",
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
 							array(
 								"type" => "colorpicker",
 								"param_name" => "title_font_color",
@@ -683,14 +803,44 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								"value" => "",
 								"group" => "Typography"
 							),
+							// array(
+							// 	"type" => "number",
+							// 	"param_name" => "desc_font_size",
+							// 	"heading" => __("Font size","ultimate_vc"),
+							// 	"value" => "",
+							// 	"suffix" => "px",
+							// 	"group" => "Typography"
+							// ),
 							array(
-								"type" => "number",
-								"param_name" => "desc_font_size",
-								"heading" => __("Font size","ultimate_vc"),
-								"value" => "",
-								"suffix" => "px",
-								"group" => "Typography"
-							),
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Font size", 'ultimate_vc'),
+                                "param_name" => "desc_font_size",
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
+							array(
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Line Height", 'ultimate_vc'),
+                                "param_name" => "desc_line_ht",
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
 							array(
 								"type" => "colorpicker",
 								"param_name" => "desc_font_color",
@@ -705,7 +855,7 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								"value" => array(
 									__("No Icon","ultimate_vc") => 'noicon',
 									__("Font Icon Manager","ultimate_vc") => "selector",
-									__("Custom Image Icon","ultimate_vc") => "custom",									
+									__("Custom Image Icon","ultimate_vc") => "custom",
 								),
 								"description" => __("Use an existing font icon or upload a custom image.", "ultimate_vc")
 							),
@@ -715,7 +865,7 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								"heading" => __("Select Icon ","ultimate_vc"),
 								"param_name" => "icon",
 								"value" => "",
-								"description" => __("Click and select icon of your choice. If you can't find the one that suits for your purpose","ultimate_vc").", ".__("you can","ultimate_vc")." <a href='admin.php?page=font-icon-Manager' target='_blank'>".__("add new here","ultimate_vc")."</a>.",
+								"description" => __("Click and select icon of your choice. If you can't find the one that suits for your purpose","ultimate_vc").", ".__("you can","ultimate_vc")." <a href='admin.php?page=bsf-font-icon-manager' target='_blank'>".__("add new here","ultimate_vc")."</a>.",
 								"dependency" => Array("element" => "icon_type","value" => array("selector")),
 							),
 							array(
@@ -758,7 +908,7 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								"param_name" => "icon_color",
 								"value" => "#DE5034",
 								"description" => __("Give it a nice paint!", "ultimate_vc"),
-								"dependency" => Array("element" => "icon_type","value" => array("selector")),						
+								"dependency" => Array("element" => "icon_type","value" => array("selector")),
 							),
 							array(
 								"type" => "dropdown",
@@ -780,7 +930,7 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								"heading" => __("Background Color", "ultimate_vc"),
 								"param_name" => "icon_color_bg",
 								"value" => "#fff",
-								"description" => __("Select background color for icon.", "ultimate_vc"),										
+								"description" => __("Select background color for icon.", "ultimate_vc"),
 								"dependency" => Array("element" => "icon_type","value" => array("selector","custom")),
 							),
 							array(
@@ -806,7 +956,7 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								"heading" => __("Border Color", "ultimate_vc"),
 								"param_name" => "icon_color_border",
 								"value" => "#dbdbdb",
-								"description" => __("Select border color for icon.", "ultimate_vc"),	
+								"description" => __("Select border color for icon.", "ultimate_vc"),
 								"dependency" => Array("element" => "icon_border_style", "not_empty" => true),
 							),
 							array(
@@ -848,7 +998,7 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 							array(
 								"type" => "dropdown",
 								"class" => "",
-								"heading" => __("Animation","ultimate_vc"), 
+								"heading" => __("Animation","ultimate_vc"),
 								"param_name" => "icon_animation",
 								"value" => array(
 							 		__("No Animation","ultimate_vc") => "",
@@ -887,10 +1037,10 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								"value" => array(
 									"Auto" =>'auto',
 									"Left" => "left",
-									"Right" => "right",									
+									"Right" => "right",
 								),
 								"description" => __("Alignment of timeline item with respect to the connecter line.", "smile"),
-							),*/						
+							),*/
 							array(
 									"type" => "dropdown",
 									"class" => "",
@@ -903,7 +1053,7 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 										__("Display Read More","ultimate_vc") => "more",
 									),
 									"description" => __("Select the element for link.", "ultimate_vc")
-								),	
+								),
 								array(
 									"type" => "vc_link",
 									"class" => "",
@@ -912,7 +1062,7 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 									"value" => "",
 									"dependency" => Array("element" => "time_link_apply","value" => array("more","title","box")),
 									"description" => __("Provide the link that will be applied to this timeline.", "ultimate_vc")
-								),								
+								),
 							array(
 								"type" => "textfield",
 								"class" => "",
@@ -921,7 +1071,7 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								"value" => "Read More",
 								"description" => __("Customize the read more text.", "ultimate_vc"),
 								"dependency" => Array("element" => "time_link_apply","value" => array("more")),
-							),						
+							),
 							array(
 								"type" => "dropdown",
 								"heading" => "Arrow position",
@@ -941,17 +1091,17 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 								"description" => __("Add extra class name that will be applied to the timeline, and you can use this class for your customizations.", "ultimate_vc"),
 							),
 					    )
-					) 
+					)
 				);
 			}//endif
 		}
 		function icon_timeline($atts, $content = null)
 		{
 			//wp_enqueue_script('masonry',plugins_url('../assets/min-js/',__FILE__).'masonry.min.js', array('jquery'), false, true);
-			
+
 			$timeline_line_color = $timeline_line_style = '';
-			extract(shortcode_atts(array(	
-				'timeline_style'=>'csstime',			
+			extract(shortcode_atts(array(
+				'timeline_style'=>'csstime',
 				'timeline_line_color' =>'',
 				'timeline_line_style' =>'dotted',
 				'time_sep_bg_color'=>'',
@@ -979,24 +1129,24 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 				$line_style ='border-right-style:'.$timeline_line_style.';';
 			}
 			if($timeline_line_style!=''){
-				$line_style .='border-right-color:'.$timeline_line_color.';';	
+				$line_style .='border-right-color:'.$timeline_line_color.';';
 			}
 			if($timeline_style=='jstime'){
-				$output .= '<div class="'.$timeline_style.' timeline_preloader" style="opacity:0;width:35px;margin:auto;margin-top:30px;"><img style="box-shadow:none;" alt="timeline_pre_loader" src="'.plugin_dir_url( __FILE__ ).'../assets/img/timeline_pre-loader.gif" /></div>';	
+				$output .= '<div class="'.$timeline_style.' timeline_preloader" style="opacity:0;width:35px;margin:auto;margin-top:30px;"><img style="box-shadow:none;" alt="timeline_pre_loader" src="'.plugin_dir_url( __FILE__ ).'../assets/img/timeline_pre-loader.gif" /></div>';
 				$output .= '<div class="smile-icon-timeline-wrap '.$timeline_style.' '.$el_class.' '.$timeline_layout.' '.$tl_animation.'" '.$cw.' '.$time_sep_bg_color.' '.$time_block_bg_color.' '.$time_sep_color.' style="opacity:0">';
 			}
-			else{				
+			else{
 				$output .= '<div class="smile-icon-timeline-wrap '.$timeline_style.' '.$el_class.' '.$timeline_layout.' '.$tl_animation.'" '.$cw.' '.$time_sep_bg_color.' '.$time_block_bg_color.' '.$time_sep_color.'>';
 			}
 			$output .= '<div class="timeline-line " style="'.$line_style.'"><z></z></div>';
 			$output .='<div class="timeline-wrapper">';
 			$output .= do_shortcode($content);
 			$output .= '</div>';
-			$output .= '</div>';						
+			$output .= '</div>';
 			return $output ;
 		}
 		function icon_timeline_sep($atts, $content=null){
-			$time_sep_title = $time_sep_color = $time_sep_bg_color = $animation = $el_class = $line_style = $line_color =  $icon_style = $seperator_style = '';
+			$time_sep_title = $time_sep_color = $time_sep_bg_color = $animation = $el_class = $line_style = $line_color =  $icon_style = $seperator_style = $seperator_line_ht = '';
 			extract(shortcode_atts(array(
 				'time_sep_title' => '. . .',
 				'time_sep_color' => '',
@@ -1008,11 +1158,12 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 				'line_radius' => '5',
 				'el_class' =>'',
 				'font_size'	=>'',
+				'seperator_line_ht' => '',
 				'seperator_title_font' => '',
 				'seperator_title_font_style' => ''
 			), $atts));
 			//$li_prefix = '<div class="timeline-block separator'.$el_class.'">';
-			//$li_suffix = '</div>';	
+			//$li_suffix = '</div>';
 			if($time_sep_color != '')
 				$seperator_style .= 'color:'.$time_sep_color.';';
 			if($line_style != '')
@@ -1023,8 +1174,26 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 				$seperator_style .= 'border-width:'.$line_width.'px;';
 			if($line_radius != '')
 				$seperator_style .= 'border-radius:'.$line_radius.'px;';
-			if($font_size != '')
-				$seperator_style .= 'font-size:'.$font_size.'px;';
+			// if($font_size != '')
+			// 	$seperator_style .= 'font-size:'.$font_size.'px;';
+			// if($seperator_line_ht != '')
+			// 	$seperator_style .= 'line-height:'.$seperator_line_ht.'px;';
+
+			if(is_numeric($font_size)){
+				$font_size = 'desktop:'.$font_size.'px;';
+			}
+			if (is_numeric($seperator_line_ht)) {
+                $seperator_line_ht = 'desktop:'.$seperator_line_ht.'px;';
+            }
+            $timeline_seperator_id = 'timeline-seperator-'.rand(1000, 9999);
+			$timeline_seperator_args = array(
+                'target' => '#'.$timeline_seperator_id.' .sep-text', // set targeted element e.g. unique class/id etc.
+                'media_sizes' => array(
+                    'font-size' => $font_size, // set 'css property' & 'ultimate_responsive' sizes. Here $title_responsive_font_size holds responsive font sizes from user input.
+                   	'line-height' => $seperator_line_ht
+                ),
+            );
+            $seperator_data_list = get_ultimate_vc_responsive_media_css($timeline_seperator_args);
 			if($seperator_title_font != '')
 			{
 				$font_family = get_ultimate_font_family($seperator_title_font);
@@ -1041,9 +1210,9 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 			}
 			$output ='</div>';
 			$output .= '
-				<div class="timeline-separator-text '.$el_class.'" data-sep-col="'.$time_sep_color.'" data-sep-bg-col="'.$time_sep_bg_color.'"><span class="sep-text" style="'.$seperator_style.'">'.$time_sep_title.'</span></div><div class="timeline-wrapper ">';
+				<div id="'.$timeline_seperator_id.'" class="timeline-separator-text '.$el_class.'" data-sep-col="'.$time_sep_color.'" data-sep-bg-col="'.$time_sep_bg_color.'"><span class="sep-text ult-responsive" '.$seperator_data_list.' style="'.$seperator_style.'">'.$time_sep_title.'</span></div><div class="timeline-wrapper ">';
 			//$li_prefix = '<div class="timeline-block separator '.$el_class.'">';
-			//$li_suffix = '</div>';			
+			//$li_suffix = '</div>';
 			$style ='';
 			//	$style .= $time_sep_bg_color!='' ?  'background:'.$time_sep_bg_color.';' : '';
 			//	$style .= $time_sep_color!='' ?  'color:'.$time_sep_color.';' : '';
@@ -1052,17 +1221,18 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 		}
 		function icon_timeline_feat($atts,$content = null){
 			$icon_type = $icon_img = $img_width = $icon = $icon_color = $icon_color_bg = $icon_size = $icon_style = $icon_border_style = $icon_border_radius = $icon_color_border = $icon_border_size = $icon_border_spacing = $icon_link = $el_class = $icon_animation = $time_title = $time_link = $time_link_apply = $time_read_text = $time_icon = $time_icon_color =  $time_icon_bg_color =  $time_position  = $font_size = $line_color = $animation = $icon_border_style = $icon_border_size = $border_color = $title_style = $desc_style = '' ;
+			$title_line_ht = $desc_line_ht = $title_font_size = '';
 			//$font_args = array();
 			extract(shortcode_atts(array(
 				'icon_type' => 'noicon',
 				'icon' => '',
 				'icon_img' => '',
 				'img_width' => '',
-				'icon_size' => '',				
+				'icon_size' => '',
 				'icon_color' => '',
 				'icon_style' => 'circle',
 				'icon_color_bg' => '',
-				'icon_color_border' => '',			
+				'icon_color_border' => '',
 				'icon_border_style' => '',
 				'icon_border_size' => '',
 				'icon_border_radius' => '',
@@ -1073,17 +1243,19 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 				'title_font' => '',
 				'title_font_style' => '',
 				'title_font_size' => '',
+				'title_line_ht' => '',
 				'title_font_color' => '',
 				'desc_font' => '',
 				'desc_font_style' => '',
 				'desc_font_size' => '',
-				'desc_font_color' => '',			
+				'desc_line_ht' => '',
+				'desc_font_color' => '',
 				//'time_position' => '',
-				'time_link'	   => '',				
-				'time_link_apply'   => '',				
-				'time_read_text' => 'Read More', 
+				'time_link'	   => '',
+				'time_link_apply'   => '',
+				'time_read_text' => 'Read More',
 				'el_class'	  => '',
-				//parent atts				
+				//parent atts
 				'font_size' => '',
 				'line_color' => '',
 				//SEp
@@ -1113,8 +1285,26 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 			}
 			if($title_font_style != '')
 				$title_style .= get_ultimate_font_style($title_font_style);
-			if($title_font_size != '')
-				$title_style .= 'font-size:'.$title_font_size.'px;';
+			// if($title_font_size != '')
+			// 	$title_style .= 'font-size:'.$title_font_size.'px;';
+			//responsive param
+
+			if(is_numeric($title_font_size)){
+				$title_font_size = 'desktop:'.$title_font_size.'px;';
+			}
+			if (is_numeric($title_line_ht)) {
+                $title_line_ht = 'desktop:'.$title_line_ht.'px;';
+            }
+			$timeline_featured_id = 'timeline-featured-'.rand(1000, 9999);
+			$timeline_featured_title_args = array(
+                'target' => '#'.$timeline_featured_id.' .ult-timeline-title', // set targeted element e.g. unique class/id etc.
+                'media_sizes' => array(
+                    'font-size' => $title_font_size, // set 'css property' & 'ultimate_responsive' sizes. Here $title_responsive_font_size holds responsive font sizes from user input.
+                   	'line-height' => $title_line_ht
+                ),
+            );
+            $data_list = get_ultimate_vc_responsive_media_css($timeline_featured_title_args);
+
 			if($title_font_color != '')
 				$title_style .= 'color:'.$title_font_color.';';
 			/* description */
@@ -1126,46 +1316,60 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 			}
 			if($desc_font_style != '')
 				$desc_style .= get_ultimate_font_style($desc_font_style);
-			if($desc_font_size != '')
-				$desc_style .= 'font-size:'.$desc_font_size.'px;';
+			// if($desc_font_size != '')
+			// 	$desc_style .= 'font-size:'.$desc_font_size.'px;';
+			if(is_numeric($desc_font_size)){
+				$desc_font_size = 'desktop:'.$desc_font_size.'px;';
+			}
+			if (is_numeric($desc_line_ht)) {
+                $desc_line_ht = 'desktop:'.$desc_line_ht.'px;';
+            }
+            $timeline_featured_title_args = array(
+                'target' => '#'.$timeline_featured_id.' .custom-lht', // set targeted element e.g. unique class/id etc.
+                'media_sizes' => array(
+                    'font-size' => $desc_font_size, // set 'css property' & 'ultimate_responsive' sizes. Here $title_responsive_font_size holds responsive font sizes from user input.
+                   	'line-height' => $desc_line_ht
+                ),
+            );
+            $data_list_desc = get_ultimate_vc_responsive_media_css($timeline_featured_title_args);
 			if($desc_font_color != '')
 				$desc_style .= 'color:'.$desc_font_color.';';
 			//enquque_ultimate_google_fonts($font_args);
-			$li_prefix = '<div class="timeline-block '.$el_class.'"><div class="timeline-dot"></div><div class="ult-timeline-arrow"><s></s><l></l></div>';			
+			$li_prefix = '<div class="timeline-block '.$el_class.'"><div class="timeline-dot"></div><div class="ult-timeline-arrow"><s></s><l></l></div>';
 			$li_suffix ='</div>';
 			$style = ($time_icon_color !== '') ? ' color:'.$time_icon_color.';' : ' ';
 			$style .= ($time_icon_bg_color !== '') ? ' background:'.$time_icon_bg_color.';' : ' ';
 			$style .= ($font_size !== '') ? ' font-size:'.$font_size.'px;' : ' ';
 			$icon_pad = '';
-			$header_block_style ='';			
+			$header_block_style ='';
 			$icon = '<div class="timeline-icon-block"'.$icon_pad.'><div class="ult-timeline-icon '.$bg_cls.'" style="'.$style.'">';
 			if($icon_type!='noicon')
 				$icon .= $box_icon;//'<i  style="'.$icon_style.'" class="'.$time_icon.'" ></i>';
-			$icon .= '</div> <!-- icon --></div>';	
-			$link_sufix = $link_prefix = '';					
+			$icon .= '</div> <!-- icon --></div>';
+			$link_sufix = $link_prefix = '';
 			// if($time_link !=''){
-			// 	$href = vc_build_link($time_link);				
-			// 	$link_prefix = '<a href = '.$href['url'].'>';$link_sufix = '</a>';				
+			// 	$href = vc_build_link($time_link);
+			// 	$link_prefix = '<a href = '.$href['url'].'>';$link_sufix = '</a>';
 			// }
-			$vv_link ='';					
+			$vv_link ='';
 			if($time_link !=''){
-				$href = vc_build_link($time_link);				
+				$href = vc_build_link($time_link);
 				$link_prefix = '<a class="tl-desc-a" href = '.$href['url'].'>';
 				$vv_link = $href['url'];
-				$link_sufix = '</a>';				
+				$link_sufix = '</a>';
 			}
-			$header = '';	
+			$header = '';
 			$header .= '<div class="timeline-header-block" '.$header_block_style.'>
-							<div class="timeline-header" style="">';		
-			$header .= '<h3 class="ult-timeline-title" style="'.$title_style.'">'.$time_title.'</h3>';
+							<div class="timeline-header" id="'.$timeline_featured_id.'"  style="">';
+			$header .= '<h3 class="ult-timeline-title ult-responsive"  '.$data_list.' style="'.$title_style.'">'.$time_title.'</h3>';
 			if ($time_link_apply!='' && $time_link_apply == 'title') {
 				$header = $link_prefix.$header.$link_sufix;
 				//$header.='<a href="'.$vv_link.'" class="link-title"></a>';
 			}
-			$header .= '<div style="'.$desc_style.'">'.do_shortcode($content).'</div>';						
+			$header .= '<div class="ult-responsive custom-lht" '.$data_list_desc.' style="'.$desc_style.'">'.do_shortcode($content).'</div>';
 			if ($time_link_apply!='' && $time_link_apply == 'more') {
 				$header = $header.'<p>'.$link_prefix.$time_read_text.$link_sufix.'</p>';
-			}	
+			}
 			$header .= '</div> <!-- header --></div>';
 			$contt='';
 			if($time_link_apply!='' && $time_link_apply == 'box'){
@@ -1191,17 +1395,18 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 		}
 		function icon_timeline_item($atts,$content = null){
 			$icon_type = $icon_img = $img_width = $icon = $icon_color = $icon_color_bg = $icon_size = $icon_style = $icon_border_style = $icon_border_radius = $icon_color_border = $icon_border_size = $icon_border_spacing = $icon_link = $el_class = $icon_animation = $time_title = $time_link = $time_link_apply = $time_read_text = $time_icon = $time_icon_color =  $time_icon_bg_color =  $time_position  = $font_size = $line_color = $animation = $icon_border_style = $icon_border_size = $border_color = $title_style = $desc_style = '' ;
+			$title_line_height = $desc_line_height = '';
 			//$font_args = array();
 			extract(shortcode_atts(array(
 				'icon_type' => 'noicon',
 				'icon' => '',
 				'icon_img' => '',
 				'img_width' => '',
-				'icon_size' => '',				
+				'icon_size' => '',
 				'icon_color' => '',
 				'icon_style' => 'circle',
 				'icon_color_bg' => '',
-				'icon_color_border' => '',			
+				'icon_color_border' => '',
 				'icon_border_style' => '',
 				'icon_border_size' => '',
 				'icon_border_radius' => '',
@@ -1212,17 +1417,19 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 				'title_font' => '',
 				'title_font_style' => '',
 				'title_font_size' => '',
+				'title_line_height' => '',
 				'title_font_color' => '',
 				'desc_font' => '',
 				'desc_font_style' => '',
 				'desc_font_size' => '',
-				'desc_font_color' => '',					
+				'desc_line_height' => '',
+				'desc_font_color' => '',
 				//'time_position' => '',
-				'time_link'	   => '',				
-				'time_link_apply'   => '',				
-				'time_read_text' => 'Read More', 
+				'time_link'	   => '',
+				'time_link_apply'   => '',
+				'time_read_text' => 'Read More',
 				'el_class'	  => '',
-				//parent atts				
+				//parent atts
 				'font_size' => '',
 				'line_color' => '',
 				),$atts));
@@ -1245,8 +1452,24 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 			}
 			if($title_font_style != '')
 				$title_style .= get_ultimate_font_style($title_font_style);
-			if($title_font_size != '')
-				$title_style .= 'font-size:'.$title_font_size.'px;';
+			// if($title_font_size != '')
+			// 	$title_style .= 'font-size:'.$title_font_size.'px;';
+
+			if(is_numeric($title_font_size)){
+				$title_font_size = 'desktop:'.$title_font_size.'px;';
+			}
+			if (is_numeric($title_line_height)) {
+                $title_line_height = 'desktop:'.$title_line_height.'px;';
+            }
+			$timeline_item_id = 'timeline-item-'.rand(1000, 9999);
+			$timeline_item_args = array(
+                'target' => '#'.$timeline_item_id.' .ult-timeline-title', // set targeted element e.g. unique class/id etc.
+                'media_sizes' => array(
+                    'font-size' => $title_font_size, // set 'css property' & 'ultimate_responsive' sizes. Here $title_responsive_font_size holds responsive font sizes from user input.
+                   	'line-height' => $title_line_height
+                ),
+            );
+            $Item_data_list = get_ultimate_vc_responsive_media_css($timeline_item_args);
 			if($title_font_color != '')
 				$title_style .= 'color:'.$title_font_color.';';
 			/* description */
@@ -1258,12 +1481,27 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 			}
 			if($desc_font_style != '')
 				$desc_style .= get_ultimate_font_style($desc_font_style);
-			if($desc_font_size != '')
-				$desc_style .= 'font-size:'.$desc_font_size.'px;';
+			// if($desc_font_size != '')
+			// 	$desc_style .= 'font-size:'.$desc_font_size.'px;';
+
+			if(is_numeric($desc_font_size)){
+				$desc_font_size = 'desktop:'.$desc_font_size.'px;';
+			}
+			if (is_numeric($desc_line_height)) {
+                $desc_line_height = 'desktop:'.$desc_line_height.'px;';
+            }
+            $timeline_item_args_desc = array(
+                'target' => '#'.$timeline_item_id.' .timeline-item-spt', // set targeted element e.g. unique class/id etc.
+                'media_sizes' => array(
+                    'font-size' => $desc_font_size, // set 'css property' & 'ultimate_responsive' sizes. Here $title_responsive_font_size holds responsive font sizes from user input.
+                   	'line-height' => $desc_line_height
+                ),
+            );
+            $Item_desc_data_list = get_ultimate_vc_responsive_media_css($timeline_item_args_desc);
 			if($desc_font_color != '')
 				$desc_style .= 'color:'.$desc_font_color.';';
 			//enquque_ultimate_google_fonts($font_args);
-			$li_prefix = '<div class="timeline-block '.$el_class.'"><div class="timeline-dot"></div><div class="ult-timeline-arrow"><s></s><l></l></div>';			
+			$li_prefix = '<div class="timeline-block '.$el_class.'"><div class="timeline-dot"></div><div class="ult-timeline-arrow"><s></s><l></l></div>';
 			$li_suffix ='</div>';
 			$style = ($time_icon_color !== '') ? ' color:'.$time_icon_color.';' : ' ';
 			$style .= ($time_icon_bg_color !== '') ? ' background:'.$time_icon_bg_color.';' : ' ';
@@ -1273,28 +1511,28 @@ if(!class_exists('Ultimate_Icon_Timeline'))
 			$icon = '<div class="timeline-icon-block"><div class="ult-timeline-icon '.$bg_cls.'" style="'.$style.'">';
 			if($icon_type!='noicon')
 				$icon .= $box_icon;//'<i  style="'.$icon_style.'" class="'.$time_icon.'" ></i>';
-			$icon .= '</div> <!-- icon --></div>';	
+			$icon .= '</div> <!-- icon --></div>';
 			$link_sufix = $link_prefix = '';
-			$vv_link ='';					
+			$vv_link ='';
 			if($time_link !=''){
-				$href = vc_build_link($time_link);				
+				$href = vc_build_link($time_link);
 				$link_prefix = '<a class="tl-desc-a" href = '.$href['url'].'>';
 				$vv_link = $href['url'];
-				$link_sufix = '</a>';				
+				$link_sufix = '</a>';
 			}
-			$header = $header_link_prefix = $header_link_suffix = '';	
+			$header = $header_link_prefix = $header_link_suffix = '';
 			$header .= '<div class="timeline-header-block" '.$header_block_style.'>
-							<div class="timeline-header" style="">';		
+							<div id="'.$timeline_item_id.'" class="timeline-header" style="">';
 			if ($time_link_apply!='' && $time_link_apply == 'title') {
 				//$header = $link_prefix.$header.$link_sufix;
 				$header_link_prefix ='<a href="'.$vv_link.'" class="link-title">';
 				$header_link_suffix = '</a>';
 			}
-			$header .= '<h3 class="ult-timeline-title" style="'.$title_style.'">'.$header_link_prefix.$time_title.$header_link_suffix.'</h3>';
-			$header .= '<div style="'.$desc_style.'">'.do_shortcode($content).'</div>';						
+			$header .= '<h3 class="ult-timeline-title ult-responsive" '.$Item_data_list.' style="'.$title_style.'">'.$header_link_prefix.$time_title.$header_link_suffix.'</h3>';
+			$header .= '<div class="ult-responsive timeline-item-spt" '.$Item_desc_data_list.' style="'.$desc_style.'">'.do_shortcode($content).'</div>';
 			if ($time_link_apply!='' && $time_link_apply == 'more') {
 				$header = $header.'<p>'.$link_prefix.$time_read_text.$link_sufix.'</p>';
-			}	
+			}
 			$header .= '</div> <!-- header --></div>';
 			if($time_link_apply!='' && $time_link_apply == 'box'){
 				$header.='<a href="'.$vv_link.'" class="link-box ult-link-box"></a>';

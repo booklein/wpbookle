@@ -88,7 +88,9 @@ foreach ( $tabs as $tab ) {
     preg_match('/ title="([^\"]+)\"/i', $tab[0], $title_matches, PREG_OFFSET_CAPTURE);
     preg_match('/ tab_id="([^\"]+)\"/i', $tab[0], $tab_id_matches, PREG_OFFSET_CAPTURE);
     preg_match('/ show_icon="([^\"]+)\"/i', $tab[0], $show_icon_matches, PREG_OFFSET_CAPTURE);
+    preg_match('/ icon_type="([^\"]+)\"/i', $tab[0], $icon_type_matches, PREG_OFFSET_CAPTURE);
     preg_match('/ icon="([^\"]+)\"/i', $tab[0], $icon_matches, PREG_OFFSET_CAPTURE);
+    preg_match('/ icon_simpleline="([^\"]+)\"/i', $tab[0], $icon_simpleline_matches, PREG_OFFSET_CAPTURE);
     preg_match('/ icon_skin="([^\"]+)\"/i', $tab[0], $icon_skin_matches, PREG_OFFSET_CAPTURE);
     preg_match('/ icon_color="([^\"]+)\"/i', $tab[0], $icon_color_matches, PREG_OFFSET_CAPTURE);
     preg_match('/ icon_bg_color="([^\"]+)\"/i', $tab[0], $icon_bg_color_matches, PREG_OFFSET_CAPTURE);
@@ -104,7 +106,9 @@ foreach ( $tabs as $tab ) {
     $tab_title = isset($title_matches) && isset($title_matches[1]) ? $title_matches[1][0] : '';
     $tab_id = isset($tab_id_matches) && isset($tab_id_matches[1]) ? $tab_id_matches[1][0] : '';
     $show_icon = isset($show_icon_matches) && isset($show_icon_matches[1]) ? $show_icon_matches[1][0] : '';
+    $icon_type = isset($icon_type_matches) && isset($icon_type_matches[1]) ? $icon_type_matches[1][0] : '';
     $icon = isset($icon_matches) && isset($icon_matches[1]) ? $icon_matches[1][0] : '';
+    $icon_simpleline = isset($icon_simpleline_matches) && isset($icon_simpleline_matches[1]) ? $icon_simpleline_matches[1][0] : '';
     $icon_skin = isset($icon_skin_matches) && isset($icon_skin_matches[1]) ? $icon_skin_matches[1][0] : 'custom';
     $icon_color = isset($icon_color_matches) && isset($icon_color_matches[1]) ? $icon_color_matches[1][0] : '';
     $icon_bg_color = isset($icon_bg_color_matches) && isset($icon_bg_color_matches[1]) ? $icon_bg_color_matches[1][0] : '';
@@ -117,11 +121,16 @@ foreach ( $tabs as $tab ) {
     $icon_wrap_hborder_color = isset($icon_wrap_hborder_color_matches) && isset($icon_wrap_hborder_color_matches[1]) ? $icon_wrap_hborder_color_matches[1][0] : '';
     $icon_hshadow_color = isset($icon_hshadow_color_matches) && isset($icon_hshadow_color_matches[1]) ? $icon_hshadow_color_matches[1][0] : '';
 
+    switch ($icon_type) {
+        case 'simpleline': $icon_class = $icon_simpleline; break;
+        default: $icon_class = $icon;
+    }
+
     if($tab_title) {
         $tab_id = 'tab-' . ($tab_id ? $tab_id : sanitize_title( $tab_title ));
         $tabs_nav .= '<li><a href="#'. $tab_id .'" id="' . $tab_id .'-title" data-toggle="tab">';
         $tab_id .= '-title';
-        if ($show_icon && $icon) {
+        if ($show_icon && $icon_class) {
             if ($type == 'tabs-simple') {
                 if ($icon_skin == 'custom' && ($icon_color || $icon_bg_color || $icon_border_color || $icon_wrap_border_color || $icon_shadow_color || $icon_hcolor || $icon_hbg_color || $icon_hborder_color || $icon_wrap_hborder_color || $icon_hshadow_color)) :
                     ?>
@@ -216,11 +225,11 @@ foreach ( $tabs as $tab ) {
                     $icon_effect .= ' featured-box-' . $icon_skin;
                 $tabs_nav .= '<span class="featured-box '.$icon_effect.'">';
                 $tabs_nav .= '<span class="box-content">';
-                $tabs_nav .= '<i class="icon-featured ' . $icon . '"></i>';
+                $tabs_nav .= '<i class="icon-featured ' . $icon_class . '"></i>';
                 $tabs_nav .= '</span>';
                 $tabs_nav .= '</span>' . '<span class="tab-title">' . $tab_title . '</span>';
             } else {
-                $tabs_nav .= '<i class="' . $icon . '"></i>' . $tab_title;
+                $tabs_nav .= '<i class="' . $icon_class . '"></i>' . $tab_title;
             }
         } else {
             $tabs_nav .= $tab_title;

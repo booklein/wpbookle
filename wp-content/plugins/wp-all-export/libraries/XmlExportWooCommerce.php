@@ -574,7 +574,16 @@ if ( ! class_exists('XmlExportWooCommerce') ){
 
 			foreach ($data_to_export as $key => $data) 
 			{				
-				$xmlWriter->startElement(str_replace("-", "_", preg_replace('/[^a-z0-9_]/i', '', $key)));
+				$element_name_ns = '';	
+				$element_name = str_replace("-", "_", preg_replace('/[^a-z0-9:_]/i', '', $key));
+				if (strpos($element_name, ":") !== false)
+				{
+					$element_name_parts = explode(":", $element_name);
+					$element_name_ns = (empty($element_name_parts[0])) ? '' : $element_name_parts[0];
+					$element_name = (empty($element_name_parts[1])) ? 'untitled_' . $ID : $element_name_parts[1];							
+				}
+				
+				$xmlWriter->beginElement($element_name_ns, $element_name, null);
 					$xmlWriter->writeCData($data);
 				$xmlWriter->endElement();				
 			}

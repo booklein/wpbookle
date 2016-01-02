@@ -15,7 +15,7 @@ if(!class_exists('WooComposer_GridView')){
 			if(function_exists('vc_map')){
 				vc_map(
 					array(
-						"name"		=> __("Products Grid [Beta]", "woocomposer"),
+						"name"		=> __("Products Grid", "woocomposer"),
 						"base"		=> "woocomposer_grid",
 						"icon"		=> "woo_grid",
 						"class"	   => "woo_grid",
@@ -24,6 +24,7 @@ if(!class_exists('WooComposer_GridView')){
 						"controls" => "full",
 						"wrapper_class" => "clearfix",
 						"show_settings_on_create" => true,
+						"deprecated" => "3.13.5",
 						"params" => array(
 							array(
 								"type" => "woocomposer",

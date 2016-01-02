@@ -62,7 +62,7 @@ jQuery(function ($) {
             show_count.hide();
         }
 
-        if( data.value == 'tags' || data.value == 'brands' ){
+        if( data.value == 'tags' || data.value == 'brands' || data.value == 'categories' ){
             attributes.hide();
         } else {
             attributes.show();
@@ -108,11 +108,11 @@ jQuery(function ($) {
 
     select_all.on('click', function(e){
         e.preventDefault();
-        $(this).parents( '.yith-wcan-select-option').next('.yith_wcan_select_tag').find('.yith_wcan_tag_list_checkbox').attr( 'checked', true );
+        $(this).parents( '.yith-wcan-select-option').next('.yith_wcan_select_tag_wrapper').find('.yith_wcan_tag_list_checkbox').attr( 'checked', true );
     });
 
     unselect_all.on('click', function(e){
         e.preventDefault();
-        $(this).parents( '.yith-wcan-select-option').next('.yith_wcan_select_tag').find('.yith_wcan_tag_list_checkbox').attr( 'checked', false );
+        $(this).parents( '.yith-wcan-select-option').next('.yith_wcan_select_tag_wrapper').find('.yith_wcan_tag_list_checkbox').attr( 'checked', false );
     });
 });

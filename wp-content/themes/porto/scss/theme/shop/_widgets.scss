@@ -168,6 +168,7 @@
         line-height: 2.4em;
         font-size: .8751em;
         .button {
+            display: block !important;
             padding: .2143em .7143em;
             text-transform: uppercase;
             float: $left;

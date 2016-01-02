@@ -191,7 +191,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'id'=>'rich-snippets',
                         'type' => 'switch',
                         'title' => __('Microdata Rich Snippets', 'porto'),
-                        'default' => '1',
+                        'default' => true,
                         'on' => __('Enable', 'porto'),
                         'off' => __('Disable', 'porto'),
                     ),
@@ -253,6 +253,24 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'url'=> true,
                         'readonly' => false,
                         'title' => __('Retina Logo', 'porto')
+                    ),
+
+                    array(
+                        'id'=>'sticky-logo',
+                        'type' => 'media',
+                        'url'=> true,
+                        'readonly' => false,
+                        'title' => __('Logo in Sticky Menu', 'porto'),
+                        'desc' => __('if header type is like 1, 4, 13, 14', 'porto')
+                    ),
+
+                    array(
+                        'id'=>'sticky-logo-retina',
+                        'type' => 'media',
+                        'url'=> true,
+                        'readonly' => false,
+                        'title' => __('Retina Logo in Sticky Menu', 'porto'),
+                        'desc' => __('if header type is like 1, 4, 13, 14', 'porto'),
                     ),
 
                     array(
@@ -407,7 +425,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                     array(
                         'id'        => '1',
                         'type'      => 'raw',
-                        'content'   => (isset($_GET['import_success'])?'<strong>' . __('Successfully Imported!', 'porto') . '</strong><br/><br/>':'').(isset($_GET['import_widget_success'])?'<strong>' . __('Successfully Imported Widgets!', 'porto') . '</strong><br/><br/>':'').(isset($_GET['import_masterslider_success'])?'<strong>' . __('Successfully Imported Master Sliders!', 'porto') . '</strong><br/><br/>':'').(isset($_GET['import_font_success'])?'<strong>' . __('Successfully Imported Simple Line Icon!', 'porto') . '</strong><br/><br/>':'').'<a href="'.admin_url('admin.php?page=porto_settings').'&import_sample_content=true" class="button button-primary">' . __('Import Dummy Content', 'porto') . '</a>&nbsp;'.'<a href="'.admin_url('admin.php?page=porto_settings').'&import_widget=true" class="button button-primary">' . __('Import Widgets', 'porto') . '</a>&nbsp;'.'<a href="'.admin_url('admin.php?page=porto_settings').'&import_masterslider=true" class="button button-primary">' . __('Import Master Sliders', 'porto') . '</a>&nbsp;'.'<a href="'.admin_url('admin.php?page=porto_settings').'&import_font=true" class="button button-primary">' . __('Import Simple Line Icon', 'porto') . '</a>'
+                        'content'   => (isset($_GET['import_success'])?'<strong>' . __('Successfully Imported!', 'porto') . '</strong><br/><br/>':'').(isset($_GET['import_widget_success'])?'<strong>' . __('Successfully Imported Widgets!', 'porto') . '</strong><br/><br/>':'').(isset($_GET['import_masterslider_success'])?'<strong>' . __('Successfully Imported Master Sliders!', 'porto') . '</strong><br/><br/>':'').(isset($_GET['import_font_success'])?'<strong>' . __('Successfully Imported Simple Line Icon!', 'porto') . '</strong><br/><br/>':'').'<a href="'.admin_url('admin.php?page=porto_settings').'&import_sample_content=true" class="button button-primary import-button import_porto_dummy">' . __('Import Dummy Content', 'porto') . '</a>&nbsp;'.'<a href="'.admin_url('admin.php?page=porto_settings').'&import_widget=true" class="button button-primary import-button import_porto_widgets">' . __('Import Widgets', 'porto') . '</a>&nbsp;'.'<a href="'.admin_url('admin.php?page=porto_settings').'&import_masterslider=true" class="button button-primary import-button import_porto_mastersliders">' . __('Import Master Sliders', 'porto') . '</a>&nbsp;'.'<a href="'.admin_url('admin.php?page=porto_settings').'&import_font=true" class="button button-primary import-button import_porto_icons">' . __('Import Simple Line Icon', 'porto') . '</a><br/><div class="import-status"></div>'
                     ),
 
                     array(
@@ -429,14 +447,14 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                     array(
                         'id'        => '1',
                         'type'      => 'raw',
-                        'content'   => (isset($_GET['import_options_success'])?'<strong>' . __('Successfully Imported Demo!', 'porto') . '</strong><br/><br/>':'')
+                        'content'   => (isset($_GET['import_options_success'])?'<strong>' . __('Successfully Selected Demo!', 'porto') . '</strong><br/><br/>':'')
                     ),
 
                     array(
                         'id'=>'1',
                         'type' => 'info',
                         'title' => '<strong style="font-size:20px;">'.__('Select Demo', 'porto').'</strong>',
-                        'desc' => '<br><strong>'.__('Before select demo, you should import demo and confirm that php version is 5.3 or higher.<br/>When select demo, you should wait a few minutes.<br/>Will be change theme options, default css files, frontend page and blog page.', 'porto').'</strong>',
+                        'desc' => '<br><strong>'.__('Before select demo, you should import demo and confirm that php version is 5.4 or higher.<br/>When select demo, you should wait a few minutes.<br/>Will be change theme options, default css files, frontend page and blog page.', 'porto').'</strong>',
                         'style' => 'success'
                     ),
 
@@ -479,8 +497,8 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'type' => 'button_set',
                         'title' => __('Button Style', 'porto'),
                         'options' => array(
-                            '' => 'Default',
-                            'btn-borders' => 'Borders'
+                            '' => __('Default', 'porto'),
+                            'btn-borders' => __('Borders', 'porto'),
                         ),
                         'default' => ''
                     ),
@@ -579,6 +597,17 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'title' => __('Light Inverse Color', 'porto'),
                         'default' => '#777777',
                         'validate' => 'color',
+                    ),
+
+                    array(
+                        'id'=>'social-color',
+                        'type' => 'button_set',
+                        'title' => __('Social Links Color', 'porto'),
+                        'options' => array(
+                            '' => __('Default', 'porto'),
+                            'primary' => __('Primary Color', 'porto'),
+                        ),
+                        'default' => '',
                     ),
                 )
             );
@@ -843,6 +872,60 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                             'line-height' => '18px'
                         ),
                     ),
+
+                    array(
+                        'id'=>'menu-font',
+                        'type' => 'typography',
+                        'title' => __('Menu Font', 'porto'),
+                        'google' => true,
+                        'subsets' => false,
+                        'font-style' => false,
+                        'text-align' => false,
+                        'color' => false,
+                        'default'=> array(
+                            'google'=>true,
+                            'font-weight'=>'700',
+                            'font-family'=>'Open Sans',
+                            'font-size'=>'12px',
+                            'line-height' => '20px'
+                        ),
+                    ),
+
+                    array(
+                        'id'=>'menu-side-font',
+                        'type' => 'typography',
+                        'title' => __('Side Menu Font', 'porto'),
+                        'google' => true,
+                        'subsets' => false,
+                        'font-style' => false,
+                        'text-align' => false,
+                        'color' => false,
+                        'default'=> array(
+                            'google'=>true,
+                            'font-weight'=>'400',
+                            'font-family'=>'Open Sans',
+                            'font-size'=>'14px',
+                            'line-height' => '18px'
+                        ),
+                    ),
+
+                    array(
+                        'id'=>'menu-popup-font',
+                        'type' => 'typography',
+                        'title' => __('Menu Popup Font', 'porto'),
+                        'google' => true,
+                        'subsets' => false,
+                        'font-style' => false,
+                        'text-align' => false,
+                        'color' => false,
+                        'default'=> array(
+                            'google'=>true,
+                            'font-weight'=>'400',
+                            'font-family'=>'Open Sans',
+                            'font-size'=>'14px',
+                            'line-height' => '24px'
+                        ),
+                    ),
                 )
             );
 
@@ -1022,7 +1105,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'id'=>'header-bg-gradient',
                         'type' => 'switch',
                         'title' => __('Background Gradient', 'porto'),
-                        'default' => false,
+                        'default' => true,
                         'on' => __('Yes', 'porto'),
                         'off' => __('No', 'porto'),
                     ),
@@ -1033,8 +1116,8 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'title' => __('Background Gradient Color', 'porto'),
                         'required' => array('header-bg-gradient','equals',true),
                         'default' => array(
-                            'from' => '',
-                            'to' => ''
+                            'from' => '#f6f6f6',
+                            'to' => '#ffffff'
                         )
                     ),
 
@@ -1042,7 +1125,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'id'=>'header-text-color',
                         'type' => 'color',
                         'title' => __('Text Color', 'porto'),
-                        'default' => '#777777',
+                        'default' => '#999999',
                         'validate' => 'color',
                     ),
 
@@ -1052,8 +1135,8 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'active' => false,
                         'title' => __('Link Color', 'porto'),
                         'default' => array(
-                            'regular' => '#0088cc',
-                            'hover' => '#0099e6',
+                            'regular' => '#999999',
+                            'hover' => '#999999',
                         )
                     ),
 
@@ -1063,7 +1146,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'all' => true,
                         'style' => false,
                         'title' => __('Top Border', 'porto'),
-                        'default' => array('border-color' => '#0088cc', 'border-top' => '4px')
+                        'default' => array('border-color' => '#ededed', 'border-top' => '5px')
                     ),
 
                     array(
@@ -1086,7 +1169,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'id'=>'sticky-header-bg-gradient',
                         'type' => 'switch',
                         'title' => __('Background Gradient', 'porto'),
-                        'default' => false,
+                        'default' => true,
                         'on' => __('Yes', 'porto'),
                         'off' => __('No', 'porto'),
                     ),
@@ -1097,8 +1180,8 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'title' => __('Background Gradient Color', 'porto'),
                         'required' => array('sticky-header-bg-gradient','equals',true),
                         'default' => array(
-                            'from' => '',
-                            'to' => ''
+                            'from' => '#f6f6f6',
+                            'to' => '#ffffff'
                         )
                     ),
 
@@ -1164,7 +1247,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'id'=>'header-top-bg-color',
                         'type' => 'color',
                         'title' => __('Background Color', 'porto'),
-                        'default' => '#f0f0ed',
+                        'default' => '#f4f4f4',
                         'validate' => 'color',
                     ),
 
@@ -1174,7 +1257,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'all' => true,
                         'style' => false,
                         'title' => __('Bottom Border', 'porto'),
-                        'default' => array('border-color' => '#f0f0ed', 'border-top' => '0')
+                        'default' => array('border-color' => '#ededed', 'border-top' => '1px')
                     ),
 
                     array(
@@ -1239,7 +1322,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'id'=>'mainmenu-wrap-bg-color',
                         'type' => 'color',
                         'title' => __('Wrapper Background Color', 'porto'),
-                        'default' => '#ffffff',
+                        'default' => 'transparent',
                         'validate' => 'color',
                     ),
 
@@ -1255,7 +1338,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'id'=>'mainmenu-bg-color',
                         'type' => 'color',
                         'title' => __('Background Color', 'porto'),
-                        'default' => '#f0f0ed',
+                        'default' => 'transparent',
                         'validate' => 'color',
                     ),
 
@@ -1290,7 +1373,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'type' => 'spacing',
                         'mode' => 'padding',
                         'title' => __('Padding on Desktop', 'porto'),
-                        'desc' => __('if header type is like type 1 or type 4', 'porto'),
+                        'desc' => __('if header type is like 1, 4, 13, 14', 'porto'),
                         'default' => array('padding-top' => 11, 'padding-bottom' => 9, 'padding-left' => 13, 'padding-right' => 13)
                     ),
 
@@ -1299,7 +1382,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'type' => 'spacing',
                         'mode' => 'padding',
                         'title' => __('Padding on Desktop (width > 991px)', 'porto'),
-                        'desc' => __('if header type is like type 1 or type 4', 'porto'),
+                        'desc' => __('if header type is like 1, 4, 13, 14', 'porto'),
                         'default' => array('padding-top' => 9, 'padding-bottom' => 7, 'padding-left' => 10, 'padding-right' => 10)
                     ),
 
@@ -1393,7 +1476,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                     array(
                         'id'=>'1',
                         'type' => 'info',
-                        'title' => __('Menu Custom Content in header type 1, 4, 9, 13, 14', 'porto'),
+                        'title' => __('Menu Custom Content (if header type is like 1, 4, 9, 13, 14)', 'porto'),
                         'notice' => false
                     ),
 
@@ -1459,7 +1542,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'all' => true,
                         'style' => false,
                         'title' => __('Top Border', 'porto'),
-                        'default' => array('border-color' => 'transparent', 'border-top' => '0')
+                        'default' => array('border-color' => '#384045', 'border-top' => '5px')
                     ),
 
                     array(
@@ -1468,7 +1551,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'all' => true,
                         'style' => false,
                         'title' => __('Bottom Border', 'porto'),
-                        'default' => array('border-color' => 'transparent', 'border-top' => '0')
+                        'default' => array('border-color' => '#cccccc', 'border-top' => '5px')
                     ),
 
                     array(
@@ -1705,7 +1788,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'id'=>'footer-social-bg-color',
                         'type' => 'color',
                         'title' => __('Background Color', 'porto'),
-                        'default' => '#9e9e9e',
+                        'default' => '#ffffff',
                         'validate' => 'color',
                     ),
 
@@ -1713,7 +1796,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'id'=>'footer-social-link-color',
                         'type' => 'color',
                         'title' => __('Link Color', 'porto'),
-                        'default' => '#ffffff',
+                        'default' => '#555555',
                         'validate' => 'color',
                     ),
                 )
@@ -1772,7 +1855,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'id'=>'switcher-hbg-color',
                         'type' => 'color',
                         'title' => __('Hover Background Color', 'porto'),
-                        'default' => '#0088cc',
+                        'default' => '#ededed',
                         'validate' => 'color',
                     ),
 
@@ -1783,7 +1866,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'title' => __('Link Color', 'porto'),
                         'default' => array(
                             'regular' => '#777777',
-                            'hover' => '#ffffff',
+                            'hover' => '#777777',
                         )
                     ),
                 )
@@ -1823,7 +1906,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'id'=>'searchform-text-color',
                         'type' => 'color',
                         'title' => __('Text Color', 'porto'),
-                        'default' => '#777777',
+                        'default' => '#555555',
                         'validate' => 'color',
                     ),
 
@@ -1831,6 +1914,37 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'id'=>'searchform-hover-color',
                         'type' => 'color',
                         'title' => __('Hover Color', 'porto'),
+                        'default' => '#333333',
+                        'validate' => 'color',
+                    ),
+
+                    array(
+                        'id'=>'1',
+                        'type' => 'info',
+                        'title' => __('In Sticky Header (if header type is like 1, 4, 9, 13, 14)', 'porto'),
+                        'notice' => false
+                    ),
+
+                    array(
+                        'id'=>'sticky-searchform-popup-border-color',
+                        'type' => 'color',
+                        'title' => __('Popup Border Color', 'porto'),
+                        'default' => '#cccccc',
+                        'validate' => 'color',
+                    ),
+
+                    array(
+                        'id'=>'sticky-searchform-toggle-text-color',
+                        'type' => 'color',
+                        'title' => __('Toggle Text Color', 'porto'),
+                        'default' => '#777777',
+                        'validate' => 'color',
+                    ),
+
+                    array(
+                        'id'=>'sticky-searchform-toggle-hover-color',
+                        'type' => 'color',
+                        'title' => __('Toggle Hover Color', 'porto'),
                         'default' => '#0088cc',
                         'validate' => 'color',
                     ),
@@ -1855,7 +1969,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'id'=>'minicart-item-color',
                         'type' => 'color',
                         'title' => __('Item Color', 'porto'),
-                        'default' => '#ffffff',
+                        'default' => '#0088cc',
                         'validate' => 'color',
                     ),
 
@@ -1863,8 +1977,8 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'id'=>'minicart-border-color',
                         'type' => 'color',
                         'title' => __('Border Color', 'porto'),
-                        'desc' => __('When mini cart type is 2, please configure this option.', 'porto'),
-                        'default' => '#ffffff',
+                        'desc' => __('when mini cart type is 2', 'porto'),
+                        'default' => 'transparent',
                         'validate' => 'color',
                     ),
 
@@ -1872,13 +1986,62 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'id'=>'minicart-bg-color',
                         'type' => 'color',
                         'title' => __('Background Color', 'porto'),
-                        'desc' => __('When mini cart type is 2, please configure this option.', 'porto'),
-                        'default' => '#ffffff',
+                        'desc' => __('when mini cart type is 2', 'porto'),
+                        'default' => 'transparent',
                         'validate' => 'color',
                     ),
 
                     array(
                         'id'=>'minicart-popup-border-color',
+                        'type' => 'color',
+                        'title' => __('Popup Border Color', 'porto'),
+                        'default' => '#0088cc',
+                        'validate' => 'color',
+                    ),
+
+                    array(
+                        'id'=>'1',
+                        'type' => 'info',
+                        'title' => __('In Sticky Header (if header type is like 1, 4, 9, 13, 14)', 'porto'),
+                        'notice' => false
+                    ),
+
+                    array(
+                        'id'=>'sticky-minicart-icon-color',
+                        'type' => 'color',
+                        'title' => __('Icon Color', 'porto'),
+                        'default' => '#0088cc',
+                        'validate' => 'color',
+                    ),
+
+                    array(
+                        'id'=>'sticky-minicart-item-color',
+                        'type' => 'color',
+                        'title' => __('Item Color', 'porto'),
+                        'default' => '#0088cc',
+                        'validate' => 'color',
+                    ),
+
+                    array(
+                        'id'=>'sticky-minicart-border-color',
+                        'type' => 'color',
+                        'title' => __('Border Color', 'porto'),
+                        'desc' => __('when mini cart type is 2', 'porto'),
+                        'default' => 'transparent',
+                        'validate' => 'color',
+                    ),
+
+                    array(
+                        'id'=>'sticky-minicart-bg-color',
+                        'type' => 'color',
+                        'title' => __('Background Color', 'porto'),
+                        'desc' => __('when mini cart type is 2', 'porto'),
+                        'default' => 'transparent',
+                        'validate' => 'color',
+                    ),
+
+                    array(
+                        'id'=>'sticky-minicart-popup-border-color',
                         'type' => 'color',
                         'title' => __('Popup Border Color', 'porto'),
                         'default' => '#0088cc',
@@ -1987,7 +2150,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'id'=>'show-header-top',
                         'type' => 'switch',
                         'title' => __('Show Header Top', 'porto'),
-                        'default' => true,
+                        'default' => false,
                         'on' => __('Yes', 'porto'),
                         'off' => __('No', 'porto'),
                     ),
@@ -2005,14 +2168,14 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'id'=>'welcome-msg',
                         'type' => 'textarea',
                         'title' => __('Welcome Message', 'porto'),
-                        'default' => __('WELCOME TO PORTO WORDPRESS', 'porto')
+                        'default' => ""
                     ),
 
                     array(
                         'id'=>'header-contact-info',
                         'type' => 'textarea',
-                        'title' => __('Header Contact Info', 'porto'),
-                        'default' => "<i class='fa fa-phone'></i> +(404) 158 14 25 78 <span class='gap'>|</span><a href='#'>CONTACT US</a>"
+                        'title' => __('Contact Info', 'porto'),
+                        'default' => "<ul class=\"nav nav-pills nav-top\">\r\n\t<li>\r\n\t\t<a href=\"#\" target=\"_blank\"><i class=\"fa fa-angle-right\"></i>About Us</a> \r\n\t</li>\r\n\t<li>\r\n\t\t<a href=\"#\" target=\"_blank\"><i class=\"fa fa-angle-right\"></i>Contact Us</a> \r\n\t</li>\r\n\t<li class=\"phone\">\r\n\t\t<span><i class=\"fa fa-phone\"></i>(123) 456-7890</span>\r\n\t</li>\r\n</ul>\r\n",
                     ),
 
                     array(
@@ -2035,7 +2198,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'full_width' => true,
                         'title' => __('Header Type', 'porto'),
                         'options' => $porto_header_type,
-                        'default' => '1'
+                        'default' => '10'
                     ),
                 )
             );
@@ -2076,7 +2239,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                             'effect-fadein-down' => __('Fade In Down', 'porto'),
                             'effect-fadein' => __('Fade In', 'porto'),
                         ),
-                        'default' => ''
+                        'default' => 'effect-down'
                     ),
                 )
             );
@@ -2090,6 +2253,16 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'id'=>'show-header-socials',
                         'type' => 'switch',
                         'title' => __('Show Social Links', 'porto'),
+                        'default' => false,
+                        'on' => __('Yes', 'porto'),
+                        'off' => __('No', 'porto'),
+                    ),
+
+                    array(
+                        'id'=>'header-socials-nofollow',
+                        'type' => 'switch',
+                        'title' => __('Add rel="nofollow" to social links', 'porto'),
+                        'required' => array('show-header-socials','equals',true),
                         'default' => false,
                         'on' => __('Yes', 'porto'),
                         'off' => __('No', 'porto'),
@@ -2194,6 +2367,27 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                     ),
 
                     array(
+                        'id' => "header-social-telegram",
+                        'type' => 'text',
+                        'title' => __('Telegram', 'porto'),
+                        'required' => array('show-header-socials','equals',true)
+                    ),
+
+                    array(
+                        'id' => "header-social-yelp",
+                        'type' => 'text',
+                        'title' => __('Yelp', 'porto'),
+                        'required' => array('show-header-socials','equals',true)
+                    ),
+
+                    array(
+                        'id' => "header-social-flickr",
+                        'type' => 'text',
+                        'title' => __('Flickr', 'porto'),
+                        'required' => array('show-header-socials','equals',true)
+                    ),
+
+                    array(
                         'id' => "header-social-whatsapp",
                         'type' => 'text',
                         'title' => __('WhatsApp', 'porto'),
@@ -2226,7 +2420,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                             'minicart-box' => array('alt' => __('Minicart Type 2', 'porto'), 'img' => porto_options_uri.'/minicarts/minicart_02.png'),
                             'minicart-inline' => array('alt' => __('Minicart Type 3', 'porto'), 'img' => porto_options_uri.'/minicarts/minicart_03.png'),
                         ),
-                        'default' => ''
+                        'default' => 'minicart-inline'
                     ),
 
                     array(
@@ -2253,7 +2447,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                             'effect-fadein-down' => __('Fade In Down', 'porto'),
                             'effect-fadein' => __('Fade In', 'porto'),
                         ),
-                        'default' => ''
+                        'default' => 'effect-fadein-up'
                     ),
                 )
             );
@@ -2278,7 +2472,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'title' => __('Search Form Size', 'porto'),
                         'required' => array('show-searchform','equals',true),
                         'options' => array('' => __('Large', 'porto'), 'search-md' => __('Medium', 'porto'), 'search-sm' => __('Small', 'porto')),
-                        'default' => ''
+                        'default' => 'search-sm'
                     ),
 
                     array(
@@ -2334,7 +2528,54 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'default' => true,
                         'on' => __('Yes', 'porto'),
                         'off' => __('No', 'porto'),
-                    )
+                    ),
+
+                    array(
+                        'id'=>'1',
+                        'type' => 'info',
+                        'title' => __('If header type is like 1, 4, 9, 13, 14', 'porto'),
+                        'notice' => false
+                    ),
+
+                    array(
+                        'id'=>'show-sticky-logo',
+                        'type' => 'switch',
+                        'title' => __('Show Logo', 'porto'),
+                        'required' => array('enable-sticky-header','equals',true),
+                        'default' => false,
+                        'on' => __('Yes', 'porto'),
+                        'off' => __('No', 'porto'),
+                    ),
+
+                    array(
+                        'id'=>'show-sticky-searchform',
+                        'type' => 'switch',
+                        'title' => __('Show Search Form', 'porto'),
+                        'required' => array('enable-sticky-header','equals',true),
+                        'default' => false,
+                        'on' => __('Yes', 'porto'),
+                        'off' => __('No', 'porto'),
+                    ),
+
+                    array(
+                        'id'=>'show-sticky-minicart',
+                        'type' => 'switch',
+                        'title' => __('Show Mini Cart', 'porto'),
+                        'required' => array('enable-sticky-header','equals',true),
+                        'default' => false,
+                        'on' => __('Yes', 'porto'),
+                        'off' => __('No', 'porto'),
+                    ),
+
+                    array(
+                        'id'=>'show-sticky-menu-custom-content',
+                        'type' => 'switch',
+                        'title' => __('Show Menu Custom Content', 'porto'),
+                        'required' => array('enable-sticky-header','equals',true),
+                        'default' => true,
+                        'on' => __('Yes', 'porto'),
+                        'off' => __('No', 'porto'),
+                    ),
                 )
             );
 
@@ -2405,7 +2646,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                             'effect-fadein-down' => __('Fade In Down', 'porto'),
                             'effect-fadein' => __('Fade In', 'porto'),
                         ),
-                        'default' => ''
+                        'default' => 'effect-down'
                     ),
 
                     array(
@@ -2421,13 +2662,13 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                             'subeffect-fadein-down' => __('Fade In Down', 'porto'),
                             'subeffect-fadein' => __('Fade In', 'porto'),
                         ),
-                        'default' => ''
+                        'default' => 'subeffect-fadein-left'
                     ),
 
                     array(
                         'id'=>'1',
                         'type' => 'info',
-                        'title' => __('If header type is 1 or 4, 13, 14', 'porto'),
+                        'title' => __('If header type is like 1, 4, 13, 14', 'porto'),
                         'notice' => false
                     ),
 
@@ -2447,7 +2688,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'type' => 'switch',
                         'title' => __('Show Main Menu in Sidebar', 'porto'),
                         'desc' => __('If the layout of a page is left sidebar or right sidebar, the main menu shows in the sidebar.', 'porto'),
-                        'default' => '0',
+                        'default' => false,
                         'on' => __('Yes', 'porto'),
                         'off' => __('No', 'porto'),
                     ),
@@ -2488,7 +2729,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                     array(
                         'id'=>'1',
                         'type' => 'info',
-                        'title' => __('If header type is 1 or 4, 9, 13, 14', 'porto'),
+                        'title' => __('If header type is like 1, 4, 9, 13, 14', 'porto'),
                         'notice' => false
                     ),
 
@@ -2497,7 +2738,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'type' => 'textarea',
                         'title' => __('Menu Custom Content', 'porto'),
                         'desc' => __('example: &lt;span&gt;Custom Message&lt;/span&gt;&lt;a href="#"&gt;Special Offer!&lt;/a&gt;&lt;a href="#"&gt;Buy this Theme!&lt;em class="tip hot"&gt;HOT&lt;i class="tip-arrow"&gt;&lt;/i&gt;&lt;/em&gt;&lt;/a&gt;', 'porto'),
-                        'default' => '<a href="#">Special Offer!</a><a href="#">Buy this Theme!<em class="tip hot">HOT<i class="tip-arrow"></i></em></a>'
+                        'default' => ''
                     ),
                 )
             );
@@ -2554,7 +2795,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                     array(
                         'id'=>'breadcrumbs-categories',
                         'type' => 'switch',
-                        'title' => __('Show Post Categories Link', 'porto'),
+                        'title' => __('Show Categories Link', 'porto'),
                         'default' => true,
                         'on' => __('Yes', 'porto'),
                         'off' => __('No', 'porto'),
@@ -2600,7 +2841,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'id' => "footer-ribbon",
                         'type' => 'text',
                         'title' => __('Ribbon Text', 'porto'),
-                        'default' => '<a href="#">Get in Touch!</a>'
+                        'default' => ''
                     ),
 
                     array(
@@ -2618,14 +2859,14 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                             'left' => __('Left', 'porto'),
                             'right' => __('Right', 'porto')
                         ),
-                        'default' => 'right'
+                        'default' => 'left'
                     ),
 
                     array(
                         'id'=>'footer-payments',
                         'type' => 'switch',
                         'title' => __('Show Payments Logos', 'porto'),
-                        'default' => '1',
+                        'default' => false,
                         'on' => __('Yes', 'porto'),
                         'off' => __('No', 'porto'),
                     ),
@@ -2679,7 +2920,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'id'=>'page-comment',
                         'type' => 'switch',
                         'title' => __('Show Comments', 'porto'),
-                        'default' => '0',
+                        'default' => false,
                         'on' => __('Yes', 'porto'),
                         'off' => __('No', 'porto'),
                     ),
@@ -2718,6 +2959,14 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'default' => true,
                         'on' => __('Yes', 'porto'),
                         'off' => __('No', 'porto'),
+                    ),
+
+                    array(
+                        'id'=>'hot-label',
+                        'type' => 'text',
+                        'title' => __('"HOT" Text', 'porto'),
+                        'desc' => __('sticky post label', 'porto'),
+                        'default' => ''
                     ),
 
                     array(
@@ -2836,7 +3085,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'type' => 'select',
                         'title' => __('Blog Banner Type', 'porto'),
                         'options' => $porto_banner_type,
-                        'default' => 0
+                        'default' => ""
                     ),
 
                     array(
@@ -2845,7 +3094,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'required' => array('blog-banner_type','equals','master_slider'),
                         'title' => __('Master Slider', 'porto'),
                         'options' => $porto_master_sliders,
-                        'default' => 0
+                        'default' => ""
                     ),
 
                     array(
@@ -2854,7 +3103,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'required' => array('blog-banner_type','equals','rev_slider'),
                         'title' => __('Revolution Slider', 'porto'),
                         'options' => $porto_rev_sliders,
-                        'default' => 0
+                        'default' => ""
                     ),
 
                     array(
@@ -3065,21 +3314,18 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'type' => 'text',
                         'title' => __('Slug Name', 'porto'),
                         'description' => __('You should click <strong>"Save Changes"</strong> in <strong>Settings > Permalinks</strong> after save changes.', 'porto'),
-                        'default' => 'portfolio'
                     ),
 
                     array(
                         'id' => "portfolio-name",
                         'type' => 'text',
                         'title' => __('Name', 'porto'),
-                        'default' => __('Portfolios', 'porto')
                     ),
 
                     array(
                         'id' => "portfolio-singular-name",
                         'type' => 'text',
                         'title' => __('Singular Name', 'porto'),
-                        'default' => __('Portfolio', 'porto')
                     ),
 
                     array(
@@ -3087,7 +3333,6 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'type' => 'text',
                         'title' => __('Category Slug Name', 'porto'),
                         'description' => __('You should click <strong>"Save Changes"</strong> in <strong>Settings > Permalinks</strong> after save changes.', 'porto'),
-                        'default' => 'portfolio_cat'
                     ),
 
                     array(
@@ -3095,7 +3340,6 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'type' => 'text',
                         'title' => __('Skill Slug Name', 'porto'),
                         'description' => __('You should click <strong>"Save Changes"</strong> in <strong>Settings > Permalinks</strong> after save changes.', 'porto'),
-                        'default' => 'portfolio_skill'
                     ),
 
                     array(
@@ -3273,7 +3517,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'id'=>'portfolio-author',
                         'type' => 'switch',
                         'title' => __('Show Author Info', 'porto'),
-                        'default' => '0',
+                        'default' => false,
                         'on' => __('Yes', 'porto'),
                         'off' => __('No', 'porto'),
                     ),
@@ -3282,7 +3526,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'id'=>'portfolio-comments',
                         'type' => 'switch',
                         'title' => __('Show Comments', 'porto'),
-                        'default' => '0',
+                        'default' => false,
                         'on' => __('Yes', 'porto'),
                         'off' => __('No', 'porto'),
                     ),
@@ -3355,21 +3599,18 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'type' => 'text',
                         'title' => __('Slug Name', 'porto'),
                         'description' => __('You should click <strong>"Save Changes"</strong> in <strong>Settings > Permalinks</strong> after save changes.', 'porto'),
-                        'default' => 'member'
                     ),
 
                     array(
                         'id' => "member-name",
                         'type' => 'text',
                         'title' => __('Name', 'porto'),
-                        'default' => __('Members', 'porto')
                     ),
 
                     array(
                         'id' => "member-singular-name",
                         'type' => 'text',
                         'title' => __('Singular Name', 'porto'),
-                        'default' => __('Member', 'porto')
                     ),
 
                     array(
@@ -3377,7 +3618,6 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'type' => 'text',
                         'title' => __('Category Slug Name', 'porto'),
                         'description' => __('You should click <strong>"Save Changes"</strong> in <strong>Settings > Permalinks</strong> after save changes.', 'porto'),
-                        'default' => 'member_cat'
                     ),
 
                     array(
@@ -3453,9 +3693,30 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                     ),
 
                     array(
+                        'id'=>'member-view-type',
+                        'type' => 'button_set',
+                        'title' => __('View Type', 'porto'),
+                        'default' => '',
+                        'options' => array(
+                            "" => __("Type 1", 'porto'),
+                            "2" => __("Type 2", 'porto')
+                        )
+                    ),
+
+                    array(
+                        'id'=>'member-overview',
+                        'type' => 'switch',
+                        'title' => __('Show Overview', 'porto'),
+                        'default' => true,
+                        'on' => __('Yes', 'porto'),
+                        'off' => __('No', 'porto'),
+                    ),
+
+                    array(
                         'id'=>'member-excerpt',
                         'type' => 'switch',
                         'title' => __('Show Overview Excerpt', 'porto'),
+                        'required' => array('member-overview','equals',true),
                         'default' => true,
                         'on' => __('Yes', 'porto'),
                         'off' => __('No', 'porto'),
@@ -3467,7 +3728,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'required' => array('member-excerpt','equals',true),
                         'title' => __('Excerpt Length', 'porto'),
                         'desc' => __('The number of words', 'porto'),
-                        'default' => '80',
+                        'default' => '15',
                     ),
                 )
             );
@@ -3548,21 +3809,18 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'type' => 'text',
                         'title' => __('Slug Name', 'porto'),
                         'description' => __('You should click <strong>"Save Changes"</strong> in <strong>Settings > Permalinks</strong> after save changes.', 'porto'),
-                        'default' => 'faq'
                     ),
 
                     array(
                         'id' => "faq-name",
                         'type' => 'text',
                         'title' => __('Name', 'porto'),
-                        'default' => __('FAQs', 'porto')
                     ),
 
                     array(
                         'id' => "faq-singular-name",
                         'type' => 'text',
                         'title' => __('Singular Name', 'porto'),
-                        'default' => __('FAQ', 'porto')
                     ),
 
                     array(
@@ -3570,7 +3828,6 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'type' => 'text',
                         'title' => __('Category Slug Name', 'porto'),
                         'description' => __('You should click <strong>"Save Changes"</strong> in <strong>Settings > Permalinks</strong> after save changes.', 'porto'),
-                        'default' => 'faq_cat'
                     ),
 
                     array(
@@ -3720,6 +3977,17 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                     ),
 
                     array(
+                        'id'=>'cat-view-type',
+                        'type' => 'button_set',
+                        'title' => __('Category View Type', 'porto'),
+                        'default' => '',
+                        'options' => array(
+                            "" => __("Type 1", 'porto'),
+                            "2" => __("Type 2", 'porto')
+                        )
+                    ),
+
+                    array(
                         'id'=>'category-image-hover',
                         'type' => 'switch',
                         'title' => __('Enable Image Hover Effect', 'porto'),
@@ -3762,6 +4030,14 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'default' => true,
                         'on' => __('Yes', 'porto'),
                         'off' => __('No', 'porto')
+                    ),
+
+                    array(
+                        'id'=>'product-quickview-label',
+                        'type' => 'text',
+                        'required' => array('product-quickview','equals',true),
+                        'title' => __('"Quick View" Text', 'porto'),
+                        'default' => ''
                     ),
                 )
             );
@@ -3899,6 +4175,14 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                     ),
 
                     array(
+                        'id'=>'product-hot-label',
+                        'type' => 'text',
+                        'required' => array('product-hot','equals',true),
+                        'title' => __('"Hot" Text', 'porto'),
+                        'default' => ''
+                    ),
+
+                    array(
                         'id'=>'product-sale',
                         'type' => 'switch',
                         'title' => __('Show "Sale" Label', 'porto'),
@@ -3908,8 +4192,17 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                     ),
 
                     array(
+                        'id'=>'product-sale-label',
+                        'type' => 'text',
+                        'required' => array('product-sale','equals',true),
+                        'title' => __('"Sale" Text', 'porto'),
+                        'default' => ''
+                    ),
+
+                    array(
                         'id'=>'product-sale-percent',
                         'type' => 'switch',
+                        'required' => array('product-sale','equals',true),
                         'title' => __('Show Saved Sale Price Percentage', 'porto'),
                         'default' => true,
                         'on' => __('Yes', 'porto'),
@@ -4170,7 +4463,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                     array(
                         'id'=>'share-enable',
                         'type' => 'switch',
-                        'title' => __('Show social links', 'porto'),
+                        'title' => __('Show Social Links', 'porto'),
                         'desc' => __('Show social links in post and product pages', 'porto'),
                         'default' => true,
                         'on' => __('Yes', 'porto'),
@@ -4232,7 +4525,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'type' => 'switch',
                         'title' => __('Enable Pinterest Share', 'porto'),
                         'required' => array('share-enable','equals',true),
-                        'default' => '0',
+                        'default' => false,
                         'on' => __('Yes', 'porto'),
                         'off' => __('No', 'porto'),
                     ),
@@ -4252,7 +4545,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'type' => 'switch',
                         'title' => __('Enable VK Share', 'porto'),
                         'required' => array('share-enable','equals',true),
-                        'default' => '0',
+                        'default' => false,
                         'on' => __('Yes', 'porto'),
                         'off' => __('No', 'porto'),
                     ),
@@ -4262,7 +4555,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'type' => 'switch',
                         'title' => __('Enable Xing Share', 'porto'),
                         'required' => array('share-enable','equals',true),
-                        'default' => '0',
+                        'default' => false,
                         'on' => __('Yes', 'porto'),
                         'off' => __('No', 'porto'),
                     ),
@@ -4272,7 +4565,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'type' => 'switch',
                         'title' => __('Enable Tumblr Share', 'porto'),
                         'required' => array('share-enable','equals',true),
-                        'default' => '0',
+                        'default' => false,
                         'on' => __('Yes', 'porto'),
                         'off' => __('No', 'porto'),
                     ),
@@ -4282,7 +4575,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'type' => 'switch',
                         'title' => __('Enable Reddit Share', 'porto'),
                         'required' => array('share-enable','equals',true),
-                        'default' => '0',
+                        'default' => false,
                         'on' => __('Yes', 'porto'),
                         'off' => __('No', 'porto'),
                     ),
@@ -4292,9 +4585,35 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'type' => 'switch',
                         'title' => __('Enable WhatsApp Share', 'porto'),
                         'required' => array('share-enable','equals',true),
-                        'default' => '0',
+                        'default' => false,
                         'on' => __('Yes', 'porto'),
                         'off' => __('No', 'porto'),
+                    ),
+                )
+            );
+
+            // Slider Config
+            $this->sections[] = array(
+                'icon' => 'el-icon-picture',
+                'icon_class' => 'icon',
+                'title' => __('Slider Config', 'porto'),
+                'fields' => array(
+                    array(
+                        'id'=>'slider-autoplay',
+                        'type' => 'switch',
+                        'title' => __('Auto Play', 'porto'),
+                        'default' => true,
+                        'on' => __('Yes', 'porto'),
+                        'off' => __('No', 'porto'),
+                    ),
+
+                    array(
+                        'id'=>'slider-speed',
+                        'type' => 'text',
+                        'title' => __('Play Speed', 'porto'),
+                        'required' => array('slider-autoplay','equals',true),
+                        'desc' => __('unit: millisecond', 'porto'),
+                        'default' => 5000
                     ),
                 )
             );

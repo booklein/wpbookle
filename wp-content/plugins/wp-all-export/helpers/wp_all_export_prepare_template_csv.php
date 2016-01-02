@@ -66,7 +66,8 @@ function wp_all_export_prepare_template_csv($exportOptions, &$templateOptions)
 							);
 						}
 
-						$cf_list[] = $exportOptions['cc_label'][$ID];
+						if ( ! in_array($exportOptions['cc_label'][$ID], $cf_list)) $cf_list[] = $exportOptions['cc_label'][$ID];
+
 						switch ($exportOptions['cc_label'][$ID]) {												
 							case '_visibility':
 								$templateOptions['is_product_visibility'] = 'xpath';
@@ -85,11 +86,15 @@ function wp_all_export_prepare_template_csv($exportOptions, &$templateOptions)
 								$templateOptions['single_product_virtual'] = '{'. $element_name .'[1]}';
 								break;
 							case '_price':
+								$templateOptions['single_product_regular_price'] = '{'. $element_name .'[1]}';
+								break;
 							case '_regular_price':
 								$templateOptions['single_product_regular_price'] = '{'. $element_name .'[1]}';
+								if ( ! in_array('_price', $cf_list)) $cf_list[] = '_price';
 								break;
 							case '_sale_price':													
 								$templateOptions['single_product_sale_price'] = '{'. $element_name .'[1]}';
+								if ( ! in_array('_price', $cf_list)) $cf_list[] = '_price';
 								break;
 							case '_purchase_note':													
 								$templateOptions['single_product_purchase_note'] = '{'. $element_name .'[1]}';
@@ -112,7 +117,7 @@ function wp_all_export_prepare_template_csv($exportOptions, &$templateOptions)
 								break;
 							case '_sku':
 								$templateOptions['single_product_sku'] = '{'. $element_name .'[1]}';								
-								$templateOptions['single_product_parent_id'] = '{parent_sku[1]}';
+								$templateOptions['single_product_parent_id'] = '{parent_id[1]}';
 								break;
 							case '_sale_price_dates_from':
 								$templateOptions['single_sale_price_dates_from'] = '{'. $element_name .'[1]}';

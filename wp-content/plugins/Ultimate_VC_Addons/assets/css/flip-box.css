@@ -10,7 +10,7 @@
 }
 .flip-box-wrap,
 .wpb_row .wpb_column .wpb_wrapper .flip-box-wrap {
-    margin-bottom: 30px
+    margin-bottom: 35px
 }
 .flip-box-wrap .flip-box {
     cursor: pointer;
@@ -32,7 +32,12 @@
 .flip-box-wrap .ifb-flip-box {
     height: 100%;
     position: relative;
-    display: block
+    display: block;
+    -webkit-transform-style: preserve-3d;
+	-moz-transform-style: preserve-3d;
+	-o-transform-style: preserve-3d;
+	-ms-transform-style: preserve-3d;
+	transform-style: preserve-3d;
 }
 .flip-box-wrap .ifb-back,
 .flip-box-wrap .ifb-front {
@@ -65,6 +70,15 @@
     -ms-backface-visibility: hidden;
     backface-visibility: hidden
 }
+
+.flip-box-wrap .ifb-front * {
+ -webkit-backface-visibility: hidden;
+ -moz-backface-visibility: hidden;
+ -o-backface-visibility: hidden;
+ -ms-backface-visibility: hidden;
+ backface-visibility: hidden;
+}
+
 .flip-box-wrap .ifb-back {
     position: absolute;
     top: 0;
@@ -804,8 +818,8 @@
 .ifb-flip-box-section.ifb-flip-box-section-vertical-middle {
     vertical-align: middle !important;
     top: 50%;
-    -moz-backface-visibility: hidden; 
-    -webkit-backface-visibility: hidden; 
+    -moz-backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     -webkit-transform: translateY(-50%);
     -moz-transform: translateY(-50%);

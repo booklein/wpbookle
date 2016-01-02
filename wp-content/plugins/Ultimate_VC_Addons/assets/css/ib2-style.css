@@ -6,7 +6,7 @@
 .ult-new-ib {
     z-index: 1;
     overflow: hidden;
-    margin: 0 0 30px;
+    margin: 0 0 35px;
     background: #3085a3;
     text-align: center;
     cursor: pointer;
@@ -16,7 +16,7 @@
 }
 .ult-new-ib,
 .wpb_column>.wpb_wrapper .ult-new-ib {
-    margin-bottom: 30px
+    margin-bottom: 35px
 }
 .ult-new-ib * {
     box-sizing: border-box

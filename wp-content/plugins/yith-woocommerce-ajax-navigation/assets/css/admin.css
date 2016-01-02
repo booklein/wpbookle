@@ -75,6 +75,10 @@ label.yith-wcan-reset-table{
     width: 270px;
 }
 
+.yit-plugins_page_yith_wcan_panel .plugin-option .yit-options .option, .plugin-option .yit_options .option.yit-upload {
+    width: 350px;
+}
+
 .yit-plugins_page_yith_wcan_panel .plugin-option .yit-options .option, .plugin-option .yit_options.on_off_container .option {
     width: 100px;
 }

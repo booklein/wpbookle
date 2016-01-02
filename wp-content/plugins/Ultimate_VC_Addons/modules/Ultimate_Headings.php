@@ -58,7 +58,7 @@ if(!class_exists("Ultimate_Headings")){
 								"type" => "ultimate_google_fonts",
 								"heading" => __("Font Family", "ultimate_vc"),
 								"param_name" => "main_heading_font_family",
-								"description" => __("Select the font of your choice.","ultimate_vc")." ".__("You can","ultimate_vc")." <a target='_blank' href='".admin_url('admin.php?page=ultimate-font-manager')."'>".__("add new in the collection here","ultimate_vc")."</a>.",
+								"description" => __("Select the font of your choice.","ultimate_vc")." ".__("You can","ultimate_vc")." <a target='_blank' href='".admin_url('admin.php?page=bsf-google-font-manager')."'>".__("add new in the collection here","ultimate_vc")."</a>.",
 								//"dependency" => Array("element" => "main_heading", "not_empty" => true),
 								"group" => "Typography"
 							),
@@ -73,7 +73,7 @@ if(!class_exists("Ultimate_Headings")){
 
 							// Responsive Param
 							array(
-                          	  	"type" => "ultimate_responsive", 
+                          	  	"type" => "ultimate_responsive",
                           	  	"class" => "font-size",
                           	  	"heading" => __("Font size", 'ultimate_vc'),
                           	  	"param_name" => "main_heading_font_size",
@@ -94,7 +94,7 @@ if(!class_exists("Ultimate_Headings")){
 								"heading" => __("Font Color", "ultimate_vc"),
 								"param_name" => "main_heading_color",
 								"value" => "",
-								//"description" => __("Main heading color", "smile"),	
+								//"description" => __("Main heading color", "smile"),
 								//"dependency" => Array("element" => "main_heading", "not_empty" => true),
 								"group" => "Typography"
 							),
@@ -168,7 +168,7 @@ if(!class_exists("Ultimate_Headings")){
 								"type" => "ultimate_google_fonts",
 								"heading" => __("Font Family", "ultimate_vc"),
 								"param_name" => "sub_heading_font_family",
-								"description" => __("Select the font of your choice.","ultimate_vc")." ".__("You can","ultimate_vc")." <a target='_blank' href='".admin_url('admin.php?page=ultimate-font-manager')."'>".__("add new in the collection here","ultimate_vc")."</a>.",
+								"description" => __("Select the font of your choice.","ultimate_vc")." ".__("You can","ultimate_vc")." <a target='_blank' href='".admin_url('admin.php?page=bsf-google-font-manager')."'>".__("add new in the collection here","ultimate_vc")."</a>.",
 								//"dependency" => Array("element" => "content", "not_empty" => true),
 								"group" => "Typography",
 							),
@@ -203,7 +203,7 @@ if(!class_exists("Ultimate_Headings")){
 								"heading" => __("Font Color", "ultimate_vc"),
 								"param_name" => "sub_heading_color",
 								"value" => "",
-								//"description" => __("Sub heading color", "smile"),	
+								//"description" => __("Sub heading color", "smile"),
 								//"dependency" => Array("element" => "content", "not_empty" => true),
 								"group" => "Typography",
 							),
@@ -337,7 +337,7 @@ if(!class_exists("Ultimate_Headings")){
 								"heading" => __("Line Color", "ultimate_vc"),
 								"param_name" => "line_color",
 								"value" => "#333333",
-								//"description" => __("Select color for line.", "smile"),	
+								//"description" => __("Select color for line.", "smile"),
 								"dependency" => Array("element" => "spacer", "value" => array("line_with_icon","line_only")),
 							),
 							array(
@@ -358,7 +358,7 @@ if(!class_exists("Ultimate_Headings")){
 								"heading" => __("Select Icon ","ultimate_vc"),
 								"param_name" => "icon",
 								"value" => "",
-								"description" => __("Click and select icon of your choice. If you can't find the one that suits for your purpose","ultimate_vc").", ".__("you can","ultimate_vc")." <a href='admin.php?page=font-icon-Manager' target='_blank'>".__("add new here","ultimate_vc")."</a>.",
+								"description" => __("Click and select icon of your choice. If you can't find the one that suits for your purpose","ultimate_vc").", ".__("you can","ultimate_vc")." <a href='admin.php?page=bsf-font-icon-manager' target='_blank'>".__("add new here","ultimate_vc")."</a>.",
 								"dependency" => Array("element" => "icon_type","value" => array("selector")),
 							),
 							array(
@@ -380,7 +380,7 @@ if(!class_exists("Ultimate_Headings")){
 								"param_name" => "icon_color",
 								"value" => "",
 								"description" => __("Give it a nice paint!", "ultimate_vc"),
-								"dependency" => Array("element" => "icon_type","value" => array("selector")),						
+								"dependency" => Array("element" => "icon_type","value" => array("selector")),
 							),
 							array(
 								"type" => "dropdown",
@@ -402,7 +402,7 @@ if(!class_exists("Ultimate_Headings")){
 								"heading" => __("Background Color", "ultimate_vc"),
 								"param_name" => "icon_color_bg",
 								"value" => "",
-								"description" => __("Select background color for icon.", "ultimate_vc"),	
+								"description" => __("Select background color for icon.", "ultimate_vc"),
 								"dependency" => Array("element" => "icon_style", "value" => array("circle","square","advanced")),
 							),
 							array(
@@ -428,7 +428,7 @@ if(!class_exists("Ultimate_Headings")){
 								"heading" => __("Border Color", "ultimate_vc"),
 								"param_name" => "icon_color_border",
 								"value" => "#333333",
-								"description" => __("Select border color for icon.", "ultimate_vc"),	
+								"description" => __("Select border color for icon.", "ultimate_vc"),
 								"dependency" => Array("element" => "icon_border_style", "not_empty" => true),
 							),
 							array(
@@ -568,11 +568,13 @@ if(!class_exists("Ultimate_Headings")){
 				"heading_tag" 				=> "",
 				"el_class" => "",
 			),$atts));
+			$vc_version = (defined('WPB_VC_VERSION')) ? WPB_VC_VERSION : 0;
+			$is_vc_49_plus = (version_compare(4.9, $vc_version, '<=')) ? 'ult-adjust-bottom-margin' : '';
 			$wrapper_class = $spacer;
-			
+
 			if($heading_tag == '')
 				$heading_tag = 'h2';
-			
+
 			/* ---- main heading styles ---- */
 			if($main_heading_font_family != '')
 			{
@@ -584,13 +586,13 @@ if(!class_exists("Ultimate_Headings")){
 			$main_heading_style_inline .= get_ultimate_font_style($main_heading_style);
 			//attach font size if set
 
-			//attach font color if set	
+			//attach font color if set
 			if($main_heading_color != '')
 				$main_heading_style_inline .= 'color:'.$main_heading_color.';';
 			//attach margins for main heading
 			if($main_heading_margin != '')
 				$main_heading_style_inline .= $main_heading_margin;
-				
+
 			/* ----- sub heading styles ----- */
 			if($sub_heading_font_family != '')
 			{
@@ -601,13 +603,13 @@ if(!class_exists("Ultimate_Headings")){
 			//sub heaing font style
 			$sub_heading_style_inline .= get_ultimate_font_style($sub_heading_style);
 
-			//attach font color if set	
+			//attach font color if set
 			if($sub_heading_color != '')
-				$sub_heading_style_inline .= 'color:'.$sub_heading_color.';';	
+				$sub_heading_style_inline .= 'color:'.$sub_heading_color.';';
 			//attach margins for sub heading
 			if($sub_heading_margin != '')
 				$sub_heading_style_inline .= $sub_heading_margin;
-				
+
 			if($spacer != '')
 				$wrapper_style .= $spacer_margin;
 			if($spacer == 'line_with_icon')
@@ -651,7 +653,7 @@ if(!class_exists("Ultimate_Headings")){
 					$siwidth = array($spacer_img_width, $spacer_img_width);
 				else
 					$siwidth = 'full';
-					
+
 				$spacer_inline = '';
 				//$icon_inline = wp_get_attachment_image( $spacer_img, $siwidth, false, array("class"=>"ultimate-headings-icon-image") );
 				$icon_inline = apply_filters('ult_get_img_single', $spacer_img, 'url');
@@ -660,7 +662,7 @@ if(!class_exists("Ultimate_Headings")){
 				$icon_inline = '<img src="'.$icon_inline.'" class="ultimate-headings-icon-image" style="'.$spacer_inline.'"/>';
 			}
 			//if spacer type is line with icon or only icon show icon or image respectively
-			if($spacer == 'line_with_icon' || $spacer == 'icon_only')	
+			if($spacer == 'line_with_icon' || $spacer == 'icon_only')
 			{
 				$icon_animation = '';
 				$icon_inline = do_shortcode('[just_icon icon_align="'.$alignment.'" icon_type="'.$icon_type.'" icon="'.$icon.'" icon_img="'.$icon_img.'" img_width="'.$img_width.'" icon_size="'.$icon_size.'" icon_color="'.$icon_color.'" icon_style="'.$icon_style.'" icon_color_bg="'.$icon_color_bg.'" icon_color_border="'.$icon_color_border.'"  icon_border_style="'.$icon_border_style.'" icon_border_size="'.$icon_border_size.'" icon_border_radius="'.$icon_border_radius.'" icon_border_spacing="'.$icon_border_spacing.'" icon_animation="'.$icon_animation.'"]');
@@ -677,7 +679,8 @@ if(!class_exists("Ultimate_Headings")){
 			}
 			else
 				$data = '';
-			$id = uniqid('ultimate-heading');
+			$micro = rand(0000,9999);
+			$id = uniqid('ultimate-heading-'.$micro);
 			$uid = 'uvc-'.rand(0000,9999);
 
 			// FIX: set old font size before implementing responsive param
@@ -706,7 +709,7 @@ if(!class_exists("Ultimate_Headings")){
 		  	);
 			$sub_heading_responsive = get_ultimate_vc_responsive_media_css($args);
 
-			$output = '<div id="'.$id.'" class="uvc-heading '.$id.' '.$uid.' '.$el_class.'" data-hspacer="'.$spacer.'" '.$data.' data-halign="'.$alignment.'" style="text-align:'.$alignment.'">';
+			$output = '<div id="'.$id.'" class="uvc-heading '.$is_vc_49_plus.' '.$id.' '.$uid.' '.$el_class.'" data-hspacer="'.$spacer.'" '.$data.' data-halign="'.$alignment.'" style="text-align:'.$alignment.'">';
 				if($spacer_position == 'top')
 					$output .= $this->ultimate_heading_spacer($wrapper_class, $wrapper_style, $icon_inline);
 				if($main_heading != '')

@@ -67,6 +67,11 @@ if ( ! class_exists( 'YITH_WCAN_Frontend' ) ) {
                         'container'             => yith_wcan_get_option( 'yith_wcan_ajax_shop_container', '.products' ),
                         'pagination'            => yith_wcan_get_option( 'yith_wcan_ajax_shop_pagination', 'nav.woocommerce-pagination' ),
                         'result_count'          => yith_wcan_get_option( 'yith_wcan_ajax_shop_result_container', '.woocommerce-result-count' ),
+                        'wc_price_slider'       => array(
+                            'wrapper'   => '.price_slider',
+                            'min_price' => '.price_slider_amount #min_price',
+                            'max_price' => '.price_slider_amount #max_price',
+                        )
                     )
                 );
 

@@ -63,7 +63,8 @@ $quickview = $porto_settings['product-quickview'];
         if ($wishlist)
             echo do_shortcode('[yith_wcwl_add_to_wishlist]');
         if ($quickview) {
-            echo '<div class="quickview" data-id="'.$product->id.'" title="' . __('Quick View', 'porto') . '">'.__('Quick View', 'porto').'</div>';
+            $label = ((isset($porto_settings['product-quickview-label']) && $porto_settings['product-quickview-label']) ? $porto_settings['product-quickview-label'] : __('Quick View', 'porto'));
+            echo '<div class="quickview" data-id="'.$product->id.'" title="' . $label . '">' . $label . '</div>';
         }
         ?>
     </div>

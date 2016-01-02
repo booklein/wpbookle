@@ -56,7 +56,7 @@ class MSP_Admin_Editor {
 
 		// define admin ajax address and master slider page
 		wp_localize_script( 'jquery', '__MS_EDITOR', array(
-			'sliders'       => get_masterslider_names( true )
+			'sliders'       => get_masterslider_names( 'alias-title' )
 		));
 	}
 

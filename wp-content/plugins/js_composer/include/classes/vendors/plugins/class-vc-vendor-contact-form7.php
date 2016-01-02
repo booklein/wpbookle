@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
+}
 
 /**
  * Contact form7 vendor
@@ -7,13 +10,30 @@
  * To fix issues when shortcode doesn't exists in frontend editor. #1053, #1054 etc.
  * @since 4.3
  */
-Class Vc_Vendor_ContactForm7 implements Vc_Vendor_Interface {
+class Vc_Vendor_ContactForm7 implements Vc_Vendor_Interface {
 
 	/**
 	 * Add action when contact form 7 is initialized to add shortcode.
 	 * @since 4.3
 	 */
 	public function load() {
+
+		vc_lean_map( 'contact-form-7', array(
+			$this,
+			'addShortcodeSettings',
+		) );
+	}
+
+	/**
+	 * Mapping settings for lean method.
+	 *
+	 * @since 4.9
+	 *
+	 * @param $tag
+	 *
+	 * @return array
+	 */
+	public function addShortcodeSettings( $tag ) {
 		/**
 		 * Add Shortcode To Visual Composer
 		 */
@@ -27,8 +47,9 @@ Class Vc_Vendor_ContactForm7 implements Vc_Vendor_Interface {
 		} else {
 			$contact_forms[ __( 'No contact forms found', 'js_composer' ) ] = 0;
 		}
-		vc_map( array(
-			'base' => 'contact-form-7',
+
+		return array(
+			'base' => $tag,
 			'name' => __( 'Contact Form 7', 'js_composer' ),
 			'icon' => 'icon-wpb-contactform7',
 			'category' => __( 'Content', 'js_composer' ),
@@ -39,7 +60,7 @@ Class Vc_Vendor_ContactForm7 implements Vc_Vendor_Interface {
 					'heading' => __( 'Form title', 'js_composer' ),
 					'param_name' => 'title',
 					'admin_label' => true,
-					'description' => __( 'What text use as form title. Leave blank if no title is needed.', 'js_composer' )
+					'description' => __( 'What text use as form title. Leave blank if no title is needed.', 'js_composer' ),
 				),
 				array(
 					'type' => 'dropdown',
@@ -47,9 +68,9 @@ Class Vc_Vendor_ContactForm7 implements Vc_Vendor_Interface {
 					'param_name' => 'id',
 					'value' => $contact_forms,
 					'save_always' => true,
-					'description' => __( 'Choose previously created contact form from the drop down list.', 'js_composer' )
-				)
-			)
-		) );
+					'description' => __( 'Choose previously created contact form from the drop down list.', 'js_composer' ),
+				),
+			),
+		);
 	}
 }

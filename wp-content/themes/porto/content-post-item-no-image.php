@@ -42,6 +42,14 @@ if (isset($porto_settings['post-related-style']) && 'style-3' == $porto_settings
                 <span><i class="fa fa-tag"></i> <?php echo $tags_list ?></span>
             <?php endif; ?>
             <span><i class="fa fa-comments"></i> <?php comments_popup_link(__('0 Comments', 'porto'), __('1 Comment', 'porto'), '% '.__('Comments', 'porto')); ?></span>
+            <?php
+            if (function_exists('Post_Views_Counter') && Post_Views_Counter()->options['display']['position'] == 'manual') {
+                $post_count = do_shortcode('[post-views]');
+                if ($post_count) {
+                    echo $post_count;
+                }
+            }
+            ?>
         </div>
     </div>
 <?php } else { ?>

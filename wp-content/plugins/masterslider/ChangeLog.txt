@@ -1,3 +1,34 @@
+Version 2.25.4 / (14.12.2015)
+============================
+- [Fix]: Addressed a bug that causes some rendering issues when there was more than one slider in a page.
+- [Fix]: Addressed a bug with swipe events.
+
+Version 2.25.0 / (05.12.2015)
+============================
+- [New]: Introducing Box transition view.
+- [Fix]: An issue with validating slider alias fixed
+- [New]: New dynamic tags for 'Post image title and alt' added
+- [New]: Exporting custom button styles added to importer and exporter tools
+- [New]: Title attribute added to button layers too
+- [Fix]: Addressed an issue that the slider alias was undefined after duplicating an slider
+- [Fix]: Addressed a bug that through an error while inserting as Slider in page by 'Visual Composer' (slider alias)
+- [Fix]: Addressed an issue with touch JS error in some Android devices.
+- [Improvement]: Improvement for loading fonts on websites under SSL
+- [Improvement]: Swipe sensitivity while scrolling page on touch devices improved.
+- [Improvement]: Now Master Slider can be initialized properly event if the page contains JS errors from third-party scripts.
+
+Version 2.22.1 / (3.11.2015)
+============================
+- [Fix]: An issue with undefined param fixed
+
+Version 2.22.0 / (31.10.2015)
+============================
+- [New]: Introducing slider alias
+- [Improvement]: Title for background slide added
+- [Fix]: An issue with implementing the scrollTo parameters fixed
+- [Fix]: Legacy wpb_vc function changed to vc_map
+- [Fix]: An issue with undefined variable name fixed
+
 Version 2.20.4 / (30.09.2015)
 ============================
 - [Improvement]: SEO improvement for gallery slider

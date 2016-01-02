@@ -3,60 +3,33 @@
 		$author = true;
 	else
 		$author = false;
+	$author_extend = '';
+	if($author)
+		$author_extend = '&author';
 ?>
 <div class="wrap about-wrap">
 	<h1><?php echo __("Ultimate Addons Settings","ultimate_vc"); ?></h1>
-    <div class="about-text"><?php echo __('Enable or disable the features as per your preference.','ultimate_vc'); ?></div>
+    <div class="about-text"><?php echo __('Ultimate Addons is designed in a very modular fashion so that most the features would be independent of each other. For any reason, should you wish to disable some features, you can do it very easily below.','ultimate_vc'); ?></div>
     <div class="ult-badge" style="background:url(<?php echo plugins_url('img/brainstorm-logo.png',__FILE__); ?>) no-repeat top center; background-size: 150px;"></div>
     <div id="msg"></div>
     <div id="bsf-message"></div>
-    <h2 class="nav-tab-wrapper"> 
-    	<a href="#ultimate-modules" data-tab="ultimate-modules" class="nav-tab nav-tab-active"> <?php echo __('Modules','ultimate_vc'); ?> </a> 
-        <a href="#css-settings" data-tab="css-settings" class="nav-tab"> <?php echo __('Scripts and Styles','ultimate_vc'); ?> </a>
-        <a href="#ultimate-settings" data-tab="ultimate-settings" class="nav-tab"> <?php echo __('Advanced Settings','ultimate_vc'); ?> </a>
+    <h2 class="nav-tab-wrapper">
+    	<a href="<?php echo (is_multisite()) ? network_admin_url('admin.php?page=ultimate-dashboard'.$author_extend) : admin_url('admin.php?page=ultimate-dashboard'.$author_extend); ?>" data-tab="ultimate-modules" class="nav-tab nav-tab-active"> <?php echo __('Modules','ultimate_vc'); ?> </a>
+    	<a href="<?php echo (is_multisite()) ? network_admin_url('admin.php?page=ultimate-smoothscroll'.$author_extend) : admin_url('admin.php?page=ultimate-smoothscroll'.$author_extend); ?>" data-tab="css-settings" class="nav-tab"> <?php echo __('Smooth Scroll','ultimate_vc'); ?> </a>
+        <a href="<?php echo (is_multisite()) ? network_admin_url('admin.php?page=ultimate-scripts-and-styles'.$author_extend) : admin_url('admin.php?page=ultimate-scripts-and-styles'.$author_extend); ?>" data-tab="css-settings" class="nav-tab"> <?php echo __('Scripts and Styles','ultimate_vc'); ?> </a>
         <?php if($author) : ?>
-			<a href="#ultimate-debug" data-tab="ultimate-debug" class="nav-tab"> Debug </a> 
+			<a href="<?php echo (is_multisite()) ? network_admin_url('admin.php?page=ultimate-debug-settings') : admin_url('admin.php?page=ultimate-debug-settings'); ?>" data-tab="ultimate-debug" class="nav-tab"> Debug </a>
 		<?php endif; ?>
     </h2>
     <?php
-	$ultimate_modules = get_option('ultimate_modules');
-	$ultimate_row = get_option('ultimate_row');
-	$ultimate_animation = get_option('ultimate_animation');
-	$ultimate_smooth_scroll = get_option('ultimate_smooth_scroll');
-	
-	$ultimate_css = get_option('ultimate_css');
-	$ultimate_js = get_option('ultimate_js');
-	
-	$checked = '';
-	if($ultimate_row == "enable"){
+    $ultimate_row = get_option('ultimate_row');
+    if($ultimate_row == "enable"){
 		$checked_row = 'checked="checked"';
 	} else {
 		$checked_row = '';
 	}
-	
-	if($ultimate_animation == "enable"){
-		$ultimate_animation = 'checked="checked"';
-	} else {
-		$ultimate_animation = '';
-	}
-	
-	if($ultimate_smooth_scroll == "enable"){
-		$ultimate_smooth_scroll = 'checked="checked"';
-	} else {
-		$ultimate_smooth_scroll = '';
-	}
-	
-	if($ultimate_css == "enable"){
-		$ultimate_css = 'checked="checked"';
-	} else {
-		$ultimate_css = '';
-	}
-	
-	if($ultimate_js == "enable"){
-		$ultimate_js = 'checked="checked"';
-	} else {
-		$ultimate_js = '';
-	}
+
+	$ultimate_modules = get_option('ultimate_modules');
 	$modules = array(
 		'Ultimate_Animation' => 'Animation Block',
 		'Ultimate_Buttons' => 'Advanced Buttons',
@@ -93,6 +66,7 @@
 		'Ultimate_Content_Box' => 'Content Box',
 		'Ultimate_Expandable_section' => 'Expandable Section',
 		'Ultimate_Tab' =>'Advanced Tabs',
+		'Ultimate_Team' =>'Ultimate Teams',
 	);
 	?>
     <div id="ultimate-modules" class="ult-tabs active-tab">
@@ -104,9 +78,9 @@
         	<tbody>
             	<?php
 					$i = 1;
-					$checked_items = 0; 
+					$checked_items = 0;
 					foreach($modules as $module => $label){
-						if(is_array($ultimate_modules) && !empty($ultimate_modules)){ 
+						if(is_array($ultimate_modules) && !empty($ultimate_modules)){
 							if(in_array(strtolower($module),$ultimate_modules)){
 								$checked = 'checked="checked"';
 								$checked_items++;
@@ -119,10 +93,10 @@
 						<tr valign="top" style="border-bottom: 1px solid #ddd;">
 						<?php } ?>
 							<th scope="row"><?php echo $label; ?></th>
-							<td> 
+							<td>
 							<div class="onoffswitch">
 								<input type="checkbox" <?php echo $checked; ?> class="onoffswitch-checkbox" value="<?php echo strtolower($module); ?>" id="<?php echo strtolower($module); ?>" name="ultimate_modules[]" />
-								
+
 								<label class="onoffswitch-label" for="<?php echo strtolower($module); ?>">
 									<div class="onoffswitch-inner">
 										<div class="onoffswitch-active">
@@ -139,18 +113,7 @@
 						<!-- </tr> -->
 						<?php } ?>
                 <?php $i++; } ?>
-            </tbody>
-        </table>
-    </form>
-	<p class="submit"><input type="submit" name="submit" id="submit-modules" class="button button-large button-primary" value="<?php echo __("Save Changes","ultimate_vc");?>"></p>
-    </div>
-    
-    <div id="ultimate-settings" class="ult-tabs">
-    <form method="post" id="ultimate_settings">
-    	<input type="hidden" name="action" value="update_ultimate_options" />
-    	<table class="form-table">
-        	<tbody>
-                <tr valign="top">
+                <tr valign="top" style="border-bottom: 1px solid #ddd;">
                 	<th scope="row"><?php echo __("Row backgrounds","ultimate_vc"); ?></th>
                     <td> <div class="onoffswitch">
                     <input type="checkbox" <?php echo $checked_row; ?> id="ultimate_row" value="enable" class="onoffswitch-checkbox" name="ultimate_row" />
@@ -166,304 +129,13 @@
                         </label>
                         </div>
 					</td>
-                </tr>
-                <tr valign="top">
-                	<th scope="row"><?php echo __("Animation Block on Mobile","ultimate_vc"); ?></th>
-                    <td> <div class="onoffswitch">
-                    <input type="checkbox" <?php echo $ultimate_animation; ?> id="ultimate_animations" value="enable" class="onoffswitch-checkbox" name="ultimate_animation" />
-                         <label class="onoffswitch-label" for="ultimate_animations">
-                            <div class="onoffswitch-inner">
-                                <div class="onoffswitch-active">
-                                    <div class="onoffswitch-switch"><?php echo __('ON','ultimate_vc'); ?></div>
-                                </div>
-                                <div class="onoffswitch-inactive">
-                                    <div class="onoffswitch-switch"><?php echo __('OFF','ultimate_vc'); ?></div>
-                                </div>
-                            </div>
-                        </label>
-                         </div>
-					</td>
-                </tr>
-                <tr valign="top">
-                	<th scope="row"><?php echo __("Smooth Scroll","ultimate_vc"); ?></th>
-                    <td> <div class="onoffswitch">
-                    <input type="checkbox" <?php echo $ultimate_smooth_scroll; ?> id="ultimate_smooth_scroll" value="enable" class="onoffswitch-checkbox" name="ultimate_smooth_scroll" />
-                         <label class="onoffswitch-label" for="ultimate_smooth_scroll">
-                            <div class="onoffswitch-inner">
-                                <div class="onoffswitch-active">
-                                    <div class="onoffswitch-switch"><?php echo __('ON','ultimate_vc'); ?></div>
-                                </div>
-                                <div class="onoffswitch-inactive">
-                                    <div class="onoffswitch-switch"><?php echo __('OFF','ultimate_vc'); ?></div>
-                                </div>
-                            </div>
-                        </label>
-                         </div>
-					</td>
+					<th></th><td></td>
                 </tr>
             </tbody>
         </table>
     </form>
-	<p class="submit"><input type="submit" name="submit" id="submit-settings" class="button button-large button-primary" value="<?php echo __("Save Changes","ultimate");?>"></p>
+	<p class="submit"><input type="submit" name="submit" id="submit-modules" class="button button-large button-primary" value="<?php echo __("Save Changes","ultimate_vc");?>"></p>
     </div>
-    <div id="css-settings" class="ult-tabs">
-        <form method="post" id="css_settings">
-            <input type="hidden" name="action" value="update_css_options" />
-            <table class="form-table">
-                <tbody>
-                    <tr valign="top">
-                        <th scope="row"><?php echo __("Optimized CSS","ultimate_vc"); ?></th>
-                        <td> <div class="onoffswitch">
-                        <input type="checkbox" <?php echo $ultimate_css; ?> id="ultimate_css" value="enable" class="onoffswitch-checkbox" name="ultimate_css" />
-                             <label class="onoffswitch-label" for="ultimate_css">
-                                <div class="onoffswitch-inner">
-                                    <div class="onoffswitch-active">
-                                        <div class="onoffswitch-switch"><?php echo __('ON','ultimate_vc'); ?></div>
-                                    </div>
-                                    <div class="onoffswitch-inactive">
-                                        <div class="onoffswitch-switch"><?php echo __('OFF','ultimate_vc'); ?></div>
-                                    </div>
-                                </div>
-                            </label>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr valign="top">
-                        <th scope="row"><?php echo __("Optimized JS","ultimate_vc"); ?></th>
-                        <td> <div class="onoffswitch">
-                        <input type="checkbox" <?php echo $ultimate_js; ?> id="ultimate_js" value="enable" class="onoffswitch-checkbox" name="ultimate_js" />
-                             <label class="onoffswitch-label" for="ultimate_js">
-                                <div class="onoffswitch-inner">
-                                    <div class="onoffswitch-active">
-                                        <div class="onoffswitch-switch"><?php echo __('ON','ultimate_vc'); ?></div>
-                                    </div>
-                                    <div class="onoffswitch-inactive">
-                                        <div class="onoffswitch-switch"><?php echo __('OFF','ultimate_vc'); ?></div>
-                                    </div>
-                                </div>
-                            </label>
-                             </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </form>
-        <p class="submit"><input type="submit" name="submit" id="submit-css-settings" class="button button-large button-primary" value="<?php echo __("Save Changes","ultimate_vc");?>"></p>
-    </div>
-    <?php if($author) : ?>
-        <div id="ultimate-debug" class="ult-tabs">
-            <form method="post" id="ultimate_debug_settings">
-            	<input type="hidden" name="action" value="update_ultimate_debug_options" />
-            	<table class="form-table">
-        			<tbody>
-                    	<tr>
-                        	<th scope="row"><?php echo __('Theme', 'ultimate_vc') ?></th>
-                            <td>
-								<?php 
-									$site_theme = wp_get_theme();
-									$current_theme = $site_theme->get( 'Name' );
-									echo $current_theme;
-								?>
-                          	</td>
-                        </tr>
-                    	<?php
-							$ultimate_video_fixer = get_option('ultimate_video_fixer');
-							if($ultimate_video_fixer == 'enable')
-								$ultimate_video_fixer = 'checked="checked"';
-						?>
-						<tr valign="top">
-							<th scope="row"><?php echo __("Video Fixer","ultimate_vc"); ?></th>
-							<td> <div class="onoffswitch">
-							<input type="checkbox" <?php echo $ultimate_video_fixer; ?> id="ultimate_video_fixer" value="enable" class="onoffswitch-checkbox" name="ultimate_video_fixer" />
-								 <label class="onoffswitch-label" for="ultimate_video_fixer">
-									<div class="onoffswitch-inner">
-										<div class="onoffswitch-active">
-											<div class="onoffswitch-switch"><?php echo __('ON','ultimate_vc'); ?></div>
-										</div>
-										<div class="onoffswitch-inactive">
-											<div class="onoffswitch-switch"><?php echo __('OFF','ultimate_vc'); ?></div>
-										</div>
-									</div>
-								</label>
-								 </div>
-							</td>
-						</tr>
-                        
-                        <?php
-							$ultimate_ajax_theme = get_option('ultimate_ajax_theme');
-							if($ultimate_ajax_theme == 'enable')
-								$ultimate_ajax_theme = 'checked="checked"';
-						?>
-						<tr valign="top">
-							<th scope="row"><?php echo __("Ajax","ultimate_vc"); ?></th>
-							<td> <div class="onoffswitch">
-							<input type="checkbox" <?php echo $ultimate_ajax_theme; ?> id="ultimate_ajax_theme" value="enable" class="onoffswitch-checkbox" name="ultimate_ajax_theme" />
-								 <label class="onoffswitch-label" for="ultimate_ajax_theme">
-									<div class="onoffswitch-inner">
-										<div class="onoffswitch-active">
-											<div class="onoffswitch-switch"><?php echo __('ON','ultimate_vc'); ?></div>
-										</div>
-										<div class="onoffswitch-inactive">
-											<div class="onoffswitch-switch"><?php echo __('OFF','ultimate_vc'); ?></div>
-										</div>
-									</div>
-								</label>
-								 </div>
-							</td>
-						</tr>
-                        <tr valign="top">
-							<th scope="row"><?php echo __("Delete Fonts","ultimate"); ?></th>
-							<td> 
-                            	<a href="<?php echo admin_url('admin.php?page=font-icon-Manager&delete-bsf-fonts'); ?>" target="_blank" class="button-primary">Delete Fonts</a>
-							</td>
-						</tr>
-                        <?php
-							$ultimate_theme_support = get_option('ultimate_theme_support');
-							$theme_dependant = '';
-							if($ultimate_theme_support == 'enable')
-							{
-								$ultimate_theme_support = 'checked="checked"';
-								$theme_dependant = 'display:none;';
-							}
-						?>
-                        <tr valign="top">
-							<th scope="row"><?php echo __("Theme Support","ultimate_vc"); ?></th>
-							<td> <div class="onoffswitch" id="ult-theme-support-row">
-							<input type="checkbox" <?php echo $ultimate_theme_support; ?> id="ultimate_theme_support" value="enable" class="onoffswitch-checkbox" name="ultimate_theme_support" />
-								 <label class="onoffswitch-label" for="ultimate_theme_support">
-									<div class="onoffswitch-inner">
-										<div class="onoffswitch-active">
-											<div class="onoffswitch-switch"><?php echo __('ON','ultimate_vc'); ?></div>
-										</div>
-										<div class="onoffswitch-inactive">
-											<div class="onoffswitch-switch"><?php echo __('OFF','ultimate_vc'); ?></div>
-										</div>
-									</div>
-								</label>
-								 </div>
-							</td>
-						</tr>
-                        <?php
-							$ultimate_rtl_support = get_option('ultimate_rtl_support');
-							if($ultimate_rtl_support == 'enable')
-							{
-								$ultimate_rtl_support = 'checked="checked"';
-							}
-						?>
-                        <tr valign="top">
-							<th scope="row"><?php echo __("RTL Suport","ultimate_vc"); ?></th>
-							<td> <div class="onoffswitch" id="ult-rtl-support-row">
-							<input type="checkbox" <?php echo $ultimate_rtl_support; ?> id="ultimate_rtl_support" value="enable" class="onoffswitch-checkbox" name="ultimate_rtl_support" />
-								 <label class="onoffswitch-label" for="ultimate_rtl_support">
-									<div class="onoffswitch-inner">
-										<div class="onoffswitch-active">
-											<div class="onoffswitch-switch"><?php echo __('ON','ultimate_vc'); ?></div>
-										</div>
-										<div class="onoffswitch-inactive">
-											<div class="onoffswitch-switch"><?php echo __('OFF','ultimate_vc'); ?></div>
-										</div>
-									</div>
-								</label>
-								 </div>
-							</td>
-						</tr>
-                        <?php
-							$ultimate_custom_vc_row = get_option('ultimate_custom_vc_row');
-						?>
-						<tr valign="top" class="ult-theme-support-row-dependant" style="<?php echo $theme_dependant; ?>">
-							<th scope="row"><?php echo __("Custom VC Row Class","ultimate_vc"); ?></th>
-							<td> 
-                            	<div>
-									<input type="text" id="ultimate_custom_vc_row" value="<?php echo $ultimate_custom_vc_row; ?>" name="ultimate_custom_vc_row" />
-								</div>
-							</td>
-						</tr>
-                        <!--<tr valign="top">
-							<th scope="row"><?php echo __("Deregister Licence","ultimate_vc"); ?></th>
-							<td> 
-                            	<div>
-									<a href="<?php echo admin_url('admin.php?page=bsf-dashboard&deregister-licence'); ?>" target="_blank" class="button-primary">Deregister Licence</a>
-								</div>
-							</td>
-						</tr>-->
-                        <?php
-							$ultimate_modal_fixer = get_option('ultimate_modal_fixer');
-							if($ultimate_modal_fixer == 'enable')
-							{
-								$ultimate_modal_fixer = 'checked="checked"';
-							}
-						?>
-                        <!--<tr valign="top">
-							<th scope="row"><?php echo __("Modal Fixer","ultimate_vc"); ?></th>
-							<td> <div class="onoffswitch">
-							<input type="checkbox" <?php echo $ultimate_modal_fixer; ?> id="ultimate_modal_fixer" value="enable" class="onoffswitch-checkbox" name="ultimate_modal_fixer" />
-								 <label class="onoffswitch-label" for="ultimate_modal_fixer">
-									<div class="onoffswitch-inner">
-										<div class="onoffswitch-active">
-											<div class="onoffswitch-switch"><?php echo __('ON','ultimate_vc'); ?></div>
-										</div>
-										<div class="onoffswitch-inactive">
-											<div class="onoffswitch-switch"><?php echo __('OFF','ultimate_vc'); ?></div>
-										</div>
-									</div>
-								</label>
-								 </div>
-							</td>
-						</tr>-->
-						<?php
-							$bsf_dev_mode = bsf_get_option('dev_mode');
-							if($bsf_dev_mode == 'enable')
-							{
-								$bsf_dev_mode = 'checked="checked"';
-							}
-						?>
-						<tr>
-							<th scope="row"><?php echo __("Developer Mode","ultimate_vc"); ?></th>
-							<td> <div class="onoffswitch">
-							<input type="checkbox" <?php echo $bsf_dev_mode; ?> id="bsf_dev_mode" value="enable" class="onoffswitch-checkbox" name="bsf_options[dev_mode]" />
-								 <label class="onoffswitch-label" for="bsf_dev_mode">
-									<div class="onoffswitch-inner">
-										<div class="onoffswitch-active">
-											<div class="onoffswitch-switch"><?php echo __('ON','ultimate_vc'); ?></div>
-										</div>
-										<div class="onoffswitch-inactive">
-											<div class="onoffswitch-switch"><?php echo __('OFF','ultimate_vc'); ?></div>
-										</div>
-									</div>
-								</label>
-								 </div>
-							</td>
-						</tr>
-						<?php
-							$ultimate_global_scripts = bsf_get_option('ultimate_global_scripts');
-							if($ultimate_global_scripts == 'enable')
-							{
-								$ultimate_global_scripts = 'checked="checked"';
-							}
-						?>
-						<tr>
-							<th scope="row"><?php echo __("Load scripts globally","ultimate_vc"); ?></th>
-							<td> <div class="onoffswitch">
-							<input type="checkbox" <?php echo $ultimate_global_scripts; ?> id="ultimate_global_scripts" value="enable" class="onoffswitch-checkbox" name="bsf_options[ultimate_global_scripts]" />
-								 <label class="onoffswitch-label" for="ultimate_global_scripts">
-									<div class="onoffswitch-inner">
-										<div class="onoffswitch-active">
-											<div class="onoffswitch-switch"><?php echo __('ON','ultimate_vc'); ?></div>
-										</div>
-										<div class="onoffswitch-inactive">
-											<div class="onoffswitch-switch"><?php echo __('OFF','ultimate_vc'); ?></div>
-										</div>
-									</div>
-								</label>
-								 </div>
-							</td>
-						</tr>
-                    </tbody>
-              	</table>
-            </form>
-            <p class="submit"><input type="submit" name="submit" id="submit-debug-settings" class="button button-large button-primary" value="<?php echo __("Save Changes","ultimate");?>"></p>
-        </div>
-    <?php endif; ?>
 </div>
 <script type="text/javascript">
 
@@ -489,106 +161,9 @@ submit_btn.bind('click',function(e){
 		}
 	});
 });
-var submit_btn = jQuery("#submit-settings");
-submit_btn.bind('click',function(e){
-	e.preventDefault();
-	var data = jQuery("#ultimate_settings").serialize();
-	jQuery.ajax({
-		url: ajaxurl,
-		data: data,
-		dataType: 'html',
-		type: 'post',
-		success: function(result){
-			console.log(result);
-			if(result == "success"){
-				jQuery("#msg").html('<div class="updated"><p><?php echo __('Settings updated successfully!','ultimate_vc'); ?></p></div>');
-			} else {
-				jQuery("#msg").html('<div class="error"><p><?php echo __('No settings were updated.','ultimate_vc'); ?></p></div>');
-			}
-		}
-	});
-});
-var submit_btn = jQuery("#submit-css-settings");
-submit_btn.bind('click',function(e){
-	e.preventDefault();
-	var data = jQuery("#css_settings").serialize();
-	jQuery.ajax({
-		url: ajaxurl,
-		data: data,
-		dataType: 'html',
-		type: 'post',
-		success: function(result){
-			console.log(result);
-			if(result == "success"){
-				jQuery("#msg").html('<div class="updated"><p><?php echo __('Settings updated successfully!','ultimate_vc'); ?></p></div>');
-			} else {
-				jQuery("#msg").html('<div class="error"><p><?php echo __('No settings were updated.','ultimate_vc'); ?></p></div>');
-			}
-		}
-	});
-});
-var submit_btn = jQuery("#submit-debug-settings");
-submit_btn.bind('click',function(e){
-	e.preventDefault();
-	var data = jQuery("#ultimate_debug_settings").serialize();
-	jQuery.ajax({
-		url: ajaxurl,
-		data: data,
-		dataType: 'html',
-		type: 'post',
-		success: function(result){
-			console.log(result);
-			if(result == "success"){
-				jQuery("#msg").html('<div class="updated"><p><?php echo __('Settings updated successfully!','ultimate_vc'); ?></p></div>');
-			} else {
-				jQuery("#msg").html('<div class="error"><p><?php echo __('No settings were updated.','ultimate_vc'); ?></p></div>');
-			}
-		}
-	});
-});
+
 jQuery(document).ready(function(e) {
-    var tab_link = jQuery(".nav-tab");
-	var tabs = jQuery(".ult-tabs");
-	var url = window.location,
-		hash = url.hash.match(/^[^\?]*/)[0];
-	if(hash != ''){
-		tab_link.each(function(index, element) {
-            jQuery(this).removeClass('nav-tab-active');
-        });
-		tabs.each(function(index, element) {
-            jQuery(this).removeClass('active-tab');
-        });
-		jQuery('a[href="'+hash+'"]').addClass('nav-tab-active');
-		jQuery(""+hash).addClass('active-tab');
-	}
-	// Toggle the tabs
-	tab_link.click(function(e){
-		e.preventDefault();
-		window.location = jQuery(this).attr('href');	
-		var cur_tab = jQuery(this).data('tab');
-		tab_link.each(function(index, element) {
-            jQuery(this).removeClass('nav-tab-active');
-        });
-		tabs.each(function(index, element) {
-            jQuery(this).removeClass('active-tab');
-        });
-		jQuery(this).addClass('nav-tab-active');
-		jQuery("#"+cur_tab).addClass('active-tab');
-	});
-	
-	jQuery('.onoffswitch').on('onUltimateSwitchClick',function(){
-		setTimeout(function(){
-			if(jQuery('#ultimate_theme_support').is(':checked'))
-			{
-				jQuery('.ult-theme-support-row-dependant').fadeOut(200);
-			}
-			else
-			{
-				jQuery('.ult-theme-support-row-dependant').fadeIn(200);
-			}
-		},300);
-	});
-	
+
 	jQuery('.onoffswitch').click(function(){
 		$switch = jQuery(this);
 		setTimeout(function(){
@@ -598,7 +173,7 @@ jQuery(document).ready(function(e) {
 				$switch.find('.onoffswitch-checkbox').attr('checked',true);
 			$switch.trigger('onUltimateSwitchClick');
 		},300);
-		
+
 	});
 
 	var checked_items = <?php echo $checked_items ?>;

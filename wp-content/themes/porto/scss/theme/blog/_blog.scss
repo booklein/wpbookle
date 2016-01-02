@@ -25,6 +25,20 @@
 }
 
 /* Pagination */
+.pagination-wrap {
+    text-align: center;
+
+    .pagination,
+    .page-links {
+        float: none;
+
+        > a,
+        > span {
+            float: none;
+            margin: 0 2.5px 5px 2.5px;
+        }
+    }
+}
 .pagination,
 .page-links {
     font-size: .9286em;//.8571em

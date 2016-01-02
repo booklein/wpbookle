@@ -33,7 +33,7 @@ if (has_post_thumbnail()) :
         ?>
         <article <?php post_class('portfolio portfolio-' . $portfolio_layout . $item_classes); ?>>
             <?php porto_render_rich_snippets(); ?>
-            <div class="portfolio-item thumbnail full">
+            <div class="portfolio-item thumbnail <?php echo $portfolio_view ?>">
                 <div class="thumb-info">
                     <a href="<?php the_permalink(); ?>">
                         <img class="img-responsive" width="<?php echo $attachment_grid['width'] ?>" height="<?php echo $attachment_grid['height'] ?>" src="<?php echo $attachment_grid['src'] ?>" alt="<?php echo $attachment_grid['alt'] ?>"<?php if ($porto_settings['portfolio-zoom']) : ?> data-image="<?php echo $attachment['src'] ?>" data-caption="<?php echo $attachment['caption'] ?>"<?php endif; ?> />

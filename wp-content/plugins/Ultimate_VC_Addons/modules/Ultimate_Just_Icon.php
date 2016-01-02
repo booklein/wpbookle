@@ -3,7 +3,7 @@
 * Add-on Name: Just Icon for Visual Composer
 * Add-on URI: http://dev.brainstormforce.com
 */
-if(!class_exists('AIO_Just_Icon')) 
+if(!class_exists('AIO_Just_Icon'))
 {
 	class AIO_Just_Icon
 	{
@@ -24,7 +24,7 @@ if(!class_exists('AIO_Just_Icon'))
 					   "icon" => "vc_just_icon",
 					   "category" => "Ultimate VC Addons",
 					   "description" => __("Add a simple icon and give some custom style.","ultimate_vc"),
-					   "params" => array(							
+					   "params" => array(
 							// Play with icon selector
 							array(
 								"type" => "dropdown",
@@ -43,7 +43,7 @@ if(!class_exists('AIO_Just_Icon'))
 								"heading" => __("Select Icon ","ultimate_vc"),
 								"param_name" => "icon",
 								"value" => "",
-								"description" => __("Click and select icon of your choice. If you can't find the one that suits for your purpose","ultimate_vc").", ".__("you can","ultimate_vc")." <a href='admin.php?page=font-icon-Manager' target='_blank'>".__("add new here","ultimate_vc")."</a>.",
+								"description" => __("Click and select icon of your choice. If you can't find the one that suits for your purpose","ultimate_vc").", ".__("you can","ultimate_vc")." <a href='admin.php?page=bsf-font-icon-manager' target='_blank'>".__("add new here","ultimate_vc")."</a>.",
 								"dependency" => Array("element" => "icon_type","value" => array("selector")),
 							),
 							array(
@@ -87,7 +87,7 @@ if(!class_exists('AIO_Just_Icon'))
 								"param_name" => "icon_color",
 								"value" => "#333333",
 								"description" => __("Give it a nice paint!", "ultimate_vc"),
-								"dependency" => Array("element" => "icon_type","value" => array("selector")),						
+								"dependency" => Array("element" => "icon_type","value" => array("selector")),
 							),
 							array(
 								"type" => "dropdown",
@@ -108,7 +108,7 @@ if(!class_exists('AIO_Just_Icon'))
 								"heading" => __("Background Color", "ultimate_vc"),
 								"param_name" => "icon_color_bg",
 								"value" => "#ffffff",
-								"description" => __("Select background color for icon.", "ultimate_vc"),	
+								"description" => __("Select background color for icon.", "ultimate_vc"),
 								"dependency" => Array("element" => "icon_style", "value" => array("circle","square","advanced")),
 							),
 							array(
@@ -134,7 +134,7 @@ if(!class_exists('AIO_Just_Icon'))
 								"heading" => __("Border Color", "ultimate_vc"),
 								"param_name" => "icon_color_border",
 								"value" => "#333333",
-								"description" => __("Select border color for icon.", "ultimate_vc"),	
+								"description" => __("Select border color for icon.", "ultimate_vc"),
 								"dependency" => Array("element" => "icon_border_style", "not_empty" => true),
 							),
 							array(
@@ -226,7 +226,7 @@ if(!class_exists('AIO_Just_Icon'))
 									__("Tooltip from Bottom","ultimate_vc") => "bottom",
 								),
 								"description" => __("Select the tooltip position","ultimate_vc"),
-							),							
+							),
 							array(
 								"type" => "textfield",
 								"class" => "",
@@ -264,16 +264,16 @@ if(!class_exists('AIO_Just_Icon'))
 		function just_icon_shortcode($atts)
 		{
 			$icon_type = $icon_img = $img_width = $icon = $icon_color = $icon_color_bg = $icon_size = $icon_style = $icon_border_style = $icon_border_radius = $icon_color_border = $icon_border_size = $icon_border_spacing = $icon_link = $el_class = $icon_animation =  $tooltip_disp = $tooltip_text = $icon_align = '';
-			extract(shortcode_atts( array(				
+			extract(shortcode_atts( array(
 				'icon_type' => 'selector',
 				'icon' => 'none',
 				'icon_img' => '',
 				'img_width' => '48',
-				'icon_size' => '32',				
+				'icon_size' => '32',
 				'icon_color' => '#333',
 				'icon_style' => 'none',
 				'icon_color_bg' => '#ffffff',
-				'icon_color_border' => '#333333',			
+				'icon_color_border' => '#333333',
 				'icon_border_style' => '',
 				'icon_border_size' => '1',
 				'icon_border_radius' => '500',
@@ -288,17 +288,17 @@ if(!class_exists('AIO_Just_Icon'))
 			$ultimate_js = get_option('ultimate_js');
 			if($tooltip_text != '' && $ultimate_js == 'disable')
 				wp_enqueue_script('ultimate-tooltip');
-				
-			$output = $style = $link_sufix = $link_prefix = $target = $href = $icon_align_style = $css_trans = '';	
-			
+
+			$output = $style = $link_sufix = $link_prefix = $target = $href = $icon_align_style = $css_trans = '';
+
 			if(trim($icon_animation) === '')
 				$icon_animation = 'none';
-				
+
 			if($icon_animation !== 'none')
 			{
 				$css_trans = 'data-animation="'.$icon_animation.'" data-animation-delay="03"';
 			}
-			
+
 			$uniqid = uniqid();
 			if($icon_link !== ''){
 				$href = vc_build_link($icon_link);
@@ -311,9 +311,9 @@ if(!class_exists('AIO_Just_Icon'))
 					$link_sufix .= '</div>';
 				}
 			}
-			
+
 			$elx_class = '';
-			
+
 			/* position fix */
 			if($icon_align == 'right')
 				$icon_align_style .= 'text-align:right;';
@@ -321,11 +321,20 @@ if(!class_exists('AIO_Just_Icon'))
 				$icon_align_style .= 'text-align:center;';
 			elseif($icon_align == 'left')
 				$icon_align_style .= 'text-align:left;';
-			
+
 			if($icon_type == 'custom'){
 
 				$img = apply_filters('ult_get_img_single', $icon_img, 'url');
-				$alt = get_post_meta($icon_img, '_wp_attachment_image_alt', true);
+
+				if( isset( $icon_img ) ) {
+					$icon_img_arr = explode( '|', $icon_img );
+					$icon_img_id = ( isset( $icon_img_arr[0] ) && $icon_img_arr[0] != '' ) ? $icon_img_arr[0] : $icon_img;
+					$alt = get_post_meta($icon_img_id, '_wp_attachment_image_alt', true);
+				}
+				else {
+					$alt = '';
+				}
+
 				if($icon_style !== 'none'){
 					if($icon_color_bg !== '')
 						$style .= 'background:'.$icon_color_bg.';';
@@ -349,7 +358,7 @@ if(!class_exists('AIO_Just_Icon'))
 						$style .= 'display:inline-block;';
 					}
 					$output .= "\n".$link_prefix.'<div class="aio-icon-img '.$elx_class.'" style="font-size:'.$img_width.'px;'.$style.'" '.$css_trans.'>';
-					$output .= "\n\t".'<img class="img-icon" alt="'.$alt.'" src="'.$img.'"/>';	
+					$output .= "\n\t".'<img class="img-icon" alt="'.$alt.'" src="'.$img.'"/>';
 					$output .= "\n".'</div>'.$link_sufix;
 				}
 				$output = $output;
@@ -375,8 +384,8 @@ if(!class_exists('AIO_Just_Icon'))
 					$style .= 'display:inline-block;';
 				}
 				if($icon !== ""){
-					$output .= "\n".$link_prefix.'<div class="aio-icon '.$icon_style.' '.$elx_class.'" '.$css_trans.' style="'.$style.'">';				
-					$output .= "\n\t".'<i class="'.$icon.'"></i>';	
+					$output .= "\n".$link_prefix.'<div class="aio-icon '.$icon_style.' '.$elx_class.'" '.$css_trans.' style="'.$style.'">';
+					$output .= "\n\t".'<i class="'.$icon.'"></i>';
 					$output .= "\n".'</div>'.$link_sufix;
 				}
 				$output = $output;
@@ -392,9 +401,9 @@ if(!class_exists('AIO_Just_Icon'))
 			if($icon_align_style !== ''){
 				$output = '<div class="align-icon" style="'.$icon_align_style.'">'.$output.'</div>';
 			}
-			
+
 			$output = '<div class="ult-just-icon-wrapper '.$el_class.'">'.$output.'</div>';
-			
+
 			return $output;
 		}
 	}

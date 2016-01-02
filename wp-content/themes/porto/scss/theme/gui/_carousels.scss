@@ -132,7 +132,8 @@
 .blueimp-gallery > .slides > .slide-loading,
 .slick-slider .slick-loading .slick-list,
 .ult-carousel-wrapper > div:first-child > .ult-item-wrap:first-child,
-#infscr-loading .infinite-loading {
+#infscr-loading .infinite-loading,
+.porto-ajax-loading {
     background-image: none;
     background-color: transparent;
     border-radius: 0;
@@ -164,7 +165,14 @@
     background: transparent url(../images/patterns/stripes.png) repeat 0 0;
     padding: 10px 10px 0 10px;
     border-radius: $border-medium;
-    max-width: 90%;
+    max-width: 750px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+
+    > div {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
 
     .ult-carousel-wrapper {
         margin-bottom: 10px;
@@ -172,17 +180,37 @@
 
         .slick-prev {
             #{$left}: -50px;
-            padding: 5px;
             border-radius: $border-thin !important;
         }
         .slick-next {
             #{$right}: -50px;
-            padding: 5px;
             border-radius: $border-thin !important;
         }
     }
 
     @media #{$screen-normal} {
         overflow: hidden;
+    }
+}
+
+.porto-ajax-loading {
+    &:before {
+        z-index: 2;
+    }
+    &:after {
+        @if $dark == 1 {
+            background-color: $dark-bg;
+        } @else {
+            background-color: #fff;
+        }
+        content: " ";
+        position: absolute;
+        margin: auto;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        @include opacity(0.15);
+        z-index: 1;
     }
 }

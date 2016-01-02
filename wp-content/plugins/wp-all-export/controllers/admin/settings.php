@@ -22,6 +22,83 @@ class PMXE_Admin_Settings extends PMXE_Controller_Admin {
 			}
 		}
 
+		if ($this->input->post('is_templates_submitted')) { // delete templates form
+
+			check_admin_referer('delete-templates', '_wpnonce_delete-templates');
+
+			if ($this->input->post('import_templates')){
+
+				if (!empty($_FILES)){
+					$file_name = $_FILES['template_file']['name'];
+					$file_size = $_FILES['template_file']['size'];
+					$tmp_name  = $_FILES['template_file']['tmp_name'];										
+					
+					if(isset($file_name)) 
+					{				
+						
+						$filename  = stripslashes($file_name);
+						$extension = strtolower(pmxi_getExtension($filename));
+										
+						if (($extension != "txt")) 
+						{							
+							$this->errors->add('form-validation', __('Unknown File extension. Only txt files are permitted', 'wp_all_export_plugin'));
+						}
+						else {
+							$import_data = @file_get_contents($tmp_name);
+							if (!empty($import_data)){
+								$templates_data = json_decode($import_data, true);
+								
+								if (!empty($templates_data)){
+									$template = new PMXE_Template_Record();
+									foreach ($templates_data as $template_data) {
+										unset($template_data['id']);
+										$template->clear()->set($template_data)->insert();
+									}
+									wp_redirect(add_query_arg('pmxi_nt', urlencode(sprintf(_n('%d template imported', '%d templates imported', count($templates_data), 'wp_all_export_plugin'), count($templates_data))), $this->baseUrl)); die();
+								}
+								else $this->errors->add('form-validation', __('Wrong imported data format', 'wp_all_export_plugin'));							
+							}
+							else $this->errors->add('form-validation', __('File is empty or doesn\'t exests', 'wp_all_export_plugin'));
+						}
+					}
+					else $this->errors->add('form-validation', __('Undefined entry!', 'wp_all_export_plugin'));
+				}
+				else $this->errors->add('form-validation', __('Please select file.', 'wp_all_export_plugin'));
+
+			}
+			else{
+				$templates_ids = $this->input->post('templates', array());
+				if (empty($templates_ids)) {
+					$this->errors->add('form-validation', __('Templates must be selected', 'wp_all_export_plugin'));
+				}
+				
+				if ( ! $this->errors->get_error_codes()) { // no validation errors detected
+					if ($this->input->post('delete_templates')){
+						$template = new PMXE_Template_Record();
+						foreach ($templates_ids as $template_id) {
+							$template->clear()->set('id', $template_id)->delete();
+						}
+						wp_redirect(add_query_arg('pmxi_nt', urlencode(sprintf(_n('%d template deleted', '%d templates deleted', count($templates_ids), 'wp_all_export_plugin'), count($templates_ids))), $this->baseUrl)); die();
+					}
+					if ($this->input->post('export_templates')){
+						$export_data = array();
+						$template = new PMXE_Template_Record();
+						foreach ($templates_ids as $template_id) {
+							$export_data[] = $template->clear()->getBy('id', $template_id)->toArray(TRUE);
+						}	
+						
+						$uploads = wp_upload_dir();
+						$targetDir = $uploads['basedir'] . DIRECTORY_SEPARATOR . PMXE_Plugin::TEMP_DIRECTORY;
+						$export_file_name = "templates_".uniqid().".txt";
+						file_put_contents($targetDir . DIRECTORY_SEPARATOR . $export_file_name, json_encode($export_data));
+						
+						PMXE_download::csv($targetDir . DIRECTORY_SEPARATOR . $export_file_name);
+						
+					}				
+				}
+			}
+		}
+
 		$this->render();
 
 	}

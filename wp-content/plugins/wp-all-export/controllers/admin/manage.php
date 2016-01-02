@@ -157,17 +157,38 @@ class PMXE_Admin_Manage extends PMXE_Controller_Admin {
 		$this->data['item'] = $item = new PMXE_Export_Record();
 		if ( ! $id or $item->getById($id)->isEmpty()) {
 			wp_redirect($this->baseUrl); die();
-		}							
+		}					
+
+		$default = PMXE_Plugin::get_default_import_options();
+		$DefaultOptions = $item->options + $default;
+		$this->data['post'] = $post = $this->input->post($DefaultOptions);			
 
 		if ($this->input->post('is_confirmed')) {
 
 			check_admin_referer('update-export', '_wpnonce_update-export');	
 
-			$default = PMXE_Plugin::get_default_import_options();
+			$post['main_xml_tag'] = preg_replace('/[^a-z0-9]/i', '', $post['main_xml_tag']);
+			if ( empty($post['main_xml_tag']) ){
+				$this->errors->add('form-validation', __('Main XML Tag is required.', 'wp_all_export_plugin'));
+			}				
+
+			$post['record_xml_tag'] = preg_replace('/[^a-z0-9]/i', '', $post['record_xml_tag']);
+			if ( empty($post['record_xml_tag']) ){
+				$this->errors->add('form-validation', __('Single Record XML Tag is required.', 'wp_all_export_plugin'));
+			}				
+
+			if ($post['main_xml_tag'] == $post['record_xml_tag']){			
+				$this->errors->add('form-validation', __('Main XML Tag equals to Single Record XML Tag.', 'wp_all_export_plugin'));
+			}			
+
+			$item->set(array( 'options' => $post))->save();
+			if ( ! empty($post['friendly_name']) ) {
+				$item->set( array( 'friendly_name' => $post['friendly_name'], 'scheduled' => (($post['is_scheduled']) ? $post['scheduled_period'] : '') ) )->save();	
+			}			
 
 			// compose data to look like result of wizard steps				
-			$sesson_data = $item->options + array('update_previous' => $item->id ) + $default;
-				
+			$sesson_data = $post + array('update_previous' => $item->id ) + $default;
+			
 			foreach ($sesson_data as $key => $value) {
 				PMXE_Plugin::$session->set($key, $value);
 			}
@@ -188,7 +209,21 @@ class PMXE_Admin_Manage extends PMXE_Controller_Admin {
 				
 			}
 
+			$this->errors->remove('count-validation');
+			if ( ! $this->errors->get_error_codes()) {												
+				?>
+				<script type="text/javascript">
+				window.location.href = "<?php echo add_query_arg('pmxe_nt', urlencode(__('Options updated', 'wp_all_export_plugin')), $this->baseUrl); ?>";
+				</script>
+				<?php
+				die();	
+			}
+
 		}
+
+		$this->data['isWizard'] = false;		
+		$this->data['engine'] = new XmlExportEngine($post, $this->errors);	
+		$this->data['engine']->init_available_data();	
 		
 		$this->render();
 	}
@@ -342,6 +377,54 @@ class PMXE_Admin_Manage extends PMXE_Controller_Admin {
 		}
 	}
 
+	public function split_bundle(){
+		$nonce = (!empty($_REQUEST['_wpnonce'])) ? $_REQUEST['_wpnonce'] : '';
+		if ( ! wp_verify_nonce( $nonce, '_wpnonce-download_split_bundle' ) ) {		    
+		    die( __('Security check', 'wp_all_export_plugin') ); 
+		} else {
+
+			$uploads  = wp_upload_dir();
+			
+			$id = PMXE_Plugin::$session->update_previous;
+
+			if (empty($id))
+				$id = $this->input->get('id');
+
+			$export = new PMXE_Export_Record();					
+		
+			if ( ! $export->getById($id)->isEmpty())
+			{	
+				if ( ! empty($export->options['split_files_list']))
+				{					
+					$tmp_dir    = $uploads['basedir'] . DIRECTORY_SEPARATOR . PMXE_Plugin::TEMP_DIRECTORY . DIRECTORY_SEPARATOR . md5($export->id) . DIRECTORY_SEPARATOR;
+					$bundle_dir = $tmp_dir . 'split_files' . DIRECTORY_SEPARATOR;
+
+					wp_all_export_rrmdir($tmp_dir);
+
+					@mkdir($tmp_dir);	
+					@mkdir($bundle_dir);
+
+					foreach ($export->options['split_files_list'] as $file) {
+						@copy( $file, $bundle_dir . basename($file) );							
+					}
+
+					$friendly_name = sanitize_file_name($export->friendly_name);
+
+					$bundle_path = $tmp_dir . $friendly_name . '-split-files.zip';
+
+					PMXE_Zip::zipDir($bundle_dir, $bundle_path);
+
+					if (file_exists($bundle_path))
+					{
+						$bundle_url = $uploads['baseurl'] . str_replace($uploads['basedir'], '', $bundle_path);
+
+						PMXE_download::zip($bundle_path);						
+					}	
+				}						
+			}
+		}
+	}
+
 	/*
 	 * Download import log file
 	 *
@@ -374,7 +457,7 @@ class PMXE_Admin_Manage extends PMXE_Controller_Admin {
 
 				if ( @file_exists($filepath) )
 				{
-					switch ($export['options']['export_to']) 
+					switch ($export->options['export_to']) 
 					{
 						case 'xml':
 							PMXE_download::xml($filepath);		

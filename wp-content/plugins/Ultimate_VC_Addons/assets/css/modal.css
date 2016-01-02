@@ -834,7 +834,7 @@ h3.ult_modal-title {
 .ult-open>.ult_modal div.ult_modal-body>iframe {
     display: block
 }
-.fluid-width-video-wrapper {
+div.ult_modal-body .fluid-width-video-wrapper {
     padding: 0 !important;
 }
 @media(max-width:767px) {

@@ -58,7 +58,7 @@ function pmxe_export_csv($exportQuery, $exportOptions, $preview = false, $is_cro
 						'post_id' => $record->ID,
 						'import_id' => $exportOptions['import_id'],
 						'unique_key' => $record->ID,
-						'product_key' => get_post_meta($record->ID, '_sku', true)
+						'product_key' => $record->ID
 					))->save();
 				}
 				unset($postRecord);
@@ -426,14 +426,14 @@ function pmxe_export_csv($exportQuery, $exportOptions, $preview = false, $is_cro
 									
 								}	
 
-								if ($exportOptions['cc_label'][$ID] == 'product_type') $article['parent_sku']  = $record->post_parent;	
+								if ($exportOptions['cc_label'][$ID] == 'product_type') $article['parent_id']  = $record->post_parent;	
 								//if ( ! in_array('parent_sku', $taxes)) $taxes[] = 'parent_sku';
 
 							}							
 							break;
 							
 						case 'sql':							
-							if ( ! empty($exportOptions['cc_sql'][$ID]) ) {																	
+							if ( ! empty($exportOptions['cc_sql'][$ID]) ) {
 								$val = $wpdb->get_var( $wpdb->prepare( stripcslashes(str_replace("%%ID%%", "%d", $exportOptions['cc_sql'][$ID])), get_the_ID() ));
 								if ( ! empty($exportOptions['cc_php'][$ID]) and !empty($exportOptions['cc_code'][$ID]) ){
 									// if shortcode defined
@@ -461,6 +461,8 @@ function pmxe_export_csv($exportQuery, $exportOptions, $preview = false, $is_cro
 		$articles = apply_filters('wp_all_export_csv_rows', $articles, $exportOptions);	
 
 		if ($preview) break;		
+
+		do_action('pmxe_exported_post', $record->ID );
 
 	endwhile;
 
@@ -497,7 +499,7 @@ function pmxe_export_csv($exportQuery, $exportOptions, $preview = false, $is_cro
 							$tx = array_shift($taxes);
 							$headers[] = $tx;
 
-							if ( $exportOptions['cc_label'][$ID] == 'product_type' ) $headers[] = 'parent_sku';
+							if ( $exportOptions['cc_label'][$ID] == 'product_type' ) $headers[] = 'parent_id';
 
 						}												
 						break;
@@ -537,7 +539,17 @@ function pmxe_export_csv($exportQuery, $exportOptions, $preview = false, $is_cro
 					case 'acf':
 
 						if ( ! empty($acfs) ){
-							$headers[] = array_shift($acfs);							
+							$single_acf_field = array_shift($acfs);							
+							if ( is_array($single_acf_field))
+							{
+								foreach ($single_acf_field as $acf_header) {
+									$headers[] = $acf_header;
+								}
+							}
+							else
+							{
+								$headers[] = $single_acf_field;
+							}
 						}
 						
 						break;
@@ -574,14 +586,23 @@ function pmxe_export_csv($exportQuery, $exportOptions, $preview = false, $is_cro
 	if ($preview) return ob_get_clean();	
 
 	if ($is_cron)
-	{
-		// include BOM to export file
-		if ( ! $exported_by_cron and $exportOptions['include_bom'])
+	{		
+		if ( ! $exported_by_cron )
 		{
-			file_put_contents($file_path, chr(0xEF).chr(0xBB).chr(0xBF));
+			// The BOM will help some programs like Microsoft Excel read your export file if it includes non-English characters.
+			if ($exportOptions['include_bom']) 
+			{
+				file_put_contents($file_path, chr(0xEF).chr(0xBB).chr(0xBF).ob_get_clean());
+			}
+			else
+			{
+				file_put_contents($file_path, ob_get_clean());
+			}			
 		}
-
-		file_put_contents($file_path, ob_get_clean(), FILE_APPEND);
+		else
+		{
+			file_put_contents($file_path, ob_get_clean(), FILE_APPEND);
+		}		
 
 		return $file_path;
 
@@ -590,14 +611,10 @@ function pmxe_export_csv($exportQuery, $exportOptions, $preview = false, $is_cro
 	{
 		if ( empty(PMXE_Plugin::$session->file) ){			
 
-			$is_secure_import = PMXE_Plugin::getInstance()->getOption('secure');
-
-			$wp_uploads  = wp_upload_dir();
-
-			$target = $is_secure_import ? wp_all_export_secure_file($wp_uploads['basedir'] . DIRECTORY_SEPARATOR . PMXE_Plugin::UPLOADS_DIRECTORY) : $wp_uploads['path'];				
-				
-			$export_file = $target . DIRECTORY_SEPARATOR . sanitize_file_name(preg_replace('%- \d{4}.*%', '', $exportOptions['friendly_name'])) . ' - ' . date("Y F d H_i") . '.' . $exportOptions['export_to'];			
+			// generate export file name
+			$export_file = wp_all_export_generate_export_file( XmlExportEngine::$exportID );						
 			
+			// The BOM will help some programs like Microsoft Excel read your export file if it includes non-English characters.
 			if ($exportOptions['include_bom']) 
 			{
 				file_put_contents($export_file, chr(0xEF).chr(0xBB).chr(0xBF).ob_get_clean());

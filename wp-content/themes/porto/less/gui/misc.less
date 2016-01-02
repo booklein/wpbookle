@@ -100,6 +100,36 @@ ul.nav-pills > li.active > a {
     }
 }
 
+// Labels
+html {
+    .for(@colors-list); .-each(@value) {
+    @name:  extract(@value, 1);
+    @color:  extract(@value, 2);
+    @color-inverse:  extract(@value, 3);
+
+    ul.nav-pills-@{name} {
+        a {
+            color: @color;
+            &:hover {
+                color: lighten(@color, 5%);
+            }
+            &:focus {
+                color: lighten(@color, 5%);
+            }
+            &:active {
+                color: darken(@color, 5%);
+            }
+        }
+        > li.active > a {
+            background-color: @color;
+            &:hover, &:focus {
+                background-color: @color;
+            }
+        }
+    }
+}
+}
+
 // Panel
 .panel-group {
     .panel-heading a {
@@ -382,7 +412,7 @@ html {
 
     .divider {
         &.divider-@{name} {
-            .fa {
+            i {
                 color: @color;
             }
             &.divider-small {
@@ -404,7 +434,7 @@ html {
     .divider {
         &.divider-style-2 {
             &.divider-@{name} {
-                .fa {
+                i {
                     background: @color;
                     color: @color-inverse;
                 }
@@ -423,7 +453,7 @@ html {
     .divider {
         &.divider-style-3 {
             &.divider-@{name} {
-                .fa {
+                i {
                     border-color: @color;
                 }
             }
@@ -466,6 +496,7 @@ html {
                     color: @color-primary-inverse;
                 }
                 span {
+                    font-family: @body_font_family;
                     background: @color-primary;
                     color: @color-primary-inverse;
                 }

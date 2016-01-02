@@ -67,6 +67,10 @@
         > li.menu-item {
             > a,
             > h5 {
+                font-family: @menu_side_font_family;
+                font-size: @menu_side_font_size;
+                font-weight: @menu_side_font_weight;
+                line-height: @menu_side_line_height;
                 border-top-color: lighten(@main_menu_level1_hbg_color, 5%);
             }
             &,
@@ -117,6 +121,13 @@
                     }
                 }
             }
+        }
+
+        .popup {
+            font-family: @menu_popup_font_family;
+            font-size: @menu_popup_font_size;
+            font-weight: @menu_popup_font_weight;
+            line-height: @menu_popup_line_height;
         }
 
         .wide {
@@ -179,6 +190,13 @@
         }
 
         .menu-custom-block {
+            span,
+            a {
+                font-family: @menu_side_font_family;
+                font-size: @menu_side_font_size;
+                font-weight: @menu_side_font_weight;
+                line-height: @menu_side_line_height;
+            }
             a {
                 border-top-color: lighten(@main_menu_level1_hbg_color, 5%);
                 color: @main_menu_level1_link_color;

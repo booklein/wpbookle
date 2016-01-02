@@ -27,7 +27,7 @@
   3]  OUTPUT
 
   - Output of two image uploader fields.
-    
+
     http://i.imgur.com/csfJvKV.png
 -----------------------------------------------------------------------------------------*/
 
@@ -40,13 +40,22 @@ if(!class_exists('Ult_Image_Single'))
       add_action( 'admin_enqueue_scripts', array( $this, 'image_single_scripts' ) );
       add_filter('ult_get_img_single', array( $this, 'ult_img_single_init'),10,3);
 
-      if(function_exists('add_shortcode_param'))
-      {
-        add_shortcode_param('ult_img_single', array($this, 'ult_img_single_callback'), plugins_url('../admin/vc_extend/js/ultimate-image_single.js',__FILE__));
+      if(defined('WPB_VC_VERSION') && version_compare(WPB_VC_VERSION, 4.8) >= 0) {
+        if(function_exists('vc_add_shortcode_param'))
+        {
+          vc_add_shortcode_param('ult_img_single', array($this, 'ult_img_single_callback'), plugins_url('../admin/vc_extend/js/ultimate-image_single.js',__FILE__));
+        }
       }
+      else {
+        if(function_exists('add_shortcode_param'))
+        {
+          add_shortcode_param('ult_img_single', array($this, 'ult_img_single_callback'), plugins_url('../admin/vc_extend/js/ultimate-image_single.js',__FILE__));
+        }
+      }
+
       add_action('wp_ajax_ult_get_attachment_url', array($this, 'get_attachment_url_init') );
     }
-    function get_attachment_url_init() {     
+    function get_attachment_url_init() {
       $id = $_POST['attach_id'];
       $thumb = wp_get_attachment_image_src( $id, 'thumbnail' );
       //echo json_encode( $thumb );
@@ -57,8 +66,8 @@ if(!class_exists('Ult_Image_Single'))
 
     function ult_img_single_callback($settings, $value)
     {
-        $dependency = vc_generate_dependencies_attributes($settings);
-        
+        $dependency = '';
+
         $uid = 'ult-image_single-'. rand(1000, 9999);
 
         $html  = '<div class="ult-image_single" id="'.$uid.'">';
@@ -75,27 +84,27 @@ if(!class_exists('Ult_Image_Single'))
         $html .= '  </ul>';
         $html .= '</div>';
         $html .= '<a class="ult_add_image" href="#" title="Add image">Add image</a>';
-          
+
         $html .= '  <input type="hidden" name="'.$settings['param_name'].'" class="wpb_vc_param_value ult-image_single-value '.$settings['param_name'].' '.$settings['type'].'_field" value="'.$value.'" '.$dependency.' />';
         $html .= '</div>';
       return $html;
     }
-    
+
     function image_single_scripts() {
       wp_enqueue_media();
       wp_enqueue_style( 'ultimate_image_single_css', plugins_url('../admin/vc_extend/css/ultimate_image_single.css', __FILE__ ));
     }
 
     /**   Filter for image uploader
-     * 
+     *
      * @args    null|null
      *     or   null|URL
      *     or   ID|URL
      * @return  array|json
      *-------------------------------------------------*/
     function ult_img_single_init( $content = null, $data = '', $size = 'full' ){
-      
-      $final = ''; 
+
+      $final = '';
 
       if($content!='' && $content!='null|null') {
 
@@ -133,27 +142,27 @@ if(!class_exists('Ult_Image_Single'))
                                 $hasImage = wp_get_attachment_image_src( $mainArr[0], $size ); // returns an array
                                 $Image_Url = $hasImage[0];
                               }
-                              
+
                               if( isset( $Image_Url ) && !empty( $Image_Url ) ) {
                                 $final = $Image_Url;
                               } else {
 
                                 //  Second - Priority for URL - get {image from url}
                                 if(isset($mainArr[1]))
-                                  $final = get_url($mainArr[1]);
+                                  $final = ult_get_url($mainArr[1]);
 
                               }
                             } else {
                               //  Second - Priority for URL - get {image from url}
                               if(isset($mainArr[1]))
-                                $final = get_url($mainArr[1]);
+                                $final = ult_get_url($mainArr[1]);
                             }
               break;
             case 'json':
                           $final = json_encode($mainArr);
               break;
 
-            case 'sizes': 
+            case 'sizes':
                           $img_size = getImageSquereSize( $img_id, $img_size );
 
                           $img = wpb_getImageBySize( array(
@@ -171,18 +180,18 @@ if(!class_exists('Ult_Image_Single'))
 
           }
         }
-      } 
+      }
 
       return $final;
     }
   }
-  
-  function get_url($img) {
+
+  function ult_get_url($img) {
     if( isset($img) && !empty($img) ) {
       return $img;
     }
   }
-  
+
   //  USE THIS CODE TO SUPPORT CUSTOM SIZE OPTION
   function getImageSquereSize( $img_id, $img_size ) {
     if ( preg_match_all( '/(\d+)x(\d+)/', $img_size, $sizes ) ) {

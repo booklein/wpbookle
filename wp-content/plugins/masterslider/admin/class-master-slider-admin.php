@@ -57,7 +57,7 @@ class Master_Slider_Admin {
 
 	/**
 	 * Include admin essential classes and functions
-	 * 
+	 *
 	 * @return void
 	 */
 	private function includes(){
@@ -110,33 +110,33 @@ class Master_Slider_Admin {
 
 	/**
 	 * Triggers on admin init
-	 * 
+	 *
 	 * @return void
 	 */
 	public function admin_init(){
-		
+
 		$this->after_plugin_update();
 	}
 
 
 	/**
 	 * Triggers on admin footer
-	 * 
+	 *
 	 * @return void
 	 */
 	public function admin_footer(){
-		
+
 		include_once( MSWP_AVERTA_ADMIN_DIR . '/views/global/gallery-templates.php' );
 	}
 
 
 	/**
 	 * Regenerate and cache custom css codes for all slider after plugin update
-	 * 
+	 *
 	 * @return bool  TRUE on success, FALSE otherwise
 	 */
 	public function after_plugin_update (){
-		
+
 		if( get_option( 'masterslider_plugin_version', '0' ) == MSWP_AVERTA_VERSION )
 			return false;
 
@@ -185,11 +185,11 @@ class Master_Slider_Admin {
 
 		if ( ! isset( $this->sliders_screen_hook_suffix ) )
 			return;
-		
+
 		// load masterslider spesific assets only on it's admin page
 		$screen = get_current_screen();
 		if ( $this->sliders_screen_hook_suffix == $screen->id ) {
-			
+
 			$admin_assets->enqueue_panel_assets();
 		}
 
@@ -217,9 +217,9 @@ class Master_Slider_Admin {
 				$slider_id  = $_REQUEST['slider_id'];
 				global $mspdb;
 				$custom_fonts = $mspdb->get_slider_field_val( $slider_id, 'custom_fonts' );
-				
+
 				if ( ! empty( $custom_fonts ) )
-					printf( "<link rel='stylesheet' id='masterslider-admin-fonts' href='http://fonts.googleapis.com/css?family=%s' type='text/css' />\n", $custom_fonts );
+					printf( "<link rel='stylesheet' id='masterslider-admin-fonts' href='//fonts.googleapis.com/css?family=%s' type='text/css' />\n", $custom_fonts );
 			}
 		}
 	}
@@ -285,7 +285,7 @@ class Master_Slider_Admin {
 		return $plugin_meta;
 	}
 
-	
+
 }
 
 return Master_Slider_Admin::get_instance();

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Porto Widgets\n"
-"POT-Creation-Date: 2015-09-24 08:59+0800\n"
-"PO-Revision-Date: 2015-09-24 08:59+0800\n"
+"POT-Creation-Date: 2015-12-04 01:25+0800\n"
+"PO-Revision-Date: 2015-12-04 01:25+0800\n"
 "Last-Translator: porto <porto@example.com>\n"
 "Language-Team: porto <porto@example.com>\n"
 "Language: en_GB\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "Porto: Block"
 msgstr ""
 
-#: widgets/block.php:63 widgets/contact_info.php:70 widgets/follow_us.php:147
+#: widgets/block.php:63 widgets/contact_info.php:70 widgets/follow_us.php:170
 #: widgets/recent_portfolios.php:97 widgets/recent_posts.php:104
 #: widgets/twitter_tweets.php:145
 msgid "Title"
@@ -64,11 +64,11 @@ msgstr ""
 msgid "Contact Us"
 msgstr ""
 
-#: widgets/contact_info.php:77 widgets/follow_us.php:154
+#: widgets/contact_info.php:77 widgets/follow_us.php:182
 msgid "Before Description"
 msgstr ""
 
-#: widgets/contact_info.php:112 widgets/follow_us.php:266
+#: widgets/contact_info.php:112 widgets/follow_us.php:315
 msgid "After Description"
 msgstr ""
 
@@ -80,68 +80,84 @@ msgstr ""
 msgid "Porto: Follow Us"
 msgstr ""
 
-#: widgets/follow_us.php:50 widgets/follow_us.php:161
+#: widgets/follow_us.php:57 widgets/follow_us.php:189
 msgid "Facebook"
 msgstr ""
 
-#: widgets/follow_us.php:54 widgets/follow_us.php:168
+#: widgets/follow_us.php:61 widgets/follow_us.php:196
 msgid "Twitter"
 msgstr ""
 
-#: widgets/follow_us.php:58 widgets/follow_us.php:175
+#: widgets/follow_us.php:65 widgets/follow_us.php:203
 msgid "RSS"
 msgstr ""
 
-#: widgets/follow_us.php:62 widgets/follow_us.php:182
+#: widgets/follow_us.php:69 widgets/follow_us.php:210
 msgid "Pinterest"
 msgstr ""
 
-#: widgets/follow_us.php:66 widgets/follow_us.php:189
+#: widgets/follow_us.php:73 widgets/follow_us.php:217
 msgid "Youtube"
 msgstr ""
 
-#: widgets/follow_us.php:70 widgets/follow_us.php:196
+#: widgets/follow_us.php:77 widgets/follow_us.php:224
 msgid "Instagram"
 msgstr ""
 
-#: widgets/follow_us.php:74 widgets/follow_us.php:203
+#: widgets/follow_us.php:81 widgets/follow_us.php:231
 msgid "Skype"
 msgstr ""
 
-#: widgets/follow_us.php:78 widgets/follow_us.php:210
+#: widgets/follow_us.php:85 widgets/follow_us.php:238
 msgid "Linkedin"
 msgstr ""
 
-#: widgets/follow_us.php:82 widgets/follow_us.php:217
+#: widgets/follow_us.php:89 widgets/follow_us.php:245
 msgid "Google +"
 msgstr ""
 
-#: widgets/follow_us.php:86 widgets/follow_us.php:224
+#: widgets/follow_us.php:93 widgets/follow_us.php:252
 msgid "VK"
 msgstr ""
 
-#: widgets/follow_us.php:90 widgets/follow_us.php:231
+#: widgets/follow_us.php:97 widgets/follow_us.php:259
 msgid "Xing"
 msgstr ""
 
-#: widgets/follow_us.php:94 widgets/follow_us.php:238
+#: widgets/follow_us.php:101 widgets/follow_us.php:266
 msgid "Tumblr"
 msgstr ""
 
-#: widgets/follow_us.php:98 widgets/follow_us.php:245
+#: widgets/follow_us.php:105 widgets/follow_us.php:273
 msgid "Reddit"
 msgstr ""
 
-#: widgets/follow_us.php:102 widgets/follow_us.php:252
+#: widgets/follow_us.php:109 widgets/follow_us.php:280
 msgid "Vimeo"
 msgstr ""
 
-#: widgets/follow_us.php:106 widgets/follow_us.php:259
+#: widgets/follow_us.php:113 widgets/follow_us.php:287
+msgid "Telegram"
+msgstr ""
+
+#: widgets/follow_us.php:117 widgets/follow_us.php:294
+msgid "Yelp"
+msgstr ""
+
+#: widgets/follow_us.php:121 widgets/follow_us.php:301
+msgid "Flickr"
+msgstr ""
+
+#: widgets/follow_us.php:125 widgets/follow_us.php:308
 msgid "WhatsApp"
 msgstr ""
 
-#: widgets/follow_us.php:142
+#: widgets/follow_us.php:165
 msgid "Follow Us"
+msgstr ""
+
+#: widgets/follow_us.php:177
+msgid "Add rel=\"nofollow\" to links"
 msgstr ""
 
 #: widgets/recent_portfolios.php:13

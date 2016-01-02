@@ -205,6 +205,13 @@
     content: '';
     position: absolute
 }
+.ult-vc-seperator.top_seperator svg.uvc-multi-triangle-svg {
+    -moz-transform: scale(-1);
+    -webkit-transform: scale(-1);
+    -o-transform: scale(-1);
+    -ms-transform: scale(-1);
+    transform:scale(-1);
+}
 .vcpb-vz-jquery,
 .vertical_layer_parallax {
     background-position: 50% 0
@@ -336,12 +343,16 @@
     top: 0;
     bottom: 0;
     right: 0;
-    left: 0
+    left: 0;
+    background-position: 50% 50%;
+    margin: 0 auto
 }
 .upb_video-src {
     max-width: none;
     height: auto;
     width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
     position: relative
 }
 .upb_video-src.ult-make-full-height {
@@ -471,4 +482,46 @@ body.rtl .upb_row_bg {
 }
 .js_active .site-inner {
     overflow: visible
+}
+/* iPad blotted image issue fix */
+html.ult-remove-fixed-background .upb_row_bg {
+    background-attachment: scroll !important;
+}
+/* vc4.9 compatible */
+.vc_row-flex .upb-background-text-wrapper.full-browser-size,
+.vc_row-flex .upb_video-text-wrapper.full-browser-size {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+}
+.vc_row-o-equal-height .upb-background-text,
+.vc_row-flex .upb-background-text,
+.vc_row-o-content-top .upb-background-text,
+.vc_row-o-content-middle .upb-background-text,
+.vc_row-o-content-bottom .upb-background-text,
+.vc_row-o-equal-height .upb_video-text,
+.vc_row-flex .upb_video-text,
+.vc_row-o-content-top .upb_video-text,
+.vc_row-o-content-middle .upb_video-text,
+.vc_row-o-content-bottom .upb_video-text,
+.vc_row-o-equal-height .vc-row-translate-wrapper,
+.vc_row-flex .vc-row-translate-wrapper,
+.vc_row-o-content-top .vc-row-translate-wrapper,
+.vc_row-o-content-middle .vc-row-translate-wrapper,
+.vc_row-o-content-bottom .vc-row-translate-wrapper {
+    margin: 0 auto !important;
+}
+.vc_row-o-content-top.full-browser-size .upb-background-text,
+.vc_row-o-content-top.video-browser-size .upb_video-text {
+	top:0;
+	transform:translateY(0)
+}
+
+.vc_row-o-content-bottom.full-browser-size .upb-background-text,
+.vc_row-o-content-bottom.video-browser-size .upb_video-text {
+	top:auto;
+	bottom:0;
+	transform:translateY(0)
 }

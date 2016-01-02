@@ -47,6 +47,7 @@ if(!class_exists('Ultimate_Swatch_Book')){
 						"class" => "vc_swatch_container",
 						"icon" => "vc_swatch_container",
 						"category" => "Ultimate VC Addons",
+						"deprecated" => "3.13.5",
 						"as_parent" => array('only' => 'swatch_item'),
 						"description" => __("Interactive swatch strips.","ultimate_vc"),
 						"content_element" => true,
@@ -207,7 +208,7 @@ if(!class_exists('Ultimate_Swatch_Book')){
 								"type" => "ultimate_google_fonts",
 								"heading" => __("Font Family", "ultimate_vc"),
 								"param_name" => "main_strip_font_family",
-								"description" => __("Select the font of your choice.","ultimate_vc")." ".__("You can","ultimate_vc")." <a target='_blank' href='".admin_url('admin.php?page=ultimate-font-manager')."'>".__("add new in the collection here","ultimate_vc")."</a>.",
+								"description" => __("Select the font of your choice.","ultimate_vc")." ".__("You can","ultimate_vc")." <a target='_blank' href='".admin_url('admin.php?page=bsf-google-font-manager')."'>".__("add new in the collection here","ultimate_vc")."</a>.",
 								"group" => "Advanced Settings",
 							),
 							array(
@@ -296,8 +297,8 @@ if(!class_exists('Ultimate_Swatch_Book')){
 						)
 					)
 				); // vc_map
-				
-				vc_map( 
+
+				vc_map(
 					array(
 						"name" => __("Swatch Book Item", "ultimate_vc"),
 						"base" => "swatch_item",
@@ -332,7 +333,7 @@ if(!class_exists('Ultimate_Swatch_Book')){
 								"heading" => __("Select Icon ","ultimate_vc"),
 								"param_name" => "icon",
 								"value" => "",
-								"description" => __("Click and select icon of your choice. If you can't find the one that suits for your purpose","ultimate_vc").", ".__("you can","ultimate_vc")." <a href='admin.php?page=font-icon-Manager' target='_blank'>".__("add new here","ultimate_vc")."</a>.",
+								"description" => __("Click and select icon of your choice. If you can't find the one that suits for your purpose","ultimate_vc").", ".__("you can","ultimate_vc")." <a href='admin.php?page=bsf-font-icon-manager' target='_blank'>".__("add new here","ultimate_vc")."</a>.",
 								"dependency" => Array("element" => "icon_type","value" => array("selector")),
 							),
 							array(
@@ -375,7 +376,7 @@ if(!class_exists('Ultimate_Swatch_Book')){
 								"param_name" => "icon_color",
 								"value" => "#333333",
 								"description" => __("Give it a nice paint!", "ultimate_vc"),
-								"dependency" => Array("element" => "icon_type","value" => array("selector")),						
+								"dependency" => Array("element" => "icon_type","value" => array("selector")),
 							),
 							array(
 								"type" => "dropdown",
@@ -396,7 +397,7 @@ if(!class_exists('Ultimate_Swatch_Book')){
 								"heading" => __("Background Color", "ultimate_vc"),
 								"param_name" => "icon_color_bg",
 								"value" => "#ffffff",
-								"description" => __("Select background color for icon.", "ultimate_vc"),	
+								"description" => __("Select background color for icon.", "ultimate_vc"),
 								"dependency" => Array("element" => "icon_style", "value" => array("circle","square","advanced")),
 							),
 							array(
@@ -422,7 +423,7 @@ if(!class_exists('Ultimate_Swatch_Book')){
 								"heading" => __("Border Color", "ultimate_vc"),
 								"param_name" => "icon_color_border",
 								"value" => "#333333",
-								"description" => __("Select border color for icon.", "ultimate_vc"),	
+								"description" => __("Select border color for icon.", "ultimate_vc"),
 								"dependency" => Array("element" => "icon_border_style", "not_empty" => true),
 							),
 							array(
@@ -550,7 +551,7 @@ if(!class_exists('Ultimate_Swatch_Book')){
 				); // vc_map
 			}
 		}
-		
+
 		function swatch_container($atts,$content=null){
 			$swatch_style = $swatch_index_center = $swatch_space_degree = $swatch_trans_speed = $swatch_distance_sibling = $swatch_init_closed = $swatch_open_at
  = $swatch_width = $swatch_height = $swatch_trans_bg_img = $swatch_main_strip_text = $swatch_main_strip_highlight_text = $swatch_main_strip_font_size = $swatch_main_strip_font_style = $swatch_main_strip_color = $swatch_main_strip_highlight_font_size = $swatch_main_strip_highlight_font_weight = $swatch_main_strip_highlight_color = $swatch_main_strip_bg_color = $main_strip_font_family = $main_strip_font_style = '';
@@ -595,7 +596,7 @@ if(!class_exists('Ultimate_Swatch_Book')){
 				$style .= 'height:'.$swatch_height.'px;';
 				$this->swatch_height = $swatch_height;
 			}
-			
+
 			if($swatch_main_strip_highlight_font_size !== ''){
 				$highlight_style .= 'font-size:'.$swatch_main_strip_highlight_font_size.'px;';
 			}
@@ -605,7 +606,7 @@ if(!class_exists('Ultimate_Swatch_Book')){
 			if($swatch_main_strip_highlight_color !== ''){
 				$highlight_style .= 'color:'.$swatch_main_strip_highlight_color.';';
 			}
-			
+
 			if($main_strip_font_family != '')
 			{
 				$mhfont_family = get_ultimate_font_family($main_strip_font_family);
@@ -624,7 +625,7 @@ if(!class_exists('Ultimate_Swatch_Book')){
 			if($swatch_main_strip_bg_color !== ''){
 				$main_style .= 'background:'.$swatch_main_strip_bg_color.';';
 			}
-			
+
 			$output .= '<div id="ulsb-container-'.$uid.'" class="ulsb-container ulsb-'.$swatch_style.'" style="width:'.$swatch_width.'px; height:'.$swatch_height.'px;">';
 			$output .= do_shortcode($content);
 			$output .= '<div class="ulsb-strip highlight-strip" style="'.$style.'">';
@@ -701,7 +702,7 @@ if(!class_exists('Ultimate_Swatch_Book')){
 			$output .= '</script>';
 			return $output;
 		}
-		
+
 		function swatch_item($atts,$content=null){
 			$icon_type = $icon_img = $img_width = $icon = $icon_color = $icon_color_bg = $icon_size = $icon_style = $icon_border_style = $icon_border_radius = $icon_color_border = $icon_border_size = $icon_border_spacing = $el_class = $icon_animation = $swatch_strip_font_size = $swatch_strip_font_weight =  $swatch_strip_font_color = $swatch_strip_bg_color = $swatch_strip_title_bg_color = '';
 			extract(shortcode_atts(array(
@@ -710,11 +711,11 @@ if(!class_exists('Ultimate_Swatch_Book')){
 				'icon' => '',
 				'icon_img' => '',
 				'img_width' => '',
-				'icon_size' => '',				
+				'icon_size' => '',
 				'icon_color' => '',
 				'icon_style' => '',
 				'icon_color_bg' => '',
-				'icon_color_border' => '',			
+				'icon_color_border' => '',
 				'icon_border_style' => '',
 				'icon_border_size' => '',
 				'icon_border_radius' => '',

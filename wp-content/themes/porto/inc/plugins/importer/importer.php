@@ -2,6 +2,237 @@
 
 defined( 'ABSPATH' ) or die( 'You cannot access this script directly' );
 
+// add import ajax actions
+add_action( 'wp_ajax_porto_import_dummy', 'porto_import_dummy' );
+add_action( 'wp_ajax_porto_import_widgets', 'porto_import_widgets' );
+add_action( 'wp_ajax_porto_import_mastersliders', 'porto_import_mastersliders' );
+add_action( 'wp_ajax_porto_import_icons', 'porto_import_icons');
+
+// masters slider count
+define('PORTO_MASTERSLIDER_COUNT', 21);
+
+function porto_import_dummy() {
+    if ( !defined('WP_LOAD_IMPORTERS') ) define('WP_LOAD_IMPORTERS', true); // we are loading importers
+
+    if ( ! class_exists( 'WP_Importer' ) ) { // if main importer class doesn't exist
+        $wp_importer = ABSPATH . 'wp-admin/includes/class-wp-importer.php';
+        include $wp_importer;
+    }
+
+    if ( ! class_exists('Porto_WP_Import') ) { // if WP importer doesn't exist
+        $wp_import = porto_plugins.'/importer/porto-wordpress-importer.php';
+        include $wp_import;
+    }
+
+    if ( current_user_can( 'manage_options' ) && class_exists( 'WP_Importer' ) && class_exists( 'Porto_WP_Import' ) ) { // check for main import class and wp import class
+
+        // update visual composer content types
+        update_option( 'wpb_js_content_types', array('post', 'page', 'block', 'faq', 'member', 'portfolio') );
+
+        $importer = new Porto_WP_Import();
+
+        $theme_xml = porto_plugins.'/importer/data/dummy_data.xml';
+        $importer->fetch_attachments = true;
+        $process = (isset($_POST['process']) && $_POST['process']) ? $_POST['process'] : 'import_start';
+        $index = (isset($_POST['index']) && $_POST['index']) ? $_POST['index'] : 0;
+
+        if ($process == 'import_start') {
+            // update woocommerce image sizes
+            $catalog = array(
+                'width' 	=> '300',	// px
+                'height'	=> '400',	// px
+                'crop'		=> 1 		// true
+            );
+
+            $single = array(
+                'width' 	=> '500',	// px
+                'height'	=> '666',	// px
+                'crop'		=> 1 		// true
+            );
+
+            $thumbnail = array(
+                'width' 	=> '90',	// px
+                'height'	=> '90',	// px
+                'crop'		=> 1 		// false
+            );
+
+            // Image sizes
+            add_image_size( 'shop_thumbnail', $thumbnail['width'], $thumbnail['height'], $thumbnail['crop'] );
+            add_image_size( 'shop_catalog', $catalog['width'], $catalog['height'], $catalog['crop'] );
+            add_image_size( 'shop_single', $single['width'], $single['height'], $single['crop'] );
+        }
+
+        $loop = (int)(ini_get('max_execution_time') / 60);
+        if ($loop < 1) $loop = 1;
+        if ($loop > 10) $loop = 10;
+        $i = 0;
+        while ($i < $loop) {
+            $response = $importer->import($theme_xml, $process, $index);
+            if (isset($response['count']) && isset($response['index']) && $response['count'] && $response['index'] && $response['index'] < $response['count']) {
+                $i++;
+                $index = $response['index'];
+            } else {
+                break;
+            }
+        }
+        echo json_encode($response);
+        ob_start();
+        if ($response['process'] == 'complete') {
+            // Set woocommerce pages
+            $woopages = array(
+                'woocommerce_shop_page_id' => 'Shop',
+                'woocommerce_cart_page_id' => 'Cart',
+                'woocommerce_checkout_page_id' => 'Checkout',
+                'woocommerce_myaccount_page_id' => 'My Account'
+            );
+            foreach ($woopages as $woo_page_name => $woo_page_title) {
+                $woopage = get_page_by_title( $woo_page_title );
+                if (isset($woopage) && $woopage->ID) {
+                    update_option($woo_page_name, $woopage->ID); // Front Page
+                }
+            }
+
+            // We no longer need to install pages
+            $notices = array_diff( get_option( 'woocommerce_admin_notices', array() ), array( 'install', 'update' ) );
+            update_option( 'woocommerce_admin_notices', $notices );
+            delete_option( '_wc_needs_pages' );
+            delete_transient( '_wc_activation_redirect' );
+
+            // Set imported menus to registered theme locations
+            $locations = get_theme_mod( 'nav_menu_locations' ); // registered menu locations in theme
+            $menus = wp_get_nav_menus(); // registered menus
+
+            if ($menus) {
+                foreach($menus as $menu) { // assign menus to theme locations
+                    if( $menu->name == 'Main Menu' ) {
+                        $locations['main_menu'] = $menu->term_id;
+                    } else if( $menu->name == 'Top Navigation' ) {
+                        $locations['top_nav'] = $menu->term_id;
+                    } else if( $menu->name == 'View Switcher' ) {
+                        $locations['view_switcher'] = $menu->term_id;
+                    } else if ( $menu->name == 'Currency Switcher' ) {
+                        $locations['currency_switcher'] = $menu->term_id;
+                    }
+                }
+            }
+
+            set_theme_mod( 'nav_menu_locations', $locations ); // set menus to locations
+
+            // Set reading options
+            $homepage = get_page_by_title( 'Home' );
+            $posts_page = get_page_by_title( 'Blog' );
+            if (($homepage && $homepage->ID) || ($posts_page && $posts_page->ID)) {
+                update_option('show_on_front', 'page');
+                if ($homepage && $homepage->ID) {
+                    update_option('page_on_front', $homepage->ID); // Front Page
+                }
+                if ($posts_page && $posts_page->ID) {
+                    update_option('page_for_posts', $posts_page->ID); // Blog Page
+                }
+            }
+
+            // Add sidebar widget areas
+            $sidebars = array(
+                'Shortcodes' => 'Shortcodes'
+            );
+            update_option( 'sbg_sidebars', $sidebars );
+        }
+        ob_end_clean();
+    }
+    die();
+}
+
+function porto_import_widgets() {
+    if ( current_user_can( 'manage_options' ) ) {
+        // Import widgets
+        ob_start();
+        include(porto_plugins . '/importer/data/widget_data.json');
+        $widget_data = ob_get_clean();
+
+        porto_import_widget_data( $widget_data );
+        echo __('Successfully Imported Widgets!', 'porto');
+    }
+    die();
+}
+
+function porto_import_mastersliders() {
+    $response = array();
+    if ( current_user_can( 'manage_options' ) ) {
+        // Import master sliders
+        if (defined('MSWP_AVERTA_ADMIN_DIR')) {
+            include_once( MSWP_AVERTA_ADMIN_DIR . '/includes/classes/class-msp-importer.php' );
+            $index = (isset($_POST['index']) && $_POST['index']) ? $_POST['index'] : 0;
+            $slider_alias = get_masterslider_names('alias');
+            if ($index >= PORTO_MASTERSLIDER_COUNT) {
+                $response['message'] = __('Successfully Imported Master Sliders!', 'porto');
+            } else {
+                $index++;
+                if (isset($slider_alias['ms-'.$index]) && $slider_alias['ms-'.$index]) {
+
+                } else {
+                    ob_start();
+                    include(porto_plugins . '/importer/data/master_slider_'.$index.'.json');
+                    $master_slider_data = ob_get_clean();
+
+                    $master_slider_importer = new MSP_Importer();
+
+                    ob_start();
+                    //$master_slider_importer->admin_init();
+                    $master_slider_importer->import_data($master_slider_data);
+                    ob_end_clean();
+                }
+                $response['message'] = __('Importing Master Sliders', 'porto');
+                $response['count'] = PORTO_MASTERSLIDER_COUNT;
+                $response['index'] = $index;
+            }
+        } else {
+            $response['message'] = __('Please install Master Slider plugin and try again.', 'porto');
+        }
+    }
+    echo json_encode($response);
+    die();
+}
+
+function porto_import_icons() {
+    if ( current_user_can( 'manage_options' ) ) {
+        // Import icons
+        ob_start();
+        $paths = wp_upload_dir();
+        $paths['fonts'] 	= 'smile_fonts';
+        $paths['temp']  	= trailingslashit($paths['fonts']).'smile_temp';
+        $paths['fontdir'] = trailingslashit($paths['basedir']).$paths['fonts'];
+        $paths['tempdir'] = trailingslashit($paths['basedir']).$paths['temp'];
+        $paths['fonturl'] = set_url_scheme(trailingslashit($paths['baseurl']).$paths['fonts']);
+        $paths['tempurl'] = trailingslashit($paths['baseurl']).trailingslashit($paths['temp']);
+        $paths['config']	= 'charmap.php';
+        $sli_fonts = trailingslashit($paths['basedir']).$paths['fonts'].'/Simple-Line-Icons';
+        $sli_fonts_dir = porto_plugins.'/importer/data/Simple-Line-Icons/';
+
+        // Make destination directory
+        if (!is_dir($sli_fonts)) {
+            wp_mkdir_p($sli_fonts);
+        }
+        @chmod($sli_fonts,0777);
+        foreach(glob($sli_fonts_dir.'*') as $file)
+        {
+            $new_file = basename($file);
+            @copy($file,$sli_fonts.'/'.$new_file);
+        }
+        $fonts = get_option('smile_fonts');
+        if(empty($fonts)) $fonts = array();
+        $fonts['Simple-Line-Icons'] = array(
+            'include'   => trailingslashit($paths['fonts']).'Simple-Line-Icons',
+            'folder' 	=> trailingslashit($paths['fonts']).'Simple-Line-Icons',
+            'style'	 => 'Simple-Line-Icons'.'/'.'Simple-Line-Icons'.'.css',
+            'config' 	=> $paths['config']
+        );
+        update_option('smile_fonts', $fonts);
+        ob_get_clean();
+        echo __('Successfully Imported Simple Line Icon!', 'porto');
+    }
+    die();
+}
+
 add_action( 'admin_init', 'porto_import' );
 
 function porto_import() {
@@ -30,66 +261,55 @@ function porto_import() {
 
                 $importer = new WP_Import();
 
-                // Import Woocommerce Products
-                if ( class_exists('WooCommerce') ) {
+                // update woocommerce image sizes
+                $catalog = array(
+                    'width' 	=> '300',	// px
+                    'height'	=> '400',	// px
+                    'crop'		=> 1 		// true
+                );
 
-                    // update woocommerce image sizes
-                    $catalog = array(
-                        'width' 	=> '300',	// px
-                        'height'	=> '400',	// px
-                        'crop'		=> 1 		// true
-                    );
+                $single = array(
+                    'width' 	=> '500',	// px
+                    'height'	=> '666',	// px
+                    'crop'		=> 1 		// true
+                );
 
-                    $single = array(
-                        'width' 	=> '500',	// px
-                        'height'	=> '666',	// px
-                        'crop'		=> 1 		// true
-                    );
+                $thumbnail = array(
+                    'width' 	=> '90',	// px
+                    'height'	=> '90',	// px
+                    'crop'		=> 1 		// false
+                );
 
-                    $thumbnail = array(
-                        'width' 	=> '90',	// px
-                        'height'	=> '90',	// px
-                        'crop'		=> 1 		// false
-                    );
+                // Image sizes
+                add_image_size( 'shop_thumbnail', $thumbnail['width'], $thumbnail['height'], $thumbnail['crop'] );
+                add_image_size( 'shop_catalog', $catalog['width'], $catalog['height'], $catalog['crop'] );
+                add_image_size( 'shop_single', $single['width'], $single['height'], $single['crop'] );
 
-                    // Image sizes
-                    add_image_size( 'shop_thumbnail', $thumbnail['width'], $thumbnail['height'], $thumbnail['crop'] );
-                    add_image_size( 'shop_catalog', $catalog['width'], $catalog['height'], $catalog['crop'] );
-                    add_image_size( 'shop_single', $single['width'], $single['height'], $single['crop'] );
+                $theme_xml = porto_plugins.'/importer/data/dummy_data.xml';
+                $importer->fetch_attachments = true;
+                ob_start();
+                $importer->import($theme_xml);
+                ob_end_clean();
 
-                    $theme_xml = porto_plugins.'/importer/data/dummy_data_with_woo.xml.gz';
-                    $importer->fetch_attachments = true;
-                    ob_start();
-                    $importer->import($theme_xml);
-                    ob_end_clean();
-
-                    // Set woocommerce pages
-                    $woopages = array(
-                        'woocommerce_shop_page_id' => 'Shop',
-                        'woocommerce_cart_page_id' => 'Cart',
-                        'woocommerce_checkout_page_id' => 'Checkout',
-                        'woocommerce_myaccount_page_id' => 'My Account'
-                    );
-                    foreach ($woopages as $woo_page_name => $woo_page_title) {
-                        $woopage = get_page_by_title( $woo_page_title );
-                        if (isset($woopage) && $woopage->ID) {
-                            update_option($woo_page_name, $woopage->ID); // Front Page
-                        }
+                // Set woocommerce pages
+                $woopages = array(
+                    'woocommerce_shop_page_id' => 'Shop',
+                    'woocommerce_cart_page_id' => 'Cart',
+                    'woocommerce_checkout_page_id' => 'Checkout',
+                    'woocommerce_myaccount_page_id' => 'My Account'
+                );
+                foreach ($woopages as $woo_page_name => $woo_page_title) {
+                    $woopage = get_page_by_title( $woo_page_title );
+                    if (isset($woopage) && $woopage->ID) {
+                        update_option($woo_page_name, $woopage->ID); // Front Page
                     }
-
-                    // We no longer need to install pages
-                    $notices = array_diff( get_option( 'woocommerce_admin_notices', array() ), array( 'install', 'update' ) );
-                    update_option( 'woocommerce_admin_notices', $notices );
-                    delete_option( '_wc_needs_pages' );
-                    delete_transient( '_wc_activation_redirect' );
-
-                } else {
-                    $theme_xml = porto_plugins.'/importer/data/dummy_data_without_woo.xml.gz';
-                    $importer->fetch_attachments = true;
-                    ob_start();
-                    $importer->import($theme_xml);
-                    ob_end_clean();
                 }
+
+                // We no longer need to install pages
+                $notices = array_diff( get_option( 'woocommerce_admin_notices', array() ), array( 'install', 'update' ) );
+                update_option( 'woocommerce_admin_notices', $notices );
+                delete_option( '_wc_needs_pages' );
+                delete_transient( '_wc_activation_redirect' );
 
                 // Set imported menus to registered theme locations
                 $locations = get_theme_mod( 'nav_menu_locations' ); // registered menu locations in theme
@@ -141,16 +361,21 @@ function porto_import() {
 
             // Import master sliders
             if (class_exists('MSP_Importer')) {
-                for ($i = 1; $i < 19; $i++) {
-                    ob_start();
-                    include(porto_plugins . '/importer/data/master_slider_'.$i.'.json');
-                    $master_slider_data = ob_get_clean();
+                $slider_alias = get_masterslider_names('alias');
+                for ($i = 1; $i < PORTO_MASTERSLIDER_COUNT; $i++) {
+                    if (isset($slider_alias['ms-'.$i]) && $slider_alias['ms-'.$i]) {
 
-                    $master_slider_importer = new MSP_Importer();
+                    } else {
+                        ob_start();
+                        include(porto_plugins . '/importer/data/master_slider_'.$i.'.json');
+                        $master_slider_data = ob_get_clean();
 
-                    ob_start();
-                    $master_slider_importer->import_data($master_slider_data);
-                    ob_end_clean();
+                        $master_slider_importer = new MSP_Importer();
+
+                        ob_start();
+                        $master_slider_importer->import_data($master_slider_data);
+                        ob_end_clean();
+                    }
                 }
             }
 

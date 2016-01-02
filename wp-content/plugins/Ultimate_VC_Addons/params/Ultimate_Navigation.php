@@ -1,13 +1,13 @@
 <?php
 /*
 # Use
-	
+
 	1] Previous Icon
 		Use param_name = prev_icon
-	
+
 	2] Next Icon
 		Use param_name = next_icon
-		
+
 	3] Dots
 		Use param_name = dots_icon
 */
@@ -16,16 +16,24 @@ if(!class_exists('Ultimate_Navigation'))
 	class Ultimate_Navigation
 	{
 		function __construct()
-		{	
-			if(function_exists('add_shortcode_param'))
-			{
-				add_shortcode_param('ultimate_navigation' , array(&$this, 'icon_settings_field' ) );
+		{
+			if(defined('WPB_VC_VERSION') && version_compare(WPB_VC_VERSION, 4.8) >= 0) {
+				if(function_exists('vc_add_shortcode_param'))
+				{
+					vc_add_shortcode_param('ultimate_navigation' , array(&$this, 'icon_settings_field' ) );
+				}
+			}
+			else {
+				if(function_exists('add_shortcode_param'))
+				{
+					add_shortcode_param('ultimate_navigation' , array(&$this, 'icon_settings_field' ) );
+				}
 			}
 		}
-	
+
 		function icon_settings_field($settings, $value)
 		{
-			$dependency = vc_generate_dependencies_attributes($settings);
+			$dependency = '';
 			$uid = uniqid();
 			$param_name = isset($settings['param_name']) ? $settings['param_name'] : '';
 			$type = isset($settings['type']) ? $settings['type'] : '';
@@ -36,7 +44,7 @@ if(!class_exists('Ultimate_Navigation'))
 			if($param_name == "prev_icon"){
 				$icons = array('ultsl-arrow-left','ultsl-arrow-left2','ultsl-arrow-left3','ultsl-arrow-left4','ultsl-arrow-left6');
 			}
-			
+
 			if($param_name == "dots_icon"){
 				$icons = array('ultsl-checkbox-unchecked','ultsl-checkbox-partial','ultsl-stop','ultsl-radio-checked','ultsl-radio-unchecked','ultsl-record');
 			}
@@ -61,7 +69,7 @@ if(!class_exists('Ultimate_Navigation'))
 			}
 			$output .='</ul>';
 			$output .='</div>';
-			$output .= '<script type="text/javascript">		
+			$output .= '<script type="text/javascript">
 					jQuery("#icon-dropdown-'.$uid.' li").click(function() {
 						jQuery(this).attr("class","selected").siblings().removeAttr("class");
 						var icon = jQuery(this).attr("data-ac-icon");
@@ -103,7 +111,7 @@ if(!class_exists('Ultimate_Navigation'))
 			$output .= '</style>';
 			return $output;
 		}
-		
+
 	}
 }
 

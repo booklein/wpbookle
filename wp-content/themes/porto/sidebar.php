@@ -15,7 +15,7 @@ $wrapper = porto_get_wrapper_type();
 </div><!-- end main content -->
 
 <?php
-$is_category_filter = class_exists('WooCommerce') && $porto_settings['category-mobile-filter'] && (is_shop() || is_product_category());
+$is_category_filter = class_exists('WooCommerce') && $porto_settings['category-mobile-filter'] && (is_shop() || porto_is_product_archive());
 if (($porto_layout == 'wide-left-sidebar' || $porto_layout == 'wide-right-sidebar' || $porto_layout == 'left-sidebar' || $porto_layout == 'right-sidebar')) : ?>
     <div class="col-md-3 sidebar <?php echo str_replace('wide-', '', $porto_layout) ?><?php echo $is_category_filter ? ' mobile-hide-sidebar' : '' ?>"><!-- main sidebar -->
         <?php

@@ -9,8 +9,10 @@
 .info-circle-icons {
     text-align: center
 }
+.info-wrapper {
+	padding-top: 1px; // collapsing margin behavior - http://goo.gl/qe7Qkn
+}
 .info-circle-wrapper {
-    float: left;
     width: 100%
 }
 .info-circle-wrapper .smile_icon_list.left li .icon_description {

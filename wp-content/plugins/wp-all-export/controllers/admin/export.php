@@ -172,6 +172,8 @@ class PMXE_Admin_Export extends PMXE_Controller_Admin {
 	 */ 
 	public function template(){
 
+		$template = new PMXE_Template_Record();
+
 		$default = PMXE_Plugin::get_default_import_options();
 
 		if ($this->isWizard) {	
@@ -193,19 +195,43 @@ class PMXE_Admin_Export extends PMXE_Controller_Admin {
 
 		$this->data['post'] =& $post;								
 		
-		if ($this->input->post('is_submitted')) {
+		PMXE_Plugin::$session->set('is_loaded_template', '');						
+		
+		if (($load_template = $this->input->post('load_template'))) { // init form with template selected
+			if ( ! $template->getById($load_template)->isEmpty()) {										
+				$template_options = $template->options;
+				unset($template_options['cpt']);
+				unset($template_options['export_to']);
+				unset($template_options['export_type']);
+				unset($template_options['wp_query']);
+				unset($template_options['filter_rules_hierarhy']);
+				unset($template_options['product_matching_mode']);
+				unset($template_options['wp_query_selector']);
+				$this->data['post'] = array_merge($post, $template_options);
+				PMXE_Plugin::$session->set('is_loaded_template', $load_template);
+			}
+
+		} elseif ($this->input->post('is_submitted')) {
 
 			check_admin_referer('template', '_wpnonce_template');
 
 			if ( empty($post['cc_type'][0]) ){
-				$this->errors->add('form-validation', __('You haven\'t selected any columns for export.', 'pmxe_plugin'));
+				$this->errors->add('form-validation', __('You haven\'t selected any columns for export.', 'wp_all_export_plugin'));
 			}	
 
 			if ( 'csv' == $post['export_to'] and '' == $post['delimiter'] ){
-				$this->errors->add('form-validation', __('CSV delimiter must be specified', 'pmxe_plugin'));
+				$this->errors->add('form-validation', __('CSV delimiter must be specified.', 'wp_all_export_plugin'));
 			}
 
-			if ( ! $this->errors->get_error_codes()) {										
+			if ( ! $this->errors->get_error_codes()) {	
+
+				if ( ! empty($post['name']) and !empty($post['save_template_as']) ) { // save template in database
+					$template->getByName($post['name'])->set(array(
+						'name'    => $post['name'],												
+						'options' => $post
+					))->save();
+					PMXE_Plugin::$session->set('saved_template', $template->id);
+				}									
 
 				if ($this->isWizard) {					
 					foreach ($this->data['post'] as $key => $value) {
@@ -266,6 +292,20 @@ class PMXE_Admin_Export extends PMXE_Controller_Admin {
 		if ($this->input->post('is_submitted')) {			
 
 			check_admin_referer('options', '_wpnonce_options');
+
+			$post['main_xml_tag'] = preg_replace('/[^a-z0-9]/i', '', $post['main_xml_tag']);
+			if ( empty($post['main_xml_tag']) ){
+				$this->errors->add('form-validation', __('Main XML Tag is required.', 'wp_all_export_plugin'));
+			}	
+
+			$post['record_xml_tag'] = preg_replace('/[^a-z0-9]/i', '', $post['record_xml_tag']);
+			if ( empty($post['record_xml_tag']) ){
+				$this->errors->add('form-validation', __('Single Record XML Tag is required.', 'wp_all_export_plugin'));
+			}				
+
+			if ($post['main_xml_tag'] == $post['record_xml_tag']){			
+				$this->errors->add('form-validation', __('Main XML Tag equals to Single Record XML Tag.', 'wp_all_export_plugin'));
+			}
 			
 			if ($post['is_generate_templates'] and '' == $post['template_name']){	
 				$friendly_name = '';
@@ -288,23 +328,25 @@ class PMXE_Admin_Export extends PMXE_Controller_Admin {
 				$post['template_name'] = $friendly_name;
 			}				
 
-			if ( ! $this->errors->get_error_codes()) {				
-				if ($this->isWizard) {					
+			if ($this->isWizard) {					
+				if ( ! $this->errors->get_error_codes()) {		
 					foreach ($this->data['post'] as $key => $value) {
 						PMXE_Plugin::$session->set($key, $value);	
 					}
 					PMXE_Plugin::$session->save_data(); 				
 					wp_redirect(add_query_arg('action', 'process', $this->baseUrl)); die();	
-				}							
-				else {
+				}
+			}							
+			else {
+				$this->errors->remove('count-validation');
+				if ( ! $this->errors->get_error_codes()) {		
 					$this->data['export']->set(array( 'options' => $post, 'settings_update_on' => date('Y-m-d H:i:s')))->save();
 					if ( ! empty($post['friendly_name']) ) {
 						$this->data['export']->set( array( 'friendly_name' => $post['friendly_name'], 'scheduled' => (($post['is_scheduled']) ? $post['scheduled_period'] : '') ) )->save();	
 					}
-					wp_redirect(add_query_arg(array('page' => 'pmxe-admin-manage', 'pmxe_nt' => urlencode(__('Options updated', 'pmxi_plugin'))) + array_intersect_key($_GET, array_flip($this->baseUrlParamNames)), admin_url('admin.php'))); die();
+					wp_redirect(add_query_arg(array('page' => 'pmxe-admin-manage', 'pmxe_nt' => urlencode(__('Options updated', 'wp_all_export_plugin'))) + array_intersect_key($_GET, array_flip($this->baseUrlParamNames)), admin_url('admin.php'))); die();
 				}
-									
-			}
+			}		
 			
 		}
 

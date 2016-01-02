@@ -16,9 +16,21 @@ class PMXE_Export_Record extends PMXE_Model_Record {
     }
 
 	/**
+	 * Clear associations with posts	 
+	 * @return PMXE_Import_Record
+	 * @chainable
+	 */
+	public function deletePosts() {
+		$post = new PMXE_Post_List();					
+		$this->wpdb->query($this->wpdb->prepare('DELETE FROM ' . $post->getTable() . ' WHERE export_id = %s', $this->id));
+		return $this;
+	}
+
+	/**
 	 * @see parent::delete()	 
 	 */
-	public function delete() {		
+	public function delete() {	
+		$this->deletePosts();
 		if ( ! empty($this->options['import_id']) and wp_all_export_is_compatible()){
 			$import = new PMXI_Import_Record();
 			$import->getById($this->options['import_id']);

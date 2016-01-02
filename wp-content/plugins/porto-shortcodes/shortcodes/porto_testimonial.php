@@ -27,26 +27,32 @@ function porto_load_testimonial_shortcode() {
             array(
                 'type' => 'textfield',
                 'heading' => __('Name', 'porto-shortcodes'),
-                'param_name' => 'name',
-                'admin_label' => true
+                'param_name' => 'name'
+            ),
+            array(
+                'type' => 'colorpicker',
+                'heading' => __('Name Color', 'porto-shortcodes'),
+                'param_name' => 'name_color'
             ),
             array(
                 'type' => 'textfield',
                 'heading' => __('Role', 'porto-shortcodes'),
-                'param_name' => 'role',
-                'admin_label' => true
+                'param_name' => 'role'
             ),
             array(
                 'type' => 'textfield',
                 'heading' => __('Company', 'porto-shortcodes'),
-                'param_name' => 'company',
-                'admin_label' => true
+                'param_name' => 'company'
+            ),
+            array(
+                'type' => 'colorpicker',
+                'heading' => __('Role & Company Color', 'porto-shortcodes'),
+                'param_name' => 'role_company_color'
             ),
             array(
                 'type' => 'textfield',
                 'heading' => __('Author Link', 'porto-shortcodes'),
-                'param_name' => 'author_url',
-                'admin_label' => true
+                'param_name' => 'author_url'
             ),
             array(
                 'type' => 'label',
@@ -70,15 +76,19 @@ function porto_load_testimonial_shortcode() {
                 'admin_label' => true,
             ),
             array(
+                'type' => 'colorpicker',
+                'heading' => __('Quote Color', 'porto-shortcodes'),
+                'param_name' => 'quote_color'
+            ),
+            array(
                 'type' => 'dropdown',
                 'heading' => __( 'View Type', 'porto-shortcodes' ),
                 'param_name' => 'view',
                 'value' => array(
                     __( 'Default', 'porto-shortcodes' )=> 'default',
                     __( 'Simple', 'porto-shortcodes' )=> 'simple',
-                    __( 'Transparent', 'porto-shortcodes' ) => 'transparent'
-                ),
-                'admin_label' => true
+                    __( 'Banner', 'porto-shortcodes' ) => 'transparent'
+                )
             ),
             array(
                 'type' => 'dropdown',
@@ -89,14 +99,33 @@ function porto_load_testimonial_shortcode() {
                 'dependency' => array(
                     'element' => 'view',
                     'value' => array( 'default', 'transparent' )
-                ),
-                'admin_label' => true
+                )
             ),
             array(
                 'type' => 'checkbox',
                 'heading' => __('Remove Border', 'porto-shortcodes'),
                 'param_name' => 'remove_border',
                 'value' => array(__('Yes, please', 'js_composer') => 'yes'),
+            ),
+            array(
+                'type' => 'checkbox',
+                'heading' => __('Remove Background', 'porto-shortcodes'),
+                'param_name' => 'remove_bg',
+                'value' => array(__('Yes, please', 'js_composer') => 'yes'),
+                'dependency' => array(
+                    'element' => 'view',
+                    'value' => array( 'default' )
+                ),
+            ),
+            array(
+                'type' => 'checkbox',
+                'heading' => __('Show with Alternative Font', 'porto-shortcodes'),
+                'param_name' => 'alt_font',
+                'value' => array(__('Yes, please', 'js_composer') => 'yes'),
+                'dependency' => array(
+                    'element' => 'view',
+                    'value' => array( 'default' )
+                ),
             ),
             array(
                 'type' => 'dropdown',
@@ -107,8 +136,7 @@ function porto_load_testimonial_shortcode() {
                 'dependency' => array(
                     'element' => 'style',
                     'value' => array( '' )
-                ),
-                'admin_label' => true
+                )
             ),
             array(
                 'type' => 'dropdown',

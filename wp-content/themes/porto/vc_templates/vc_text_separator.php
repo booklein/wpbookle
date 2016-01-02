@@ -13,6 +13,21 @@
  * @var $layout
  * @var $css
  * @var $border_width
+ * @var $add_icon
+ * Icons:
+ * @var $i_type
+ * @var $i_icon_fontawesome
+ * @var $i_icon_openiconic
+ * @var $i_icon_typicons
+ * @var $i_icon_entypo
+ * @var $i_icon_linecons
+ * @var $i_color
+ * @var $i_custom_color
+ * @var $i_background_style
+ * @var $i_background_color
+ * @var $i_custom_background_color
+ * @var $i_size
+ * @var $i_css_animation
  *
  * Extra Params
  * @var $pattern
@@ -21,7 +36,14 @@
  * Shortcode class
  * @var $this WPBakeryShortcode_Vc_Text_Separator
  */
-$css = '';
+
+$css = $title_align = $el_width = $style = $title = $align =
+$color = $accent_color = $el_class = $layout = $css =
+$border_width = $add_icon = $i_type = $i_icon_fontawesome =
+$i_icon_openiconic = $i_icon_typicons = $i_icon_entypo =
+$i_icon_linecons = $i_color = $i_custom_color =
+$i_background_style = $i_background_color =
+$i_custom_background_color = $i_size = $i_css_animation = '';
 $atts = vc_map_get_attributes( $this->getShortcode(), $atts );
 extract( $atts );
 
@@ -108,9 +130,16 @@ if ($custom_css) {
     echo '<style type="text/css" data-type="vc_shortcodes-custom-css">'.$custom_css.'</style>';
 }
 
+$icon = '';
+if ( 'true' === $add_icon ) {
+    vc_icon_element_fonts_enqueue( $i_type );
+    $icon = $this->getVcIcon( $atts );
+}
+
 ?>
 <div class="<?php echo esc_attr(trim($css_class)); ?>">
 	<span class="vc_sep_holder vc_sep_holder_l"><span<?php echo $inline_css_1; ?> class="vc_sep_line<?php echo $line_class ?>"></span></span>
+    <?php if($icon!=''): ?><?php echo $icon ?><?php endif ?>
 	<?php if($title!=''): ?><<?php echo $element ? $element : 'h4' ?>><?php echo $title; ?></<?php echo $element ? $element : 'h4' ?>><?php endif ?>
 	<span class="vc_sep_holder vc_sep_holder_r"><span<?php echo $inline_css_2; ?> class="vc_sep_line<?php echo $line_class ?>"></span></span>
 </div>

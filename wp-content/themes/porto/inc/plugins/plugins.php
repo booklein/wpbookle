@@ -24,8 +24,10 @@ function porto_register_required_plugins() {
     global $vc_manager;
     if ( $vc_manager ) {
         $vc_updater = $vc_manager->updater();
-        if ($vc_updater)
+        if ($vc_updater) {
             remove_filter('upgrader_pre_download', array(&$vc_updater, 'upgradeFilterFromEnvato'));
+            remove_filter('upgrader_pre_download', array(&$vc_updater, 'preUpgradeFilter'));
+        }
     }
 
     // get master slider download url
@@ -41,7 +43,7 @@ function porto_register_required_plugins() {
             'slug'                     => 'js_composer',
             'source'                   => porto_plugins . '/js_composer.zip',
             'required'                 => true,
-            'version'                  => '4.8.0.1'
+            'version'                  => '4.9.1'
 
         ),
         array(
@@ -49,7 +51,7 @@ function porto_register_required_plugins() {
             'slug'                     => 'Ultimate_VC_Addons',
             'source'                   => porto_plugins . '/Ultimate_VC_Addons.zip',
             'required'                 => true,
-            'version'                  => '3.13.7'
+            'version'                  => '3.14.1'
 
         ),
         array(
@@ -57,21 +59,21 @@ function porto_register_required_plugins() {
             'slug'                     => 'porto-shortcodes',
             'source'                   => porto_plugins . '/porto-shortcodes.zip',
             'required'                 => true,
-            'version'                  => '1.3.5'
+            'version'                  => '1.3.8'
         ),
         array(
             'name'                     => 'Porto Widgets',
             'slug'                     => 'porto-widgets',
             'source'                   => porto_plugins . '/porto-widgets.zip',
             'required'                 => true,
-            'version'                  => '1.1.3'
+            'version'                  => '1.1.5'
         ),
         array(
             'name'                     => 'Porto Content Types',
             'slug'                     => 'porto-content-types',
             'source'                   => porto_plugins . '/porto-content-types.zip',
             'required'                 => true,
-            'version'                  => '1.2.1'
+            'version'                  => '1.2.2'
         ),
         array(
             'name'                     => 'Dynamic Featured Image',
@@ -83,7 +85,7 @@ function porto_register_required_plugins() {
             'slug'                     => 'masterslider',
             'source'                   => porto_plugins . '/masterslider.zip',
             'required'                 => true,
-            'version'                  => '2.22.0'
+            'version'                  => '2.25.3'
 
         ),
         array(

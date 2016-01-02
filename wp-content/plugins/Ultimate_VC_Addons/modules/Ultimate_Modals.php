@@ -31,18 +31,20 @@ if(!class_exists('Ultimate_Modals'))
 			wp_register_script("ultimate-modal-all",plugins_url("../assets/min-js/modal-all.min.js",__FILE__),array('jquery'),ULTIMATE_VERSION);
 			//wp_register_script("ultimate-modal-all-switched",plugins_url("../assets/min-js/modal-all.min-switched.js",__FILE__),array('jquery'),ULTIMATE_VERSION);
 			wp_register_style("ultimate-modal",plugins_url($css_path."modal".$ext.".css",__FILE__),array(),ULTIMATE_VERSION);
-		}	
+		}
 		// Add shortcode for icon-box
 		function modal_shortcode($atts, $content = null)
 		{
 			$row_setting = '';
 			// enqueue js
 			$icon = $modal_on = $modal_contain = $btn_size = $btn_bg_color = $btn_txt_color = $btn_text = $read_text = $txt_color = $modal_title = $modal_size = $el_class = $modal_style = $icon_type = $icon_img = $btn_img = $overlay_bg_color = $overlay_bg_opacity = $modal_on_align = $content_bg_color = $content_text_color = $header_bg_color = $header_text_color = $modal_border_style = $modal_border_width = $modal_border_color = $modal_border_radius = '';
+			$header_font = $header_font_style = $header_font_size = $header_line_height = $content_font = $content_font_style = $content_font_size = $content_line_height = $trigger_typography = $trigger_text_font = $trigger_text_font_style = $trigger_text_font_size = $trigger_text_line_height = $button_text_font = $button_text_font_style = $button_text_font_size = $button_text_line_height = '';
 			extract(shortcode_atts(array(
 				'icon_type' => 'none',
 				'icon' => '',
 				'icon_img' => '',
 				'modal_on' => 'ult-button',
+				'modal_on_selector' => '',
 				'modal_contain' => 'ult-html',
 				'onload_delay'=>'2',
 				'init_extra_class' => '',
@@ -51,7 +53,7 @@ if(!class_exists('Ultimate_Modals'))
 				'overlay_bg_opacity' => '80',
 				'btn_bg_color' => '#333333',
 				'btn_txt_color' => '#FFFFFF',
-				'btn_text' => '',				
+				'btn_text' => '',
 				'read_text' => '',
 				'txt_color' => '#f60f60',
 				'btn_img' => '',
@@ -68,8 +70,29 @@ if(!class_exists('Ultimate_Modals'))
 				'modal_border_color' => '#333333',
 				'modal_border_radius' => '0',
 				'el_class' => '',
+				'header_typography'=> '',
+				'header_font'=>'',
+				'header_font_style'=>'',
+				'header_font_size'=>'',
+				'header_line_height'=>'',
+				'content_font'=>'',
+				'content_font_style'=>'',
+				'content_font_size'=>'',
+				'content_line_height'=>'',
+				'trigger_text_font'=>'',
+				'trigger_text_font_style'=>'',
+				'trigger_text_font_size'=>'',
+				'trigger_text_line_height'=>'',
+				'button_text_font'=>'',
+				'button_text_font_style'=>'',
+				'button_text_font_size'=>'',
+				'button_text_line_height'=>'',
 				),$atts,'ultimate_modal'));
-			$html = $style = $box_icon = $modal_class = $modal_data_class = $uniq = $overlay_bg = $content_style = $header_style = $border_style = '';
+			$vc_version = (defined('WPB_VC_VERSION')) ? WPB_VC_VERSION : 0;
+			$is_vc_49_plus = (version_compare(4.9, $vc_version, '<=')) ? 'ult-adjust-bottom-margin' : '';
+
+			$html = $style = $box_icon = $modal_class = $modal_data_class = $uniq = $overlay_bg = $trigger_text_style = $content_style = $header_style = $border_style = $button_text_style = '';
+
 			if($modal_on == "ult-button"){
 				$modal_on = "button";
 			}
@@ -79,12 +102,107 @@ if(!class_exists('Ultimate_Modals'))
 			// Create style for content text color
 			if($content_text_color !== '')
 				$content_style .= 'color:'.$content_text_color.';';
+			if($content_font != '')
+			{
+				$font_family = get_ultimate_font_family($content_font);
+				if($font_family != '')
+					$content_style .= 'font-family:\''.$font_family.'\';';
+			}
+			if($content_font_style != '')
+				$content_style .= get_ultimate_font_style($content_font_style);
+			// if($content_font_size != '')
+			// 	$content_style .= 'font-size:'.$content_font_size.'px;';
+			// if($content_line_height != '')
+			// 	$content_style .= 'line-height:'.$content_line_height.'px;';
+
+			//Responsive param
+
+			if(is_numeric($content_font_size)) 	{ 	$content_font_size = 'desktop:'.$content_font_size.'px;';		}
+			if(is_numeric($content_line_height)) 	{ 	$content_line_height = 'desktop:'.$content_line_height.'px;';		}
+			$modal_uid = 'ult-modal-wrap-'.rand(0000,9999);
+		  	$modal_content_args = array(
+		  		'target'		=>	'#'.$modal_uid.' .ult_modal-body',
+		  		'media_sizes' 	=> array(
+					'font-size' 	=> $content_font_size,
+					'line-height' 	=> $content_line_height,
+				),
+		  	);
+			$madal_content_data_list = get_ultimate_vc_responsive_media_css($modal_content_args);
+
 			// Create style for header background color
 			if($header_bg_color !== '')
 				$header_style .= 'background:'.$header_bg_color.';';
 			// Create style for header text color
 			if($header_text_color !== '')
 				$header_style .= 'color:'.$header_text_color.';';
+
+			if($header_font != '')
+			{
+				$font_family = get_ultimate_font_family($header_font);
+				if($font_family != '')
+					$header_style .= 'font-family:\''.$font_family.'\';';
+			}
+			if($header_font_style != '')
+				$header_style .= get_ultimate_font_style($header_font_style);
+
+			//Responsive param
+
+			if(is_numeric($header_font_size)) 	{ 	$header_font_size = 'desktop:'.$header_font_size.'px;';		}
+			if(is_numeric($header_line_height)) 	{ 	$header_line_height = 'desktop:'.$header_line_height.'px;';		}
+		  	$modal_heading_args = array(
+		  		'target'		=>	'#'.$modal_uid.' .ult_modal-title',
+		  		'media_sizes' 	=> array(
+					'font-size' 	=> $header_font_size,
+					'line-height' 	=> $header_line_height,
+				),
+		  	);
+			$madal_heading_data_list = get_ultimate_vc_responsive_media_css($modal_heading_args);
+
+			if($trigger_text_font != '')
+			{
+				$font_family = get_ultimate_font_family($trigger_text_font);
+				if($font_family != '')
+					$trigger_text_style .= 'font-family:\''.$font_family.'\';';
+			}
+			if($trigger_text_font_style != '')
+				$trigger_text_style .= get_ultimate_font_style($trigger_text_font_style);
+
+			// Responsive param
+
+			if(is_numeric($trigger_text_font_size)) 	{ 	$trigger_text_font_size = 'desktop:'.$trigger_text_font_size.'px;';		}
+			if(is_numeric($trigger_text_line_height)) 	{ 	$trigger_text_line_height = 'desktop:'.$trigger_text_line_height.'px;';		}
+			$modal_trgs_id = 'modal-trg-txt-wrap-'.rand(1000,9999);
+		  	$modal_trg_args = array(
+		  		'target'		=>	'#'.$modal_trgs_id.' .mycust',
+		  		'media_sizes' 	=> array(
+					'font-size' 	=> $trigger_text_font_size,
+					'line-height' 	=> $trigger_text_line_height,
+				),
+		  	);
+			$madal_trg_data_list = get_ultimate_vc_responsive_media_css($modal_trg_args);
+
+			if($button_text_font != '')
+			{
+				$font_family = get_ultimate_font_family($button_text_font);
+				if($font_family != '')
+					$button_text_style .= 'font-family:\''.$font_family.'\';';
+			}
+			if($button_text_font_style != '')
+				$button_text_style .= get_ultimate_font_style($button_text_font_style);
+
+			//Responsive param
+
+			if(is_numeric($button_text_font_size)) 	{ 	$button_text_font_size = 'desktop:'.$button_text_font_size.'px;';		}
+			if(is_numeric($button_text_line_height)) 	{ 	$button_text_line_height = 'desktop:'.$button_text_line_height.'px;';		}
+
+		  	$button_trg_args = array(
+		  		'target'		=>	'#'.$modal_trgs_id.' .btn-modal',
+		  		'media_sizes' 	=> array(
+					'font-size' 	=> $button_text_font_size,
+					'line-height' 	=> $button_text_line_height,
+				),
+		  	);
+			$button_trg_data_list = get_ultimate_vc_responsive_media_css($button_trg_args);
 			if($modal_border_style !== ''){
 				$border_style .= 'border-style:'.$modal_border_style.';';
 				$border_style .= 'border-width:'.$modal_border_width.'px;';
@@ -98,14 +216,14 @@ if(!class_exists('Ultimate_Modals'))
 					$overlay_bg = ultimate_hex2rgb($overlay_bg_color,$overlay_bg_opacity);
 				else
 					$overlay_bg = $overlay_bg_color;
-					
+
 				if($modal_style != 'overlay-show-cornershape' && $modal_style != 'overlay-show-genie' && $modal_style != 'overlay-show-boxes'){
 					$overlay_bg = 'background:'.$overlay_bg.';';
 				} else {
 					$overlay_bg = 'fill:'.$overlay_bg.';';
 				}
 			}
-		
+
 			$uniq = uniqid();
 			if($icon_type == 'custom'){
 				//$ico_img = wp_get_attachment_image_src( $icon_img, 'large');
@@ -122,7 +240,8 @@ if(!class_exists('Ultimate_Modals'))
 				$modal_class = $modal_style;
 				$modal_data_class = '';
 			}
-			$html .= '<div class="ult-modal-input-wrapper">';
+
+			$html .= '<div id="'.$modal_trgs_id.'" class="ult-modal-input-wrapper '.$is_vc_49_plus.'">';
 			if($modal_on == "button"){
 				if($btn_bg_color !== ''){
 					$style .= 'background:'.$btn_bg_color.';';
@@ -133,8 +252,10 @@ if(!class_exists('Ultimate_Modals'))
 				}
 				if($el_class != '')
 					$modal_class .= ' '.$el_class.'-button ';
-					
-				$html .= '<button style="'.$style.'" data-class-id="content-'.$uniq.'" class="btn-modal btn-primary btn-modal-'.$btn_size.' '.$modal_class.' '.$init_extra_class.' ult-align-'.$modal_on_align.'" '.$modal_data_class.'>'.$btn_text.'</button>';
+
+
+				$html .= '<button '.$button_trg_data_list.' style="'.$style.' '.$button_text_style.'" data-class-id="content-'.$uniq.'" class="btn-modal ult-responsive btn-primary btn-modal-'.$btn_size.' '.$modal_class.' '.$init_extra_class.' ult-align-'.$modal_on_align.'" '.$modal_data_class.'>'.$btn_text.'</button>';
+
 			} elseif($modal_on == "image"){
 				if($btn_img !==''){
 					if($el_class != '')
@@ -143,10 +264,22 @@ if(!class_exists('Ultimate_Modals'))
 					$img = apply_filters('ult_get_img_single', $btn_img, 'url');
 					$html .= '<img src="'.$img.'" data-class-id="content-'.$uniq.'" class="ult-modal-img '.$init_extra_class.' '.$modal_class.' ult-align-'.$modal_on_align.' ult-modal-image-'.$el_class.'" '.$modal_data_class.'/>';
 				}
-			} 
-			elseif($modal_on == "onload"){				
-				$html .= '<div data-class-id="content-'.$uniq.'" class="ult-onload '.$modal_class.' " '.$modal_data_class.' data-onload-delay="'.$onload_delay.'"></div>';				
-			} 
+			}
+			elseif($modal_on == "onload"){
+				$html .= '<div data-class-id="content-'.$uniq.'" class="ult-onload '.$modal_class.' " '.$modal_data_class.' data-onload-delay="'.$onload_delay.'"></div>';
+			}
+			elseif($modal_on == "custom-selector") {
+				$html .= '<script type="text/javascript">
+				(function($){
+					$(document).ready(function(){
+						var selector = "'.$modal_on_selector.'";
+						$(selector).addClass("custom-ult-modal '.$modal_class.'");
+						$(selector).attr("data-class-id", "content-'.$uniq.'");
+						$(selector).attr("data-overlay-class", "'.$modal_style.'");
+					});
+				})(jQuery);
+				</script>';
+			}
 			else {
 				if($txt_color !== ''){
 					$style .= 'color:'.$txt_color.';';
@@ -154,7 +287,7 @@ if(!class_exists('Ultimate_Modals'))
 				}
 				if($el_class != '')
 					$modal_class .= ' '.$el_class.'-link ';
-				$html .= '<span style="'.$style.'" data-class-id="content-'.$uniq.'" class="'.$modal_class.' ult-align-'.$modal_on_align.'" '.$modal_data_class.'>'.$read_text.'</span>';
+				$html .= '<span '.$madal_trg_data_list.' style="'.$style.' '.$trigger_text_style.'" data-class-id="content-'.$uniq.'" class="'.$modal_class.' ult-responsive mycust ult-align-'.$modal_on_align.'" '.$modal_data_class.'>'.$read_text.'</span>';
 			}
 			$html .= '</div>';
 			if($modal_style == 'overlay-show-cornershape') {
@@ -203,13 +336,13 @@ if(!class_exists('Ultimate_Modals'))
 				$html .= "\n".'<div class="ult-overlay content-'.$uniq.' '.$el_class.'" data-class="content-'.$uniq.'" id="button-click-overlay" style="'.$overlay_bg.' display:none;">';
 			}
 			$html .= "\n\t".'<div class="ult_modal ult-fade ult-'.$modal_size.'">';
-			$html .= "\n\t\t".'<div class="ult_modal-content ult-hide" style="'.$border_style.'">';
+			$html .= "\n\t\t".'<div id="'.$modal_uid.'" class="ult_modal-content ult-hide" style="'.$border_style.'">';
 			if($modal_title !== ''){
 				$html .= "\n\t\t\t".'<div class="ult_modal-header" style="'.$header_style.'">';
-				$html .= "\n\t\t\t\t".$box_icon.'<h3 class="ult_modal-title">'.$modal_title.'</h3>';
+				$html .= "\n\t\t\t\t".$box_icon.'<h3 '.$madal_heading_data_list.' class="ult_modal-title ult-responsive">'.$modal_title.'</h3>';
 				$html .= "\n\t\t\t".'</div>';
 			}
-			$html .= "\n\t\t\t".'<div class="ult_modal-body '.$modal_contain.'" style="'.$content_style.'">';
+			$html .= "\n\t\t\t".'<div '.$madal_content_data_list.' class="ult_modal-body ult-responsive '.$modal_contain.'" style="'.$content_style.'">';
 			$html .= "\n\t\t\t".do_shortcode($content);
 			$html .= "\n\t\t\t".'</div>';
 			$html .= "\n\t".'</div>';
@@ -223,7 +356,7 @@ if(!class_exists('Ultimate_Modals'))
 		{
 			if ( function_exists('vc_map'))
 			{
-				vc_map( 
+				vc_map(
 					array(
 						"name"		=> __("Modal Box", "ultimate_vc"),
 						"base"		=> "ultimate_modal",
@@ -253,7 +386,7 @@ if(!class_exists('Ultimate_Modals'))
 								"heading" => __("Select Icon ","ultimate_vc"),
 								"param_name" => "icon",
 								"value" => "",
-								"description" => __("Click and select icon of your choice. If you can't find the one that suits for your purpose","ultimate_vc").", ".__("you can","ultimate_vc")." <a href='admin.php?page=font-icon-Manager' target='_blank'>".__("add new here","ultimate_vc")."</a>.",
+								"description" => __("Click and select icon of your choice. If you can't find the one that suits for your purpose","ultimate_vc").", ".__("you can","ultimate_vc")." <a href='admin.php?page=bsf-font-icon-manager' target='_blank'>".__("add new here","ultimate_vc")."</a>.",
 								"dependency" => Array("element" => "icon_type","value" => array("selector")),
 								"group" => "General",
 							),
@@ -307,8 +440,18 @@ if(!class_exists('Ultimate_Modals'))
 									__("Image","ultimate_vc") => "image",
 									__("Text","ultimate_vc") => "text",
 									__("On Page Load","ultimate_vc") => "onload",
+									__("Selector","ultimate_vc") => "custom-selector",
 								),
 								"description" => __("When should the popup be initiated?", "ultimate_vc"),
+								"group" => "General",
+							),
+							array(
+								"type" => "textfield",
+								"heading" => __("Class and/or ID", "ultimate_vc"),
+								"param_name" => "modal_on_selector",
+								"description" => __("Add .Class and/or #ID to open your modal. Multiple ID or Classes separated by comma","ultimate_vc"),
+								"value" => "",
+								"dependency"=>Array("element"=>"modal_on","value"=>array("custom-selector")),
 								"group" => "General",
 							),
 							array(
@@ -355,16 +498,7 @@ if(!class_exists('Ultimate_Modals'))
 								"dependency" => Array("element" => "modal_on","value" => array("ult-button")),
 								"group" => "General",
 							),
-							array(
-								"type" => "colorpicker",
-								"heading" => __("Button Text Color", "ultimate_vc"),
-								"param_name" => "btn_txt_color",
-								"value" => "#FFFFFF",
-								"group" => "General",
-								"description" => __("Give it a nice paint!", "ultimate_vc"),
-								"dependency" => Array("element" => "modal_on","value" => array("ult-button")),
-								"group" => "General",
-							),
+
 							array(
 								"type" => "dropdown",
 								"heading" => __("Alignment", "ultimate_vc"),
@@ -388,7 +522,7 @@ if(!class_exists('Ultimate_Modals'))
 								"dependency" => Array("element" => "modal_on","value" => array("ult-button")),
 								"group" => "General",
 							),
-						
+
 							// Custom text for modal trigger
 							array(
 								"type" => "textfield",
@@ -398,15 +532,6 @@ if(!class_exists('Ultimate_Modals'))
 								"description" => __("Enter the text on which the modal box will be triggered.", "ultimate_vc"),
 								"dependency" => Array("element" => "modal_on","value" => array("text")),
 								"group" => "General",
-							),
-							array(
-								"type" => "colorpicker",
-								"class" => "",
-								"heading" => __("Text Color", "ultimate_vc"),
-								"param_name" => "txt_color",
-								"value" => "#f60f60",
-								"description" => __("Give it a nice paint!", "ultimate_vc"),
-								"dependency" => Array("element" => "modal_on","value" => array("text")),
 							),
 							// Modal box size
 							array(
@@ -475,27 +600,12 @@ if(!class_exists('Ultimate_Modals'))
 								"description" => __("Give it a nice paint!", "ultimate_vc"),
 								"group" => "General",
 							),
-							array(
-								"type" => "colorpicker",
-								"heading" => __("Content Text Color", "ultimate_vc"),
-								"param_name" => "content_text_color",
-								"value" => "",
-								"description" => __("Give it a nice paint!", "ultimate_vc"),
-								"group" => "General",
-							),
+
 							array(
 								"type" => "colorpicker",
 								"heading" => __("Header Background Color", "ultimate_vc"),
 								"param_name" => "header_bg_color",
 								"value" => "",
-								"description" => __("Give it a nice paint!", "ultimate_vc"),
-								"group" => "General",
-							),
-							array(
-								"type" => "colorpicker",
-								"heading" => __("Header Text Color", "ultimate_vc"),
-								"param_name" => "header_text_color",
-								"value" => "#333333",
 								"description" => __("Give it a nice paint!", "ultimate_vc"),
 								"group" => "General",
 							),
@@ -574,6 +684,257 @@ if(!class_exists('Ultimate_Modals'))
 								"param_name" => "notification",
 								'edit_field_class' => 'ult-param-important-wrapper ult-dashicon ult-align-right ult-bold-font ult-blue-font vc_column vc_col-sm-12',
 								"group" => "General",
+							),
+
+							//typography
+							array(
+								"type" => "ult_param_heading",
+								"text" => __("Header Settings","ultimate_vc"),
+								"param_name" => "header_typography",
+								//"dependency" => Array("element" => "main_heading", "not_empty" => true),
+								"group" => "Typography",
+								"class" => "ult-param-heading",
+								'edit_field_class' => 'ult-param-heading-wrapper no-top-margin vc_column vc_col-sm-12',
+							),
+							array(
+								"type" => "ultimate_google_fonts",
+								"heading" => __("Font Family", "ultimate_vc"),
+								"param_name" => "header_font",
+								"group" => "Typography",
+							),
+							array(
+								"type" => "ultimate_google_fonts_style",
+								"heading" 		=>	__("Font Style", "ultimate_vc"),
+								"param_name"	=>	"header_font_style",
+								"group" => "Typography",
+							),
+							array(
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Header Font Size", 'ultimate_vc'),
+                                "param_name" => "header_font_size",
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
+                            array(
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Header Line Height", 'ultimate_vc'),
+                                "param_name" => "header_line_height",
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
+                            array(
+								"type" => "colorpicker",
+								"heading" => __("Header Text Color", "ultimate_vc"),
+								"param_name" => "header_text_color",
+								"value" => "#333333",
+								"description" => __("Give it a nice paint!", "ultimate_vc"),
+								"group" => "Typography",
+							),
+                            array(
+								"type" => "ult_param_heading",
+								"text" => __("Modal Content Settings","ultimate_vc"),
+								"param_name" => "desc_typography",
+								//"dependency" => Array("element" => "main_heading", "not_empty" => true),
+								"group" => "Typography",
+								"class" => "ult-param-heading",
+								'edit_field_class' => 'ult-param-heading-wrapper vc_column vc_col-sm-12',
+							),
+							array(
+								"type" => "ultimate_google_fonts",
+								"heading" => __("Font Family", "ultimate_vc"),
+								"param_name" => "content_font",
+								"group" => "Typography",
+							),
+							array(
+								"type" => "ultimate_google_fonts_style",
+								"heading" 		=>	__("Font Style", "ultimate_vc"),
+								"param_name"	=>	"content_font_style",
+								"group" => "Typography",
+							),
+                            array(
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Content Font Size", 'ultimate_vc'),
+                                "param_name" => "content_font_size",
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
+                            array(
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Content Line Height", 'ultimate_vc'),
+                                "param_name" => "content_line_height",
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
+                            array(
+								"type" => "colorpicker",
+								"heading" => __("Content Text Color", "ultimate_vc"),
+								"param_name" => "content_text_color",
+								"value" => "",
+								"description" => __("Give it a nice paint!", "ultimate_vc"),
+								"group" => "Typography",
+							),
+
+							array(
+								"type" => "ult_param_heading",
+								"text" => __("Trigger Text Setting","ultimate_vc"),
+								"param_name" => "trigger_typography",
+								"dependency" => Array("element" => "modal_on","value" => array("text")),
+								"group" => "Typography",
+								"class" => "ult-param-heading",
+								'edit_field_class' => 'ult-param-heading-wrapper vc_column vc_col-sm-12',
+							),
+							array(
+								"type" => "ultimate_google_fonts",
+								"heading" => __("Font Family", "ultimate_vc"),
+								"param_name" => "trigger_text_font",
+								"dependency" => Array("element" => "modal_on","value" => array("text")),
+								"group" => "Typography",
+							),
+							array(
+								"type" => "ultimate_google_fonts_style",
+								"heading" 		=>	__("Font Style", "ultimate_vc"),
+								"param_name"	=>	"trigger_text_font_style",
+								"dependency" => Array("element" => "modal_on","value" => array("text")),
+								"group" => "Typography",
+							),
+							array(
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Trigger Text Font Size", 'ultimate_vc'),
+                                "param_name" => "trigger_text_font_size",
+                                "dependency" => Array("element" => "modal_on","value" => array("text")),
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
+                            array(
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Trigger Text Line Height", 'ultimate_vc'),
+                                "param_name" => "trigger_text_line_height",
+                                "dependency" => Array("element" => "modal_on","value" => array("text")),
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
+							array(
+								"type" => "colorpicker",
+								"class" => "",
+								"heading" => __("Text Color", "ultimate_vc"),
+								"param_name" => "txt_color",
+								"value" => "#f60f60",
+								"description" => __("Give it a nice paint!", "ultimate_vc"),
+								"dependency" => Array("element" => "modal_on","value" => array("text")),
+								'group' => "Typography",
+							),
+							array(
+								"type" => "ult_param_heading",
+								"text" => __("Button Setting","ultimate_vc"),
+								"param_name" => "button_typography",
+								"dependency" => Array("element" => "modal_on","value" => array("ult-button")),
+								"group" => "Typography",
+								"class" => "ult-param-heading",
+								'edit_field_class' => 'ult-param-heading-wrapper vc_column vc_col-sm-12',
+							),
+							array(
+								"type" => "ultimate_google_fonts",
+								"heading" => __("Font Family", "ultimate_vc"),
+								"param_name" => "button_text_font",
+								"dependency" => Array("element" => "modal_on","value" => array("ult-button")),
+								"group" => "Typography",
+							),
+							array(
+								"type" => "ultimate_google_fonts_style",
+								"heading" 		=>	__("Font Style", "ultimate_vc"),
+								"param_name"	=>	"button_text_font_style",
+								"dependency" => Array("element" => "modal_on","value" => array("ult-button")),
+								"group" => "Typography",
+							),
+							array(
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Trigger Text Font Size", 'ultimate_vc'),
+                                "param_name" => "button_text_font_size",
+                                "dependency" => Array("element" => "modal_on","value" => array("ult-button")),
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
+                            array(
+                                "type" => "ultimate_responsive",
+                                "class" => "",
+                                "heading" => __("Trigger Text Line Height", 'ultimate_vc'),
+                                "param_name" => "button_text_line_height",
+                                "dependency" => Array("element" => "modal_on","value" => array("ult-button")),
+                                "unit" => "px",
+                                "media" => array(
+                                    "Desktop" => '',
+                                    "Tablet" => '',
+                                    "Tablet Portrait" => '',
+                                    "Mobile Landscape" => '',
+                                    "Mobile" => '',
+                                ),
+                                "group" => "Typography",
+                            ),
+                            array(
+								"type" => "colorpicker",
+								"heading" => __("Button Text Color", "ultimate_vc"),
+								"param_name" => "btn_txt_color",
+								"value" => "#FFFFFF",
+								"group" => "General",
+								"description" => __("Give it a nice paint!", "ultimate_vc"),
+								"dependency" => Array("element" => "modal_on","value" => array("ult-button")),
+								"group" => "Typography",
 							),
 						) // end params array
 					) // end vc_map array

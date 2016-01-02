@@ -82,6 +82,18 @@ function msp_get_general_post_template_tags() {
 		       'callback' 	=> ''
 		),
 
+        array( 'name'       => 'image-alt',
+               'label'      => __( 'Post image alternative text', MSWP_TEXT_DOMAIN ),
+               'type'       => '_general',
+               'callback'   => ''
+        ),
+
+        array( 'name'       => 'image-title',
+               'label'      => __( 'Post image title', MSWP_TEXT_DOMAIN ),
+               'type'       => '_general',
+               'callback'   => ''
+        ),
+
 		array( 'name'		=> 'thumbnail',
 		       'label' 		=> __( 'Post thumbnail', MSWP_TEXT_DOMAIN ),
 		       'type'		=> '_general',

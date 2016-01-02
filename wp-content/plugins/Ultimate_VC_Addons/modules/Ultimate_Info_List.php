@@ -12,7 +12,7 @@ if(!class_exists('AIO_Info_list'))
 		var $icon_font;
 		var $border_col;
 		var $icon_style;
-		
+
 		function __construct()
 		{
 			$this->connector_animate = '';
@@ -35,7 +35,7 @@ if(!class_exists('AIO_Info_list'))
 			$this->icon_style = $this->connector_animate = $this->icon_font = $this->border_col = '';
 			$position = $style = $icon_color = $icon_bg_color = $connector_animation = $font_size_icon = $icon_border_style = $icon_border_size = $connector_color = $border_color = $el_class = $info_list_link_html = '';
 			extract(shortcode_atts(array(
-				'position' => 'left', 
+				'position' => 'left',
 				'style' => 'square with_bg',
 				'connector_animation' => '',
 				'icon_color' =>'#333333',
@@ -47,6 +47,9 @@ if(!class_exists('AIO_Info_list'))
 				'icon_border_size' => '1',
 				'el_class' => '',
 			), $atts));
+
+			$vc_version = (defined('WPB_VC_VERSION')) ? WPB_VC_VERSION : 0;
+			$is_vc_49_plus = (version_compare(4.9, $vc_version, '<=')) ? 'ult-adjust-bottom-margin' : '';
 
 			$this->connect_color = $connector_color;
 			$this->border_col = $border_color;
@@ -80,7 +83,7 @@ if(!class_exists('AIO_Info_list'))
 				$this->connector_animate = "fadeInLeft";
 			else
 				$this->connector_animate = $connector_animation;
-			$output = '<div class="smile_icon_list_wrap '.$el_class.'">';
+			$output = '<div class="smile_icon_list_wrap '.$is_vc_49_plus.' '.$el_class.'">';
 			$output .= '<ul class="smile_icon_list '.$position.' '.$style.'">';
 			$output .= do_shortcode($content);
 			$output .= '</ul>';
@@ -109,14 +112,14 @@ if(!class_exists('AIO_Info_list'))
 				'desc_font_color' => '',
 				'desc_font_line_height'=> '18',
 				'info_list_link' => '',
-				'info_list_link_apply' => '', 
+				'info_list_link_apply' => '',
 			), $atts));
 			//$content =  wpb_js_remove_wpautop($content);
 			$css_trans = $style = $ico_col = $connector_trans = $icon_html = $title_style = $desc_style = $info_list_link_html = '';
 			//$font_args = array();
-			
+
 			$is_link = false;
-			
+
 			if($info_list_link != '')
 			{
 				$info_list_link_temp = vc_build_link($info_list_link);
@@ -131,7 +134,7 @@ if(!class_exists('AIO_Info_list'))
 				}
 				$is_link = true;
 			}
-			
+
 						/* title */
 			if($title_font != '')
 			{
@@ -141,13 +144,30 @@ if(!class_exists('AIO_Info_list'))
 			}
 			if($title_font_style != '')
 				$title_style .= get_ultimate_font_style($title_font_style);
-			if($title_font_size != '')
-				$title_style .= 'font-size:'.$title_font_size.'px;';
-			if($title_font_line_height != '')
-				$title_style .= 'line-height:'.$title_font_line_height.'px;';
+			// if($title_font_size != '')
+			// 	$title_style .= 'font-size:'.$title_font_size.'px;';
+			// if($title_font_line_height != '')
+			// 	$title_style .= 'line-height:'.$title_font_line_height.'px;';
+
+			if(is_numeric($title_font_size)){
+				$title_font_size = 'desktop:'.$title_font_size.'px;';
+			}
+			if(is_numeric($title_font_line_height)){
+				$title_font_line_height = 'desktop:'.$title_font_line_height.'px;';
+			}
+			$info_list_id = 'Info-list-wrap-'.rand(1000, 9999);
+			$info_list_args = array(
+                'target' => '#'.$info_list_id.' h3', // set targeted element e.g. unique class/id etc.
+                'media_sizes' => array(
+                    'font-size' => $title_font_size, // set 'css property' & 'ultimate_responsive' sizes. Here $title_responsive_font_size holds responsive font sizes from user input.
+                   	'line-height' => $title_font_line_height
+                ),
+            );
+            $info_list_data_list = get_ultimate_vc_responsive_media_css($info_list_args);
+
 			if($title_font_color != '')
 				$title_style .= 'color:'.$title_font_color.';';
-				
+
 			/* description */
 			if($desc_font != '')
 			{
@@ -157,14 +177,31 @@ if(!class_exists('AIO_Info_list'))
 			}
 			if($desc_font_style != '')
 				$desc_style .= get_ultimate_font_style($desc_font_style);
-			if($desc_font_size != '')
-				$desc_style .= 'font-size:'.$desc_font_size.'px;';
-			if($desc_font_line_height != '')
-				$desc_style .= 'line-height:'.$desc_font_line_height.'px;';
+			// if($desc_font_size != '')
+			// 	$desc_style .= 'font-size:'.$desc_font_size.'px;';
+			// if($desc_font_line_height != '')
+			// 	$desc_style .= 'line-height:'.$desc_font_line_height.'px;';
+
+			if(is_numeric($desc_font_size)){
+				$desc_font_size = 'desktop:'.$desc_font_size.'px;';
+			}
+			if(is_numeric($desc_font_line_height)){
+				$desc_font_line_height = 'desktop:'.$desc_font_line_height.'px;';
+			}
+			$info_list_desc_args = array(
+                'target' => '#'.$info_list_id.' .icon_description_text p', // set targeted element e.g. unique class/id etc.
+                'media_sizes' => array(
+                    'font-size' => $desc_font_size, // set 'css property' & 'ultimate_responsive' sizes. Here $title_responsive_font_size holds responsive font sizes from user input.
+                   	'line-height' => $desc_font_line_height
+                ),
+            );
+            $info_list_desc_data_list = get_ultimate_vc_responsive_media_css($info_list_desc_args);
+
+
 			if($desc_font_color != '')
 				$desc_style .= 'color:'.$desc_font_color.';';
 			//enquque_ultimate_google_fonts($font_args);
-			
+
 			if($animation !== 'none')
 			{
 				$css_trans = 'data-animation="'.$animation.'" data-animation-delay="03"';
@@ -177,12 +214,12 @@ if(!class_exists('AIO_Info_list'))
 				$ico_col = 'style="color:'.$icon_color.'";';
 			}
 			if($icon_bg_color != ''){
-				$style .= 'background:'.$icon_bg_color.';  color:'.$icon_bg_color.';';	
+				$style .= 'background:'.$icon_bg_color.';  color:'.$icon_bg_color.';';
 			}
 			if($icon_bg_color != ''){
 				$style .= 'border-color:'.$this->border_col.';';
 			}
-			
+
 			if($icon_type == "custom"){
 				$img = apply_filters('ult_get_img_single', $icon_img, 'url', 'large');
 				//if(!empty($img)){
@@ -194,26 +231,26 @@ if(!class_exists('AIO_Info_list'))
 				$icon_html .= '</div>';
 			 // }
 			}
-			else {		
+			else {
 				$icon_html .= '<div class="icon_list_icon" '.$css_trans.' style="'.$this->icon_style.'">';
 				$icon_html .= '<i class="'.$list_icon.'" '.$ico_col.'></i>';
 				if($is_link && $info_list_link_apply == 'icon')
 					$icon_html .= $info_list_link_html;
 				$icon_html .= '</div>';
-			} 
+			}
 			$output = '<li class="icon_list_item" style=" '.$this->icon_font.'">';
 			$output .= $icon_html;
-			$output .= '<div class="icon_description">';
+			$output .= '<div class="icon_description" id="'.$info_list_id.'">';
 			if($list_title != '')
 			{
-				$output .= '<h3 style="'.$title_style.'">';
+				$output .= '<h3 class="ult-responsive" '.$info_list_data_list.' style="'.$title_style.'">';
 				if($is_link && $info_list_link_apply == 'title')
 					$output .= '<a href="'.$url.'" target="'.$target.'">'.$list_title.'</a>';
 				else
 					$output .= $list_title;
 				$output .= '</h3>';
 			}
-			$output .= '<div class="icon_description_text" style="'.$desc_style.'">'.wpb_js_remove_wpautop($content, true).'</div>';
+			$output .= '<div class="icon_description_text ult-responsive" '.$info_list_desc_data_list.' style="'.$desc_style.'">'.wpb_js_remove_wpautop($content, true).'</div>';
 			$output .= '</div>';
 			$output .= '<div class="icon_list_connector" '.$connector_trans.' style="border-color:'.$this->connect_color.';"></div>';
 			if($is_link && $info_list_link_apply == 'container')
@@ -227,7 +264,7 @@ if(!class_exists('AIO_Info_list'))
 			// Do nothing
 			$position = $style = $icon_color = $icon_bg_color = $connector_animation = $font_size_icon = $icon_border_style = $icon_border_size = $connector_color = $border_color = $el_class = '';
 			extract(shortcode_atts(array(
-				'position' => 'left', 
+				'position' => 'left',
 				'style' => 'square with_bg',
 				'connector_animation' => '',
 				'icon_color' =>'#333333',
@@ -301,12 +338,12 @@ if(!class_exists('AIO_Info_list'))
 				$ico_col = 'style="color:'.$icon_color.'";';
 			}
 			if($icon_bg_color != ''){
-				$style .= 'background:'.$icon_bg_color.';  color:'.$icon_bg_color.';';	
+				$style .= 'background:'.$icon_bg_color.';  color:'.$icon_bg_color.';';
 			}
 			if($icon_bg_color != ''){
 				$style .= 'border-color:'.$this->border_col.';';
 			}
-			if($icon_type == "selector"){		
+			if($icon_type == "selector"){
 				$icon_html .= '<div class="icon_list_icon" '.$css_trans.'>';
 				$icon_html .= '<i class="'.$list_icon.'" '.$ico_col.'></i>';
 				$icon_html .= '</div>';
@@ -369,9 +406,7 @@ if(!class_exists('AIO_Info_list'))
 							"param_name" => "style",
 							"value" => array(
 								__('Square With Background','ultimate_vc') => 'square with_bg',
-								__('Square Without Background','ultimate_vc') => 'square no_bg',
 								__('Circle With Background','ultimate_vc') => 'circle with_bg',
-								__('Circle Without Background','ultimate_vc') => 'circle no_bg',
 								__('Hexagon With Background','ultimate_vc') => 'hexagon',
 								),
 							"description" => __("Select the icon style for icon list.","ultimate_vc")
@@ -383,7 +418,7 @@ if(!class_exists('AIO_Info_list'))
 							"param_name" => "icon_bg_color",
 							"value" => "#ffffff",
 							"description" => __("Select the color for icon background.", "ultimate_vc"),
-							"dependency" => Array("element" => "style", "value" => array("square with_bg","circle with_bg","hexagon")),							
+							"dependency" => Array("element" => "style", "value" => array("square with_bg","circle with_bg","hexagon")),
 						),
 						array(
 							"type" => "colorpicker",
@@ -391,7 +426,7 @@ if(!class_exists('AIO_Info_list'))
 							"heading" => __("Icon Color:", "ultimate_vc"),
 							"param_name" => "icon_color",
 							"value" => "#333333",
-							"description" => __("Select the color for icon.", "ultimate_vc"),								
+							"description" => __("Select the color for icon.", "ultimate_vc"),
 						),
 						array(
 							"type" => "number",
@@ -419,7 +454,7 @@ if(!class_exists('AIO_Info_list'))
 								__("Outset","ultimate_vc") => "outset",
 							),
 							"description" => __("Select the border style for icon.","ultimate_vc"),
-							"dependency" => Array("element" => "style", "value" => array("square no_bg","square with_bg","circle no_bg","circle with_bg")),
+							"dependency" => Array("element" => "style", "value" => array("square with_bg","circle with_bg")),
 						),
 						array(
 							"type" => "number",
@@ -440,7 +475,7 @@ if(!class_exists('AIO_Info_list'))
 							"param_name" => "border_color",
 							"value" => "#333333",
 							"description" => __("Select the color border.", "ultimate_vc"),
-							"dependency" => Array("element" => "icon_border_style", "value" => array("solid","dashed","dotted","double","inset","outset")),								
+							"dependency" => Array("element" => "icon_border_style", "value" => array("solid","dashed","dotted","double","inset","outset")),
 						),
 						array(
 							"type" => "colorpicker",
@@ -449,7 +484,7 @@ if(!class_exists('AIO_Info_list'))
 							"param_name" => "connector_color",
 							"value" => "#333333",
 							"description" => __("Select the color for connector line.", "ultimate_vc"),
-							"group" => "Connector"							
+							"group" => "Connector"
 						),
 						array(
 							"type" => "checkbox",
@@ -462,7 +497,7 @@ if(!class_exists('AIO_Info_list'))
 							"description" => __("Select wheather to animate connector or not","ultimate_vc"),
 							"group" => "Connector"
 						),
-						
+
 						// Customize everything
 						array(
 							"type" => "textfield",
@@ -519,7 +554,7 @@ if(!class_exists('AIO_Info_list'))
 							"heading" => __("Select List Icon ","ultimate_vc"),
 							"param_name" => "list_icon",
 							"value" => "",
-							"description" => __("Click and select icon of your choice. If you can't find the one that suits for your purpose","ultimate_vc").", ".__("you can","ultimate_vc")." <a href='admin.php?page=font-icon-Manager' target='_blank'>".__("add new here","ultimate_vc")."</a>.",
+							"description" => __("Click and select icon of your choice. If you can't find the one that suits for your purpose","ultimate_vc").", ".__("you can","ultimate_vc")." <a href='admin.php?page=bsf-font-icon-manager' target='_blank'>".__("add new here","ultimate_vc")."</a>.",
 							"dependency" => Array("element" => "icon_type","value" => array("selector")),
 						),
 						array(
@@ -591,7 +626,7 @@ if(!class_exists('AIO_Info_list'))
 						array(
 								"type" => "ult_param_heading",
 								"param_name" => "title_text_typography",
-								"text" => __("Title settings","ultimate_vc"),
+								"text" => __("Title Settings","ultimate_vc"),
 								"value" => "",
 								"group" => "Typography",
 								"class" => "ult-param-heading",
@@ -611,24 +646,55 @@ if(!class_exists('AIO_Info_list'))
 								"value" => "",
 								"group" => "Typography"
 							),
+							// array(
+							// 	"type" => "number",
+							// 	"param_name" => "title_font_size",
+							// 	"heading" => __("Font size","ultimate_vc"),
+							// 	"value" => "16",
+							// 	"suffix" => "px",
+							// 	"min" => 10,
+							// 	"group" => "Typography"
+							// ),
+							// array(
+							// 	"type" => "number",
+							// 	"param_name" => "title_font_line_height",
+							// 	"heading" => __("Font Line Height","ultimate_vc"),
+							// 	"value" => "24",
+							// 	"suffix" => "px",
+							// 	"min" => 10,
+							// 	"group" => "Typography"
+							// ),
 							array(
-								"type" => "number",
-								"param_name" => "title_font_size",
-								"heading" => __("Font size","ultimate_vc"),
-								"value" => "16",
-								"suffix" => "px",
-								"min" => 10,
-								"group" => "Typography"
-							),
-							array(
-								"type" => "number",
-								"param_name" => "title_font_line_height",
-								"heading" => __("Font Line Height","ultimate_vc"),
-								"value" => "24",
-								"suffix" => "px",
-								"min" => 10,
-								"group" => "Typography"
-							),
+			                    "type" => "ultimate_responsive",
+			                    "class" => "",
+			                    "heading" => __("Font size", 'ultimate_vc'),
+			                    "param_name" => "title_font_size",
+			                    "unit" => "px",
+			                    "media" => array(
+			                        "Desktop" => '',
+			                        "Tablet" => '',
+			                        "Tablet Portrait" => '',
+			                        "Mobile Landscape" => '',
+			                        "Mobile" => '',
+			                    ),
+			                    "group" => "Typography",
+			                ),
+			                array(
+			                    "type" => "ultimate_responsive",
+			                    "class" => "",
+			                    "heading" => __("Font Line Height", 'ultimate_vc'),
+			                    "param_name" => "title_font_line_height",
+			                    "unit" => "px",
+			                    "media" => array(
+			                        "Desktop" => '',
+			                        "Tablet" => '',
+			                        "Tablet Portrait" => '',
+			                        "Mobile Landscape" => '',
+			                        "Mobile" => '',
+			                    ),
+			                    "group" => "Typography",
+			                ),
+
 							array(
 								"type" => "colorpicker",
 								"param_name" => "title_font_color",
@@ -638,7 +704,7 @@ if(!class_exists('AIO_Info_list'))
 							array(
 								"type" => "ult_param_heading",
 								"param_name" => "desc_text_typography",
-								"text" => __("Description settings","ultimate_vc"),
+								"text" => __("Description Settings","ultimate_vc"),
 								"value" => "",
 								"group" => "Typography",
 								"class" => "ult-param-heading",
@@ -658,24 +724,54 @@ if(!class_exists('AIO_Info_list'))
 								"value" => "",
 								"group" => "Typography"
 							),
+							// array(
+							// 	"type" => "number",
+							// 	"param_name" => "desc_font_size",
+							// 	"heading" => __("Font size","ultimate_vc"),
+							// 	"value" => "13",
+							// 	"suffix" => "px",
+							// 	"min" => 10,
+							// 	"group" => "Typography"
+							// ),
+							// array(
+							// 	"type" => "number",
+							// 	"param_name" => "desc_font_line_height",
+							// 	"heading" => __("Font Line Height","ultimate_vc"),
+							// 	"value" => "18",
+							// 	"suffix" => "px",
+							// 	"min" => 10,
+							// 	"group" => "Typography"
+							// ),
 							array(
-								"type" => "number",
-								"param_name" => "desc_font_size",
-								"heading" => __("Font size","ultimate_vc"),
-								"value" => "13",
-								"suffix" => "px",
-								"min" => 10,
-								"group" => "Typography"
-							),
-							array(
-								"type" => "number",
-								"param_name" => "desc_font_line_height",
-								"heading" => __("Font Line Height","ultimate_vc"),
-								"value" => "18",
-								"suffix" => "px",
-								"min" => 10,
-								"group" => "Typography"
-							),
+			                    "type" => "ultimate_responsive",
+			                    "class" => "",
+			                    "heading" => __("Font size", 'ultimate_vc'),
+			                    "param_name" => "desc_font_size",
+			                    "unit" => "px",
+			                    "media" => array(
+			                        "Desktop" => '',
+			                        "Tablet" => '',
+			                        "Tablet Portrait" => '',
+			                        "Mobile Landscape" => '',
+			                        "Mobile" => '',
+			                    ),
+			                    "group" => "Typography",
+			                ),
+			                array(
+			                    "type" => "ultimate_responsive",
+			                    "class" => "",
+			                    "heading" => __("Font Line Height", 'ultimate_vc'),
+			                    "param_name" => "desc_font_line_height",
+			                    "unit" => "px",
+			                    "media" => array(
+			                        "Desktop" => '',
+			                        "Tablet" => '',
+			                        "Tablet Portrait" => '',
+			                        "Mobile Landscape" => '',
+			                        "Mobile" => '',
+			                    ),
+			                    "group" => "Typography",
+			                ),
 							array(
 								"type" => "colorpicker",
 								"param_name" => "desc_font_color",
@@ -683,7 +779,7 @@ if(!class_exists('AIO_Info_list'))
 								"group" => "Typography"
 							),
 					   )
-					) 
+					)
 				);
 			}//endif
 		}

@@ -26,19 +26,23 @@ if( ! function_exists( 'masterslider' ) ) {
 
 
 /**
- * Get master slider markup for specific slider ID
+ * Get master slider markup for specific slider by ID or alias
  *
- * @param  int      $slider_id   the slider id
+ * @param  int      $slider_id   the slider id or alias
  * @return string   the slider markup
  */
 if( ! function_exists( 'get_masterslider' ) ) {
 
     function get_masterslider( $slider_id, $args = NULL ){
-        global $msp_instances;
+        global $msp_instances, $mspdb;
 
-        // through an error if slider id is not valid number
-        if( ! is_numeric( $slider_id ) )
-            return __( 'Invalid slider id. Master Slider ID must be a valid number.', MSWP_TEXT_DOMAIN );
+        if( ! $mspdb->get_slider( $slider_id, 'ID' ) ){
+            if( $slider_data = $mspdb->get_slider( $slider_id, 'alias' ) ){
+                $slider_id   = $slider_data['ID'];
+            } else{
+                return __( 'Invalid slider ID or alias.', MSWP_TEXT_DOMAIN );
+            }
+        }
 
         // load masterslider script
         wp_enqueue_style ( 'masterslider-main');
@@ -660,7 +664,7 @@ function msp_get_first_image_src_from_string( $content ){
 /**
  * Get list of created slider IDs and names in an array
  *
- * @param  bool    $id_as_key   If <code>true</code> returns slider ID as array key and slider name as value , reverse on <code>false</code>
+ * @param  bool    $pair_fields If <code>id-title</code> returns slider ID as array key and slider name as value , reverse on <code>title-id</code>
  * @param  int     $limit       Maximum number of sliders to return - 0 means no limit
  * @param  int     $offset      The offset of the first row to return
  * @param  string  $orderby     The field name to order results by
@@ -668,31 +672,53 @@ function msp_get_first_image_src_from_string( $content ){
  *
  * @return array   An array containing sliders ID as array key and slider name as value
  *
- * @example   $id_as_key = true :
+ * @example   $pair_fields = 'id-title' :
  *            array(
  *                '12' => 'Slider sample title 1',
  *                '13' => 'Slider sample title 2'
  *            )
  *
- *            $id_as_key = false :
+ *            $pair_fields = 'title-id' :
  *            array(
  *                'Slider sample title 1' => '12',
  *                'Slider sample title 2' => '13'
  *            )
+ *
+ *            $pair_fields = 'alias-title' :
+ *            array(
+ *                'ms-2' => 'Slider sample title 2',
+ *                'ms-3' => 'Slider sample title 3'
+ *            )
+ *
  */
-function get_masterslider_names( $id_as_key = true, $limit = 0, $offset  = 0, $orderby = 'ID', $sort = 'DESC' ){
+function get_masterslider_names( $pair_fields = 'id-title', $limit = 0, $offset  = 0, $orderby = 'ID', $sort = 'DESC' ){
     global $mspdb;
 
     // replace 0 with max numbers od records you need
     if ( $sliders_data = $mspdb->get_sliders_list( $limit = 0, $offset  = 0, $orderby = 'ID', $sort = 'DESC' ) ) {
         // stores sliders 'ID' and 'title'
         $sliders_name_list = array();
-        $sliders_name_list[ 0 ] = __('Select...', 'ms-slider');
+
+        // backward compatibility for legacy arguments
+        if( true === $pair_fields ){
+            $pair_fields = 'id-title';
+        } elseif( false === $pair_fields ){
+            $pair_fields = 'title-id';
+        } elseif( 'alias' === $pair_fields ){
+            $pair_fields = 'alias-title';
+        }
+
+        $pair_fields  = strtolower( $pair_fields );
+        $option_value = explode( '-', $pair_fields );
+
         foreach ( $sliders_data as $slider_data ) {
-            if( $id_as_key )
+            if( 'id-title' === $pair_fields ){
                 $sliders_name_list[ $slider_data['ID'] ]    = $slider_data['title'];
-            else
+            } elseif( 'title-id' === $pair_fields ){
                 $sliders_name_list[ $slider_data['title'] ] = $slider_data['ID'];
+            } else{
+                $sliders_name_list[ $slider_data[ $option_value['0'] ] ] = $slider_data[ $option_value['1'] ];
+            }
         }
 
         return $sliders_name_list;
@@ -988,6 +1014,16 @@ function msp_get_template_tag_value( $tag_name, $post = null, $args = null ){
 		case 'image-url':
         case 'slide-image-url':
             $value = msp_get_auto_post_thumbnail_src( $post, 'auto' );
+            break;
+
+        case 'image-alt':
+            $attachment_id = get_post_thumbnail_id( $post->ID );
+            $value = ! empty( $attachment_id ) ? get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) : '';
+            break;
+
+        case 'image-title':
+            $attachment_id = get_post_thumbnail_id( $post->ID );
+            $value = ! empty( $attachment_id ) ? get_post_meta( $attachment_id, '_wp_attachment_image_title', true ) : '';
             break;
 
         case 'thumbnail':
