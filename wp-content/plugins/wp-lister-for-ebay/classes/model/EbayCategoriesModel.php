@@ -328,7 +328,8 @@ class EbayCategoriesModel extends WPL_Model {
 			foreach ($res->Recommendations[0]->NameRecommendation as $Recommendation) {
 
 				// ignore invalid data - Name is required
-				if ( empty($Recommendation->Name) ) continue;
+				// if ( empty( $Recommendation->getName() ) ) continue; // does not work in PHP 5.4 and before (Fatal Error: Can't use method return value in write context)
+                if ( ! $Recommendation->getName() ) continue;			// works in all PHP versions
 
 				$new_specs                = new stdClass();
 				$new_specs->Name          = $Recommendation->Name;

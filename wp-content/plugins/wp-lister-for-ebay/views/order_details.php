@@ -117,6 +117,12 @@
                 <a href="admin.php?page=wplister&amp;s=<?php echo $item['item_id'] ?>" target="_blank">
                     <?php echo $item['title'] ?>
                 </a>
+
+                <?php if ( $item['sku'] ) : ?>
+                    <br>SKU: 
+                    <?php echo $item['sku'] ?>
+                <?php endif; ?>
+
                 <?php if ( isset( $item['VariationSpecifics'] ) && is_array( $item['VariationSpecifics'] ) ) : ?>
                     <?php foreach ($item['VariationSpecifics'] as $attribute_name => $attribute_value) : ?>
                         <br>

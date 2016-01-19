@@ -296,7 +296,7 @@ class TemplatesModel extends WPL_Model {
 		$tpl_html = $this->processGalleryShortcodes( $item['id'], $tpl_html );
 
 		// process item shortcodes
-		$tpl_html = $this->processEbayItemShortcodes( $ItemObj, $tpl_html );
+		$tpl_html = $this->processEbayItemShortcodes( $item, $ItemObj, $tpl_html );
 
 
 		// handle images...
@@ -383,11 +383,11 @@ class TemplatesModel extends WPL_Model {
 	}
 
 
-	public function processEbayItemShortcodes( $ItemObj, $tpl_html ) {
+	public function processEbayItemShortcodes( $item, $ItemObj, $tpl_html ) {
 		if ( ! $ItemObj ) return $tpl_html;
 
 		// ebay_item_id
-		$tpl_html = str_replace( '[[ebay_item_id]]', @$ItemObj->ItemID, $tpl_html );
+		$tpl_html = str_replace( '[[ebay_item_id]]', $item['ebay_id'], $tpl_html );
 
 		// ebay_store_category_id
 		$tpl_html = str_replace( '[[ebay_store_category_id]]', $ItemObj->Storefront->StoreCategoryID, $tpl_html );
@@ -396,6 +396,7 @@ class TemplatesModel extends WPL_Model {
 		$tpl_html = str_replace( '[[ebay_store_category_name]]', EbayCategoriesModel::getStoreCategoryName( $ItemObj->Storefront->StoreCategoryID ), $tpl_html );
 
 		// ebay_store_url
+		// TODO: fetch StoreURL for active account
 		$user_details = get_option( 'wplister_ebay_user' );
 		if ( isset( $user_details->StoreURL ) )
 			$tpl_html = str_replace( '[[ebay_store_url]]', $user_details->StoreURL, $tpl_html );
@@ -631,6 +632,11 @@ class TemplatesModel extends WPL_Model {
 				} else {					
 					$attribute_value = '';
 				}
+
+				// format multiple attribute values
+				$attribute_value = str_replace( '|', '<br/>', $attribute_value );
+
+				// replace placeholder
 				$processed_html = str_replace( '[[attribute_'.$attribute.']]', $attribute_value,  $tpl_html );
 
 				// check if string exceeds max_length after processing shortcode

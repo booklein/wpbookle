@@ -20,7 +20,7 @@ if ( ! class_exists( 'YITH_WCAN_Reset_Navigation_Widget' ) ) {
     class YITH_WCAN_Reset_Navigation_Widget extends WP_Widget {
 
         function __construct() {
-            $widget_ops  = array( 'classname' => 'yith-woo-ajax-reset-navigation yith-woo-ajax-navigation woocommerce widget_layered_nav', 'description' => __( 'Reset all filters set by YITH WooCommerce Ajax Product Filter', 'yith-woocommerce-ajax-navigation' ) );
+            $widget_ops  = array( 'classname' => 'yith-woocommerce-ajax-product-filter yith-woo-ajax-reset-navigation yith-woo-ajax-navigation woocommerce widget_layered_nav', 'description' => __( 'Reset all filters set by YITH WooCommerce Ajax Product Filter', 'yith-woocommerce-ajax-navigation' ) );
             $control_ops = array( 'width' => 400, 'height' => 350 );
             parent::__construct( 'yith-woo-ajax-reset-navigation', __( 'YITH WooCommerce Ajax Reset Filter', 'yith-woocommerce-ajax-navigation' ), $widget_ops, $control_ops );
         }
@@ -47,14 +47,25 @@ if ( ! class_exists( 'YITH_WCAN_Reset_Navigation_Widget' ) ) {
                 $title = isset( $instance['title'] ) ? apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) : '';
                 $label = isset( $instance['label'] ) ? apply_filters( 'yith-wcan-reset-navigation-label', $instance['label'], $instance, $this->id_base ) : '';
 
+                $link = '';
+
                 //clean the url
-                $link = yit_curPageURL();
-                foreach ( (array) $_chosen_attributes as $taxonomy => $data ) {
-                    $taxonomy_filter = str_replace( 'pa_', '', $taxonomy );
-                    $link            = remove_query_arg( 'filter_' . $taxonomy_filter, $link );
+                if( ! isset( $_GET['source_id'] ) ){
+                    $link = yit_curPageURL();
+                    foreach ( (array) $_chosen_attributes as $taxonomy => $data ) {
+                        $taxonomy_filter = str_replace( 'pa_', '', $taxonomy );
+                        $link            = remove_query_arg( 'filter_' . $taxonomy_filter, $link );
+                    }
+
+                    $link = remove_query_arg( array( 'min_price', 'max_price', 'product_tag' ), $link );
                 }
 
-                $link = remove_query_arg( array( 'min_price', 'max_price', 'product_tag' ), $link );
+                else{
+                    //Start filter from Product category Page
+                    $term = get_term_by( 'id', $_GET['source_id'], 'product_cat' );
+                    $link = get_term_link( $term, $term->taxonomy  );
+                }
+
 
                 $link = apply_filters( 'yith_woocommerce_reset_filter_link', $link );
 

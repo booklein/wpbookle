@@ -4667,8 +4667,8 @@ msgid "WP-Lister Pro"
 msgstr "WP-Lister Pro"
 
 #. Plugin URI of the plugin/theme
-msgid "http://www.wplab.com/plugins/wp-lister/"
-msgstr "http://www.wplab.com/plugins/wp-lister/"
+msgid "https://www.wplab.com/plugins/wp-lister/"
+msgstr "https://www.wplab.com/plugins/wp-lister/"
 
 #. Description of the plugin/theme
 msgid "List your products on eBay the easy way."
@@ -4679,5 +4679,5 @@ msgid "Matthias Krok"
 msgstr "Matthias Krok"
 
 #. Author URI of the plugin/theme
-msgid "http://www.wplab.com/"
-msgstr "http://www.wplab.com/"
+msgid "https://www.wplab.com/"
+msgstr "https://www.wplab.com/"

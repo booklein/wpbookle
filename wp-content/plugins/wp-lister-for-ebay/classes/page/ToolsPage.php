@@ -120,6 +120,7 @@ class ToolsPage extends WPL_Page {
 					$prices          = isset( $_REQUEST['prices'] ) 		 ? $_REQUEST['prices'] 			: false;
 					$mark_as_changed = isset( $_REQUEST['mark_as_changed'] ) ? $_REQUEST['mark_as_changed'] : false;
 					$step            = isset( $_REQUEST['step']   ) 		 ? $_REQUEST['step']   			: 0;
+					$batch_size      = get_option( 'wplister_inventory_check_batch_size', 200 );
 
 					// check new batch of items
 					$new_items_were_processed = $ic->checkProductInventory( $mode, $prices, $step );
@@ -131,9 +132,10 @@ class ToolsPage extends WPL_Page {
 						if ( $mark_as_changed == 'yes' ) {
 							$msg = 'Updating listing status, please wait... ';
 						} 
+						$msg .= '<img src="'.WPLISTER_URL.'/img/ajax-loader.gif" style="float:left; margin-right:1em; margin-top:0.3em;"/>';
 
 						$step++;
-						$msg .= '<br><small>Step '.$step.' / '.($step * $ic->batch_size).' items checked </small>';
+						$msg .= '<br><small>Step '.$step.' / '.($step * $batch_size).' items checked </small>';
 
 						// build button, which is triggered by js automatically
 						$url  = 'admin.php?page=wplister-tools&action=check_wc_out_of_sync&mode='.$mode.'&prices='.$prices.'&mark_as_changed='.$mark_as_changed.'&step='.$step.'&_wpnonce='.wp_create_nonce('e2e_tools_page');
@@ -146,7 +148,7 @@ class ToolsPage extends WPL_Page {
 						$ic->showProductInventoryCheckResult( $mode );
 
 						// clear tmp data
-						update_option('wple_inventory_check_queue_data', '');
+						update_option('wple_inventory_check_queue_data', '', 'no');
 
 					}
 
@@ -159,6 +161,7 @@ class ToolsPage extends WPL_Page {
 					$ic = new WPL_InventoryCheck();
 					$mark_as_changed = isset( $_REQUEST['mark_as_changed'] ) ? $_REQUEST['mark_as_changed'] : false;
 					$step            = isset( $_REQUEST['step']   ) 		 ? $_REQUEST['step']   			: 0;
+					$batch_size      = get_option( 'wplister_inventory_check_batch_size', 200 );
 
 					// check new batch of items
 					$new_items_were_processed = $ic->checkProductStock( $step );
@@ -170,9 +173,10 @@ class ToolsPage extends WPL_Page {
 						if ( $mark_as_changed == 'yes' ) {
 							$msg = 'Updating listing status, please wait... ';
 						} 
+						$msg .= '<img src="'.WPLISTER_URL.'/img/ajax-loader.gif" style="float:left; margin-right:1em; margin-top:0.3em;"/>';
 
 						$step++;
-						$msg .= '<br><small>Step '.$step.' / '.($step * $ic->batch_size).' items checked </small>';
+						$msg .= '<br><small>Step '.$step.' / '.($step * $batch_size).' items checked </small>';
 
 						// build button, which is triggered by js automatically
 						$url  = 'admin.php?page=wplister-tools&action=check_wc_out_of_stock&mark_as_changed='.$mark_as_changed.'&step='.$step.'&_wpnonce='.wp_create_nonce('e2e_tools_page');
@@ -185,7 +189,7 @@ class ToolsPage extends WPL_Page {
 						$ic->showProductStockCheckResult();
 
 						// clear tmp data
-						update_option('wple_inventory_check_queue_data', '');
+						update_option('wple_inventory_check_queue_data', '', 'no');
 
 					}
 
@@ -1033,7 +1037,7 @@ class ToolsPage extends WPL_Page {
 
 		// try wplab.com
 		if ( ! $this->results->successWplabApi ) {
-			$url = 'http://www.wplab.com/';
+			$url = 'https://www.wplab.com/';
 			$this->results->successWplabWeb = $this->checkUrl( $url, 'WP Lab web server' );
 		}
 

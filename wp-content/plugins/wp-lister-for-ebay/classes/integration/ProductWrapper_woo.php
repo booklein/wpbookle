@@ -25,8 +25,12 @@ class ProductWrapper {
 		$disable_sale_price = get_option('wplister_disable_sale_price');
 		if ( $disable_sale_price ) return self::getOriginalPrice( $post_id );
 
-		$sale_price = get_post_meta( $post_id, '_sale_price', true);
-		if ( floatval($sale_price) > 0 ) return $sale_price;
+		$sale_price = get_post_meta( $post_id, '_sale_price', true );
+		if ( floatval($sale_price) > 0 ) {
+			$sale_price_dates_from = get_post_meta( $post_id, '_sale_price_dates_from', true );	// check if sale has started already
+			if ( ! $sale_price_dates_from ) return $sale_price;									// return sale price if no schedule set
+			if ( $sale_price_dates_from < current_time( 'timestamp' ) ) return $sale_price;		// return sale price if schedule has started
+		}
 
 		return get_post_meta( $post_id, '_price', true);
 	}	

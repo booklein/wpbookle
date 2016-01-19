@@ -404,6 +404,7 @@ class WPL_WooBackendIntegration {
 					$msg_1   = 'eBay listing is '.$listing->status.'.';
 					$msg_2   = '';
 					$msg_3   = 'Click to view all listings for this product in WP-Lister.';
+					if ( defined('WPLISTER_RESELLER_VERSION') ) $msg_3 = apply_filters( 'wplister_tooltip_text', $msg_3 );
 					$linkurl = 'admin.php?page=wplister&amp;s='.$post->ID;
 
 					switch ( $listing->status ) {
@@ -857,7 +858,7 @@ class WPL_WooBackendIntegration {
 
         // show locked indicator
         if ( @$item->locked ) {
-            $tip_msg = 'This listing is currently locked.<br>Only inventory changes and prices will be updated, other changes will be ignored.';
+            $tip_msg = 'This listing is currently locked.<br>Only inventory changes and prices will be updated, other changes will be ignored.<br><br>(Except for variable products where not all variations have a unique SKU, or when new variations are added. In these cases, the item will be revised in full.)';
             $img_url = WPLISTER_URL . '/img/lock-1.png';
             $locktip = '<img src="'.$img_url.'" style="height:11px; padding:0;" class="tips" data-tip="'.$tip_msg.'"/>&nbsp;';
         } 

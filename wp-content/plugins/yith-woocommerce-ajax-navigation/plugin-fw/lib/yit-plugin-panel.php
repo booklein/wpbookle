@@ -146,8 +146,8 @@ if ( ! class_exists( 'YIT_Plugin_Panel' ) ) {
             wp_enqueue_style( 'raleway-font', '//fonts.googleapis.com/css?family=Raleway:400,500,600,700,800,100,200,300,900' );
             wp_enqueue_style( 'jquery-chosen', YIT_CORE_PLUGIN_URL . '/assets/css/chosen/chosen.css' );
             wp_enqueue_style( 'yit-jquery-ui-style', '//code.jquery.com/ui/' . $jquery_version . '/themes/smoothness/jquery-ui.css', array(), $jquery_version );
-
-             if( 'admin.php' == $pagenow && strpos('yit-plugins_page',get_current_screen()->id ) !== false ){
+            
+             if( ( 'admin.php' == $pagenow && strpos( get_current_screen()->id, 'yit-plugins_page' ) !== false ) || apply_filters( 'yit_plugin_panel_asset_loading', false ) ){
                  wp_enqueue_style( 'yit-plugin-style' );
                  wp_enqueue_script( 'yit-plugin-panel' );
             }

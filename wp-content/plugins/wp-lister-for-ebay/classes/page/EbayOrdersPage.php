@@ -66,16 +66,24 @@ class EbayOrdersPage extends WPL_Page {
 			// regard update options
 			$days = is_numeric( $_REQUEST['wpl_number_of_days'] ) ? $_REQUEST['wpl_number_of_days'] : false;
 
-			$accounts = WPLE_eBayAccount::getAll();
+			$accounts = WPLE_eBayAccount::getAll( false, true ); // sort by id
 			$msg = '';
 
 			// loop each active account
+			$processed_accounts = array();
 			foreach ( $accounts as $account ) {
+
+				// make sure we don't process the same account twice
+				if ( in_array( $account->user_name, $processed_accounts ) ) {
+			        WPLE()->logger->info("skipping account {$account->id} - user name {$account->user_name} was already processed");
+					continue;
+				}
 
 				$this->initEC( $account->id );
 				$tm = $this->EC->updateEbayOrders( $days );
 				$this->EC->updateListings();
 				$this->EC->closeEbay();
+				$processed_accounts[] = $account->user_name;
 
 				// show ebay_order report
 				$msg .= sprintf( __('%s order(s) found on eBay for account %s.','wplister'), $tm->count_total, $account->title ) . '<br>';

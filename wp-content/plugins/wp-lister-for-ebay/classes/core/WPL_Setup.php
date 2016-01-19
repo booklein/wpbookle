@@ -126,6 +126,9 @@ class WPL_Setup extends WPL_Core {
 		// check token expiration date
 		self::checkToken();
 
+		// check if all db tables exist
+		self::checkDatabaseTables( $page );
+
 		// // fetch user details if not done yet
 		// if ( ( self::getOption('ebay_token') != '' ) && ( ! self::getOption('ebay_user') ) ) {
 		// 	$this->initEC();
@@ -460,7 +463,7 @@ class WPL_Setup extends WPL_Core {
 
 		// check if schedule is delayed (by 1d)
 		// $next_scheduled = $next_scheduled - 3600*48; // debug only
-		if ( $next_scheduled < current_time('timestamp',1) - 3600*25 ) {
+		if ( ( $next_scheduled < current_time('timestamp',1) - 3600*25 ) && ! $this->isStagingSite() ) {
 
 			wple_show_message( 
 				'<p>'
@@ -489,6 +492,45 @@ class WPL_Setup extends WPL_Core {
 
 	} // checkCron()
 
+
+	// check if all database tables exist
+	public function checkDatabaseTables( $page ) {
+		global $wpdb;
+
+		if ( $page != 'settings' ) return;
+		if ( 0 == get_option('wplister_db_version', 0) ) return;
+
+		$required_tables = array(
+		    'ebay_accounts',
+		    'ebay_auctions',
+		    'ebay_categories',
+		    'ebay_jobs',
+		    'ebay_log',
+		    'ebay_messages',
+		    'ebay_orders',
+		    'ebay_payment',
+		    'ebay_profiles',
+		    'ebay_shipping',
+		    'ebay_sites',
+		    'ebay_store_categories',
+		    'ebay_transactions',
+		);
+
+		$tables  = $wpdb->get_col('show tables like "'.$wpdb->prefix.'ebay%" ');
+		$missing = array();
+
+		foreach ($required_tables as $tablename ) {
+			if ( ! in_array( $wpdb->prefix.$tablename, $tables ) ) {
+				// wple_show_message( 'Missing database table: ' . $tablename, 'error' );
+				$missing[] = $tablename;
+			}
+		}
+
+		if ( ! empty($missing) ) {
+			wple_show_message( '<b>Error: The following table(s) are missing in your database: ' . join(', ', $missing) . '</b><br><!br>Please contact support or reinstall WP-Lister from scratch, using the "Uninstall on deactivation" option.', 'error' );
+		}
+
+	} // checkDatabaseTables()
 
 	// check if database has been corrupted during migration 
 	public function checkDatabase() {

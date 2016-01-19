@@ -1,8 +1,8 @@
 === WP-Lister Lite for eBay ===
 Contributors: wp-lab
 Tags: ebay, woocommerce, products, export
-Requires at least: 3.9
-Tested up to: 4.3.1
+Requires at least: 4.2
+Tested up to: 4.4.1
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -45,9 +45,9 @@ http://www.youtube.com/watch?feature=player_embedded&v=zBQilzwr9UI
 
 = More information and Pro version =
 
-Visit http://www.wplab.com/plugins/wp-lister/ to read more about WP-Lister including documentation, installation instructions and user reviews.
+Visit https://www.wplab.com/plugins/wp-lister/ to read more about WP-Lister including documentation, installation instructions and user reviews.
 
-To find out more about the different versions have a look on this feature comparison: http://www.wplab.com/plugins/wp-lister/feature-comparison/
+To find out more about the different versions have a look on this feature comparison: https://www.wplab.com/plugins/wp-lister/feature-comparison/
 
 == Installation ==
 
@@ -62,7 +62,7 @@ Yes, it does.
 
 = What are the requirements to run WP-Lister? =
 
-WP-Lister requires a recent version of WordPress (3.9+) with WooCommerce 2.2+ installed. Your server should run on Linux and have PHP 5.3 or better with cURL support.
+WP-Lister requires a recent version of WordPress (4.2+) with WooCommerce (2.2+) installed. Your server should run on Linux and have PHP 5.3 or better with cURL support.
 
 Please check out the list of incompatible hosting providers as well: http://docs.wplab.com/article/8-wp-lister-for-ebay-requirements - if your provider is on that list, we will not be able to provide any kind of support.
 
@@ -74,7 +74,7 @@ To learn more about variations and allowed categories you should visit this page
 
 No, WP-Lister itself was created to let you manage your products in WordPress - and list them *from* WordPress *to* eBay. 
 
-But if you need to import all your items from eBay to WooCommerce first to be able to use WP-Lister, you can use an importer add-on plugin we developed to get you started: http://www.wplab.com/plugins/import-from-ebay-to-woocommerce/. Since importing from eBay is rather complex and support intensive this add-on plugin does have a price tag attached. 
+But if you need to import all your items from eBay to WooCommerce first to be able to use WP-Lister, you can use an importer add-on plugin we developed to get you started: https://www.wplab.com/plugins/import-from-ebay-to-woocommerce/. Since importing from eBay is rather complex and support intensive this add-on plugin does have a price tag attached. 
 
 = Does WP-Lister support windows servers? =
 
@@ -82,7 +82,7 @@ No, and there are no plans on adding support for IIS.
 
 = Are there any more FAQ? =
 
-Yes, there are! Please check out our growing knowledgebase at http://www.wplab.com/plugins/wp-lister/faq/
+Yes, there are! Please check out our growing knowledgebase at https://www.wplab.com/plugins/wp-lister/faq/
 
 = Is there a WP-Lister for Amazon? =
 
@@ -94,6 +94,37 @@ Yes, there is. WP-Lister for Amazon is currently in beta and we still have to wo
 2. Profile Editor
 
 == Changelog ==
+= 2.0.9.16 =
+* added option to skip orders containing only foreign items from being created in WooCommerce 
+* added dev option to limit batch size for inventory check tool 
+* added ajax action hook wpl_ebay_item_query - to get the ItemID for a given listing_id from listing template via AJAX 
+* added wple_run_scheduled_tasks ajax action hook to trigger only the eBay cron job (equal to wplister_run_scheduled_tasks) 
+* limit number of orders to 25 and disable pagination when fetching orders from cron job 
+* store SKU as order line item meta when creating orders in WooCommerce 
+* make sure gallery widget items use same account as reference listing 
+* show _custom_tracking_provider value on edit order page (fixes empty provider when completing sale via wple_complete_sale_on_ebay action hook) 
+* improved error handling for active EPS upload mode - and fixed issue on servers where image URL was not publicly accessible 
+* explain errors 21919152, 21919153, 21919154 (Shipping policy is required, etc.) and updated tooltips as well 
+* when fetching orders from eBay, make sure each account (eBay user name) is only processed once 
+* log to db when cron job is triggered 
+* format multiple attribute values - replace pipe symbol (|) with line break 
+* improved inventory check memory requirements - disable autoload for temp data (requires WP4.2+) 
+* replace all occurrences of split() with explode() for PHP 7 
+* trigger stock status notifications when reducing stock level 
+* fixed sale price being applied even if sale start date was in the future 
+* fixed cron job warning showing up on designated staging site 
+* fixed ebay_item_id shortcode 
+
+= 2.0.9.15 =
+* fixed possible issue with empty item specifics on some servers 
+* fixed auto replenish option ignoring fixed quantity set in profile 
+* fixed issue caused by invalid item specifics data returned by eBay (ignore recommended item specifics nodes with empty Name property) 
+* added support for unknown tracking providers / shipping carriers when completing sale via wple_complete_sale_on_ebay action hook 
+* log to db when wple_complete_sale_on_ebay action hook is triggered 
+* check for missing database tables and show warning on settings pages 
+* improved performance when updating products via CSV import 
+* relabeled "Inventory Sync" option to "Synchronize sales" 
+
 = 2.0.9.14 =
 * fixed possible layout issue caused by 3rd party CSS 
 * fixed VAT tax rate not sent when B2B option is enabled 

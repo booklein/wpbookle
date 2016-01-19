@@ -191,8 +191,8 @@
 							<?php if ( isset( $wpl_seller_shipping_profiles ) && is_array( $wpl_seller_shipping_profiles ) ): ?>
 							<?php $wpl_seller_shipping_profiles = EbayShippingModel::sortSellerProfiles( $wpl_seller_shipping_profiles ); ?>
 							<label for="wpl-text-seller_shipping_profile_id" class="text_label">
-								<?php echo __('Shipping policy','wplister'); ?> (beta)
-                                <?php wplister_tooltip('Instead of setting your shipping details in WP-Lister you can select a predefined shipping policy from your eBay account.<br><br>Please note: Due to limitations in the eBay API you need to select at least one shipping service above, even though it will be overwritten by your shipping policy.') ?>
+								<?php echo __('Shipping policy','wplister'); ?>
+                                <?php wplister_tooltip('Instead of setting your shipping details in WP-Lister you can select a predefined shipping policy from your eBay account.<br><br>Note: Due to limitations in the eBay API you need to select at least one shipping service above, even though it will be overwritten by your shipping policy.<br><br>Please note that if you use a predefined shipping policy, you might have to use payment and return policies as well.') ?>
 							</label>
 							<select id="wpl-text-seller_shipping_profile_id" name="wpl_e2e_seller_shipping_profile_id" class=" required-entry select"  style="width:65%;">>
 								<option value="">-- <?php echo __('no policy','wplister'); ?> --</option>

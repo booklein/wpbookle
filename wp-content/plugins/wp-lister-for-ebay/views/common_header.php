@@ -132,3 +132,12 @@
 	);
 
 </script>
+
+
+<style type="text/css">
+
+	#tiptip_holder #tiptip_content {
+		max-width: 250px;
+	}
+
+</style>

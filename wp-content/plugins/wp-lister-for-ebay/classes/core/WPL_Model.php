@@ -236,7 +236,7 @@ class WPL_Model {
 				$longMessage .= '</ol>';
 		        if ( ! defined('WPLISTER_RESELLER_VERSION') ) :
 					$longMessage .= 'More detailed information about item specifics in WP-Lister Pro can be found here: ';
-					$longMessage .= '<a href="http://www.wplab.com/list-your-products-with-item-specifics-recommended-by-ebay/" target="_blank">http://www.wplab.com/list-your-products-with-item-specifics-recommended-by-ebay/</a>';
+					$longMessage .= '<a href="https://www.wplab.com/list-your-products-with-item-specifics-recommended-by-ebay/" target="_blank">https://www.wplab.com/list-your-products-with-item-specifics-recommended-by-ebay/</a>';
 				endif;
 			}
 			
@@ -282,6 +282,25 @@ class WPL_Model {
 				$longMessage .= 'Your shipping profiles on eBay have changed.<br>';
 				$longMessage .= 'Please visit WP-Lister &raquo; Settings &raquo; Accounts and click on <i>Refresh details</i> to fetch the current list of profiles from eBay. ';
 				$longMessage .= 'You should check your profiles and products after doing so - you might have to update them.';
+			}
+			
+			// #21919152 - Error: Shipping policy is required
+			if ( $error->getErrorCode() == 21919152 ) { 
+				$longMessage .= '<br><br>'. '<b>Why am I seeing this message?</b>'.'<br>';
+				$longMessage .= 'eBay has silently changed their requirements regarding business policies and now expects either all three business policies to be used, or none of them.<br>';
+				$longMessage .= 'Please make sure that you select a shipping policy, a payment policy <i>and</i> a return policy in your listing profile - or disable all three policies.';
+			}
+			// #21919153 - Error: Payment policy is required
+			if ( $error->getErrorCode() == 21919153 ) { 
+				$longMessage .= '<br><br>'. '<b>Why am I seeing this message?</b>'.'<br>';
+				$longMessage .= 'eBay has silently changed their requirements regarding business policies and now expects either all three business policies to be used, or none of them.<br>';
+				$longMessage .= 'Please make sure that you select a shipping policy, a payment policy <i>and</i> a return policy in your listing profile - or disable all three policies.';
+			}
+			// #21919154 - Error: Return policy is required
+			if ( $error->getErrorCode() == 21919154 ) { 
+				$longMessage .= '<br><br>'. '<b>Why am I seeing this message?</b>'.'<br>';
+				$longMessage .= 'eBay has silently changed their requirements regarding business policies and now expects either all three business policies to be used, or none of them.<br>';
+				$longMessage .= 'Please make sure that you select a shipping policy, a payment policy <i>and</i> a return policy in your listing profile - or disable all three policies.';
 			}
 			
 			// #21916635 - Error: Invalid Multi-SKU item id.

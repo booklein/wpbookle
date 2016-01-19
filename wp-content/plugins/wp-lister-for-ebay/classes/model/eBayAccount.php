@@ -83,7 +83,7 @@ class WPLE_eBayAccount extends WPL_Core {
 	}
 
 	// get all accounts
-	static function getAll( $include_inactive = false ) {
+	static function getAll( $include_inactive = false, $sort_by_id = false ) {
 		global $wpdb;
 		$table = $wpdb->prefix . self::TABLENAME;
 
@@ -91,11 +91,12 @@ class WPLE_eBayAccount extends WPL_Core {
 		if ( get_option('wplister_db_version') < 37 ) return array();
 
 		$where_sql = $include_inactive ? '' : 'WHERE active = 1';
+		$order_sql = $sort_by_id       ? '' : 'ORDER BY title ASC';
 		$items = $wpdb->get_results("
 			SELECT *
 			FROM $table
 			$where_sql
-			ORDER BY title ASC
+			$order_sql
 		", OBJECT_K);
 
 		return $items;

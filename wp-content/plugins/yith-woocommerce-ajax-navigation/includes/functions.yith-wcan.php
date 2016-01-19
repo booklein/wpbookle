@@ -191,6 +191,10 @@ if ( ! function_exists( 'yit_reorder_terms_by_parent' ) ) {
             $terms_count ++;
         }
 
+        if( 'product' == yith_wcan_get_option( 'yith_wcan_ajax_shop_terms_order', 'alphabetical' ) && ! is_wp_error( $parent_terms ) ){
+            usort( $parent_terms, 'yit_terms_sort' );
+        }
+
         /* Reorder Therms */
         $terms_count = 0;
         $terms       = array();
@@ -201,6 +205,10 @@ if ( ! function_exists( 'yit_reorder_terms_by_parent' ) ) {
 
             /* The term as child */
             if ( array_key_exists( $term->term_id, $child_terms ) ) {
+
+                if( 'product' == yith_wcan_get_option( 'yith_wcan_ajax_shop_terms_order', 'alphabetical' ) && ! is_wp_error( $child_terms[$term->term_id] ) ){
+                    usort( $child_terms[$term->term_id], 'yit_terms_sort' );
+                }
 
                 foreach ( $child_terms[$term->term_id] as $child_term ) {
                     $terms_count ++;
@@ -228,6 +236,7 @@ if ( ! function_exists( 'yit_get_terms' ) ) {
 
         $exclude = apply_filters( 'yith_wcan_exclude_terms', array(), $instance );
         $include = apply_filters( 'yith_wcan_include_terms', array(), $instance );
+        $reordered = false;
 
         switch ( $case ) {
 
@@ -236,7 +245,11 @@ if ( ! function_exists( 'yit_get_terms' ) ) {
                 break;
 
             case 'hierarchical':
-                $terms = yit_reorder_terms_by_parent( get_terms( $taxonomy, array( 'hide_empty' => true, 'exclude' => $exclude ) ) );
+                $terms = get_terms( $taxonomy, array( 'hide_empty' => true, 'exclude' => $exclude ) );
+                if( ! in_array( $instance['type'], apply_filters( 'yith_wcan_display_type_list', array( 'list' ) ) ) ) {
+                    $terms = yit_reorder_terms_by_parent( $terms );
+                    $reordered = true;
+                }
                 break;
 
             case 'parent' :
@@ -252,12 +265,19 @@ if ( ! function_exists( 'yit_get_terms' ) ) {
                 $terms = get_terms( $taxonomy, $args );
 
                 if ( 'hierarchical' == $instance['display'] ) {
-                    $terms = yit_reorder_terms_by_parent( $terms );
+                    if( ! in_array( $instance['type'], apply_filters( 'yith_wcan_display_type_list', array( 'list' ) ) ) ) {
+                        $terms = yit_reorder_terms_by_parent( $terms );
+                        $reordered = true;
+                    }
                 }
                 break;
         }
 
-        return $terms;
+        if( 'product' == yith_wcan_get_option( 'yith_wcan_ajax_shop_terms_order', 'alphabetical' ) && 'hierarchical' != $instance['display'] && ! is_wp_error( $terms ) && ! $reordered ){
+            usort( $terms, 'yit_terms_sort' );
+        }
+
+        return apply_filters( 'yith_wcan_get_terms_list', $terms, $taxonomy, $instance );
     }
 }
 
@@ -498,6 +518,22 @@ if ( ! function_exists( 'yit_wcan_get_product_taxonomy' ) ) {
         global $_attributes_array;
         $product_taxonomies = ! empty( $_attributes_array ) ? $_attributes_array : get_object_taxonomies( 'product' );
         return array_merge( $product_taxonomies, apply_filters( 'yith_wcan_product_taxonomy_type', array() ) );
+    }
+
+}
+
+if( ! function_exists( 'yit_terms_sort' ) ){
+
+    function yit_terms_sort( $a, $b ){
+        $result = 0;
+        if ( $a->count < $b->count ) {
+            $result = 1;
+        }
+
+        elseif ( $a->count > $b->count ) {
+            $result = - 1;
+        }
+        return $result;
     }
 
 }

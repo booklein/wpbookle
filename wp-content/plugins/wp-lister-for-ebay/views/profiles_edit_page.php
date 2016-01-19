@@ -271,8 +271,8 @@
 
 							<?php if ( isset( $wpl_seller_payment_profiles ) && is_array( $wpl_seller_payment_profiles ) ): ?>
 							<label for="wpl-text-seller_payment_profile_id" class="text_label">
-								<?php echo __('Payment policy','wplister'); ?> (beta)
-                                <?php wplister_tooltip('Instead of setting your payment details in WP-Lister you can select a predefined payment policy from your eBay account.') ?>
+								<?php echo __('Payment policy','wplister'); ?>
+                                <?php wplister_tooltip('Instead of setting your payment details in WP-Lister you can select a predefined payment policy from your eBay account.<br><br>Please note that if you use a predefined payment policy, you might have to use shipping and return policies as well.') ?>
 							</label>
 							<select id="wpl-text-seller_payment_profile_id" name="wpl_e2e_seller_payment_profile_id" class=" required-entry select">
 								<option value="">-- <?php echo __('no policy','wplister'); ?> --</option>
@@ -398,8 +398,8 @@
 
 							<?php if ( isset( $wpl_seller_return_profiles ) && is_array( $wpl_seller_return_profiles ) ): ?>
 							<label for="wpl-text-seller_return_profile_id" class="text_label">
-								<?php echo __('Return policy','wplister'); ?> (beta)
-                                <?php wplister_tooltip('Instead of setting your return policy details in WP-Lister you can select a predefined return policy from your eBay account.') ?>
+								<?php echo __('Return policy','wplister'); ?>
+                                <?php wplister_tooltip('Instead of setting your return policy details in WP-Lister you can select a predefined return policy from your eBay account.<br><br>Please note that if you use a predefined return policy, you might have to use shipping and payment policies as well.') ?>
 							</label>
 							<select id="wpl-text-seller_return_profile_id" name="wpl_e2e_seller_return_profile_id" class=" required-entry select">
 								<option value="">-- <?php echo __('no policy','wplister'); ?> --</option>

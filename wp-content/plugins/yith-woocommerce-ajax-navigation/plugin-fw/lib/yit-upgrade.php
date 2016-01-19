@@ -97,15 +97,27 @@ if ( ! class_exists( 'YIT_Upgrade' ) ) {
                 add_action( 'admin_init', array( $this, 'remove_wp_plugin_update_row' ), 15 );
                 add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'check_update' ) );
             } else if( is_multisite() && current_user_can( 'update_plugins' ) ) {
-                $xml                = str_replace( '%plugin_slug%', $plugin_slug, $this->_xml ); 
-                $remote_xml         = wp_remote_get( $xml );
-
-                if( ! is_wp_error( $remote_xml ) && isset( $remote_xml['response']['code'] ) && '200' == $remote_xml['response']['code'] ) {
-                    $plugin_remote_info                                     = new SimpleXmlElement( $remote_xml['body'] );
-                    $this->_plugins[ $plugin_init ]['info']['Latest']       = (string) $plugin_remote_info->latest;
-                    $this->_plugins[ $plugin_init ]['info']['changelog']    = (string) $plugin_remote_info->changelog;
-                    add_action( 'admin_enqueue_scripts', array( $this, 'multisite_updater_script' ) );
+                $transient  = 'yith_register_' . md5( $plugin_slug );
+                if( apply_filters( 'yith_register_delete_transient', false ) ){
+                    delete_transient( $transient );
                 }
+                $info = get_transient( $transient );
+                if( false === $info || apply_filters( 'yith_register_delete_transient', false ) ){
+                    $xml        = str_replace( '%plugin_slug%', $plugin_slug, $this->_xml );
+                    $remote_xml = wp_remote_get( $xml );
+
+                    if( ! is_wp_error( $remote_xml ) && isset( $remote_xml['response']['code'] ) && '200' == $remote_xml['response']['code'] ) {
+                        $plugin_remote_info = new SimpleXmlElement( $remote_xml['body'] );
+                        $info['Latest']     = (string) $plugin_remote_info->latest;
+                        $info['changelog']  = (string) $plugin_remote_info->changelog;
+                        YIT_Plugin_Licence()->check( $plugin_slug, false );
+                        set_transient( $transient, $info, DAY_IN_SECONDS );
+                    }
+                }
+
+                $this->_plugins[ $plugin_init ]['info']['Latest']    = $info['Latest'];
+                $this->_plugins[ $plugin_init ]['info']['changelog'] = $info['changelog'];
+                add_action( 'admin_enqueue_scripts', array( $this, 'multisite_updater_script' ) );
             }
         }
 
@@ -119,8 +131,7 @@ if ( ! class_exists( 'YIT_Upgrade' ) ) {
          */
         public function multisite_updater_script(){
 
-            $update_url = array();
-            $changelogs = array();
+            $update_url = $changelogs = $details_url = array();
             $strings    = array(
                 'new_version'   => __( 'There is a new version of %plugin_name% available.', 'yith-plugin-fw' ),
                 'latest'        => __( 'View version %latest% details.',  'yith-plugin-fw' ),
@@ -131,8 +142,6 @@ if ( ! class_exists( 'YIT_Upgrade' ) ) {
             );
 
             foreach( $this->_plugins as $init => $info ){
-                YIT_Plugin_Licence()->check( $init, false );
-
                 $update_url[ $init ]    = wp_nonce_url( self_admin_url('update.php?action=upgrade-plugin-multisite&plugin=') . $init, 'upgrade-plugin-multisite_' . $init );
                 $changelog_id           = str_replace( array( '/', '.php', '.' ), array( '-', '', '-' ), $init );
                 $details_url[ $init ]   = '#TB_inline' . esc_url( add_query_arg( array( 'width' => 722, 'height' => 914, 'inlineId' => $changelog_id ) , '' ) );
@@ -149,8 +158,8 @@ if ( ! class_exists( 'YIT_Upgrade' ) ) {
                 'strings'                   => $strings,
                 'changelogs'                => $changelogs
             );
-
-            yit_enqueue_script( 'yit-multisite-updater', YIT_CORE_PLUGIN_URL . '/assets/js/multisite-updater.min.js', array( 'jquery' ), false, true  );
+            $suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+            yit_enqueue_script( 'yit-multisite-updater', YIT_CORE_PLUGIN_URL . '/assets/js/multisite-updater' . $suffix . '.js', array( 'jquery' ), false, true  );
 
             wp_localize_script( 'yit-multisite-updater', 'plugins', $localize_script_args );
         }

@@ -781,6 +781,9 @@ class WPLE_ListingQueryHelper {
 		global $wpdb;	
 		$table = $wpdb->prefix . self::TABLENAME;
 
+		// get listing item
+		$listing = ListingsModel::getItem( $related_to_id );
+
 		switch ($type) {
 			case 'ending':
 				$wpdb->query("SET time_zone='+0:00'"); // tell SQL to use GMT
@@ -798,7 +801,6 @@ class WPLE_ListingQueryHelper {
 				break;
 			
 			case 'related': // combines upsell and crossell
-				$listing         = ListingsModel::getItem($related_to_id);
 				$upsell_ids      = get_post_meta( $listing['post_id'], '_upsell_ids', true );
 				$crosssell_ids   = get_post_meta( $listing['post_id'], '_crosssell_ids', true );
 				$inner_where_sql = '1 = 0';
@@ -826,6 +828,11 @@ class WPLE_ListingQueryHelper {
 				$where_sql = "WHERE status = 'published' ";
 				$order_sql = "ORDER BY date_published DESC";
 				break;
+		}
+
+		// make sure returned items use same account as reference listing
+		if ( $listing ) {
+			$where_sql .= ' AND li.account_id = '.$listing['account_id'];
 		}
 
 		$limit = esc_sql( $limit );

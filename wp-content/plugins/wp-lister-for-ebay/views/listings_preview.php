@@ -94,6 +94,7 @@
 		padding: 0 1em;
 		background-color: #ffdddd;
 		border: 1px solid #ffdddd;
+		margin-bottom: 0.5em;
 	}
 
 	div#message.updated {
@@ -102,6 +103,7 @@
 		padding: 0 1em;
 		background-color: #ffffee;
 		border: 1px solid #cca;
+		margin-bottom: 0.5em;
 	}
 
 	#TB_window table.variations_table {
@@ -109,6 +111,7 @@
 
 </style>
 
+<?php do_action( 'wple_admin_notices' ); ?>
 
 <div id="wpl_preview_header">
 

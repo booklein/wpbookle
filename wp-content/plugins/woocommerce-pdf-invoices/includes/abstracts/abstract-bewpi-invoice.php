@@ -340,15 +340,39 @@ if ( ! class_exists( 'BEWPI_Abstract_Invoice' ) ) {
             if ( ! empty( $this->template_options['bewpi_company_logo'] ) ) {
 	            $image_url = $this->template_options['bewpi_company_logo'];
 
-	            // get the relative path due to slow generation of invoice. Not fully tested yet.
-	            //$image_url = '..' . str_replace( get_site_url(), '', $image_url );
+	            // get the relative path due to slow generation of invoice.
+	            $image_url = '..' . str_replace( get_site_url(), '', $image_url );
 
-	            $image_url = image_to_base64( $image_url );
+	            // try base64 encoding with or without relative path if MPDF gives images errors.
+	            //$image_url = image_to_base64( $image_url );
+
 	            echo '<img class="company-logo" src="' . $image_url . '"/>';
             } else {
 	            echo '<h1 class="company-logo">' . $this->template_options['bewpi_company_name'] . '</h1>';
             }
         }
+
+	    /**
+	     * Get VAT number from WooCommerce EU VAT Number plugin
+	     */
+	    public function display_vat_number() {
+		    $vat_number = get_post_meta( $this->order->id, '_vat_number', true );
+			if ( $vat_number !== '' ) {
+				echo '<span>' . sprintf( __( 'VAT Number: %s', 'woocommerce-pdf-invoices' ), $vat_number ) . '</span>';
+			}
+	    }
+
+	    /**
+	     * Get PO Number from WooCommerce Purchase Order Gateway plugin
+	     */
+	    public function display_purchase_order_number () {
+		    if ( isset( $this->order->payment_method ) && $this->order->payment_method === 'woocommerce_gateway_purchase_order' ) {
+			    $po_number = get_post_meta( $this->order->id, '_po_number', true );
+			    if ( $po_number !== '' ) {
+				    echo '<span>' . sprintf( __( 'Purchase Order Number: %s', 'woocommerce-gateway-purchase-order' ), $po_number ) . '</span>';
+			    }
+		    }
+	    }
 
 	    private function output_to_buffer( $full_path ) {
 		    ob_start();

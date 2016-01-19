@@ -3,11 +3,11 @@ Contributors: nosilver4u
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MKMQKCBFFG3WW
 Tags: image, attachment, optimize, optimization, lossless, lossy, photo, picture, seo, compression, gmagick, jpegtran, gifsicle, optipng, pngout, pngquant, jpegmini, tinyjpg, tinypng, webp, wp-cli 
 Requires at least: 3.5
-Tested up to: 4.4
-Stable tag: 2.5.6
+Tested up to: 4.4.1
+Stable tag: 2.5.7
 License: GPLv3
 
-Reduce file sizes for images in WordPress including NextGEN, GRAND FlAGallery and more using lossless/lossy methods and image format conversion.
+Reduce file sizes for images in WordPress including NextGEN, GRAND FlAGallery, FooGallery and more using lossless/lossy methods and image format conversion.
 
 == Description ==
 
@@ -51,6 +51,10 @@ Site admins can specify any folder within their wordpress folder to be optimized
 = WP-CLI =
 
 Allows you to run all Bulk Optimization processes from your command line, instead of the web interface. It is much faster, and allows you to do things like run it in 'screen' or via regular cron (instead of wp-cron, which can be unpredictable on low-traffic sites). Install WP-CLI from wp-cli.org, and run 'wp-cli.phar help ewwwio optimize' for more information. 
+
+= FooGallery =
+
+All images uploaded and cached by FooGallery are automatically optimized. Previous uploads can be optimized by running the Media Library Bulk Optimize. Previously cached images can be optimized by entering the wp-content/uploads/cache/ folder under Folders to Optimize and running a Scan & Optimize from the Bulk Optimize page.
 
 = NextGEN Gallery =
 
@@ -159,7 +163,7 @@ Webhosts where the plugin will only work in cloud mode or only some tools are in
 
 Try this for starters: http://ewww.io/2014/12/05/pagespeed-says-my-images-need-more-work/
 
-= The plugin complains that I'm missing something, what do I do?
+= The plugin complains that I'm missing something, what do I do? =
 
 This article will walk you through installing the required tools (and the alternatives if installation does not work): https://ewww.io/2014/12/06/the-plugin-says-im-missing-something/
 
@@ -214,6 +218,12 @@ Pngout, TinyJPG/TinyPNG, JPEGmini, and Pngquant were recommended by EWWW IO user
 
 * feature requests are sticky at the top of the support forums, vote for the ones you like: https://wordpress.org/support/plugin/ewww-image-optimizer
 * If you would like to help translate this plugin in your language, get started here: https://translate.wordpress.org/projects/wp-plugins/ewww-image-optimizer/
+
+= 2.5.7 =
+* fixed: MySQL column index too large when collation is utf8mb4 prevents table creation and throws warnings on upgrades
+* fixed: cleanup of table upgrade function to avoid unnecessary queries
+* fixed: Optimized string was undefined for flagallery and nextgen bulk optimization
+* fixed: When activated network-wide, settings link on per-site Plugins page was incorrect
 
 = 2.5.6 =
 * fixed: avoid memory leaks from calls to ewwwio_debug_message() within ewww_image_optimizer_require() for multi-site users

@@ -2,13 +2,14 @@
 
 class WPL_InventoryCheck extends WPL_Model  {
 	
-	var $batch_size = 200;
+	// var $batch_size = 200;
 
 	// check_wc_out_of_sync
 	public function checkProductInventory( $mode = 'published', $compare_prices = false, $step = 0 ) {
 
-		$limit  = $this->batch_size;
-		$offset = $this->batch_size * $step;
+		$batch_size = get_option( 'wplister_inventory_check_batch_size', 200 );
+		$limit      = $batch_size;
+		$offset     = $batch_size * $step;
 
 		// get listings - or return false
 		$lm = new ListingsModel();
@@ -190,7 +191,7 @@ class WPL_InventoryCheck extends WPL_Model  {
 			'out_of_sync_products' => $out_of_sync_products,
 			'published_count'      => $published_count,
 		);
-		update_option('wple_inventory_check_queue_data', $tmp_result);
+		update_option('wple_inventory_check_queue_data', $tmp_result, 'no');
 
 		// true means we processed more items
 		return true;
@@ -323,8 +324,9 @@ class WPL_InventoryCheck extends WPL_Model  {
 	// check_wc_out_of_stock
 	public function checkProductStock( $step = 0 ) {
 
-		$limit  = $this->batch_size;
-		$offset = $this->batch_size * $step;
+		$batch_size = get_option( 'wplister_inventory_check_batch_size', 200 );
+		$limit      = $batch_size;
+		$offset     = $batch_size * $step;
 
 		// get listings - or return false
 		$listings = WPLE_ListingQueryHelper::getAllPublished( $limit, $offset );
@@ -368,7 +370,7 @@ class WPL_InventoryCheck extends WPL_Model  {
 		$tmp_result = array(
 			'out_of_stock_products' => $out_of_stock_products,
 		);
-		update_option('wple_inventory_check_queue_data', $tmp_result);
+		update_option('wple_inventory_check_queue_data', $tmp_result, 'no');
 
 		// true means we processed more items
 		return true;

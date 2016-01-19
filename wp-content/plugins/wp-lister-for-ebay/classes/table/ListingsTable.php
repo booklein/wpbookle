@@ -173,7 +173,7 @@ class ListingsTable extends WP_List_Table {
 
         // show locked indicator
         if ( @$item['locked'] ) {
-            $tip_msg = 'This listing is currently locked.<br>Only inventory changes and prices will be updated, other changes will be ignored.';
+            $tip_msg = 'This listing is currently locked.<br>Only inventory changes and prices will be updated, other changes will be ignored.<br><br>(Except for variable products where not all variations have a unique SKU, or when new variations are added. In these cases, the item will be revised in full.)';
             $img_url  = WPLISTER_URL . '/img/lock-1.png';
             $listing_title .= '&nbsp;<img src="'.$img_url.'" style="height:11px; padding:0;" class="tips" data-tip="'.$tip_msg.'"/>&nbsp;';
         } 
@@ -313,7 +313,7 @@ class ListingsTable extends WP_List_Table {
                 $variations_html .= '<b style="color:darkred">No variations found.</b><br>';
                 $variations_html .= '<div id="pvars_'.$item['id'].'" class="variations_list" style="display:none;margin-bottom:10px;">';
                 if ( ! defined('WPLISTER_RESELLER_VERSION') ) {
-                    $variations_html .= 'Please read the <a href="http://www.wplab.com/plugins/wp-lister/faq/#Variations" target="_blank">FAQ</a> or contact support.';
+                    $variations_html .= 'Please read the <a href="https://www.wplab.com/plugins/wp-lister/faq/#Variations" target="_blank">FAQ</a> or contact support.';
                 }
                 $variations_html .= '</div>';
                 return $variations_html;

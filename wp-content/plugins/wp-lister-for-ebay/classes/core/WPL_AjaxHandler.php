@@ -36,6 +36,10 @@ class WPL_AjaxHandler extends WPL_Core {
 		add_action('wp_ajax_wpl_ebay_store_categories', array( &$this, 'ajax_wpl_ebay_store_categories' ) );
 		add_action('wp_ajax_nopriv_wpl_ebay_store_categories', array( &$this, 'ajax_wpl_ebay_store_categories' ) );
 
+		// handle request for eBay item queries
+		add_action('wp_ajax_wpl_ebay_item_query', array( &$this, 'ajax_wpl_ebay_item_query' ) );
+		add_action('wp_ajax_nopriv_wpl_ebay_item_query', array( &$this, 'ajax_wpl_ebay_item_query' ) );
+
 		// handle incoming ebay notifications
 		add_action('wp_ajax_handle_ebay_notify', array( &$this, 'ajax_handle_ebay_notify' ) );
 		add_action('wp_ajax_nopriv_handle_ebay_notify', array( &$this, 'ajax_handle_ebay_notify' ) );
@@ -1112,6 +1116,33 @@ class WPL_AjaxHandler extends WPL_Core {
 
 		exit();
 	} // ajax_wpl_ebay_store_categories()
+
+
+	// process ebay item query (AJAX)
+	// todo: allow to query for other selected columns - but first add proper sanitization
+	public function ajax_wpl_ebay_item_query() {
+	
+		$col         = isset( $_REQUEST['col'] ) ? intval($_REQUEST['col'] ) : 'ebay_id';	
+		$id          = isset( $_REQUEST['id']  ) ? intval($_REQUEST['id']  ) : false;	
+		if ( $col != 'ebay_id' ) return; // limited to single use case for now
+		if ( $id == '' ) return;
+
+		$items  = WPLE_ListingQueryHelper::getWhere( 'id', $id );
+		$result = $items ? reset($items)->ebay_id : false;
+
+		// check if callback parameter is set
+		if ( isset($_REQUEST['callback']) ) {
+			// return JSONP 
+			header('content-type: application/javascript; charset=utf-8');
+		    echo $_REQUEST['callback'] . '(' . json_encode( $result ) . ')';
+		} else {
+			// return plain JSON
+			header('content-type: application/json; charset=utf-8');
+			echo json_encode( $result );
+		}
+
+		exit();
+	} // ajax_wpl_ebay_item_query()
 
 
 	// handle calls to logfile viewer based on php-tail

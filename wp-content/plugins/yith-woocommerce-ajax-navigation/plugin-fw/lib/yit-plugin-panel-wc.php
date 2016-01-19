@@ -280,7 +280,7 @@ if ( ! class_exists( 'YIT_Plugin_Panel_WooCommerce' ) ) {
 
                 foreach($_POST as $name => $value) {
 
-                    //  Check if current POST var which name ends with a specific needle
+                    //  Check if current POST var name ends with a specific needle and make some stuff here
                     $attachment_id_needle = "-yith-attachment-id";
                     $is_hidden_input = (($temp = strlen($name) - strlen($attachment_id_needle)) >= 0 && strpos($name, $attachment_id_needle, $temp) !== FALSE);
                     if ($is_hidden_input){

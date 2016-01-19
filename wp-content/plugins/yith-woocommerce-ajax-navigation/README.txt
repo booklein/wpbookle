@@ -3,8 +3,8 @@
 Contributors: yithemes
 Tags: woocommerce ajax product filter download, woocommerce, widget, ajax, ajax filtered nav, ajax navigation, ajax filtered navigation, woocommerce layered navigation, woocommerce layered nav, product filter, product filters, ajax product filter, woocommerce ajax product filter, woocommerce filters, sidebar filter, sidebar ajax filter, ajax price filter, price filter, product sorting, woocommerce filter, taxonomy filter, attribute filter, attributes filter, woocommerce product sort, ajax sort, woocommerce ajax product filter, advanced product filters, ajax product filters, filters, woocommerce ajax product filters, woocommerce product filters, woocommerce product filters, category filter, attribute filters, woocommerce products filter, woocommerce price filter, yit, yith, yithemes
 Requires at least: 4.0
-Tested up to: 4.4
-Stable tag: 2.7.1
+Tested up to: 4.4.1
+Stable tag: 2.7.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -158,6 +158,16 @@ If you want to see a demonstration version of the premium plugin, you can see it
 10. Admin: YIT Plugins -> Ajax Product Filter -> Custom Style
 
 == Changelog ==
+
+= 2.7.3 =
+
+* Updated: Plugin core framework
+
+= 2.7.2 =
+
+* Added: Support to WooCommerce 2.5-RC1
+* Fixed: Reset Filter in category page
+* Fixed: Filter doesn't work correctly in sub-categories
 
 = 2.7.1 =
 

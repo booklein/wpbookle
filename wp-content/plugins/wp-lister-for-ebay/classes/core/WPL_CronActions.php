@@ -29,6 +29,18 @@ class WPL_CronActions extends WPL_Core {
 	public function cron_update_auctions() {
         WPLE()->logger->info("WP-CRON: cron_update_auctions()");
 
+        // log cron run to db
+		if ( get_option('wplister_log_to_db') == '1' ) {
+            $dblogger = new WPL_EbatNs_Logger();
+	        $dblogger->updateLog( array(
+				'callname'    => 'cron_job_triggered',
+				'request_url' => 'internal action hook',
+				'request'     => maybe_serialize( $_REQUEST ),
+				'response'    => 'last run: '.human_time_diff( get_option('wplister_cron_last_run') ),
+				'success'     => 'Success'
+	        ));
+		}
+
         // check if this is a staging site
         if ( $this->isStagingSite() ) {
 	        WPLE()->logger->info("WP-CRON: staging site detected! terminating execution...");
@@ -44,17 +56,25 @@ class WPL_CronActions extends WPL_Core {
         }
 
         // get accounts
-		$accounts = WPLE_eBayAccount::getAll();
+		$accounts = WPLE_eBayAccount::getAll( false, true ); // sort by id
 		if ( ! empty( $accounts) ) {
 
 			// loop each active account
+			$processed_accounts = array();
 			foreach ( $accounts as $account ) {
+
+				// make sure we don't process the same account twice
+				if ( in_array( $account->user_name, $processed_accounts ) ) {
+			        WPLE()->logger->info("skipping account {$account->id} - user name {$account->user_name} was already processed");
+					continue;
+				}
 
 				$this->initEC( $account->id );
 				$this->EC->updateEbayOrders();
 				$this->EC->updateListings(); // TODO: specify account
 				$this->EC->updateEbayMessages();
 				$this->EC->closeEbay();
+				$processed_accounts[] = $account->user_name;
 
 			}
 

@@ -37,8 +37,11 @@ class EbayOrdersModel extends WPL_Model {
 	}
 
 
-	function updateOrders( $session, $days = null, $current_page = 1, $order_ids = false ) {
+	function updateOrders( $session, $days = false, $current_page = 1, $order_ids = false ) {
 		WPLE()->logger->info('*** updateOrders('.$days.') - page '.$current_page);
+
+		// this is a cron job if no number of days and no order IDs are requested
+		$is_cron_job = $days == false && $order_ids == false ? true : false;
 
 		$this->initServiceProxy($session);
 
@@ -111,7 +114,8 @@ class EbayOrdersModel extends WPL_Model {
 		if ( ! $this->is_ajax() ) $req->setDetailLevel('ReturnAll');
 
 		// set pagination for first page
-		$items_per_page = 100; // should be set to 200 for production
+		$custom_page_size   = get_option( 'wplister_fetch_orders_page_size', 50 );
+		$items_per_page     = $is_cron_job ? $custom_page_size : 100; // For GetOrders, the maximum value is 100 and the default value is 25 (which is too low in some rare cases)
 		$this->current_page = $current_page;
 
 		$Pagination = new PaginationType();
@@ -139,12 +143,17 @@ class EbayOrdersModel extends WPL_Model {
 			// WPLE()->logger->info( "*** PaginationResult:".print_r($res->PaginationResult,1) );
 			// WPLE()->logger->info( "*** processed response:".print_r($res,1) );
 
-			WPLE()->logger->info( "*** current_page: ".$this->current_page );
-			WPLE()->logger->info( "*** total_pages: ".$this->total_pages );
-			WPLE()->logger->info( "*** total_items: ".$this->total_items );
+			WPLE()->logger->info( "*** current_page : ".$this->current_page );
+			WPLE()->logger->info( "*** total_pages  : ".$this->total_pages );
+			WPLE()->logger->info( "*** total_items  : ".$this->total_items );
 
-			// fetch next page recursively - only in days mode
-			if ( $res->HasMoreOrders ) {
+			WPLE()->logger->info( "** count_inserted: ".$this->count_inserted );
+			WPLE()->logger->info( "** count_updated : ".$this->count_updated );
+			WPLE()->logger->info( "** count_skipped : ".$this->count_skipped );
+			WPLE()->logger->info( "** count_failed  : ".$this->count_failed );
+
+			// fetch next page recursively - only in days mode, or if no new orders have been fetched yet
+			if ( $res->HasMoreOrders && ( ! $is_cron_job || $this->count_inserted == 0 ) ) {
 				$this->current_page++;
 				$this->updateOrders( $session, $days, $this->current_page );
 			}
@@ -214,6 +223,7 @@ class EbayOrdersModel extends WPL_Model {
 		// this will remove item from result
 		return true;
 	}
+
 	function insertOrUpdate( $data, $Detail ) {
 		global $wpdb;
 
@@ -223,7 +233,7 @@ class EbayOrdersModel extends WPL_Model {
 		if ( $order ) {
 
 			// update existing order
-			WPLE()->logger->info( 'update order #'.$data['order_id'] );
+			WPLE()->logger->info( 'update order #' . $data['order_id'] . ' - LastTimeModified: ' . $data['LastTimeModified'] );
 			$result = $wpdb->update( $this->tablename, $data, array( 'order_id' => $data['order_id'] ) );
 			if ( $result === false ) {
 				WPLE()->logger->error( 'failed to update order - MySQL said: '.$wpdb->last_error );
@@ -237,7 +247,7 @@ class EbayOrdersModel extends WPL_Model {
 		} else {
 		
 			// create new order
-			WPLE()->logger->info( 'insert order #'.$data['order_id'] );
+			WPLE()->logger->info( 'insert order #' . $data['order_id'] . ' - LastTimeModified: ' . $data['LastTimeModified'] );
 			$result = $wpdb->insert( $this->tablename, $data );
 			if ( $result === false ) {
 				WPLE()->logger->error( 'insert order failed - MySQL said: '.$wpdb->last_error );
@@ -529,7 +539,7 @@ class EbayOrdersModel extends WPL_Model {
 		WPLE()->logger->info( "IMPORTING order #".$Detail->OrderID );							
 
 		return $data;
-	}
+	} // mapItemDetailToDB()
 
 
 	function addToReport( $status, $data, $wp_order_id = false, $error = false ) {

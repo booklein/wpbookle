@@ -338,6 +338,38 @@
             </div>
         </div>
     </div>
+    <div class="section section-even clear" style="background: url(<?php echo YITH_WCAN_URL ?>assets/images/09-bg.png) no-repeat #fff; background-position: 85% 100%">
+        <div class="landing-container">
+            <div class="col-1">
+                <img src="<?php echo YITH_WCAN_URL ?>assets/images/09.png" alt="SEO" />
+            </div>
+            <div class="col-2">
+                <div class="section-title">
+                    <img src="<?php echo YITH_WCAN_URL?>assets/images/09-icon.png" alt="icon 09" />
+                    <h2><?php _e('FILTER ORDERING','yith-woocommerce-ajax-navigation');?></h2>
+                </div>
+                <p>
+                    <?php _e('Choose one of the two solutions  for a better filter ordering of your product archieve pages: classic alphabetical order or decreasing order, based on the number of products contained in each filter.','yith-woocommerce-ajax-navigation') ?>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="section section-odd clear" style="background: url(<?php echo YITH_WCAN_URL ?>assets/images/10-bg.png) no-repeat #f1f1f1; background-position: 15% 100%">
+        <div class="landing-container">
+            <div class="col-2">
+                <div class="section-title">
+                    <img src="<?php echo YITH_WCAN_URL ?>assets/images/10-icon.png" alt="icon 08" />
+                    <h2><?php _e('Filter style','yith-woocommerce-ajax-navigation');?></h2>
+                </div>
+                <p>
+                    <?php echo _e('In addition to the classic visualization style, the premium version of this plugin gives you the possibility to show filters in "checkbox" style. Users will experience a new look of your pages while filtering products.', 'yith-woocommerce-ajax-navigation');?>
+                </p>
+            </div>
+            <div class="col-1">
+                <img src="<?php echo YITH_WCAN_URL ?>assets/images/10.png" alt="woocommerce price filter" />
+            </div>
+        </div>
+    </div>
     <div class="section section-cta section-odd">
         <div class="landing-container">
             <div class="premium-cta">

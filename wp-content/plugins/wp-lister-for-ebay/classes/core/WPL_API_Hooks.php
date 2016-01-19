@@ -204,6 +204,15 @@ class WPL_API_Hooks extends WPL_Core {
 	// $data['FeedbackText']    = 'Thank You...';
 	function wple_complete_sale_on_ebay( $post_id, $data ) {
 
+        // log to db - before request
+        $this->dblogger = new WPL_EbatNs_Logger();
+        $this->dblogger->updateLog( array(
+            'callname'    => 'wple_complete_sale_on_ebay',
+            'request_url' => 'internal action hook - post_id: '.$post_id,
+            'request'     => maybe_serialize( $data ),
+            'success'     => 'skipped'
+        ));
+		
     	// check if this order came in from eBay
         $ebay_order_id = get_post_meta( $post_id, '_ebay_order_id', true );
     	if ( ! $ebay_order_id ) return false; // die('This is not an eBay order.');
@@ -238,6 +247,12 @@ class WPL_API_Hooks extends WPL_Core {
 			if ( isset( $data['ShippedTime'] 	 ) ) update_post_meta( $post_id, '_date_shipped', 		$data['ShippedTime'] );
 			if ( isset( $data['FeedbackText'] 	 ) ) update_post_meta( $post_id, '_feedback_text', 		$data['FeedbackText'] );
 		}
+
+        // log to db 
+        $this->dblogger->updateLog( array(
+            'response'  => json_encode( $response ),
+            'success'   => 'Success'
+        ));
 
 		return $response;
 	} // wple_complete_sale_on_ebay()

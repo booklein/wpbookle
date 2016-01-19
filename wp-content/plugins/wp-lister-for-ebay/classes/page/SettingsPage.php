@@ -265,6 +265,8 @@ class SettingsPage extends WPL_Page {
 			'eps_xfer_mode'				=> self::getOption( 'eps_xfer_mode', 'passive' ),
 			'force_table_items_limit'	=> self::getOption( 'force_table_items_limit' ),
 			'apply_profile_batch_size'	=> self::getOption( 'apply_profile_batch_size', 1000 ),
+			'inventory_check_batch_size'=> self::getOption( 'inventory_check_batch_size', 200 ),
+			'fetch_orders_page_size'    => self::getOption( 'fetch_orders_page_size', 50 ),
 			'staging_site_pattern'		=> self::getOption( 'staging_site_pattern', '' ),
 			'ignore_orders_before_ts'	=> get_option( 'ignore_orders_before_ts' ),
 
@@ -480,22 +482,24 @@ class SettingsPage extends WPL_Page {
 		// TODO: check nonce
 		if ( isset( $_POST['wpl_e2e_option_log_to_db'] ) ) {
 
-			self::updateOption( 'log_level',				$this->getValueFromPost( 'text_log_level' ) );
-			self::updateOption( 'log_to_db',				$this->getValueFromPost( 'option_log_to_db' ) );
-			self::updateOption( 'ajax_error_handling',		$this->getValueFromPost( 'ajax_error_handling' ) );
-			self::updateOption( 'php_error_handling',		$this->getValueFromPost( 'php_error_handling' ) );
-			self::updateOption( 'disable_variations',		$this->getValueFromPost( 'disable_variations' ) );
-			self::updateOption( 'disable_compat_list',		$this->getValueFromPost( 'disable_compat_list' ) );
-			self::updateOption( 'enable_messages_page',		$this->getValueFromPost( 'enable_messages_page' ) );
-			self::updateOption( 'log_include_authinfo',		$this->getValueFromPost( 'log_include_authinfo' ) );
-			self::updateOption( 'enable_item_edit_link',	$this->getValueFromPost( 'enable_item_edit_link' ) );
-			self::updateOption( 'log_record_limit',			$this->getValueFromPost( 'log_record_limit' ) );
-			self::updateOption( 'log_days_limit',			$this->getValueFromPost( 'log_days_limit' ) );
-			self::updateOption( 'xml_formatter',			$this->getValueFromPost( 'xml_formatter' ) );
-			self::updateOption( 'eps_xfer_mode',			$this->getValueFromPost( 'eps_xfer_mode' ) );
-			self::updateOption( 'force_table_items_limit',	$this->getValueFromPost( 'force_table_items_limit' ) );
-			self::updateOption( 'apply_profile_batch_size',	$this->getValueFromPost( 'apply_profile_batch_size' ) );
-			self::updateOption( 'staging_site_pattern',	    trim( $this->getValueFromPost( 'staging_site_pattern' ) ) );
+			self::updateOption( 'log_level',					$this->getValueFromPost( 'text_log_level' ) );
+			self::updateOption( 'log_to_db',					$this->getValueFromPost( 'option_log_to_db' ) );
+			self::updateOption( 'ajax_error_handling',			$this->getValueFromPost( 'ajax_error_handling' ) );
+			self::updateOption( 'php_error_handling',			$this->getValueFromPost( 'php_error_handling' ) );
+			self::updateOption( 'disable_variations',			$this->getValueFromPost( 'disable_variations' ) );
+			self::updateOption( 'disable_compat_list',			$this->getValueFromPost( 'disable_compat_list' ) );
+			self::updateOption( 'enable_messages_page',			$this->getValueFromPost( 'enable_messages_page' ) );
+			self::updateOption( 'log_include_authinfo',			$this->getValueFromPost( 'log_include_authinfo' ) );
+			self::updateOption( 'enable_item_edit_link',		$this->getValueFromPost( 'enable_item_edit_link' ) );
+			self::updateOption( 'log_record_limit',				$this->getValueFromPost( 'log_record_limit' ) );
+			self::updateOption( 'log_days_limit',				$this->getValueFromPost( 'log_days_limit' ) );
+			self::updateOption( 'xml_formatter',				$this->getValueFromPost( 'xml_formatter' ) );
+			self::updateOption( 'eps_xfer_mode',				$this->getValueFromPost( 'eps_xfer_mode' ) );
+			self::updateOption( 'force_table_items_limit',		$this->getValueFromPost( 'force_table_items_limit' ) );
+			self::updateOption( 'apply_profile_batch_size',		$this->getValueFromPost( 'apply_profile_batch_size' ) );
+			self::updateOption( 'inventory_check_batch_size',	$this->getValueFromPost( 'inventory_check_batch_size' ) );
+			self::updateOption( 'fetch_orders_page_size',		$this->getValueFromPost( 'fetch_orders_page_size' ) );
+			self::updateOption( 'staging_site_pattern',	  trim( $this->getValueFromPost( 'staging_site_pattern' ) ) );
 
 			// updater instance
 			update_option( 'wple_instance',	    			trim( $this->getValueFromPost( 'wple_instance' ) ) );

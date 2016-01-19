@@ -267,7 +267,7 @@
 
 							<label for="wpl-enable_mpn_and_isbn_fields" class="text_label">
 								<?php echo __('Enable MPN and ISBN fields','wplister') ?>
-                                <?php wplister_tooltip('If your variable products have MPNs or ISBNs, set this option to Yes.') ?>
+                                <?php wplister_tooltip('If your variable products have MPNs or ISBNs, set this option to <i>Yes</i>.<br><br>If you need MPNs or ISBNs only on simple products, leave it at the default setting.<br><br>If you never use MPNs nor ISBNs, set it to <i>No</i>.') ?>
 							</label>
 							<select id="wpl-enable_mpn_and_isbn_fields" name="wpl_e2e_enable_mpn_and_isbn_fields" class=" required-entry select">
 								<option value="0" <?php if ( $wpl_enable_mpn_and_isbn_fields == '0' ): ?>selected="selected"<?php endif; ?>><?php echo __('No','wplister'); ?></option>
@@ -461,7 +461,7 @@
 								<option value="1" <?php if ( $wpl_auto_update_ended_items == '1' ): ?>selected="selected"<?php endif; ?>><?php echo __('Yes','wplister'); ?></option>
 							</select>
 							<p class="desc" style="display: block;">
-								<?php echo __('Automatically update item details from eBay when a listing has ended.','wplister'); ?> (beta)
+								<?php echo __('Automatically update item details from eBay when a listing has ended.','wplister'); ?> (experimental)
 							</p>
 
 							<label for="wpl-archive_days_limit" class="text_label">

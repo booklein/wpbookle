@@ -22,7 +22,7 @@ class WCISPlugin {
     
 //  	const SERVER_URL = 'http://0-2vk.acp-magento.appspot.com/';
 
-	const VERSION = '1.4.3';
+	const VERSION = '1.4.5';
 	
 	// cron const variables
 	const CRON_THRESHOLD_TIME 				 = 1200; 	// -> 20 minutes
@@ -95,6 +95,11 @@ class WCISPlugin {
         add_action('woocommerce_product_quick_edit_save', array($this, 'on_product_quick_save'));
         add_action('save_post', array( $this, 'on_product_save'));
         add_action('trashed_post', array( $this, 'on_product_delete'));
+        add_action('before_delete_post',array( $this, 'on_product_delete'));
+        /*
+        add_action('delete_post',array( $this, 'on_delete_post'));
+        add_action('deleted_post', array( $this, 'on_deleted_post' ) );
+        */
         add_action('woocommerce_order_status_on-hold', array( $this, 'quantity_change_handler'), 501);
         add_action('woocommerce_order_status_processing', array( $this, 'quantity_change_handler'), 501);
         add_action('woocommerce_order_status_pending', array( $this, 'quantity_change_handler'), 501);
@@ -422,6 +427,41 @@ class WCISPlugin {
 		
 		return false;
 	}
+	
+    private function is_post_valid($element_id, $post_type = 'product'){
+		$enabled_languages = get_option('isp_wpml_languages');
+		if ($enabled_languages){
+			include_once(ABSPATH . 'wp-admin/includes/plugin.php');
+			if (is_plugin_active( 'woocommerce-multilingual/wpml-woocommerce.php' ) || 
+			         is_plugin_active('sitepress-multilingual-cms/sitepress.php' )){     // || function_exists('icl_object_id') || ICL_SITEPRESS_VERSION constant check
+				if ($post_type == 'product' && function_exists('wpml_get_language_information')){
+					$language_info = wpml_get_language_information($element_id);
+					if (!$language_info || !is_array($language_info)){    // WP_Error is returned from wpml_get_language_information(...)
+						return true;
+					}
+					if (in_array($language_info['locale'], $enabled_languages)){
+						return true;
+					} else {
+						return false;
+					}
+				
+				} elseif ($post_type == 'category'){
+					global $sitepress;
+					$language_code = $sitepress->get_language_for_element($element_id, 'tax_product_cat');
+					if (!$language_code){    // not valid return value
+						return true;
+					}
+					foreach ($enabled_languages as $lang){
+						if (substr($lang, 0, 2) == $language_code){
+							return true;
+						}
+					}
+					return false;
+				}
+			}
+		}
+	    return true;
+	}
     
 /**
 	 * Fired for each blog when the plugin is activated.
@@ -634,6 +674,9 @@ class WCISPlugin {
 	}
 	
 	public function on_category_update($category_id, $action){
+		if (!self::is_post_valid($id, 'category')){
+	        return;
+	    }
 	    $categorys_list = get_option('cron_category_list');
 	    $timestamp = wp_next_scheduled( 'instantsearchplus_cron_request_event' );
 	    if(get_option('wcis_timeframe')){
@@ -743,8 +786,10 @@ class WCISPlugin {
 		            while ($page <= $total_pages){
 		            	if ($loop->have_posts()){
 		            		foreach( $loop->posts as $id ){
-		            			$product = self::get_product_from_post($id);
-		            			$product_array[] = $product;
+		            		    if (self::is_post_valid($id)){
+    		            			$product = self::get_product_from_post($id);
+    		            			$product_array[] = $product;
+		            		    }
 		            		}
 		            	}
 		            	
@@ -824,8 +869,11 @@ class WCISPlugin {
     	$total_pages = $loop->max_num_pages;	// total number of batches
     	while ( $loop->have_posts() ){
     		$loop->the_post();
-    		$product = self::get_product_from_post(get_the_ID());
-    		$product_array[] = $product;
+    		$product_id = get_the_ID();
+    		if (self::is_post_valid($product_id)){
+        		$product = self::get_product_from_post($product_id);
+        		$product_array[] = $product;
+    		}
     	}
     	
     	$send_products = array(
@@ -1054,6 +1102,20 @@ class WCISPlugin {
     	$send_product['description'] = self::content_filter_shortcode($send_product['description']);
     	$send_product['short_description'] = self::content_filter_shortcode($send_product['short_description']);
     	
+    	try{
+    		if (defined('ICL_SITEPRESS_VERSION') && is_plugin_active( 'woocommerce-multilingual/wpml-woocommerce.php' ) && 
+    				function_exists('wpml_get_language_information')){
+    			if (version_compare( ICL_SITEPRESS_VERSION, '3.2', '>=' )) {
+    				$language_info = apply_filters( 'wpml_post_language_details', NULL, $post_id);
+    			} else {
+    				$language_info = wpml_get_language_information($post_id);
+    			}
+    			if ($language_info && is_array($language_info) && array_key_exists('locale', $language_info)){    // WP_Error could be returned from wpml_get_language_information(...)
+    				$send_product['lang'] = $language_info['locale'];
+    			}
+    		}
+    	} catch (Exception $e){}
+    	
         return $send_product;
     }
 
@@ -1080,6 +1142,20 @@ class WCISPlugin {
                 'parent_id'     => (string)$product_category->parent,
                 'url_path'      => get_term_link((int)$category_id, 'product_cat'),                    
         );
+        
+        include_once(ABSPATH . 'wp-admin/includes/plugin.php');
+        if (is_plugin_active( 'woocommerce-multilingual/wpml-woocommerce.php' ) && is_plugin_active('sitepress-multilingual-cms/sitepress.php' )){
+            try{
+                global $sitepress;
+                if ($sitepress){
+                    $language_code = $sitepress->get_language_for_element($category_id, 'tax_product_cat');
+                    if ($language_code){
+                        $category['lang'] = $language_code;
+                    }
+                }
+            } catch (Exception $e) {}
+        }   
+        
         return $category;
     }
     
@@ -1121,6 +1197,9 @@ class WCISPlugin {
     } 
     
     public function on_product_update($post_id, $action){
+        if (!self::is_post_valid($post_id)){
+            return;
+        }
         $products_list = get_option('cron_product_list');
         $timestamp = wp_next_scheduled( 'instantsearchplus_cron_request_event' );
         
@@ -1339,6 +1418,9 @@ class WCISPlugin {
             $product_category_ids = get_terms( 'product_cat', $args );
             if (!empty($product_category_ids) && !is_wp_error($product_category_ids) && count($product_category_ids) > 0){
                 foreach($product_category_ids as $category_id){
+                    if (!self::is_post_valid($category_id, 'category')){
+                        continue;
+                    }
                     $category = self::get_category_by_id($category_id);
                     if ($category == null){
                         continue;
@@ -1490,7 +1572,7 @@ class WCISPlugin {
 	            if ($this->facets_narrow){
 	                $isp_facets_fields['narrow'] = $this->facets_narrow;
 	            }
-	            
+
 	            wp_localize_script( $this->plugin_slug . '-fulltext', 'isp_facets_fields', $isp_facets_fields );
 	        }
 	        if (!$this->just_created_site && $this->stem_words){
@@ -1647,7 +1729,7 @@ class WCISPlugin {
 						'woocommerce_exists'	=> $woocommerce_exists,
 						'is_multisite'			=> $is_multisite,
 				        'server_endpoint'       => $server_endpoing,
-				        'WP_HTTP_BLOCK_EXTERNAL'=> defined(WP_HTTP_BLOCK_EXTERNAL),     # in defined - block external requests
+				        'WP_HTTP_BLOCK_EXTERNAL'=> defined('WP_HTTP_BLOCK_EXTERNAL'),     # in defined - block external requests
 				);
 				exit(json_encode($response));
 				
@@ -1950,7 +2032,8 @@ class WCISPlugin {
 				return self::on_fulltext_disable_query($wp_query);
 			}
 			
-			$q = urldecode((isset($query['s'])) ? $query['s'] : get_search_query());
+// 			$q = urldecode((isset($query['s'])) ? $query['s'] : get_search_query());
+			$q = (isset($query['s'])) ? $query['s'] : get_search_query();
 			// cleaning search query from '\'
 			$q = str_replace('\\', '', $q);
 			
@@ -1978,7 +2061,7 @@ class WCISPlugin {
 			$params_array = array('s' 					   => get_option('siteurl'),
 								  'h' 					   => get_option('siteurl'),	
 								  'UUID' 				   => get_option( 'wcis_site_id' ),
-							      'q'					   => $q,
+							      'q'					   => urlencode($q),
 								  'v' 					   => self::VERSION,
 								  'store_id' 			   => get_current_blog_id(),
 								  'p' 					   => $page_num,				// requested page number
@@ -1986,6 +2069,7 @@ class WCISPlugin {
 					              'post_type'              => $post_type,
 					              'facets_required'        => 1
 			);
+
 			$params = '';
 			foreach ($params_array as $key => $value){
 			    $params .= $key . '=' . $value . '&';
@@ -1999,7 +2083,7 @@ class WCISPlugin {
 			    $match = array();
 			    $pattern = '/\&narrow=([^\&\#\/]*)/';
 			    preg_match($pattern, $url_args, $match);
-			    $narrow =  urldecode($match[1]);
+			    $narrow =  $match[1];
                 $params .= 'narrow=' . $narrow;
 			}
 
@@ -2050,7 +2134,7 @@ class WCISPlugin {
 				}
 				
 				// did you mean section
-				$wp_query->query_vars['s'] = $q;
+// 				$wp_query->query_vars['s'] = urldecode($q);
 				self::handle_did_you_mean_result($response_json);
 				
 				// facets section

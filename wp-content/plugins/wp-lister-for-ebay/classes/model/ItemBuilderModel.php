@@ -1322,7 +1322,7 @@ class ItemBuilderModel extends WPL_Model {
 		$excluded_attributes = get_option('wplister_exclude_attributes');
 		if ( ! $excluded_attributes ) return array();
 
-		$attribute_names = split(',', $excluded_attributes);
+		$attribute_names = explode( ',', $excluded_attributes );
 		$attributes = array();
 		foreach ($attribute_names as $name) {
 			$attributes[] = trim($name);

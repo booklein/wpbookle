@@ -253,6 +253,29 @@
 								<option value="1000" <?php if ( $wpl_apply_profile_batch_size == '1000' ): ?>selected="selected"<?php endif; ?>>1000 items (default)</option>
 							</select>
 
+							<label for="wpl-option-inventory_check_batch_size" class="text_label">
+								<?php echo __('Check inventory in batches of','wplister'); ?>
+                                <?php wplister_tooltip('If your server times out or runs out of memory when using the inventory check tool you may have to lower this setting.') ?>
+							</label>
+							<select id="wpl-option-inventory_check_batch_size" name="wpl_e2e_inventory_check_batch_size" class=" required-entry select">
+								<option value="20"   <?php if ( $wpl_inventory_check_batch_size == '20'   ): ?>selected="selected"<?php endif; ?>>20 items</option>
+								<option value="50"   <?php if ( $wpl_inventory_check_batch_size == '50'   ): ?>selected="selected"<?php endif; ?>>50 items</option>
+								<option value="100"  <?php if ( $wpl_inventory_check_batch_size == '100'  ): ?>selected="selected"<?php endif; ?>>100 items</option>
+								<option value="200"  <?php if ( $wpl_inventory_check_batch_size == '200'  ): ?>selected="selected"<?php endif; ?>>200 items (default)</option>
+								<option value="500"  <?php if ( $wpl_inventory_check_batch_size == '500'  ): ?>selected="selected"<?php endif; ?>>500 items</option>
+							</select>
+
+							<label for="wpl-option-fetch_orders_page_size" class="text_label">
+								<?php echo __('Limit scheduled order fetching','wplister'); ?>
+                                <?php wplister_tooltip('If your server times out or runs out of memory when fetching orders from eBay you may have to lower this setting.<br><br>This only applies to the automatic background process of fetching orders. It has no effect on fetching orders manually from the Orders page.') ?>
+							</label>
+							<select id="wpl-option-fetch_orders_page_size" name="wpl_e2e_fetch_orders_page_size" class=" required-entry select">
+								<option value="25"   <?php if ( $wpl_fetch_orders_page_size == '25'   ): ?>selected="selected"<?php endif; ?>>25 orders</option>
+								<option value="50"   <?php if ( $wpl_fetch_orders_page_size == '50'   ): ?>selected="selected"<?php endif; ?>>50 orders (default)</option>
+								<option value="75"   <?php if ( $wpl_fetch_orders_page_size == '75'   ): ?>selected="selected"<?php endif; ?>>75 orders</option>
+								<option value="100"  <?php if ( $wpl_fetch_orders_page_size == '100'  ): ?>selected="selected"<?php endif; ?>>100 orders</option>
+							</select>
+
 							<label for="wpl-ignore_orders_before_ts" class="text_label">
 								<?php echo __('Ignore orders before','wplister') ?>
 								<?php wplister_tooltip('This is where WP-Lister remembers when it was connected to your eBay account. Orders placed before that date will be ignored.') ?>

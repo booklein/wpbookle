@@ -208,3 +208,16 @@ div#yit_wcan_options_yith_wcan_seo_value-container .option .select_wrapper,
 #yit_wcan_options_yith_wcan_seo_option-container .select_wrapper {
     width: auto;
 }
+
+/* === OLD Theme Panel Fix */
+.yit-plugins_page_yith_wcan_panel .yit_options .description {
+    float: none;
+    display: block;
+    margin-left: 0;
+    width: 100%;
+    clear: both;
+}
+
+.yit-plugins_page_yith_wcan_panel .yit_options input:not(.button):not(.number):not(#export-file):not(#delete-cache):not(#reset-theme-options):not(#delete-custom-sidebars):not(#delete-resized-images):not(#install-sampledata) {
+    margin-bottom: 10px;
+}

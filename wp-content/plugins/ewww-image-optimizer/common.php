@@ -1,7 +1,7 @@
 <?php
 // common functions for Standard and Cloud plugins
 
-define( 'EWWW_IMAGE_OPTIMIZER_VERSION', '256.0' );
+define( 'EWWW_IMAGE_OPTIMIZER_VERSION', '257.0' );
 
 // TODO: track down fatal error with HHVM
 // TODO: escape all html attributes properly, with esc_attr() or esc_attr__()
@@ -165,9 +165,9 @@ function ewww_image_optimizer_buffer_end() {
 	ewwwio_debug_message( '<b>' . __FUNCTION__ . '()</b>' );
 	ob_end_flush();
 }
-function ewww_image_optimizer_filter_page_output( $buffer ) {
+function ewww_image_optimizer_filter_page_output( $buffer, $testing = false ) {
 	ewwwio_debug_message( '<b>' . __FUNCTION__ . '()</b>' );
-	if ( empty ( $buffer ) || is_admin() ) {
+	if ( empty ( $buffer ) || ( is_admin() && ! $testing ) ) {
 		ewww_image_optimizer_debug_log();
 		return $buffer;
 	}
@@ -734,24 +734,41 @@ function ewww_image_optimizer_install_table() {
 	ewwwio_debug_message( '<b>' . __FUNCTION__ . '()</b>' );
 	global $wpdb;
 
+	//see if the path column exists, and what collation it uses to determine the column index size
+	if ( $wpdb->get_var( "SHOW TABLES LIKE '$wpdb->ewwwio_images'" ) == $wpdb->ewwwio_images ) {
+		$current_collate = $wpdb->get_results( "SHOW FULL COLUMNS FROM $wpdb->ewwwio_images", ARRAY_A );
+		if ( ! empty( $current_collate[1]['Field'] ) && $current_collate[1]['Field'] === 'path' && strpos( $current_collate[1]['Collation'], 'utf8mb4' ) === false ) {
+			$path_index_size = 255;
+		}
+	}
+
+	// get the current wpdb charset and collation
 	$charset_collate = $wpdb->get_charset_collate();
-	
+//	ewwwio_debug_message( $charset_collate );
+
+	// if the path column doesn't yet exist, and the default collation is utf8mb4, then we need to lower the column index size
+	if ( empty( $path_index_size ) && strpos( $charset_collate, 'utf8mb4' ) ) {
+		$path_index_size = 191;
+	} else {
+		$path_index_size = 255;
+	}
+
 	// create a table with 4 columns: an id, the file path, the md5sum, and the optimization results
 	$sql = "CREATE TABLE $wpdb->ewwwio_images (
 		id mediumint(9) NOT NULL AUTO_INCREMENT,
 		path text NOT NULL,
-		image_md5 VARCHAR(55),
-		results VARCHAR(55) NOT NULL,
-		gallery VARCHAR(30),
-		image_size int UNSIGNED,
-		orig_size int UNSIGNED,
+		image_md5 varchar(55),
+		results varchar(55) NOT NULL,
+		gallery varchar(30),
+		image_size int(10) unsigned,
+		orig_size int(10) unsigned,
 		UNIQUE KEY id (id),
-		KEY path_image_size (path(255),image_size)
+		KEY path_image_size (path($path_index_size),image_size)
 	) $charset_collate;";
-
+	
 	// include the upgrade library to initialize a table
 	ewww_image_optimizer_require( ABSPATH . 'wp-admin/includes/upgrade.php' );
-	dbDelta( $sql );
+	$updates = dbDelta( $sql );
 	
 	// make sure some of our options are not autoloaded (since they can be huge)
 	$bulk_attachments = get_option( 'ewww_image_optimizer_bulk_attachments', '' );
@@ -769,13 +786,6 @@ function ewww_image_optimizer_install_table() {
 	$bulk_attachments = get_option( 'ewww_image_optimizer_defer_attachments', '' );
 	delete_option( 'ewww_image_optimizer_defer_attachments' );
 	add_option( 'ewww_image_optimizer_defer_attachments', $bulk_attachments, '', 'no' );
-
-	// need to re-register the api_key for the sanitize function (or do we...)
-/*	$api_key = ewww_image_optimizer_get_option('ewww_image_optimizer_cloud_key');
-	unregister_setting('ewww_image_optimizer_options', 'ewww_image_optimizer_cloud_key');
-	register_setting('ewww_image_optimizer_options', 'ewww_image_optimizer_cloud_key', 'ewww_image_optimizer_cloud_key_sanitize');
-	ewww_image_optimizer_set_option('ewww_image_optimizer_cloud_key', $api_key);*/
-
 }
 
 // lets the user know their network settings have been saved
@@ -1291,8 +1301,16 @@ function ewww_image_optimizer_debug_log() {
 
 // adds a link on the Plugins page for the EWWW IO settings
 function ewww_image_optimizer_settings_link( $links ) {
+	if ( ! function_exists( 'is_plugin_active_for_network' ) && is_multisite() ) {
+		// need to include the plugin library for the is_plugin_active function
+		ewww_image_optimizer_require( ABSPATH . 'wp-admin/includes/plugin.php' );
+	}
 	// load the html for the settings link
-	$settings_link = '<a href="options-general.php?page=' . plugin_basename( EWWW_IMAGE_OPTIMIZER_PLUGIN_FILE ) . '">' . __( 'Settings', EWWW_IMAGE_OPTIMIZER_DOMAIN ) . '</a>';
+	if ( is_multisite() && is_plugin_active_for_network( EWWW_IMAGE_OPTIMIZER_PLUGIN_FILE_REL ) ) {
+		$settings_link = '<a href="network/settings.php?page=' . plugin_basename( EWWW_IMAGE_OPTIMIZER_PLUGIN_FILE ) . '">' . __( 'Settings', EWWW_IMAGE_OPTIMIZER_DOMAIN ) . '</a>';
+	} else {
+		$settings_link = '<a href="options-general.php?page=' . plugin_basename( EWWW_IMAGE_OPTIMIZER_PLUGIN_FILE ) . '">' . __( 'Settings', EWWW_IMAGE_OPTIMIZER_DOMAIN ) . '</a>';
+	}
 	// load the settings link into the plugin links array
 	array_unshift( $links, $settings_link );
 	// send back the plugin links array
@@ -3677,7 +3695,6 @@ function ewww_image_optimizer_options () {
 				"<a href='http://www.stormondemand.com/?RID=nosilver4u'>Storm on Demand</a>-->\n" .
 			"</p>\n" .
 			"<p><b>" . _x( 'VPS:', 'abbreviation for Virtual Private Server', EWWW_IMAGE_OPTIMIZER_DOMAIN ) . "</b><br>\n" .
-				"<a href='http://www.bluehost.com/track/nosilver4u?page=/vps'>Bluehost</a><br>\n" .
 				"<a href='https://www.digitalocean.com/?refcode=89ef0197ec7e'>DigitalOcean</a><br>\n" .
 				"<a href='https://clientarea.ramnode.com/aff.php?aff=1469'>RamNode</a><br>\n" .
 				"<a href='http://www.vultr.com/?ref=6814210'>VULTR</a>\n" .

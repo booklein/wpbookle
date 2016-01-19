@@ -21,9 +21,11 @@
 		<td class="invoice-details">
 			<h1 class="title"><?php _e( 'Invoice', 'woocommerce-pdf-invoices' ); ?></h1>
 			<span class="number" style="color: <?php echo $this->template_options['bewpi_color_theme']; ?>;"><?php echo $this->get_formatted_number(); ?></span><br/>
-			<span class="small-font"><?php echo $this->get_formatted_invoice_date(); ?></span><br/><br/>
-			<span class="small-font"><?php printf( __( 'Order Number: %s', 'woocommerce-pdf-invoices' ), $this->order->get_order_number() ); ?></span><br/>
-			<span class="small-font"><?php printf( __( 'Order Date: %s', 'woocommerce-pdf-invoices' ), $this->get_formatted_order_date() ); ?></span><br/><br/>
+			<span><?php echo $this->get_formatted_invoice_date(); ?></span><br/><br/>
+			<span><?php printf( __( 'Order Number: %s', 'woocommerce-pdf-invoices' ), $this->order->get_order_number() ); ?></span><br/>
+			<span><?php printf( __( 'Order Date: %s', 'woocommerce-pdf-invoices' ), $this->get_formatted_order_date() ); ?></span><br/>
+			<?php $this->display_purchase_order_number(); ?><br/>
+			<?php $this->display_vat_number(); ?>
 		</td>
 		<td class="total-amount" bgcolor="<?php echo $this->template_options['bewpi_color_theme']; ?>">
 				<span>
@@ -157,8 +159,7 @@
 		$product = wc_get_product( $item['product_id'] ); ?>
 		<tr class="product-row">
 			<td>
-				<?php echo $product->get_title(); ?>
-				<?php
+				<?php echo $product->get_title();
 				global $wpdb;
 
 				if ( $metadata = $this->order->has_meta( $item_id ) ) {
