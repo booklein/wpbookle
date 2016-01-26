@@ -9,4 +9,3 @@ if ( class_exists( 'WooCommerce' ) ) {
 }
 
 require_once(porto_functions . '/layout.php');
-

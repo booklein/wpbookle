@@ -112,6 +112,7 @@ $l10n = array(
 								<?php _e('<strong>Hint:</strong> After you create this import, you can schedule it to run automatically, on a pre-defined schedule, with cron jobs. If anything in your file has changed, WP All Import can update your site with the changed data automatically.', 'wp_all_import_plugin'); ?>
 								<div class="wpallimport-free-edition-notice" style="display:none;">									
 									<a href="http://www.wpallimport.com/upgrade-to-pro/?utm_source=free-plugin&utm_medium=in-plugin&utm_campaign=download-from-url" target="_blank" class="upgrade_link"><?php _e('Upgrade to the professional edition of WP All Import to use this feature.', 'wp_all_import_plugin');?></a>
+									<p><?php _e('If you already own it, remove the free edition and install the professional edition.', 'wp_all_import_plugin'); ?></p>
 								</div>
 							</div>							
 							<input type="hidden" name="downloaded" value="<?php echo $post['downloaded']; ?>"/>
@@ -136,6 +137,7 @@ $l10n = array(
 									<?php printf(__('Upload files to <strong>%s</strong> and they will appear in this list', 'wp_all_import_plugin'), $upload_dir['basedir'] . '/wpallimport/files') ?>
 									<div class="wpallimport-free-edition-notice">									
 										<a href="http://www.wpallimport.com/upgrade-to-pro/?utm_source=free-plugin&utm_medium=in-plugin&utm_campaign=use-existing-file" target="_blank" class="upgrade_link"><?php _e('Upgrade to the professional edition of WP All Import to use this feature.', 'wp_all_import_plugin');?></a>
+										<p><?php _e('If you already own it, remove the free edition and install the professional edition.', 'wp_all_import_plugin'); ?></p>
 									</div>
 								</div>
 							</div>
@@ -167,13 +169,13 @@ $l10n = array(
 									
 									$custom_types = get_post_types(array('_builtin' => true), 'objects') + get_post_types(array('_builtin' => false, 'show_ui' => true), 'objects'); 
 									foreach ($custom_types as $key => $ct) {
-										if (in_array($key, array('attachment', 'revision', 'nav_menu_item', 'shop_order'))) unset($custom_types[$key]);
+										if (in_array($key, array('attachment', 'revision', 'nav_menu_item'))) unset($custom_types[$key]);
 									}
 									$custom_types = apply_filters( 'pmxi_custom_types', $custom_types );
 
 									$hidden_post_types = get_post_types(array('_builtin' => false, 'show_ui' => false), 'objects');
 									foreach ($hidden_post_types as $key => $ct) {
-										if (in_array($key, array('attachment', 'revision', 'nav_menu_item', 'shop_order'))) unset($hidden_post_types[$key]);
+										if (in_array($key, array('attachment', 'revision', 'nav_menu_item'))) unset($hidden_post_types[$key]);
 									}
 									$hidden_post_types = apply_filters( 'pmxi_custom_types', $hidden_post_types );
 
@@ -221,7 +223,34 @@ $l10n = array(
 							</div>
 						</div>
 						<?php endif; ?>
-					</div>					
+					</div>		
+
+					<div class="rad4 first-step-errors error-upload-rejected">
+						<div class="wpallimport-notify-wrapper">
+							<div class="error-headers exclamation">
+								<h3><?php _e('File upload rejected by server', 'wp_all_import_plugin');?></h3>
+								<h4><?php _e("Contact your host and have them check your server's error log.", "wp_all_import_plugin"); ?></h4>
+							</div>		
+						</div>		
+						<a class="button button-primary button-hero wpallimport-large-button wpallimport-notify-read-more" href="http://www.wpallimport.com/documentation/troubleshooting/problems-with-import-files/" target="_blank"><?php _e('Read More', 'wp_all_import_plugin');?></a>		
+					</div>
+
+					<div class="rad4 first-step-errors error-file-validation" <?php if ( ! empty($upload_validation) ): ?> style="display:block;" <?php endif; ?>>
+						<div class="wpallimport-notify-wrapper">
+							<div class="error-headers exclamation">
+								<h3><?php _e('There\'s a problem with your import file', 'wp_all_import_plugin');?></h3>
+								<h4>
+									<?php 
+									if ( ! empty($upload_validation) ): 										
+										$file_type = strtoupper(pmxi_getExtension($post['file']));
+										printf(__('Please verify that the file you using is a valid %s file.', 'wp_all_import_plugin'), $file_type); 
+									endif;
+									?>
+								</h4>
+							</div>		
+						</div>		
+						<a class="button button-primary button-hero wpallimport-large-button wpallimport-notify-read-more" href="http://www.wpallimport.com/documentation/troubleshooting/problems-with-import-files/#invalid" target="_blank"><?php _e('Read More', 'wp_all_import_plugin');?></a>		
+					</div>				
 
 					<p class="wpallimport-submit-buttons">
 						<input type="hidden" name="custom_type" value="<?php echo $post['custom_type'];?>">

@@ -1,7 +1,7 @@
 /*
- Name: Theme Base
- Writtern By: SWTHEMES
- Theme Version: 2.6.0
+ Name: Porto Theme Javascript
+ Writtern By: SW-THEMES
+ Javascript Version: 1.1
  */
 
 // Theme
@@ -123,6 +123,16 @@ window.theme = {};
                     $( this ).isotope( "layout" );
                 } );
             }
+        },
+
+        adminBarHeight: function() {
+            var $admin_bar = $('#wpadminbar');
+            var adminbar_height = 0;
+            if ($admin_bar.length) {
+                adminbar_height = $('#wpadminbar').css('position') == 'fixed' ? $('#wpadminbar').height() : 0;
+            }
+
+            return adminbar_height;
         }
     });
 
@@ -1038,7 +1048,7 @@ function portoCalcSliderTitleLine($parent) {
             build: function() {
                 var self = this;
 
-                if (!self.is_sticky && ($(window).height() + self.header_height + self.adminbar_height + 5 >= $(document).height())) {
+                if (!self.is_sticky && ($(window).height() + self.header_height + theme.adminBarHeight() + 5 >= $(document).height())) {
                     return self;
                 }
 
@@ -1055,7 +1065,7 @@ function portoCalcSliderTitleLine($parent) {
                         if (!self.$header.hasClass('sticky-header')) {
                             self.$header.addClass('sticky-header');
                             self.$header.css('padding-bottom', self.menu_height);
-                            self.$menu_wrap.stop().css('top', self.adminbar_height);
+                            self.$menu_wrap.stop().css('top', theme.adminBarHeight());
 
                             if (self.$header.parent().hasClass('fixed-header')) {
                                 self.$header_main.hide();
@@ -1126,7 +1136,7 @@ function portoCalcSliderTitleLine($parent) {
                                 self.$header.css('padding-bottom', self.main_height);
                                 self.$header_main.addClass('sticky');
                                 if (self.change_logo) self.$header_main.addClass('change-logo');
-                                self.$header_main.stop().css('top', self.adminbar_height);
+                                self.$header_main.stop().css('top', theme.adminBarHeight());
 
                                 if (!self.init_toggle_menu) {
                                     self.init_toggle_menu = true;
@@ -1174,13 +1184,6 @@ function portoCalcSliderTitleLine($parent) {
 
             reset: function() {
                 var self = this;
-
-                var $admin_bar = $('#wpadminbar');
-                var height = 0;
-                if ($admin_bar.length) {
-                    height = $('#wpadminbar').css('position') == 'fixed' ? $('#wpadminbar').height() : 0;
-                }
-                self.adminbar_height = height;
 
                 if (self.$menu_wrap && !theme.isTablet()) {
                     // show main menu
@@ -1297,7 +1300,7 @@ function portoCalcSliderTitleLine($parent) {
                     var window_height = $(window).height();
                     var scroll_top = $(window).scrollTop();
 
-                    if (side_height - window_height + self.adminbar_height <= scroll_top) {
+                    if (side_height - window_height + theme.adminBarHeight() <= scroll_top) {
                         if (!self.$side_nav.hasClass("fixed-bottom"))
                             self.$side_nav.addClass("fixed-bottom");
                     } else {
@@ -1306,10 +1309,10 @@ function portoCalcSliderTitleLine($parent) {
                     }
 
                     if ($page_top.length) {
-                        if (self.page_top_offset == self.adminbar_height || self.page_top_offset <= scroll_top) {
+                        if (self.page_top_offset == theme.adminBarHeight() || self.page_top_offset <= scroll_top) {
                             if (!$page_top.hasClass("fixed-pos")) {
                                 $page_top.addClass("fixed-pos");
-                                $page_top.css('top', self.adminbar_height);
+                                $page_top.css('top', theme.adminBarHeight());
                                 $main.css('padding-top', $page_top.outerHeight());
                             }
                         } else {
@@ -1334,19 +1337,12 @@ function portoCalcSliderTitleLine($parent) {
 
                 } else {
 
-                    var $admin_bar = $('#wpadminbar');
-                    var height = 0;
-                    if ($admin_bar.length) {
-                        height = $('#wpadminbar').css('position') == 'fixed' ? $('#wpadminbar').height() : 0;
-                    }
-                    self.adminbar_height = height;
-
                     var w_h = $(window).height();
 
                     $side_bottom = self.$side_nav.find('.side-bottom');
 
                     self.$side_nav.css({
-                        'min-height': w_h - self.adminbar_height,
+                        'min-height': w_h - theme.adminBarHeight(),
                         'padding-bottom': $side_bottom.height() + parseInt($side_bottom.css('margin-top')) + parseInt($side_bottom.css('margin-bottom'))
                     });
 
@@ -1550,7 +1546,7 @@ function portoCalcSliderTitleLine($parent) {
                     }
                     setTimeout(function() {
                         $('html, body').stop().animate({
-                            scrollTop: target.offset().top - theme.StickyHeader.sticky_height - theme.StickyHeader.adminbar_height - self.sticky_nav_height
+                            scrollTop: target.offset().top - theme.StickyHeader.sticky_height - theme.adminBarHeight() - self.sticky_nav_height
                         }, 600, 'easeOutQuad', function() {
                             self.activeMenuItem();
                         });
@@ -1589,7 +1585,7 @@ function portoCalcSliderTitleLine($parent) {
                             }
                         }
                         if (target.length) {
-                            var scroll_to = target.offset().top - theme.StickyHeader.sticky_height - theme.StickyHeader.adminbar_height - self.sticky_nav_height + 1;
+                            var scroll_to = target.offset().top - theme.StickyHeader.sticky_height - theme.adminBarHeight() - self.sticky_nav_height + 1;
                             if (scroll_to <= theme.StickyHeader.sticky_pos + self.sticky_nav_height) {
                                 scroll_to = theme.StickyHeader.sticky_pos + self.sticky_nav_height + 1;
                             }
@@ -1646,7 +1642,7 @@ function portoCalcSliderTitleLine($parent) {
                             }, 200);
                         }
                         setTimeout(function() {
-                            var scroll_to = target.offset().top - theme.StickyHeader.sticky_height - theme.StickyHeader.adminbar_height - self.sticky_nav_height + 1;
+                            var scroll_to = target.offset().top - theme.StickyHeader.sticky_height - theme.adminBarHeight() - self.sticky_nav_height + 1;
                             if (scroll_to <= theme.StickyHeader.sticky_pos + self.sticky_nav_height) {
                                 scroll_to = theme.StickyHeader.sticky_pos + self.sticky_nav_height + 1;
                             }
@@ -3359,7 +3355,7 @@ function portoCalcSliderTitleLine($parent) {
                     minWidth = parseInt(minWidth) - theme.scrollbar_width;
 
                     if ($this.hasClass('porto-sticky-nav')) {
-                        top = theme.StickyHeader.sticky_height + theme.StickyHeader.adminbar_height;
+                        top = theme.StickyHeader.sticky_height + theme.adminBarHeight();
                         activeClass = 'sticky-active';
                         containerSelector = '.page-content';
                         self.height = $this.outerHeight();
@@ -4207,8 +4203,23 @@ function portoCalcSliderTitleLine($parent) {
                 self.refreshCartFragment();
 
                 // add ajax cart loading
-                $(document).on('click', 'a.add_to_cart_button', function(e) {
-                    $(this).addClass('product-adding');
+                $(document).on('click', '.add_to_cart_button', function(e) {
+                    var $this = $(this);
+                    if ( $this.is('.product_type_simple') ) {
+                        if ( $this.attr('data-product_id') ) {
+                            $(this).addClass('product-adding');
+                        }
+                    }
+                });
+                $(document).on('click', 'span.add_to_cart_button', function(e) {
+                    var $this = $(this);
+                    if ( $this.is('.product_type_simple') ) {
+                        if ( !$this.attr('data-product_id') ) {
+                            window.location.href = $this.attr('href');
+                        }
+                    } else {
+                        window.location.href = $this.attr('href');
+                    }
                 });
 
                 $('body').bind('added_to_cart', function() {
@@ -4363,7 +4374,7 @@ function portoCalcSliderTitleLine($parent) {
                 var self = this;
 
                 $('#mini-cart .cart_list').scrollbar();
-                $('.widget_shopping_cart .remove-product').unbind('click').click(function(e){
+                $(document).off('click', '.widget_shopping_cart .remove-product, .shop_table.cart .remove-product').on('click', '.widget_shopping_cart .remove-product, .shop_table.cart .remove-product', function(e){
                     e.preventDefault();
                     var $this = $(this);
                     var cart_id = $this.data("cart_id");
@@ -4383,6 +4394,35 @@ function portoCalcSliderTitleLine($parent) {
                             $( document.body ).trigger( 'wc_fragments_refreshed' );
                             $('.viewcart-' + product_id).removeClass('added');
                             $('.porto_cart_item_' + cart_id).remove();
+
+                            var this_page = window.location.toString();
+                            this_page = this_page.replace( 'add-to-cart', 'added-to-cart' );
+
+                            // Block widgets and fragments
+                            $( '.shop_table.cart, .shop_table.review-order, .updating, .cart_totals' ).fadeTo( '400', '0.6' ).block({
+                                message: null,
+                                overlayCSS: {
+                                    opacity: 0.6
+                                }
+                            });
+
+                            // Unblock
+                            $( '.widget_shopping_cart, .updating' ).stop( true ).css( 'opacity', '1' ).unblock();
+
+                            // Cart page elements
+                            $( '.shop_table.cart' ).load( this_page + ' .shop_table.cart:eq(0) > *', function() {
+                                $( '.shop_table.cart' ).stop( true ).css( 'opacity', '1' ).unblock();
+                                $( document.body ).trigger( 'cart_page_refreshed' );
+                            });
+
+                            $( '.cart_totals' ).load( this_page + ' .cart_totals:eq(0) > *', function() {
+                                $( '.cart_totals' ).stop( true ).css( 'opacity', '1' ).unblock();
+                            });
+
+                            // Checkout page elements
+                            $( '.shop_table.review-order' ).load( this_page + ' .shop_table.review-order:eq(0) > *', function() {
+                                $( '.shop_table.review-order' ).stop( true ).css( 'opacity', '1' ).unblock();
+                            });
                         }
                     });
 
@@ -4577,7 +4617,7 @@ function portoCalcSliderTitleLine($parent) {
                     }
                     setTimeout(function() {
                         $('html, body').stop().animate({
-                            scrollTop: $container.offset().top - theme.StickyHeader.sticky_height - theme.StickyHeader.adminbar_height - theme.HashScroll.sticky_nav_height - 15
+                            scrollTop: $container.offset().top - theme.StickyHeader.sticky_height - theme.adminBarHeight() - theme.HashScroll.sticky_nav_height - 15
                         }, 600, 'easeOutQuad');
                     }, delay);
                 }
@@ -5030,7 +5070,7 @@ function portoCalcSliderTitleLine($parent) {
                 }
                 setTimeout(function() {
                     $('html, body').stop().animate({
-                        scrollTop: $container.offset().top - theme.StickyHeader.sticky_height - theme.StickyHeader.adminbar_height - theme.HashScroll.sticky_nav_height - 14
+                        scrollTop: $container.offset().top - theme.StickyHeader.sticky_height - theme.adminBarHeight() - theme.HashScroll.sticky_nav_height - 14
                     }, 600, 'easeOutQuad');
                 }, delay);
 
@@ -5082,7 +5122,7 @@ function portoCalcSliderTitleLine($parent) {
                 }
                 setTimeout(function() {
                     $('html, body').stop().animate({
-                        scrollTop: $container.offset().top - theme.StickyHeader.sticky_height - theme.StickyHeader.adminbar_height - theme.HashScroll.sticky_nav_height - 14
+                        scrollTop: $container.offset().top - theme.StickyHeader.sticky_height - theme.adminBarHeight() - theme.HashScroll.sticky_nav_height - 14
                     }, 600, 'easeOutQuad');
                 }, delay);
 
@@ -5132,7 +5172,7 @@ function portoCalcSliderTitleLine($parent) {
                 }
                 setTimeout(function() {
                     $('html, body').stop().animate({
-                        scrollTop: $container.offset().top - theme.StickyHeader.sticky_height - theme.StickyHeader.adminbar_height - theme.HashScroll.sticky_nav_height - 14
+                        scrollTop: $container.offset().top - theme.StickyHeader.sticky_height - theme.adminBarHeight() - theme.HashScroll.sticky_nav_height - 14
                     }, 600, 'easeOutQuad');
                 }, delay);
 
@@ -5156,6 +5196,18 @@ function portoCalcSliderTitleLine($parent) {
             }
         });
 
+        // fixed video
+        $('.video-fixed').each(function() {
+            var $this = $(this);
+            var $video = $this.find('video, iframe');
+            if ($video.length) {
+                $(window).on('scroll', function() {
+                    var offset = $(window).scrollTop() - $this.position().top + theme.adminBarHeight();
+                    $video.css("cssText", "top: " + offset + "px !important;");
+                });
+            }
+        });
+
         // refresh wpb content
         $(document).on('shown.bs.collapse', '.collapse', function() {
             var panel = $(this);
@@ -5169,6 +5221,18 @@ function portoCalcSliderTitleLine($parent) {
             var label = $(ui).attr('aria-controls');
             var panel = $('[aria-labelledby="' + label + '"');
             theme.refreshVCContent(panel);
+        });
+
+        // porto tooltip for header, footer
+        $(".porto-tooltip .tooltip-icon").click(function(){
+            if($(this).parent().children(".tooltip-popup").css("display")=="none"){
+                $(this).parent().children(".tooltip-popup").fadeIn(200).slideDown(200);
+            }else{
+                $(this).parent().children(".tooltip-popup").fadeOut(200).slideUp(200);
+            }
+        });
+        $(".porto-tooltip .tooltip-close").click(function(){
+            $(this).parent().fadeOut(200).slideUp(200);
         });
     }
 

@@ -68,7 +68,7 @@ if ( ! function_exists('wp_all_import_addon_notifications') ){
 					'title' => 'Listify',
 					'url'   => 'https://wordpress.org/plugins/listify-xml-csv-listings-import/'
 				);
-			}
+			}			
 			// RealHomes Add-On
 			if ( in_array('RealHomes Theme', $current_themes) 
 				and is_wp_error(validate_plugin('realhomes-xml-csv-property-listings-import/realhomes-add-on.php')))
@@ -86,23 +86,23 @@ if ( ! function_exists('wp_all_import_addon_notifications') ){
 					'title' => 'Jobify',
 					'url'   => 'https://wordpress.org/plugins/jobify-xml-csv-listings-import/'
 				);
-			}
+			}			
 			// Yoast SEO Add-On
 			if ( is_plugin_active('wordpress-seo/wp-seo.php')
 				and is_wp_error(validate_plugin('yoast-seo-settings-xml-csv-import/yoast-addon.php')))
-			{
+			{				
 				$recommended_addons[] = array(
 					'title' => 'Yoast SEO',
 					'url'   => 'https://wordpress.org/plugins/yoast-seo-settings-xml-csv-import/'
 				);
-			}
+			}			
 			// ACF Add-On
 			if ( is_plugin_active('advanced-custom-fields-pro/acf.php')
 				and is_wp_error(validate_plugin('wpai-acf-add-on/wpai-acf-add-on.php')))
 			{
-				if ( ! get_option(sanitize_key($addon['title']) . '_notice_ignore')) {
+				if ( ! get_option('acf_addon_notice_ignore')) {
 					?>
-					<div class="updated notice is-dismissible wpallimport-dismissible" rel="<?php echo sanitize_key($addon['title']); ?>"><p>
+					<div class="updated notice is-dismissible wpallimport-dismissible" rel="acf_addon"><p>
 						<?php 
 							printf(
 								__('Make imports easier with the <strong>Advanced Custom Fields Add-On</strong> for WP All Import: <a href="%s" target="_blank">Read More</a>', 'wp_all_import_plugin'),
@@ -110,6 +110,23 @@ if ( ! function_exists('wp_all_import_addon_notifications') ){
 							);
 						?>
 					</p></div>
+					<?php
+				}				
+			}
+			// WP All Export
+			if ( is_wp_error(validate_plugin('wp-all-export-pro/wp-all-export-pro.php')) and is_wp_error(validate_plugin('wp-all-export/wp-all-export.php')) )
+			{
+				if ( ! get_option('wp_all_export_notice_ignore')) {
+					?>
+					<!--div class="wpallimport-wrapper updated notice is-dismissible wpallimport-dismissible" rel="wp_all_export" style="margin: 10px 0; padding: 12px 0;">
+						<div class="wpallimport-notify-wrapper">
+							<div class="found_records speedup" style="margin-top: 20px;">
+								<h3 style="font-size:26px;"><?php _e('WP All Export', 'wp_all_import_plugin');?></h3>
+								<h4><?php _e("Export anything in WordPress to CSV, XML, or Excel.", "wp_all_import_plugin"); ?></h4>
+							</div>		
+						</div>		
+						<a class="button button-primary button-hero wpallimport-large-button wpallimport-wpae-notify-read-more" href="http://www.wpallimport.com/export" target="_blank"><?php _e('Read More', 'wp_all_import_plugin');?></a>		
+					</div-->
 					<?php
 				}				
 			}

@@ -1019,11 +1019,18 @@ class PMXI_CsvParser
                         }                            
                         $xmlWriter->endElement();                        
                     }                                        
-                }
+                }                
             }
 
             $c ++;
         }
+
+        if($c === 1)
+        {
+            $xmlWriter->startElement('node');
+            $xmlWriter->endElement();    
+        }
+        
         fclose($res);
         
         $xmlWriter->endElement();

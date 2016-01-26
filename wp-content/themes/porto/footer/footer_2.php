@@ -71,6 +71,10 @@ for ($i = 1; $i <= 4; $i++) {
                 </div>
             <?php endif; ?>
 
+            <?php
+            get_template_part('footer/footer_tooltip');
+            ?>
+
         </div>
     <?php endif; ?>
 

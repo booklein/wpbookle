@@ -12,6 +12,7 @@ $config = array(
 	"max_input_time" => -1,
 	"max_execution_time" => -1,
 	"dismiss" => 0,
+	"dismiss_speed_up" => 0,
 	"dismiss_manage_top" => 0,
 	"dismiss_manage_bottom" => 0,
 	"html_entities" => 0,

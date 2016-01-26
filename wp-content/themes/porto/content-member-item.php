@@ -10,6 +10,9 @@ if ($item_cats):
     }
 endif;
 
+$member_link = get_post_meta($post->ID, 'member_link', true);
+$show_external_link = $porto_settings['member-external-link'];
+
 if (has_post_thumbnail()) :
     $attachment_id = get_post_thumbnail_id();
     $attachment = porto_get_attachment($attachment_id);
@@ -22,7 +25,7 @@ if (has_post_thumbnail()) :
         ?>
         <div class="member-item thumbnail<?php echo !$view_type ? '' : ' align-center' ?>">
             <div class="thumb-info<?php echo !$view_type ? '' : ' tf-none' ?>">
-                <a href="<?php the_permalink(); ?>">
+                <a href="<?php if ($show_external_link && $member_link) echo $member_link; else the_permalink() ?>">
                     <img class="img-responsive" width="<?php echo $attachment_medium['width'] ?>" height="<?php echo $attachment_medium['height'] ?>" src="<?php echo $attachment_medium['src'] ?>" alt="<?php echo $attachment_medium['alt'] ?>"<?php if ($porto_settings['member-zoom']) : ?> data-image="<?php echo $attachment['src'] ?>" data-caption="<?php echo $attachment['caption'] ?>"<?php endif; ?> />
                     <?php if (!$view_type) : ?>
                         <div class="thumb-info-title">
@@ -53,7 +56,7 @@ if (has_post_thumbnail()) :
                     <span class="thumb-info-caption-text<?php echo !$view_type ? '' : ' p-t-none' ?>">
                 <?php
                 $show_info = true;
-                $member_overview = get_post_meta($member_id, 'member_overview', true);
+                $member_overview = do_shortcode(get_post_meta($member_id, 'member_overview', true));
                 if ($porto_settings['member-excerpt']) {
                     $member_overview = strip_tags( strip_shortcodes($member_overview) );
                     $limit = $porto_settings['member-excerpt-length'] ? $porto_settings['member-excerpt-length'] : 15;

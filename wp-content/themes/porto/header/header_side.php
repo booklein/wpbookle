@@ -22,6 +22,11 @@ global $porto_settings, $porto_layout;
         </div>
 
         <div class="container">
+
+            <?php
+                get_template_part('header/header_tooltip');
+            ?>
+
             <div class="header-left">
                 <?php
                 // show logo

@@ -428,6 +428,7 @@
         padding: 0;
     }
     li {
+        margin-bottom: 10px !important;
         a:hover {
             text-decoration: underline;
         }
@@ -436,22 +437,23 @@
         margin-bottom: 10px;
     }
     i {
+        float: $left;
         text-align: center;
         width: 16px;
         top: -2px;
-        margin: side-values(7px 6px 0 0);
+        margin: side-values(4px 9px 10px 0);
         font-size: 1.2em;
+        position: static !important;
     }
+    .contact-info-block {
     .contact-details {
+            strong {
+                display: block;
+                padding-#{$left}: 25px;
+            }
         span {
             display: block;
             padding-#{$left}: 25px;
-            line-height: 18px;
-            padding-bottom: 10px;
-
-            .footer-2 & {
-                display: inline;
-                padding-#{$left}: 0;
             }
         }
     }
@@ -473,8 +475,8 @@
 
             &:hover {
                 &:before {
-                    top: -30px;
-                    bottom: 30px;
+                    top: -100%;
+                    bottom: 100%;
                 }
                 &:after {
                     top: 0;
@@ -492,7 +494,7 @@
                 font-family: "FontAwesome";
                 text-indent: 0;
                 position: absolute;
-                left: 0; right: 0; top: 30px; bottom: -30px;
+                left: 0; right: 0; top: 100%; bottom: -100%;
                 line-height: 23px;
                 height: 22px;
                 margin: auto;

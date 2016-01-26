@@ -4,7 +4,6 @@ function porto_page_title() {
 
     global $porto_settings;
 
-    $post = isset( $GLOBALS['post'] ) ? $GLOBALS['post'] : null;
     $output = '';
 
     if ( ! is_front_page() ) {
@@ -65,7 +64,7 @@ function porto_page_title() {
         }
     }
 
-    return $output;
+    return apply_filters('porto_page_title', $output);
 }
 
 function porto_page_title_leaf( $object_type = '' ) {

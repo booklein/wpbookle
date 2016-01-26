@@ -24,7 +24,11 @@ wp_reset_postdata();
                 <div class="related-posts">
                     <h4 class="sub-title"><?php echo __('Related <strong>Posts</strong>', 'porto'); ?></h4>
                     <div class="row">
+                        <?php if (isset($porto_settings['post-related-style']) && 'style-4' == $porto_settings['post-related-style']) : ?>
+                        <div class="post-carousel owl-carousel" data-cols-lg="<?php echo ($porto_layout == 'wide-left-sidebar' || $porto_layout == 'wide-right-sidebar' || $porto_layout == 'left-sidebar' || $porto_layout == 'right-sidebar') ? '1' : '2' ?>" data-cols-md="1" data-cols-sm="1">
+                        <?php else : ?>
                         <div class="post-carousel owl-carousel" data-cols-lg="<?php echo ($porto_layout == 'wide-left-sidebar' || $porto_layout == 'wide-right-sidebar' || $porto_layout == 'left-sidebar' || $porto_layout == 'right-sidebar') ? '3' : '4' ?>" data-cols-md="3" data-cols-sm="2">
+                        <?php endif; ?>
                         <?php
                         while ($related_posts->have_posts()) {
                             $related_posts->the_post();

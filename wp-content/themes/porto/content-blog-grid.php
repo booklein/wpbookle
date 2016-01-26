@@ -4,7 +4,7 @@ global $porto_settings;
 
 $post_layout = 'grid';
 
-$columns = $porto_settings['grid-columns'];
+$columns = (isset($_GET['columns'])) ? $_GET['columns'] : $porto_settings['grid-columns'];
 
 global $porto_blog_columns;
 if ($porto_blog_columns)
@@ -51,22 +51,24 @@ switch ($columns) {
 
         </div>
 
+        <?php if (in_array('date', $porto_settings['post-metas'])) : ?>
         <div class="post-meta">
             <span><i class="fa fa-calendar"></i> <?php echo get_the_date() ?></span>
         </div>
+        <?php endif; ?>
         <div class="post-meta">
-            <span><i class="fa fa-user"></i> <?php echo __('By', 'porto'); ?> <?php the_author_posts_link(); ?></span>
+            <?php if (in_array('author', $porto_settings['post-metas'])) : ?><span><i class="fa fa-user"></i> <?php echo __('By', 'porto'); ?> <?php the_author_posts_link(); ?></span><?php endif; ?>
             <?php
             $cats_list = get_the_category_list(', ');
-            if ($cats_list) : ?>
+            if ($cats_list && in_array('cats', $porto_settings['post-metas'])) : ?>
                 <span><i class="fa fa-folder-open"></i> <?php echo $cats_list ?></span>
             <?php endif; ?>
             <?php
             $tags_list = get_the_tag_list('', ', ');
-            if ($tags_list) : ?>
+            if ($tags_list && in_array('tags', $porto_settings['post-metas'])) : ?>
                 <span><i class="fa fa-tag"></i> <?php echo $tags_list ?></span>
             <?php endif; ?>
-            <span><i class="fa fa-comments"></i> <?php comments_popup_link(__('0 Comments', 'porto'), __('1 Comment', 'porto'), '% '.__('Comments', 'porto')); ?></span>
+            <?php if (in_array('comments', $porto_settings['post-metas'])) : ?><span><i class="fa fa-comments"></i> <?php comments_popup_link(__('0 Comments', 'porto'), __('1 Comment', 'porto'), '% '.__('Comments', 'porto')); ?></span><?php endif; ?>
             <?php
             if (function_exists('Post_Views_Counter') && Post_Views_Counter()->options['display']['position'] == 'manual') {
                 $post_count = do_shortcode('[post-views]');

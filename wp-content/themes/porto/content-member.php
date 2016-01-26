@@ -23,7 +23,7 @@ global $porto_settings, $porto_layout;
                 $firstname = get_post_meta($member_id, 'member_firstname', true);
                 $lastname = get_post_meta($member_id, 'member_lastname', true);
                 $role = get_post_meta($member_id, 'member_role', true);
-                $overview = get_post_meta($member_id, 'member_overview', true);
+                $overview = do_shortcode(get_post_meta($member_id, 'member_overview', true));
                 ?>
 
                 <h2 class="entry-title<?php echo ($role?' shorter':'') ?>"><?php echo esc_html($firstname) ?><?php echo ($lastname?' <strong>'.esc_html($lastname).'</strong>':'') ?></h2>
@@ -148,6 +148,8 @@ global $porto_settings, $porto_layout;
         <?php get_template_part('content', 'member-portfolios'); ?>
 
         <?php if (class_exists('WooCommerce')) get_template_part('content', 'member-products'); ?>
+
+        <?php get_template_part('content', 'member-posts'); ?>
 
         <?php
         if ($porto_settings['member-related']) :

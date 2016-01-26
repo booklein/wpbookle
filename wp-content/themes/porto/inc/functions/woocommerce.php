@@ -25,6 +25,9 @@ remove_action('woocommerce_before_shop_loop', 'woocommerce_result_count', 20);
 remove_action('woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_thumbnail', 10);
 remove_action('woocommerce_before_shop_loop_item', 'woocommerce_template_loop_product_link_open', 10);
 remove_action('woocommerce_after_shop_loop_item', 'woocommerce_template_loop_product_link_close', 5);
+remove_action('woocommerce_before_subcategory', 'woocommerce_template_loop_category_link_open', 10);
+remove_action('woocommerce_after_subcategory', 'woocommerce_template_loop_category_link_close', 10);
+remove_action('woocommerce_shop_loop_subcategory_title', 'woocommerce_template_loop_category_title', 10);
 
 // add actions
 add_action('woocommerce_before_shop_loop', 'porto_grid_list_toggle', 40);
@@ -44,8 +47,6 @@ add_filter('woocommerce_available_variation', 'porto_woocommerce_available_varia
 
 add_filter('woocommerce_related_products_args', 'porto_remove_related_products', 10);
 add_filter('add_to_cart_fragments', 'porto_woocommerce_header_add_to_cart_fragment');
-
-add_filter('woocommerce_cart_item_class', 'porto_woocommerce_cart_item_class', 10, 3);
 
 // change action position
 add_action('woocommerce_share', 'porto_woocommerce_share');
@@ -313,13 +314,13 @@ function porto_product_quickview() {
         <div class="product product-summary-wrap">
 
             <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-12 summary-before">
+                <div class="col-md-6 col-sm-12 summary-before">
                     <?php
                     do_action( 'woocommerce_before_single_product_summary' );
                     ?>
                 </div>
 
-                <div class="col-lg-6 col-md-6 col-sm-12 summary entry-summary">
+                <div class="col-md-6 col-sm-12 summary entry-summary">
                     <?php
                     do_action( 'woocommerce_single_product_summary' );
                     ?>
@@ -392,10 +393,6 @@ function porto_woocommerce_shop_loop_item_title_open() {
 
 function porto_woocommerce_shop_loop_item_title_close() {
     ?></a><?php
-}
-
-function porto_woocommerce_cart_item_class($class, $cart_item, $cart_item_key) {
-    return $class . ' porto_cart_item_' . $cart_item_key;
 }
 
 function porto_woocommerce_single_excerpt() {
@@ -582,7 +579,8 @@ function porto_woocommerce_init() {
                 if ($porto_settings['catalog-readmore']) {
                     add_action('woocommerce_single_product_summary', 'porto_woocommerce_readmore_button', 30);
                 } else {
-                    $porto_settings['category-addlinks-pos'] = 'onimage';
+                    if ($porto_settings['category-addlinks-pos'] == 'outimage')
+                        $porto_settings['category-addlinks-pos'] = 'onimage';
                 }
             }
             if (!$porto_settings['catalog-review']) {
@@ -627,11 +625,12 @@ function porto_woocommerce_disable_rating($false) {
 function porto_woocommerce_readmore_button() {
     global $porto_settings;
     $more_link = get_post_meta(get_the_id(), 'product_more_link', true);
+    $more_target = $porto_settings['catalog-readmore-target'] ? 'target="'.$porto_settings['catalog-readmore-target'].'"' : '';
     if (!$more_link)
         $more_link = apply_filters( 'the_permalink', get_permalink() );
     ?>
         <div class="cart">
-            <a href="<?php echo esc_url( $more_link ) ?>" class="single_add_to_cart_button button readmore"><?php echo $porto_settings['catalog-readmore-label'] ?></a>
+            <a <?php echo $more_target ?> href="<?php echo esc_url( $more_link ) ?>" class="single_add_to_cart_button button readmore"><?php echo $porto_settings['catalog-readmore-label'] ?></a>
         </div>
     <?php
 }
@@ -713,4 +712,18 @@ function porto_is_product_archive() {
     }
 
     return false;
+}
+
+// yith woo wishlist message
+add_filter('yith_wcwl_added_to_cart_message', 'porto_yith_wcwl_added_to_cart_message');
+
+function porto_yith_wcwl_added_to_cart_message($message) {
+    return '<div class="alert alert-success">'.$message.'</div>';
+}
+
+// woocommerce multilingual compatibility
+add_filter( 'wcml_multi_currency_is_ajax', 'porto_multi_currency_ajax' );
+function porto_multi_currency_ajax($actions){
+    $actions[] = 'porto_product_quickview';
+    return $actions;
 }

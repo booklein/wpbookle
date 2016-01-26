@@ -120,6 +120,13 @@ function porto_member_get_postdata() {
             "desc" => __("Comma separated list of product ids.", 'porto'),
             "type" => "text"
         ),
+        // Post IDs
+        "member_posts" => array(
+            "name" => "member_posts",
+            "title" => __("Post IDs", 'porto'),
+            "desc" => __("Comma separated list of post ids.", 'porto'),
+            "type" => "text"
+        ),
         // Slideshow Type
         "slideshow_type" => array(
             "name" => "slideshow_type",

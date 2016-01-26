@@ -221,6 +221,29 @@
     }
 }
 
+/* Thumb Info Side Image  */
+.thumb-info-side-image {
+    border: 1px solid #ddd;
+    .thumb-info-side-image-wrapper {
+        padding: 4px;
+        float: $left;
+        margin-#{$right}: 20px;
+    }
+    .thumb-info-caption {
+        .thumb-info-caption-text {
+            padding: 17px;
+        }
+    }
+}
+
+.thumb-info-side-image-right {
+    .thumb-info-side-image-wrapper {
+        float: $right;
+        margin-#{$left}: 20px;
+        margin-#{$right}: 0;
+    }
+}
+
 /* Thumb Info Social Icons */
 .thumb-info-social-icons {
     @if $dark == 1 {

@@ -130,6 +130,10 @@
         "font-size":"12px",
         "line-height":"20px"
     },
+    "menu-font-md":{
+        "font-size":"12px",
+        "line-height":"20px"
+    },
     "menu-side-font":{
         "google":true,
         "font-weight":"400",
@@ -436,6 +440,8 @@
     "welcome-msg":"",
     "header-contact-info":"",
     "header-copyright":"&copy; Copyright 2015. All Rights Reserved.",
+    "show-header-tooltip":false,
+    "header-tooltip":"",
     "show-header-socials":false,
     "header-socials-nofollow":false,
     "header-social-facebook":"",
@@ -498,6 +504,8 @@
         "url": "<?php echo porto_uri ?>/images/payments.png"
     },
     "footer-payments-link":"",
+    "show-footer-tooltip":false,
+    "footer-tooltip":"",
     "page-comment":false,
     "page-zoom":true,
     "page-share":false,

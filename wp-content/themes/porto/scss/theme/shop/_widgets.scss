@@ -162,6 +162,8 @@
         background: $price-slide-bg-color;
         margin-top: 1.4286em;
         margin-bottom: 2.1428em;
+        border-width: 0;
+        border-radius: 0;
     }
     .price_slider_amount {
         text-align: $right;
@@ -187,6 +189,8 @@
         outline: none;
         top: -.40715em;
         border-radius: $border-thin;
+        border-width: 0;
+        background-image: none;
         box-shadow: 0 1px 2px rgba(0,0,0,.3);
 
         &:last-child {
@@ -200,6 +204,7 @@
         display:block;
         border: 0;
         box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .38) inset;
+        background-image: none;
     }
     #min_price,
     #max_price {

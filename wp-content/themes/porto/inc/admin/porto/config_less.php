@@ -101,6 +101,8 @@ $dark = $b['css-type'] == 'dark'
 @menu_font_weight: <?php echo $b['menu-font']['font-weight'] ?>;
 @menu_font_size: <?php echo $b['menu-font']['font-size'] ?>;
 @menu_line_height: <?php echo $b['menu-font']['line-height'] ?>;
+@menu_md_font_size: <?php echo $b['menu-font-md']['font-size'] ?>;
+@menu_md_line_height: <?php echo $b['menu-font-md']['line-height'] ?>;
 
 @menu_side_font_family: <?php echo $b['menu-side-font']['font-family'] ?>;
 @menu_side_font_weight: <?php echo $b['menu-side-font']['font-weight'] ?>;

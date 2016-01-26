@@ -71,6 +71,10 @@ article.post,
     .read-more {
         display: inline-block;
     }
+    .read-more-block {
+        display: block;
+        margin-top: 20px;
+    }
 }
 
 article {
@@ -123,6 +127,14 @@ article {
             margin-#{$left}: -60px;
         }
 
+        &.hide-post-date {
+            margin-#{$left}: 0;
+
+            .post-image {
+                margin-#{$left}: 0;
+            }
+        }
+
         @media #{$screen-small} {
             margin-#{$left}: 0;
 
@@ -141,6 +153,14 @@ article {
 
         .post-date {
             margin-#{$left}: -60px;
+        }
+
+        &.hide-post-date {
+            margin-#{$left}: 0;
+
+            .post-image {
+                margin-#{$left}: 0;
+            }
         }
 
         @media #{$screen-small} {
@@ -453,6 +473,34 @@ article {
         &.style-2 {
             .post-excerpt {
                 margin-bottom: 20px;
+            }
+        }
+        &.style-4 {
+            .post-meta {
+                font-size: 1em;
+            }
+            .post-image {
+                position: relative;
+                padding: 0;
+                margin-bottom: 0;
+
+                img {
+                    width: 195px;
+                }
+            }
+            .post-title {
+                text-decoration: none;
+
+                h2 {
+
+                }
+            }
+            .post-excerpt {
+                padding: 10px 0;
+                margin: 0;
+            }
+            .thumb-info-caption-text {
+                margin: 0;
             }
         }
     }

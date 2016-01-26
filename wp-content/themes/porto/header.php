@@ -59,6 +59,7 @@ if ('no' !== $loading_overlay && ('yes' === $loading_overlay || ('yes' !== $load
         $page_title = false;
     }
 
+    do_action('porto_before_wrapper');
     ?>
 
     <div class="page-wrapper<?php if ($header_type == 'side') echo ' side-nav' ?>"><!-- page wrapper -->
@@ -67,14 +68,13 @@ if ('no' !== $loading_overlay && ('yes' === $loading_overlay || ('yes' !== $load
         if ($porto_banner_pos == 'before_header') {
             porto_banner('banner-before-header');
         }
+        do_action('porto_before_header');
         ?>
 
         <?php if (porto_get_meta_value('header', true)) : ?>
             <div class="header-wrapper<?php if ($porto_settings['header-wrapper'] == 'wide') echo ' wide' ?><?php if (!($header_type == 'side' && $wrapper == 'boxed') && ($porto_banner_pos == 'below_header' || $porto_banner_pos == 'fixed')) { echo ' fixed-header'; if ($porto_settings['header-fixed-show-bottom']) echo ' header-transparent-bottom-border'; } ?><?php if ($header_type == 'side') echo ' header-side-nav' ?> clearfix"><!-- header wrapper -->
                 <?php
-
                 global $porto_settings;
-
                 ?>
                 <?php if (porto_get_wrapper_type() != 'boxed' && $porto_settings['header-wrapper'] == 'boxed') : ?>
                 <div id="header-boxed">
@@ -91,20 +91,29 @@ if ('no' !== $loading_overlay && ('yes' === $loading_overlay || ('yes' !== $load
         <?php endif; ?>
 
         <?php
+        do_action('porto_before_banner');
         if ($porto_banner_pos != 'before_header') {
             porto_banner(($porto_banner_pos == 'fixed' && 'boxed' !== $wrapper) ? 'banner-fixed' : '');
         }
         ?>
 
-        <?php get_template_part('breadcrumbs'); ?>
+        <?php
+        do_action('porto_before_breadcrumbs');
+        get_template_part('breadcrumbs');
+        do_action('porto_before_main');
+        ?>
 
         <div id="main" class="<?php if ($porto_layout == 'wide-left-sidebar' || $porto_layout == 'wide-right-sidebar' || $porto_layout == 'left-sidebar' || $porto_layout == 'right-sidebar') echo 'column2' . ' column2-' . str_replace('wide-', '', $porto_layout); else echo 'column1'; ?><?php if ($porto_layout == 'widewidth' || $porto_layout == 'wide-left-sidebar' || $porto_layout == 'wide-right-sidebar') echo ' wide clearfix'; else echo ' boxed' ?><?php if (!$breadcrumbs && !$page_title) echo ' no-breadcrumbs' ?><?php if (porto_get_wrapper_type() != 'boxed' && $porto_settings['main-wrapper'] == 'boxed') echo ' main-boxed' ?>"><!-- main -->
 
-            <?php if ($content_top) : ?>
+            <?php
+            do_action('porto_before_content_top');
+            if ($content_top) : ?>
             <div id="content-top"><!-- begin content top -->
                 <?php echo do_shortcode('[porto_block name="'.$content_top.'"]') ?>
             </div><!-- end content top -->
-            <?php endif; ?>
+            <?php endif;
+            do_action('porto_after_content_top');
+            ?>
 
             <?php if ($wrapper == 'boxed' || $porto_layout == 'fullwidth' || $porto_layout == 'left-sidebar' || $porto_layout == 'right-sidebar') : ?>
             <div class="container">
@@ -115,8 +124,12 @@ if ('no' !== $loading_overlay && ('yes' === $loading_overlay || ('yes' !== $load
             <div class="main-content <?php if (($porto_layout == 'wide-left-sidebar' || $porto_layout == 'wide-right-sidebar' || $porto_layout == 'left-sidebar' || $porto_layout == 'right-sidebar') && $porto_sidebar && is_active_sidebar( $porto_sidebar )) echo 'col-md-9'; else echo 'col-md-12'; ?>">
 
             <?php wp_reset_postdata(); ?>
-                <?php if ($content_inner_top) : ?>
+                <?php
+                do_action('porto_before_content_inner_top');
+                if ($content_inner_top) : ?>
                     <div id="content-inner-top"><!-- begin content inner top -->
                         <?php echo do_shortcode('[porto_block name="'.$content_inner_top.'"]') ?>
                     </div><!-- end content inner top -->
-                <?php endif; ?>
+                <?php endif;
+                do_action('porto_after_content_inner_top');
+                ?>

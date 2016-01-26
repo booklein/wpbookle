@@ -56,7 +56,34 @@
 
 	</div>
 
-	<div class="wpallimport-modal-message rad4"><?php printf(__('WP All Import tried to process <span id="wpallimport-records-per-iteration">%s</span> records in one iteration, but your server terminated the process before it could finish. <a href="javascript:void(0);" id="wpallimport-try-again">Click here to try again</a>, but with only <span id="wpallimport-new-records-per-iteration">%s</span> records per iteration.', 'wp_all_import_plugin'), $update_previous->options['records_per_request'], ((ceil($update_previous->options['records_per_request']/2)) ? ceil($update_previous->options['records_per_request']/2) : 1)); ?></div>
+	<div class="wpallimport-content-section wpallimport-speed-up-notify">
+		<button class="notice-dismiss dismiss-speed-up-notify" type="button">
+			<span class="screen-reader-text"><?php _e('Hide this notice.', 'wp_all_import_plugin'); ?></span>
+		</button>
+		<div class="wpallimport-notify-wrapper">
+			<div class="found_records speedup">
+				<h3><?php _e('Want to speed up your import?', 'wp_all_import_plugin');?></h3>
+				<h4><?php _e("Check out our guide on increasing import speed.", "wp_all_import_plugin"); ?></h4>
+			</div>		
+		</div>		
+		<a class="button button-primary button-hero wpallimport-large-button wpallimport-speed-up-notify-read-more" href="http://www.wpallimport.com/documentation/troubleshooting/slow-imports/" target="_blank"><?php _e('Read More', 'wp_all_import_plugin');?></a>		
+		<span><?php _e('opens in new tab', 'wp_all_import_plugin'); ?></span>		
+	</div>
+
+	<div class="wpallimport-modal-message rad4">
+
+		<div class="wpallimport-content-section" style="display:block; position: relative;">
+			<div class="wpallimport-notify-wrapper">
+				<div class="found_records terminated">
+					<h3><?php _e('Your server terminated the import process', 'wp_all_import_plugin');?></h3>
+					<h4 style="width: 77%; line-height: 25px;"><?php printf(__("<a href='%s' target='_blank'>Read more</a> about how to prevent this from happening again.", "wp_all_import_plugin"), "http://www.wpallimport.com/documentation/troubleshooting/terminated-imports/"); ?></h4>
+				</div>		
+			</div>		
+			<input type="submit" id="wpallimport-try-again" style="position: absolute; top: 30%; right: 10px; display: block; padding-top: 1px;" value="<?php _e('Continue Import','wp_all_import_plugin');?>" class="button button-primary button-hero wpallimport-large-button">
+			<span class="wp_all_import_restart_import"><?php printf(__("with <span id='wpallimport-new-records-per-iteration'>%s</span> records per iteration", 'wp_all_import_plugin'), ((ceil($update_previous->options['records_per_request']/2)) ? ceil($update_previous->options['records_per_request']/2) : 1)); ?></span>
+		</div>		
+		
+	</div>
 	
 	<fieldset id="logwrapper">
 		<legend><?php _e('Log','wp_all_import_plugin');?></legend>
@@ -65,7 +92,17 @@
 
 	<input type="hidden" class="count_failures" value="0"/>
 	<input type="hidden" class="records_per_request" value="<?php echo $update_previous->options['records_per_request']; ?>"/>
-	<span id="wpallimport-error-terminated" style="display:none;"><?php printf(__('Unfortunately, your server terminated the import process. Click here for our <a href="%s" target="_blank">troubleshooting guide</a>, or ask your web host to look in your error_log file for an error that takes place at the same time you are trying to run your import, and fix whatever setting is causing the import to fail.', 'wp_all_import_plugin'), 'http://www.wpallimport.com/documentation/advanced/troubleshooting/'); ?></span>
+	<span id="wpallimport-error-terminated" style="display:none;">
+		<div class="wpallimport-content-section" style="display:block; position: relative;">
+			<div class="wpallimport-notify-wrapper">
+				<div class="found_records terminated" style="background-position: 0px 50% !important;">
+					<h3><?php _e('Your server terminated the import process', 'wp_all_import_plugin');?></h3>
+					<h4 style="width: 78%; line-height: 25px;"><?php _e("Ask your host to check your server's error log. They will be able to determine why your server is terminating the import process.", "wp_all_import_plugin"); ?></h4>
+				</div>
+			</div>		
+			<a style="position: absolute; top: 35%; right: 10px; display: block; padding-top: 1px;" class="button button-primary button-hero wpallimport-large-button" href="http://www.wpallimport.com/documentation/troubleshooting/terminated-imports/" target="_blank"><?php _e('Read More', 'wp_all_import_plugin');?></a>		
+		</div>
+	</span>
 
 	<a href="http://soflyy.com/" target="_blank" class="wpallimport-created-by"><?php _e('Created by', 'wp_all_import_plugin'); ?> <span></span></a>
 	
@@ -105,28 +142,51 @@
 		});	
 	}
 
+	$('.dismiss-speed-up-notify').click(function(e){
+		e.preventDefault();
+    	$.post('admin.php?page=pmxi-admin-settings&action=dismiss_speed_up', {dismiss: true}, function (data) {}, 'html');
+    	$('.wpallimport-speed-up-notify').addClass('dont_show_again').slideUp();
+    });
+
+    $('.wpallimport-speed-up-notify-read-more').click(function(e){
+    	e.preventDefault();
+    	$.post('admin.php?page=pmxi-admin-settings&action=dismiss_speed_up', {dismiss: true}, function (data) {}, 'html');
+    	$('.wpallimport-speed-up-notify').addClass('dont_show_again').slideUp();
+    	window.open($(this).attr('href'), '_blank');
+    });
+
 	$('#status').each(function () {
 
-		var then = $('#then');
+		var then = $('#then');		
 		start_date = moment().sod();		
 		update = function(){
 			var duration = moment.duration({'seconds' : 1});
 			start_date.add(duration); 
 			
-			if ($('#process_notice').is(':visible') && ! $('.wpallimport-modal-message').is(':visible')) then.html(start_date.format('HH:mm:ss'));
+			if ($('#process_notice').is(':visible') && ! $('.wpallimport-modal-message').is(':visible')){
+				then.html(start_date.format('HH:mm:ss'));				
+			} 
 		};
 		update();
 		setInterval(update, 1000);
 
-		var $this = $(this);
-												
+		var records_per_request = $('.records_per_request').val();
+		var execution_time = 0;
+		
+		var $this = $(this);		
 		interval = setInterval(function () {															
 			
 			write_log();	
 
 			var percents = $('#percents_count').html();
-			$('#processbar div').css({'width': ((parseInt(percents) > 100 || percents == undefined) ? 100 : percents) + '%'});		
-			
+			$('#processbar div').css({'width': ((parseInt(percents) > 100 || percents == undefined) ? 100 : percents) + '%'});					
+
+			execution_time++;
+
+			if ( execution_time == 300 && parseInt(percents) < 10 && ! $('.wpallimport-speed-up-notify').hasClass('dont_show_again') && ! $('.wpallimport-modal-message').is(':visible'))
+			{
+				$('.wpallimport-speed-up-notify').show();
+			}			
 
 		}, 1000);
 		
@@ -136,13 +196,11 @@
 	
 	<?php if ( $ajax_processing ): ?>
 
-		var import_id = '<?php echo $update_previous->id; ?>';
-
-		var records_per_request = $('.records_per_request').val();
+		var import_id = '<?php echo $update_previous->id; ?>';		
 
 		function parse_element(failures){			
-
-			$.post('admin.php?page=pmxi-admin-import&action=process&id=' + import_id + '&failures=' + failures + '&_wpnonce=' + wp_all_import_security, {}, function (data) {								
+			
+			$.get('admin.php?page=pmxi-admin-import&action=process&id=' + import_id + '&failures=' + failures + '&_wpnonce=' + wp_all_import_security, {}, function (data) {								
 
 				// responce with error
 				if (data != null && typeof data.created != "undefined"){
@@ -187,7 +245,8 @@
 							
 						}, 1000);						
 					} 
-					else{ 
+					else
+					{ 
 						$('#loglist').append(data.log);
 						parse_element(0);
 					}
@@ -201,6 +260,8 @@
 
 					if (count_failures > 4 || records_per_request < 2){
 						$('#process_notice').hide();
+						//$('#wpallimport-try-again').hide();
+						//$('.wp_all_import_restart_import').hide();
 						$('.wpallimport-modal-message').html($('#wpallimport-error-terminated').html()).show();
 
 						if (data != null && typeof data != 'undefined'){
@@ -249,7 +310,7 @@
 				$('.count_failures').val(count_failures);
 
 				if (count_failures > 4 || records_per_request < 2 ){					
-					$('#process_notice').hide();
+					$('#process_notice').hide();					
 					$('.wpallimport-modal-message').html($('#wpallimport-error-terminated').html()).show();
 					
 					if (data != null && typeof data != 'undefined'){
@@ -290,7 +351,8 @@
 			});			
 		}		
 		
-		$('#wpallimport-try-again').click(function(){
+		$('#wpallimport-try-again').click(function(e){
+			e.preventDefault();
 			parse_element(1);
 			$('.wpallimport-modal-message').hide();			
 		});

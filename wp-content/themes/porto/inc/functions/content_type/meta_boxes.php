@@ -51,6 +51,16 @@ function porto_ct_default_meta_view_boxes() {
             "desc" => __("Hide header", 'porto'),
             "type" => "checkbox"
         ),
+        // Sticky Header
+        "sticky_header"=> array(
+            "name" => "sticky_header",
+            "title" => __("Sticky Header", 'porto'),
+            "type" => "radio",
+            "default" => "",
+            "options" => array_merge(
+                porto_ct_show_options()
+            )
+        ),
         // Footer
         "footer" => array(
             "name" => "footer",

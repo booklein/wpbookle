@@ -2,6 +2,7 @@
 .add-links .add_to_cart_read_more,
 .add-links .add_to_cart_button,
 .yith-wcwl-add-to-wishlist a,
+.yith-wcwl-add-to-wishlist span,
 .add-links .quickview {
     position: relative;
     display: inline-block;
@@ -99,7 +100,8 @@
         @include transition($transition);
     }
 
-    a {
+    a,
+    span {
         width: 2.2em;
         padding: 0;
         border: 1px solid #ed4949;
@@ -120,13 +122,18 @@
         }
     }
 
-    .yith-wcwl-add-button a:before {
-        content: $fa-var-heart-o;
+    .yith-wcwl-add-button {
+        a,
+        span {
+            &:before {
+                content: $fa-var-heart-o;
+            }
+        }
     }
 
-    .yith-wcwl-wishlistaddedbrowse a,
-    .yith-wcwl-wishlistexistsbrowse a{
-        &:before {
+    .yith-wcwl-wishlistaddedbrowse,
+    .yith-wcwl-wishlistexistsbrowse {
+        a:before {
             content: $fa-var-heart;
         }
     }

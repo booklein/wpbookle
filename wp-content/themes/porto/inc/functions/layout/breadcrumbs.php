@@ -150,7 +150,7 @@ function porto_breadcrumbs() {
     // breadcrumbs end wrap
     $output .= '</ul>';
 
-    return $output;
+    return apply_filters('porto_breadcrumbs', $output);
 }
 
 function porto_breadcrumbs_link($title, $link = '') {

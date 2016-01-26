@@ -120,7 +120,8 @@
         position: relative;
     }
     .yith-wcwl-add-to-wishlist {
-        a {
+        a,
+        span {
             width: auto;
             text-indent: 0;
             overflow: visiable;
@@ -562,6 +563,10 @@ div.products {
 .single_variation_wrap {
     .price {
         display: block;
+        margin-bottom: 0;
+    }
+    .variations_button {
+        margin-top: 1.4286em;
     }
 }
 

@@ -959,9 +959,13 @@ div.wpb_single_image {
     }
 }
 .aio-icon-box {
+    margin-bottom: 30px;
     .fa {
         font-family: "FontAwesome" !important;
     }
+}
+.aio-icon-component {
+    margin-bottom: 0;
 }
 .aio-icon-component.text-left {
     .aio-icon-box.top-icon,

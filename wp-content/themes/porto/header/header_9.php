@@ -1,7 +1,7 @@
 <?php
 global $porto_settings, $porto_layout;
 ?>
-<header id="header" class="header-9 <?php echo $porto_settings['search-size'] ?> sticky-menu-header">
+<header id="header" class="header-separate header-9 <?php echo $porto_settings['search-size'] ?> sticky-menu-header">
     <?php if ($porto_settings['show-header-top']) : ?>
         <div class="header-top">
             <div class="container">
@@ -80,6 +80,11 @@ global $porto_settings, $porto_layout;
                     echo $minicart;
                     ?>
                 </div>
+    
+                <?php
+                get_template_part('header/header_tooltip');
+                ?>
+
             </div>
         </div>
     </div>

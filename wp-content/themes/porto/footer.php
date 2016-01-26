@@ -87,6 +87,7 @@ $wrapper = porto_get_wrapper_type();
             </div><!-- end main -->
 
             <?php
+            do_action('porto_after_main');
             $footer_view = porto_get_meta_value('footer_view');
             ?>
 
@@ -112,9 +113,13 @@ $wrapper = porto_get_wrapper_type();
 
             </div><!-- end main -->
 
-        <?php endif; ?>
+        <?php
+        do_action('porto_after_main');
+        endif;
+        ?>
 
     </div><!-- end wrapper -->
+    <?php do_action('porto_after_wrapper'); ?>
 
 <div class="panel-overlay"></div>
 <div class="filter-overlay"></div>

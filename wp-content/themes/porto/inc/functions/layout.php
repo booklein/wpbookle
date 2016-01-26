@@ -45,7 +45,7 @@ function porto_logo( $sticky_logo = false) {
     <?php if ( (( is_front_page() && is_home()) || is_front_page()) && !$sticky_logo ) : ?></h1><?php else : ?></div><?php
     endif;
 
-    return ob_get_clean();
+    return apply_filters('porto_logo', ob_get_clean());
 }
 
 function porto_banner($banner_class = '') {
@@ -153,7 +153,7 @@ function porto_currency_switcher() {
         }
     }
 
-    return str_replace('&nbsp;', '', ob_get_clean());
+    return apply_filters('porto_currency_switcher', str_replace('&nbsp;', '', ob_get_clean()));
 }
 
 function porto_mobile_currency_switcher() {
@@ -220,7 +220,7 @@ function porto_mobile_currency_switcher() {
         }
     }
 
-    return str_replace('&nbsp;', '', ob_get_clean());
+    return apply_filters('porto_mobile_currency_switcher', str_replace('&nbsp;', '', ob_get_clean()));
 }
 
 function porto_view_switcher() {
@@ -286,7 +286,7 @@ function porto_view_switcher() {
         }
     }
 
-    return str_replace('&nbsp;', '', ob_get_clean());
+    return apply_filters('porto_view_switcher', str_replace('&nbsp;', '', ob_get_clean()));
 }
 
 function porto_mobile_view_switcher() {
@@ -349,7 +349,7 @@ function porto_mobile_view_switcher() {
         }
     }
 
-    return str_replace('&nbsp;', '', ob_get_clean());
+    return apply_filters('porto_mobile_view_switcher', str_replace('&nbsp;', '', ob_get_clean()));
 }
 
 function porto_top_navigation() {
@@ -410,7 +410,7 @@ function porto_top_navigation() {
         $output = '<ul class="' . 'top-links mega-menu' . ($porto_settings['menu-arrow']?' show-arrow':'') . ($porto_settings['menu-effect']?' '.$porto_settings['menu-effect']:'') . ($porto_settings['menu-sub-effect']?' '.$porto_settings['menu-sub-effect']:'') . '" id="menu-top-navigation">' . $html . '</ul>';
     }
 
-    return $output;
+    return apply_filters('porto_top_navigation', $output);
 }
 
 function porto_mobile_top_navigation() {
@@ -471,7 +471,7 @@ function porto_mobile_top_navigation() {
         $output = '<ul class="' . 'top-links accordion-menu' . ($porto_settings['menu-arrow']?' show-arrow':'') . '" id="menu-top-navigation-1">' . $html . '</ul>';
     }
 
-    return $output;
+    return apply_filters('porto_mobile_top_navigation', $output);
 }
 
 function porto_main_menu() {
@@ -571,7 +571,7 @@ function porto_main_menu() {
         $output = '<ul class="' . 'main-menu mega-menu' . ($porto_settings['menu-arrow']?' show-arrow':'') . ($porto_settings['menu-effect']?' '.$porto_settings['menu-effect']:'') . ($porto_settings['menu-sub-effect']?' '.$porto_settings['menu-sub-effect']:'') . '" id="menu-main-menu">' . $html . '</ul>';
     }
 
-    return $output;
+    return apply_filters('porto_main_menu', $output);
 }
 
 function porto_main_toggle_menu() {
@@ -605,7 +605,7 @@ function porto_main_toggle_menu() {
 
     $output = str_replace('&nbsp;', '', ob_get_clean());
 
-    return $output;
+    return apply_filters('porto_main_toggle_menu', $output);
 }
 
 function porto_header_side_menu() {
@@ -676,7 +676,7 @@ function porto_header_side_menu() {
         $output = '<ul class="' . 'main-menu sidebar-menu' . ((has_nav_menu( 'sidebar_menu' ) || porto_get_meta_value('sidebar_menu')) ? ' has-side-menu' : '') . ($porto_settings['menu-sub-effect']?' '.$porto_settings['menu-sub-effect']:'') . '" id="menu-main-menu">' . $html . '</ul>';
     }
 
-    return $output;
+    return apply_filters('porto_header_side_menu', $output);
 }
 
 function porto_sidebar_menu() {
@@ -785,7 +785,8 @@ function porto_sidebar_menu() {
     }
 
     $output .= str_replace('&nbsp;', '', ob_get_clean());
-    return $output;
+
+    return apply_filters('porto_sidebar_menu', $output);
 }
 
 function porto_mobile_menu() {
@@ -875,7 +876,7 @@ function porto_mobile_menu() {
         $output = '<ul class="' . 'mobile-menu accordion-menu' . '" id="menu-main-menu">' . $html . '</ul>';
     }
 
-    return $output;
+    return apply_filters('porto_mobile_menu', $output);
 }
 
 function porto_search_form() {
@@ -890,7 +891,7 @@ function porto_search_form() {
         <?php echo porto_search_form_content(); ?>
     </div>
     <?php
-    return ob_get_clean();
+    return apply_filters('porto_search_form', ob_get_clean());
 }
 
 function porto_search_form_content() {
@@ -936,7 +937,7 @@ function porto_search_form_content() {
         </fieldset>
     </form>
     <?php
-    return ob_get_clean();
+    return apply_filters('porto_search_form_content', ob_get_clean());
 }
 
 function porto_header_socials() {
@@ -1024,7 +1025,7 @@ function porto_header_socials() {
 
     echo '</div>';
 
-    return ob_get_clean();
+    return apply_filters('porto_header_socials', ob_get_clean());
 }
 
 function porto_minicart() {
@@ -1070,38 +1071,38 @@ function porto_minicart() {
     <?php
     endif;
 
-    return ob_get_clean();
+    return apply_filters('porto_minicart', ob_get_clean());
 }
 
 function porto_get_wrapper_type() {
     global $porto_settings;
 
-    return $porto_settings['wrapper'];
+    return apply_filters('porto_get_wrapper_type', $porto_settings['wrapper']);
 }
 
 function porto_get_header_type() {
     global $porto_settings;
 
-    return $porto_settings['header-type'];
+    return apply_filters('porto_get_header_type', $porto_settings['header-type']);
 }
 
 function porto_get_minicart_type() {
     global $porto_settings;
 
     $header_type = porto_get_header_type();
-    return ($header_type == 'side' || $header_type >= 10) ? 'minicart-inline' : $porto_settings['minicart-type'];
+    return apply_filters('porto_get_minicart_type', ($header_type == 'side' || $header_type >= 10) ? 'minicart-inline' : $porto_settings['minicart-type']);
 }
 
 function porto_get_blog_id() {
     global $porto_settings;
 
-    return get_current_blog_id();
+    return apply_filters('porto_get_blog_id', get_current_blog_id());
 }
 
 function porto_is_dark_skin() {
     global $porto_settings;
 
-    return (isset($porto_settings['css-type']) && $porto_settings['css-type'] == 'dark');
+    return apply_filters('porto_is_dark_skin', (isset($porto_settings['css-type']) && $porto_settings['css-type'] == 'dark'));
 }
 
 function porto_blueimp_gallery_html() {
@@ -1148,12 +1149,6 @@ function porto_get_button_style() {
     global $porto_settings;
 
     return isset($porto_settings['button-style']) ? $porto_settings['button-style'] : '';
-}
-
-function porto_print_button_style() {
-    global $porto_settings;
-
-    echo isset($porto_settings['button-style']) ? $porto_settings['button-style'] : '';
 }
 
 function porto_output_skin_options() {

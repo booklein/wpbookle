@@ -2,6 +2,14 @@
 /**
  * Cart Page
  *
+ * This template can be overridden by copying it to yourtheme/woocommerce/cart/cart.php.
+ *
+ * HOWEVER, on occasion WooCommerce will need to update template files and you (the theme developer).
+ * will need to copy the new files to your theme to maintain compatibility. We try to do this.
+ * as little as possible, but it does happen. When this occurs the version of the template file will.
+ * be bumped and the readme will list any important changes.
+ *
+ * @see     http://docs.woothemes.com/document/template-structure/
  * @author 		WooThemes
  * @package 	WooCommerce/Templates
  * @version     2.3.8
@@ -19,7 +27,7 @@ do_action( 'woocommerce_before_cart' ); ?>
 
 <div class="featured-box">
     <div class="box-content">
-        <form action="<?php echo esc_url( WC()->cart->get_cart_url() ); ?>" method="post">
+        <form action="<?php echo esc_url( version_compare($porto_woo_version, '2.5', '<') ? WC()->cart->get_cart_url() : wc_get_cart_url() ); ?>" method="post">
 
         <?php do_action( 'woocommerce_before_cart_table' ); ?>
 
@@ -49,11 +57,12 @@ do_action( 'woocommerce_before_cart' ); ?>
                             <td class="product-remove">
                                 <?php
                                     echo apply_filters( 'woocommerce_cart_item_remove_link', sprintf(
-                                        '<a href="%s" class="remove" title="%s" data-product_id="%s" data-product_sku="%s">&times;</a>',
+                                        '<a href="%s" class="remove remove-product" title="%s" data-product_id="%s" data-product_sku="%s" data-cart_id="%s">&times;</a>',
                                         esc_url( WC()->cart->get_remove_url( $cart_item_key ) ),
                                         __( 'Remove this item', 'woocommerce' ),
                                         esc_attr( $product_id ),
-                                        esc_attr( $_product->get_sku() )
+                                        esc_attr( $_product->get_sku() ),
+                                        esc_attr( $cart_item_key )
                                     ), $cart_item_key );
                                 ?>
                             </td>
@@ -134,7 +143,7 @@ do_action( 'woocommerce_before_cart' ); ?>
                 <tr>
                     <td colspan="6" class="actions">
 
-                        <?php if ( WC()->cart->coupons_enabled() ) { ?>
+                        <?php if ( version_compare($porto_woo_version, '2.5', '<') ? WC()->cart->coupons_enabled() : wc_coupons_enabled() ) { ?>
                             <div class="coupon pt-left">
 
                                 <label for="coupon_code"><?php _e( 'Coupon', 'woocommerce' ); ?>:</label> <input type="text" name="coupon_code" class="input-text" id="coupon_code" value="" placeholder="<?php esc_attr_e( 'Coupon code', 'woocommerce' ); ?>" /> <input type="submit" class="btn btn-default" name="apply_coupon" value="<?php esc_attr_e( 'Apply Coupon', 'woocommerce' ); ?>" />

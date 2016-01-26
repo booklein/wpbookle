@@ -42,7 +42,7 @@ function porto_get_meta_value($meta_key, $boolean = false) {
         $value = ($value != $meta_key) ? true : false;
     }
 
-    return $value;
+    return apply_filters('porto_get_meta_value_' . $meta_key, $value);
 }
 
 function porto_meta_use_default() {
@@ -68,7 +68,7 @@ function porto_meta_use_default() {
         }
     }
 
-    return ($value != 'default') ? true : false;
+    return apply_filters('porto_meta_use_default', ($value != 'default') ? true : false);
 }
 
 function porto_meta_layout() {
@@ -167,7 +167,7 @@ function porto_meta_layout() {
         }
     }
 
-    return $value;
+    return apply_filters('porto_meta_layout', $value);
 }
 
 function porto_meta_default_layout() {
@@ -250,7 +250,7 @@ function porto_meta_default_layout() {
         }
     }
 
-    return $value;
+    return apply_filters('porto_meta_default_layout', $value);
 }
 
 function porto_meta_sidebar() {
@@ -348,7 +348,7 @@ function porto_meta_sidebar() {
         }
     }
 
-    return $value;
+    return apply_filters('porto_meta_sidebar', $value);
 }
 
 function porto_get_taxonomies($content_type) {

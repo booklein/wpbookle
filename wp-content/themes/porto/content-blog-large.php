@@ -4,19 +4,27 @@ global $porto_settings;
 
 $post_layout = 'large';
 
+$show_date = in_array('date', $porto_settings['post-metas']);
+$show_format = $porto_settings['post-format'] && get_post_format();
+$post_class = array();
+$post_class[] = 'post post-' . $post_layout;
+if (!($show_date || $show_format))
+    $post_class[] = 'hide-post-date';
 ?>
 
-<article <?php post_class('post post-' . $post_layout); ?>>
+<article <?php post_class($post_class); ?>>
 
     <?php // Post Slideshow ?>
     <?php get_template_part('slideshow', 'large'); ?>
 
-    <div class="post-date">
-        <?php
-        porto_post_date();
-        porto_post_format();
-        ?>
-    </div>
+    <?php if ($show_date || $show_format) : ?>
+        <div class="post-date">
+            <?php
+            porto_post_date();
+            porto_post_format();
+            ?>
+        </div>
+    <?php endif; ?>
 
     <div class="post-content">
 
@@ -42,18 +50,18 @@ $post_layout = 'large';
         ?>
 
         <div class="post-meta clearfix">
-            <span><i class="fa fa-user"></i> <?php echo __('By', 'porto'); ?> <?php the_author_posts_link(); ?></span>
+            <?php if (in_array('author', $porto_settings['post-metas'])) : ?><span><i class="fa fa-user"></i> <?php echo __('By', 'porto'); ?> <?php the_author_posts_link(); ?></span><?php endif; ?>
             <?php
             $cats_list = get_the_category_list(', ');
-            if ($cats_list) : ?>
+            if ($cats_list && in_array('cats', $porto_settings['post-metas'])) : ?>
                 <span><i class="fa fa-folder-open"></i> <?php echo $cats_list ?></span>
             <?php endif; ?>
             <?php
             $tags_list = get_the_tag_list('', ', ');
-            if ($tags_list) : ?>
+            if ($tags_list && in_array('tags', $porto_settings['post-metas'])) : ?>
                 <span><i class="fa fa-tag"></i> <?php echo $tags_list ?></span>
             <?php endif; ?>
-            <span><i class="fa fa-comments"></i> <?php comments_popup_link(__('0 Comments', 'porto'), __('1 Comment', 'porto'), '% '.__('Comments', 'porto')); ?></span>
+            <?php if (in_array('comments', $porto_settings['post-metas'])) : ?><span><i class="fa fa-comments"></i> <?php comments_popup_link(__('0 Comments', 'porto'), __('1 Comment', 'porto'), '% '.__('Comments', 'porto')); ?></span><?php endif; ?>
             <?php
             if (function_exists('Post_Views_Counter') && Post_Views_Counter()->options['display']['position'] == 'manual') {
                 $post_count = do_shortcode('[post-views]');

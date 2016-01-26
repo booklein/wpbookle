@@ -154,7 +154,8 @@ function porto_ct_product_columns() {
 function porto_ct_category_addlinks_pos() {
     return array(
         "outimage" => __("Out of Image", 'porto'),
-        "onimage" => __("On Image", 'porto')
+        "onimage" => __("On Image", 'porto'),
+        "wq_onimage" => __("Wishlist, Quick View On Image", 'porto')
     );
 }
 

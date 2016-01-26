@@ -4,17 +4,20 @@ function pmxi_wp_ajax_auto_detect_cf(){
 	if ( ! check_ajax_referer( 'wp_all_import_secure', 'security', false )){
 		exit( json_encode(array('result' => array(), 'msg' => __('Security check', 'wp_all_import_plugin'))) );
 	}
-	
-	if ( ! current_user_can('manage_options') ){
+
+	if ( ! current_user_can( PMXI_Plugin::$capabilities ) ){
 		exit( json_encode(array('result' => array(), 'msg' => __('Security check', 'wp_all_import_plugin'))) );
 	}
-
+	
 	$input = new PMXI_Input();
 	$fields = $input->post('fields', array());
 	$post_type = $input->post('post_type', 'post');
 	global $wpdb;
 
-	$ignoreFields = array('_thumbnail_id', '_product_image_gallery', '_default_attributes', '_product_attributes');
+	$ignoreFields = array(
+		'_visibility', '_stock_status', '_downloadable', '_virtual', '_regular_price', '_sale_price', '_purchase_note', '_featured', '_weight', '_length',
+		'_width', '_height', '_sku', '_sale_price_dates_from', '_sale_price_dates_to', '_price', '_sold_individually', '_manage_stock', '_stock', '_upsell_ids', '_crosssell_ids','_downloadable_files', '_download_limit', '_download_expiry', '_download_type', '_product_url', '_button_text', '_backorders', '_tax_status', '_tax_class', '_product_image_gallery', '_default_attributes','total_sales', '_product_attributes', '_product_version', '_thumbnail_id', '_is_first_variation_created', '_regular_price_tmp', '_sale_price_tmp', '_price_tmp', '_stock_tmp'
+	);		
 
 	$result = array();
 
@@ -38,7 +41,7 @@ function pmxi_wp_ajax_auto_detect_cf(){
 
 			if ( ! empty($values) ){
 				foreach ($values as $key => $value) {
-					if ( ! empty($value['meta_value']) and !empty($field) and ! in_array($field, $ignoreFields)) {
+					if ( ! empty($value['meta_value']) and !empty($field) and ! in_array($field, $ignoreFields) and strpos($field, '_max_') !== 0 and strpos($field, '_min_') !== 0) {
 						$result[] = array(
 							'key' => $field,
 							'val' => $value['meta_value'],

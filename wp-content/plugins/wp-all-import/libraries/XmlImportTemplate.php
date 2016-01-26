@@ -59,7 +59,7 @@ class XmlImportTemplate {
 	 * @param SimpleXmlElement $xpath XPath result
 	 * @return mixed
 	 */
-	protected function getValue($xpath)
+	protected function getValue($xpath = array())
 	{
 				
 		if (is_array($xpath) && count($xpath) > 0) {

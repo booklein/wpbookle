@@ -2,6 +2,14 @@
 /**
  * Cart totals
  *
+ * This template can be overridden by copying it to yourtheme/woocommerce/cart/cart-totals.php.
+ *
+ * HOWEVER, on occasion WooCommerce will need to update template files and you (the theme developer).
+ * will need to copy the new files to your theme to maintain compatibility. We try to do this.
+ * as little as possible, but it does happen. When this occurs the version of the template file will.
+ * be bumped and the readme will list any important changes.
+ *
+ * @see 	    http://docs.woothemes.com/document/template-structure/
  * @author 		WooThemes
  * @package 	WooCommerce/Templates
  * @version     2.3.6
@@ -69,11 +77,15 @@ if (!porto_is_ajax()) : ?>
                     </tr>
                 <?php endforeach; ?>
 
-                <?php if ( wc_tax_enabled() && WC()->cart->tax_display_cart == 'excl' ) : ?>
-                    <?php if ( get_option( 'woocommerce_tax_total_display' ) == 'itemized' ) : ?>
+                <?php if ( wc_tax_enabled() && 'excl' === WC()->cart->tax_display_cart ) :
+                    $estimated_text = 1||WC()->customer->is_customer_outside_base() && ! WC()->customer->has_calculated_shipping()
+                        ? sprintf( ' <small>(' . __( 'estimated for %s', 'woocommerce' ) . ')</small>', WC()->countries->estimated_for_prefix() . __( WC()->countries->countries[ WC()->countries->get_base_country() ], 'woocommerce' ) )
+                        : '';
+
+                    if ( 'itemized' === get_option( 'woocommerce_tax_total_display' ) ) : ?>
                         <?php foreach ( WC()->cart->get_tax_totals() as $code => $tax ) : ?>
                             <tr class="tax-rate tax-rate-<?php echo sanitize_title( $code ); ?>">
-                                <th><?php echo esc_html( $tax->label ); ?></th>
+                                <th><?php echo esc_html( $tax->label ) . $estimated_text; ?></th>
                                 <td><?php echo wp_kses_post( $tax->formatted_amount ); ?></td>
                             </tr>
                         <?php endforeach; ?>
@@ -105,7 +117,7 @@ if (!porto_is_ajax()) : ?>
 
             </table>
 
-            <?php if ( WC()->cart->get_cart_tax() ) : ?>
+            <?php if ( version_compare($porto_woo_version, '2.5', '<') && WC()->cart->get_cart_tax() ) : ?>
                 <p class="wc-cart-shipping-notice"><small><?php
 
                         $estimated_text = WC()->customer->is_customer_outside_base() && ! WC()->customer->has_calculated_shipping()
@@ -119,9 +131,7 @@ if (!porto_is_ajax()) : ?>
 
             <?php if ( version_compare($porto_woo_version, '2.3', '>=') ) : ?>
                 <div class="wc-proceed-to-checkout">
-
                     <?php do_action( 'woocommerce_proceed_to_checkout' ); ?>
-
                 </div>
             <?php endif; ?>
 

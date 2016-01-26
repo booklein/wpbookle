@@ -19,6 +19,9 @@ if( class_exists('Dynamic_Featured_Image') ) {
     $image_count += count($featured_images);
 }
 
+$portfolio_link = get_post_meta($post->ID, 'portfolio_link', true);
+$show_external_link = $porto_settings['portfolio-external-link'];
+
 if ($slideshow_type != 'none') : ?>
 
     <?php if ($slideshow_type == 'images' && has_post_thumbnail()) : ?>
@@ -35,7 +38,7 @@ if ($slideshow_type != 'none') : ?>
                                 <img class="lazyOwl img-responsive" width="<?php echo $attachment_large['width'] ?>" height="<?php echo $attachment_large['height'] ?>" data-src="<?php echo $attachment_large['src'] ?>" alt="<?php echo $attachment_large['alt'] ?>"<?php if ($porto_settings['portfolio-zoom']) : ?> data-image="<?php echo $attachment['src']; ?>" data-caption="<?php echo $attachment_large['caption']; ?>"<?php endif; ?> />
                                 <?php if ($porto_settings['portfolio-zoom']) : ?>
                                     <span class="zoom"><i class="fa fa-search"></i></span>
-                                    <?php if (!is_singular('portfolio')) : ?><a class="link" href="<?php the_permalink(); ?>"><i class="fa fa-link"></i></a><?php endif; ?>
+                                    <?php if (!is_singular('portfolio')) : ?><a class="link" href="<?php if ($show_external_link && $portfolio_link) echo $portfolio_link; else the_permalink() ?>"><i class="fa fa-link"></i></a><?php endif; ?>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -55,7 +58,7 @@ if ($slideshow_type != 'none') : ?>
                                         <img class="lazyOwl img-responsive" width="<?php echo $attachment_large['width'] ?>" height="<?php echo $attachment_large['height'] ?>" data-src="<?php echo $attachment_large['src'] ?>" alt="<?php echo $attachment_large['alt'] ?>"<?php if ($porto_settings['portfolio-zoom']) : ?> data-image="<?php echo $attachment['src']; ?>" data-caption="<?php echo $attachment_large['caption']; ?>"<?php endif; ?> />
                                         <?php if ($porto_settings['portfolio-zoom']) : ?>
                                             <span class="zoom"><i class="fa fa-search"></i></span>
-                                            <?php if (!is_singular('portfolio')) : ?><a class="link" href="<?php the_permalink(); ?>"><i class="fa fa-link"></i></a><?php endif; ?>
+                                            <?php if (!is_singular('portfolio')) : ?><a class="link" href="<?php if ($show_external_link && $portfolio_link) echo $portfolio_link; else the_permalink() ?>"><i class="fa fa-link"></i></a><?php endif; ?>
                                         <?php endif; ?>
                                     </div>
                                 </div>

@@ -2,6 +2,7 @@
 
 <?php
 global $porto_settings;
+$porto_layout = porto_meta_layout();
 ?>
     <div id="content" role="main">
         <?php /* The loop */ ?>
@@ -28,7 +29,7 @@ global $porto_settings;
             <?php
             $share = porto_get_meta_value('page_share');
             if ($porto_settings['share-enable'] && 'no' !== $share && ('yes' === $share || ('yes' !== $share && $porto_settings['page-share']))) : ?>
-                <div class="page-share">
+                <div class="page-share<?php echo ($porto_layout == 'widewidth') ? ' container' : '' ?>">
                     <h3><i class="fa fa-share"></i><?php _e('Share on', 'porto') ?></h3>
                     <?php get_template_part('share') ?>
                 </div>

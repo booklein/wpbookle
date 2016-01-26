@@ -39,15 +39,18 @@ $portfolio_layout = 'full';
 
         <div class="portfolio-info">
             <ul>
-                <li>
-                    <?php echo porto_portfolio_like() ?>
-                </li>
-                <li>
-                    <i class="fa fa-calendar"></i> <?php echo get_the_date() ?>
-                </li>
-                <?php
+                <?php if (in_array('like', $porto_settings['portfolio-metas'])) : ?>
+                    <li>
+                        <?php echo porto_portfolio_like() ?>
+                    </li>
+                <?php endif;
+                if (in_array('date', $porto_settings['portfolio-metas'])) : ?>
+                    <li>
+                        <i class="fa fa-calendar"></i> <?php echo get_the_date() ?>
+                    </li>
+                <?php endif;
                 $cat_list = get_the_term_list($post->ID, 'portfolio_cat', '', ', ', '');
-                if ($cat_list) : ?>
+                if (in_array('cats', $porto_settings['portfolio-metas']) && $cat_list) : ?>
                     <li>
                         <i class="fa fa-tags"></i> <?php echo $cat_list ?>
                     </li>
@@ -105,7 +108,7 @@ $portfolio_layout = 'full';
 
         <ul class="portfolio-details inline">
             <?php
-            if ($skill_list) : ?>
+            if (in_array('skills', $porto_settings['portfolio-metas']) && $skill_list) : ?>
                 <li>
                     <p><strong><?php _e('Skills', 'porto') ?>:</strong></p>
 
@@ -116,7 +119,7 @@ $portfolio_layout = 'full';
                     </ul>
                 </li>
             <?php endif;
-            if ($portfolio_client) : ?>
+            if (in_array('client', $porto_settings['portfolio-metas']) && $portfolio_client) : ?>
                 <li>
                     <p><strong><?php _e('Client', 'porto') ?>:</strong></p>
                     <p><?php echo esc_html($portfolio_client) ?></p>

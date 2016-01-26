@@ -83,6 +83,11 @@ global $porto_settings, $porto_layout;
                     echo $minicart;
                     ?>
                 </div>
+                
+                <?php
+                get_template_part('header/header_tooltip');
+                ?>
+
             </div>
         </div>
     </div>

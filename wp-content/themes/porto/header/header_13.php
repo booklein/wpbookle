@@ -3,7 +3,7 @@ global $porto_settings, $porto_layout;
 
 $search_size = $porto_settings['search-size'];
 ?>
-<header id="header" class="header-corporate header-13 logo-center <?php echo $search_size ?> sticky-menu-header">
+<header id="header" class="header-separate header-corporate header-13 logo-center <?php echo $search_size ?> sticky-menu-header">
     <?php if ($porto_settings['show-header-top']) : ?>
         <div class="header-top">
             <div class="container">
@@ -102,6 +102,11 @@ $search_size = $porto_settings['search-size'];
                     echo $minicart;
                 }
                 ?>
+
+                <?php
+                get_template_part('header/header_tooltip');
+                ?>
+
             </div>
         </div>
     </div>

@@ -99,7 +99,25 @@ function porto_get_portfolios_by_ids($ids) {
     return $query;
 }
 
-function porto_get_excerpt($limit = 45, $more_link = true) {
+function porto_get_posts_by_ids($ids) {
+    $args = '';
+    $ids = explode(',', $ids);
+    $ids = array_map('trim', $ids);
+
+    $args = wp_parse_args($args, array(
+        'post_type'    => 'post',
+        'post_status' => 'publish',
+        'ignore_sticky_posts'    => 1,
+        'posts_per_page' => -1,
+        'post__in' => $ids
+    ));
+
+    $query = new WP_Query($args);
+
+    return $query;
+}
+
+function porto_get_excerpt($limit = 45, $more_link = true, $more_style_block = false) {
     global $porto_settings;
 
     if (!$limit) {
@@ -129,8 +147,13 @@ function porto_get_excerpt($limit = 45, $more_link = true) {
         $content = do_shortcode($content);
     }
 
-    if ($more_link)
+    if ($more_link) {
+        if ($more_style_block) {
+            $content .= ' <a class="read-more read-more-block" href="'.esc_url( apply_filters( 'the_permalink', get_permalink() ) ).'">'.__('Read More', 'porto').' <i class="fa fa-long-arrow-right"></i></a>';
+        } else {
         $content .= ' <a class="read-more" href="'.esc_url( apply_filters( 'the_permalink', get_permalink() ) ).'">'.__('read more', 'porto').' <i class="fa fa-angle-right"></i></a>';
+        }
+    }
 
     if ($porto_settings['blog-excerpt-type'] != 'html') {
         $content = '<p class="post-excerpt">'.$content.'</p>';

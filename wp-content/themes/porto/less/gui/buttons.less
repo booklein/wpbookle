@@ -4,9 +4,28 @@
 input[type="submit"].btn-primary, input[type="submit"].button, input[type="submit"].submit {
     border-color: @skinColor;
     .buttonBackground(@skinColor, spin(@skinColor, 20%), @color-primary-inverse);
+    &.disabled,
+    &[disabled],
+    fieldset[disabled] & {
+        &,
+        &:hover,
+        &:focus,
+        &.focus,
+        &:active,
+        &.active {
+            background-color: @skinColor;
+            border-color: @skinColor;
+        }
+    }
 }
 
-input[type="submit"] {
+input[type="submit"],
+.geodir-search button[type="button"],
+.geodir-search input[type="button"],
+.geodir-search input[type="submit"],
+#geodir-wrapper button[type="button"],
+#geodir-wrapper input[type="button"],
+#geodir-wrapper input[type="submit"] {
     background: @skinColor;
     border-color: @skinColor;
 
@@ -14,6 +33,19 @@ input[type="submit"] {
     &:active {
         background: darken(@skinColor, 5%);
         border-color: darken(@skinColor, 5%);
+    }
+    &.disabled,
+    &[disabled],
+    fieldset[disabled] & {
+        &,
+        &:hover,
+        &:focus,
+        &.focus,
+        &:active,
+        &.active {
+            background-color: @skinColor;
+            border-color: @skinColor;
+        }
     }
 }
 

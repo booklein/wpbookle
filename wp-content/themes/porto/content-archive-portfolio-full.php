@@ -16,6 +16,7 @@ $portfolio_link = get_post_meta($post->ID, 'portfolio_link', true);
 $skill_list = get_the_term_list($post->ID, 'portfolio_skills', '', '</li><li><i class="fa fa-check-circle"></i> ', '');
 $portfolio_client = get_post_meta($post->ID, 'portfolio_client', true);
 
+$show_external_link = $porto_settings['portfolio-external-link'];
 ?>
 
 <article <?php post_class('portfolio portfolio-' . $portfolio_layout . $item_classes); ?>>
@@ -23,7 +24,7 @@ $portfolio_client = get_post_meta($post->ID, 'portfolio_client', true);
     <?php // Portfolio Slideshow ?>
     <?php get_template_part('slideshow', 'portfolio'); ?>
 
-    <h2 class="entry-title"><a href="<?php the_permalink() ?>"><?php the_title() ?></a></h2>
+    <h2 class="entry-title"><a href="<?php if ($show_external_link && $portfolio_link) echo $portfolio_link; else the_permalink() ?>"><?php the_title() ?></a></h2>
 
     <?php
     porto_render_rich_snippets( false );
@@ -54,9 +55,9 @@ $portfolio_client = get_post_meta($post->ID, 'portfolio_client', true);
         <span data-appear-animation-delay="800" data-appear-animation="rotateInUpLeft" class="dir-arrow <?php echo is_rtl() ? 'hrb' : 'hlb' ?> appear-animation"></span>
         <div class="post-gap"></div>
 
+        <?php if ((in_array('skills', $porto_settings['portfolio-metas']) && $skill_list) || (in_array('client', $porto_settings['portfolio-metas']) && $portfolio_client)) : ?>
         <ul class="portfolio-details inline">
-            <?php
-            if ($skill_list) : ?>
+            <?php if (in_array('skills', $porto_settings['portfolio-metas']) && $skill_list) : ?>
                 <li>
                     <strong><?php _e('Skills', 'porto') ?>:</strong>
 
@@ -67,27 +68,31 @@ $portfolio_client = get_post_meta($post->ID, 'portfolio_client', true);
                     </ul>
                 </li>
             <?php endif;
-            if ($portfolio_client) : ?>
+            if (in_array('client', $porto_settings['portfolio-metas']) && $portfolio_client) : ?>
                 <li>
                     <strong><?php _e('Client', 'porto') ?>:</strong>
                     <?php echo esc_html($portfolio_client) ?>
                 </li>
             <?php endif; ?>
         </ul>
+        <?php endif; ?>
     <?php endif; ?>
 
     <div class="clearfix post-gap-small">
         <div class="portfolio-info pt-left">
             <ul>
-                <li>
-                    <?php echo porto_portfolio_like() ?>
-                </li>
-                <li>
-                    <i class="fa fa-calendar"></i> <?php echo get_the_date() ?>
-                </li>
-                <?php
+                <?php if (in_array('like', $porto_settings['portfolio-metas'])) : ?>
+                    <li>
+                        <?php echo porto_portfolio_like() ?>
+                    </li>
+                <?php endif;
+                if (in_array('date', $porto_settings['portfolio-metas'])) : ?>
+                    <li>
+                        <i class="fa fa-calendar"></i> <?php echo get_the_date() ?>
+                    </li>
+                <?php endif;
                 $cat_list = get_the_term_list($post->ID, 'portfolio_cat', '', ', ', '');
-                if ($cat_list) : ?>
+                if (in_array('cats', $porto_settings['portfolio-metas']) && $cat_list) : ?>
                     <li>
                         <i class="fa fa-tags"></i> <?php echo $cat_list ?>
                     </li>

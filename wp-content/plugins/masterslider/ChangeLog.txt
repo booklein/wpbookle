@@ -1,3 +1,10 @@
+
+Version 2.26.0 / (06.01.2016)
+============================
+- [Fix]: An issue with the third party upload path checker in ssl fixed
+- [New]: New filter hooks 'msp_post_slider_query_args' and 'msp_wc_slider_query_args' for changing the query default value added
+- [Fix]: A typo in variable fixed and an extra parameter removed.
+
 Version 2.25.4 / (14.12.2015)
 ============================
 - [Fix]: Addressed a bug that causes some rendering issues when there was more than one slider in a page.

@@ -89,6 +89,11 @@ $minicart_type = $porto_settings['minicart-type'];
                     echo $minicart;
                     ?>
                 </div>
+
+                <?php
+                get_template_part('header/header_tooltip');
+                ?>
+
             </div>
         </div>
     </div>

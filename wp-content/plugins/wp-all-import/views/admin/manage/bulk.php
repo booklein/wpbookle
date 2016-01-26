@@ -1,4 +1,4 @@
-<h2>Bulk Delete Imports</h2>
+<h2><?php _e('Bulk Delete Imports', 'wp_all_import_plugin');?></h2>
 
 <form method="post">
 	<input type="hidden" name="action" value="bulk" />
@@ -22,20 +22,25 @@
 				<label for="is_delete_attachments"><?php _e('Delete associated files from media gallery', 'wp_all_import_plugin') ?></label>			
 			</div>
 		</div>
-		<?php if ( ! empty($item->options['deligate']) and $item->options['deligate'] == 'wpallexport' and class_exists('PMXE_Plugin')): ?>
-			<?php
-				$export = new PMXE_Export_Record();
-				$export->getById($item->options['export_id']);
-				if ( ! $export->isEmpty() ){
-					printf(__('<p class="wpallimport-delete-posts-warning"><strong>Important</strong>: this import was created automatically by WP All Export. All posts exported by the "%s" export job have been automatically associated with this import.</p>', 'wp_all_export_plugin'), $export->friendly_name );
-				}
-			?>
-		<?php endif; ?>
+		<?php foreach($items->convertRecords() as $item) : ?>
+			<?php if ( ! empty($item->options['deligate']) and $item->options['deligate'] == 'wpallexport' and class_exists('PMXE_Plugin')): ?>
+				<?php
+					$export = new PMXE_Export_Record();
+					$export->getById($item->options['export_id']);
+					if ( ! $export->isEmpty() ){
+						printf(__('<p class="wpallimport-delete-posts-warning"><strong>Important</strong>: this import was created automatically by WP All Export. All posts exported by the "%s" export job have been automatically associated with this import.</p>', 'wp_all_export_plugin'), $export->friendly_name );
+					}
+				?>
+			<?php endif; ?>
+		<?php endforeach; ?>
 	</div>
 	
 	<p class="submit">
 		<?php wp_nonce_field('bulk-imports', '_wpnonce_bulk-imports') ?>
 		<input type="hidden" name="is_confirmed" value="1" />
+		<?php foreach ($ids as $id): ?>
+			<input type="hidden" name="import_ids[]" value="<?php echo esc_attr($id) ?>" />
+		<?php endforeach ?>
 		<input type="submit" class="button-primary" value="Delete" />
 	</p>
 </form>

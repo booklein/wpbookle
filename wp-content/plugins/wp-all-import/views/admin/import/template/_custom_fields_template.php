@@ -8,6 +8,7 @@
 			<div class="wpallimport-collapsed-content-inner">
 				<div class="wpallimport-free-edition-notice" style="text-align:center; margin-top:0; margin-bottom: 40px;">
 					<a href="http://www.wpallimport.com/upgrade-to-pro/?utm_source=free-plugin&utm_medium=in-plugin&utm_campaign=custom-fields" target="_blank" class="upgrade_link"><?php _e('Upgrade to the professional edition of WP All Import to import data to Custom Fields.', 'pmxi_plugin');?></a>
+					<p><?php _e('If you already own it, remove the free edition and install the professional edition.', 'wp_all_import_plugin'); ?></p>
 				</div>
 				<script type="text/javascript">
 					__META_KEYS = <?php echo json_encode($meta_keys) ?>;

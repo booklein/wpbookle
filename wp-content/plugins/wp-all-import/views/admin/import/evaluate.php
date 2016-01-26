@@ -1,4 +1,4 @@
-<div class="updated founded_records">
+<div class="updated found_records">
 	<?php if ($is_csv):?>
 		<h3><?php printf(__('<span class="matches_count">%s</span> <strong>%s</strong> will be imported', 'wp_all_import_plugin'), $node_list_count, _n('row', 'rows', $node_list_count, 'wp_all_import_plugin')); ?></h3>
 	<?php else:?>

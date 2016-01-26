@@ -17,10 +17,21 @@ if ( ! class_exists('PMXI_Upload')){
 
 			$uploads = wp_upload_dir();
 
+			$input = new PMXI_Input();
+			$import_id = $input->get('id');
+
+			if (empty($import_id))
+			{
+				$import_id = $input->get('import_id');
+			}			
+
+			if (empty($import_id)) $import_id = false;			
+
 			if ( $uploads['error'] )
 				$this->uploadsPath = false;			
 			else
-				$this->uploadsPath = ( ! $targetDir ) ? wp_all_import_secure_file($uploads['basedir'] . DIRECTORY_SEPARATOR . PMXI_Plugin::UPLOADS_DIRECTORY) : $targetDir;
+				$this->uploadsPath = ( ! $targetDir ) ? wp_all_import_secure_file($uploads['basedir'] . DIRECTORY_SEPARATOR . PMXI_Plugin::UPLOADS_DIRECTORY, $import_id, true) : $targetDir;
+
 		}
 
 		public function upload(){
@@ -54,7 +65,23 @@ if ( ! class_exists('PMXI_Upload')){
 							if ($unzipped_file['status'] == 'ok' and preg_match('%\W(xml|csv|txt|dat|psv|json|xls|xlsx)$%i', trim($unzipped_file['stored_filename'])) and strpos($unzipped_file['stored_filename'], 'readme.txt') === false ) {																
 								if ( strpos(basename($unzipped_file['stored_filename']), 'WP All Import Template') === 0 || strpos(basename($unzipped_file['stored_filename']), 'templates_') === 0 )
 								{
-									$template = file_get_contents($unzipped_file['filename']);									
+									$template = file_get_contents($unzipped_file['filename']);											
+
+									$templateOptions = json_decode($template, true);
+
+									if ( ! empty($templateOptions) and isset($templateOptions[0]['_import_type']) and $templateOptions[0]['_import_type'] == 'url' )
+									{										
+
+										$options = maybe_unserialize($templateOptions[0]['options']);																											
+
+										return array(
+											'filePath' => $templateOptions[0]['_import_url'],																																	
+											'template' => $template,
+											'post_type' => (!empty($options)) ? $options['custom_type'] : false,
+											'is_empty_bundle_file' => true
+										);
+									}
+
 								}
 								elseif ($filePath == '')
 								{
@@ -270,13 +297,13 @@ if ( ! class_exists('PMXI_Upload')){
 					'path' => $filePath,
 				);
 
-			}
+			}			
 
 			if ( $this->errors->get_error_codes() ) return $this->errors;
 
-			$source['path'] = wp_all_import_get_relative_path($source['path']);
-
 			$templateOptions = json_decode($template, true);
+
+			$source['path'] = wp_all_import_get_relative_path($source['path']);			
 
 			$options = maybe_unserialize($templateOptions[0]['options']);			
 
@@ -288,6 +315,6 @@ if ( ! class_exists('PMXI_Upload')){
 				'template' => $template,
 				'post_type' => (!empty($options)) ? $options['custom_type'] : false
 			);
-		}		
+		}				
 	}
 }

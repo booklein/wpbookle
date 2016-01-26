@@ -313,6 +313,8 @@ class MSP_Admin_Assets {
 		$uploads = wp_upload_dir();
         $siteurl = get_site_url();
 
+        $uploads['baseurl'] = set_url_scheme( $uploads['baseurl'] );
+
         if( false === strpos( $uploads['baseurl'], $siteurl ) ){
             trigger_error(
                 sprintf( 'A third party plugin or a custom script has intruptted the original path to upload directory "%s", please contact your administarator.', $uploads['baseurl'] )

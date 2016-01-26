@@ -30,10 +30,11 @@ abstract class PMXI_Controller_Admin extends PMXI_Controller {
 
 		$url = $p_url['scheme'] . '://' . $p_url['host'];
 
-		if (!empty($_POST['is_settings_submitted'])) { // save settings form			
-			$post = array(
-				'port' => $_POST['port']
-			);
+		if (!empty($_POST['is_settings_submitted'])) { // save settings form	
+			$input = new PMXI_Input();
+			$post = $input->post(array(
+				'port' => ''
+			));					
 			PMXI_Plugin::getInstance()->updateOption($post);
 		}
 		
@@ -73,7 +74,10 @@ abstract class PMXI_Controller_Admin extends PMXI_Controller {
 			wp_enqueue_style('pmxi-admin-style-wp-3.8', WP_ALL_IMPORT_ROOT_URL . '/static/css/admin-wp-3.8.css');
 		}
 		if ( version_compare(get_bloginfo('version'), '4.0-beta3') >= 0 ){
-			wp_enqueue_style('pmxi-admin-style-wp-3.8', WP_ALL_IMPORT_ROOT_URL . '/static/css/admin-wp-4.0.css');
+			wp_enqueue_style('pmxi-admin-style-wp-4.0', WP_ALL_IMPORT_ROOT_URL . '/static/css/admin-wp-4.0.css');
+		}
+		if ( version_compare(get_bloginfo('version'), '4.4') >= 0 ){
+			wp_enqueue_style('pmxi-admin-style-wp-4.4', WP_ALL_IMPORT_ROOT_URL . '/static/css/admin-wp-4.4.css');
 		}
 
 		$scheme_color = get_user_option('admin_color') and is_file(PMXI_Plugin::ROOT_DIR . '/static/css/admin-colors-' . $scheme_color . '.css') or $scheme_color = 'fresh';

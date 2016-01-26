@@ -63,7 +63,7 @@ abstract class PMXI_Controller {
 	 */
 	protected function render($viewPath = null) {
 
-		if ( ! get_current_user_id() or ! current_user_can('manage_options')) {
+		if ( ! get_current_user_id() or ! current_user_can( PMXI_Plugin::$capabilities )) {
 		    // This nonce is not valid.
 		    die( 'Security check' ); 
 		} else {
@@ -96,6 +96,8 @@ abstract class PMXI_Controller {
 			$msgs = $this->errors;
 		}
 		if (is_wp_error($msgs)) {
+			unset($msgs->errors['root-element-validation']);
+			unset($msgs->errors['upload-validation']);
 			$msgs = $msgs->get_error_messages();
 		}
 		if ( ! is_array($msgs)) {

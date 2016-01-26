@@ -88,6 +88,11 @@ $search_size = $porto_settings['search-size'];
                     echo $minicart;
                     ?>
                 </div>
+
+                <?php
+                get_template_part('header/header_tooltip');
+                ?>
+
             </div>
         </div>
     </div>

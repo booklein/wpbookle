@@ -98,12 +98,15 @@ if ( ! class_exists('PMXI_Render')){
 			//$newtext = preg_replace('%(?<!\s)\b(?!\s|\W[\w\s])|\w{20}%', '$0&#8203;', $newtext); // put explicit breaks for xml content to wrap
 			echo '<div class="xml-content textonly' . ($is_short ? ' short' : '') . ($is_render_collapsed ? ' collapsed' : '') . ' '. (is_numeric($text) ? 'is_numeric' : '') .'">' . $newtext . $more . '</div>';
 		}
-
-		public static function render_xml_elements_for_filtring(DOMElement $el, $path ='', $lvl = 0){	
-		
+		public static $option_paths = array();
+		public static function render_xml_elements_for_filtring(DOMElement $el, $path ='', $lvl = 0){			
 			if ("" != $path){ 
 				if ($lvl > 1) $path .= "->" . $el->nodeName; else $path = $el->nodeName; 
-				echo '<option value="'.$path.'['. $lvl .']">' .$path . '['. $lvl .']</option>';
+				if (empty(self::$option_paths[$path])) 
+					self::$option_paths[$path] = 1;
+				else
+					self::$option_paths[$path]++;
+				echo '<option value="'.$path.'['. self::$option_paths[$path] .']">' .$path . '['. self::$option_paths[$path] .']</option>';
 			}
 			else $path = $el->nodeName;		
 					

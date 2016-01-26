@@ -29,6 +29,34 @@ $l10n = array(
 </script>
 
 <div class="change_file">
+
+	<div class="rad4 first-step-errors error-upload-rejected">
+		<div class="wpallimport-notify-wrapper">
+			<div class="error-headers exclamation">
+				<h3><?php _e('File upload rejected by server', 'wp_all_import_plugin');?></h3>
+				<h4><?php _e("Contact your host and have them check your server's error log.", "wp_all_import_plugin"); ?></h4>
+			</div>		
+		</div>		
+		<a class="button button-primary button-hero wpallimport-large-button wpallimport-notify-read-more" href="http://www.wpallimport.com/documentation/troubleshooting/problems-with-import-files/" target="_blank"><?php _e('Read More', 'wp_all_import_plugin');?></a>		
+	</div>
+
+	<div class="rad4 first-step-errors error-file-validation" <?php if ( ! empty($upload_validation) ): ?> style="display:block;" <?php endif; ?>>
+		<div class="wpallimport-notify-wrapper">
+			<div class="error-headers exclamation">
+				<h3><?php _e('There\'s a problem with your import file', 'wp_all_import_plugin');?></h3>
+				<h4>
+					<?php 
+					if ( ! empty($upload_validation) ): 										
+						$file_type = strtoupper(pmxi_getExtension($post['file']));
+						printf(__('Please verify that the file you using is a valid %s file.', 'wp_all_import_plugin'), $file_type); 
+					endif;
+					?>
+				</h4>
+			</div>		
+		</div>		
+		<a class="button button-primary button-hero wpallimport-large-button wpallimport-notify-read-more" href="http://www.wpallimport.com/documentation/troubleshooting/problems-with-import-files/#invalid" target="_blank"><?php _e('Read More', 'wp_all_import_plugin');?></a>		
+	</div>	
+	
 	<div class="wpallimport-content-section">
 		<div class="wpallimport-collapsed-header" style="padding-left:30px;">
 			<h3><?php _e('Import File','wp_all_import_plugin');?></h3>	
@@ -77,6 +105,7 @@ $l10n = array(
 								<input type="text" class="regular-text" name="url" value="<?php echo ('url' == $import->type) ? esc_attr($import->path) : 'Enter a web address to download the file from...'; ?>"/> 								
 								<div class="wpallimport-free-edition-notice">									
 									<a href="http://www.wpallimport.com/upgrade-to-pro/?utm_source=free-plugin&utm_medium=in-plugin&utm_campaign=download-from-url" target="_blank" class="upgrade_link"><?php _e('Upgrade to the professional edition of WP All Import to use this feature.', 'wp_all_import_plugin');?></a>
+									<p><?php _e('If you already own it, remove the free edition and install the professional edition.', 'wp_all_import_plugin'); ?></p>
 								</div>
 							</div>
 							<input type="hidden" name="downloaded"/>
@@ -102,6 +131,7 @@ $l10n = array(
 								</div>
 								<div class="wpallimport-free-edition-notice">									
 									<a href="http://www.wpallimport.com/upgrade-to-pro/?utm_source=free-plugin&utm_medium=in-plugin&utm_campaign=use-existing-file" target="_blank" class="upgrade_link"><?php _e('Upgrade to the professional edition of WP All Import to use this feature.', 'wp_all_import_plugin');?></a>
+									<p><?php _e('If you already own it, remove the free edition and install the professional edition.', 'wp_all_import_plugin'); ?></p>
 								</div>
 							</div>
 						</div>						

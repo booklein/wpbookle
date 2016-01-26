@@ -6,9 +6,9 @@ if ( ! function_exists('get_file_curl') ):
 		
 		if ( ! preg_match('%^(http|ftp)s?://%i', $url) ) return;
 
-		$request = wp_remote_get($url);		
-		
-		if ( ! is_wp_error($request) ){
+		$request = wp_remote_get($url);				
+
+		if ( ! is_wp_error($request) and ( ! isset($request['response']['code']) or isset($request['response']['code']) and ! in_array($request['response']['code'], array(401, 403, 404))) ) {
 
 			$rawdata = wp_remote_retrieve_body( $request );				
 			
@@ -112,7 +112,11 @@ if ( ! function_exists('curl_exec_follow') ):
 	      if (!empty($url_data['user']) and !empty($url_data['pass'])){
 	      	curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY );
 			curl_setopt($ch, CURLOPT_USERPWD, $url_data['user']. ":" . $url_data['pass']); 
-			$newurl = $url_data['scheme'] . '://' . $url_data['host'] . $url_data['path'] . '?' . $url_data['query'];			
+			$newurl = $url_data['scheme'] . '://' . $url_data['host'] . $url_data['path'];
+			if (!empty($url_data['query']))
+			{
+				$newurl .= '?' . $url_data['query'];	
+			}
 	      }
 
 	      $rch = curl_copy_handle($ch);

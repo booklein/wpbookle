@@ -2,6 +2,14 @@
 /**
  * Lost password form
  *
+ * This template can be overridden by copying it to yourtheme/woocommerce/myaccount/form-edit-account.php.
+ *
+ * HOWEVER, on occasion WooCommerce will need to update template files and you (the theme developer).
+ * will need to copy the new files to your theme to maintain compatibility. We try to do this.
+ * as little as possible, but it does happen. When this occurs the version of the template file will.
+ * be bumped and the readme will list any important changes.
+ *
+ * @see 	    http://docs.woothemes.com/document/template-structure/
  * @author 		WooThemes
  * @package 	WooCommerce/Templates
  * @version     2.3.0
@@ -24,7 +32,7 @@ $porto_woo_version = porto_get_woo_version_number();
 
             <div class="box-content">
 
-                <?php if( 'lost_password' == $args['form'] ) : ?>
+                <?php if( 'lost_password' === $args['form'] ) : ?>
 
                     <p><?php echo apply_filters( 'woocommerce_lost_password_message', __( 'Lost your password? Please enter your username or email address. You will receive a link to create a new password via email.', 'woocommerce' ) ); ?></p>
 
@@ -53,14 +61,14 @@ $porto_woo_version = porto_get_woo_version_number();
                 <?php do_action( 'woocommerce_lostpassword_form' ); ?>
 
                 <p class="form-row clearfix">
-                    <?php if (('lost_password') == $args['form']) : ?>
+                    <?php if (('lost_password') === $args['form']) : ?>
                         <a class="pt-left back-login" href="<?php echo get_permalink( wc_get_page_id( 'myaccount' ) ) ?>"><?php _e('Click here to login', 'woocommerce') ?></a>
                     <?php endif; ?>
                     <?php if ( version_compare($porto_woo_version, '2.3', '<') ) : ?>
-                        <input type="submit" class="button btn-lg pt-right" name="wc_reset_password" value="<?php echo 'lost_password' == $args['form'] ? __( 'Reset Password', 'woocommerce' ) : __( 'Save', 'woocommerce' ); ?>" />
+                        <input type="submit" class="button btn-lg pt-right" name="wc_reset_password" value="<?php echo 'lost_password' === $args['form'] ? __( 'Reset Password', 'woocommerce' ) : __( 'Save', 'woocommerce' ); ?>" />
                     <?php else : ?>
                         <input type="hidden" name="wc_reset_password" value="true" />
-                        <input type="submit" class="button btn-lg pt-right" value="<?php echo 'lost_password' == $args['form'] ? __( 'Reset Password', 'woocommerce' ) : __( 'Save', 'woocommerce' ); ?>" />
+                        <input type="submit" class="button btn-lg pt-right" value="<?php echo 'lost_password' === $args['form'] ? __( 'Reset Password', 'woocommerce' ) : __( 'Save', 'woocommerce' ); ?>" />
                     <?php endif; ?>
                 </p>
 

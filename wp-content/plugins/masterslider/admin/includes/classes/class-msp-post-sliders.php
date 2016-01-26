@@ -78,7 +78,7 @@ class MSP_Post_Slider extends MSP_WP_Post{
 
 			$the_media     = '';
             // get featured on first image in post
-			$the_media_src = msp_get_auto_post_thumbnail_src( $th_wp_query->post->ID, $slide_image_target );
+			$the_media_src = msp_get_auto_post_thumbnail_url( $th_wp_query->post->ID, $slide_image_target );
 
 			if( ! empty( $the_media_src ) ) {
 				$the_media_tag  = msp_get_the_resized_image( $the_media_src, 80, 80, true, 85 );

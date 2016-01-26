@@ -307,6 +307,28 @@ ul.products {
                 }
             }
         }
+
+        &.show-wq-onimage {
+            .add-links {
+                .yith-wcwl-add-to-wishlist,
+                .quickview {
+                    display: none;
+                }
+            }
+            .links-on-image {
+                .add-links-wrap {
+                    display: block;
+
+                    .add-links > * {
+                        visibility: hidden;
+
+                        &.quickview {
+                            visibility: visible;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

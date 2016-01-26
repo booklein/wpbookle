@@ -17,7 +17,14 @@
 		</div>	
 		<div class="clear"></div>
 	</div>
-	
+	<?php
+	$is_valid_root_element = true;	
+	$error_codes = $this->errors->get_error_codes();		
+	if ( ! empty($error_codes) and is_array($error_codes) and in_array('root-element-validation', $error_codes))
+	{
+		$is_valid_root_element = false;
+	}
+	?>
 	<div class="ajax-console">
 		<?php if ($this->errors->get_error_codes()): ?>
 			<?php $this->error() ?>
@@ -29,6 +36,16 @@
 		<?php 
 			wp_all_import_template_notifications( $post );								
 		?>
+	</div>
+
+	<div class="rad4 first-step-errors error-no-root-element" <?php if ($is_valid_root_element === false):?>style="display:block;"<?php endif; ?>>
+		<div class="wpallimport-notify-wrapper">
+			<div class="error-headers exclamation">
+				<h3><?php _e('There\'s a problem with your import file', 'wp_all_import_plugin');?></h3>
+				<h4><?php _e("It has changed and is not compatible with this import template.", "wp_all_import_plugin"); ?></h4>
+			</div>		
+		</div>		
+		<a class="button button-primary button-hero wpallimport-large-button wpallimport-notify-read-more" href="http://www.wpallimport.com/documentation/troubleshooting/problems-with-import-files/#invalid" target="_blank"><?php _e('Read More', 'wp_all_import_plugin');?></a>		
 	</div>
 
 	<?php $custom_type = get_post_type_object( PMXI_Plugin::$session->custom_type ); ?>
@@ -101,9 +118,12 @@
 						<?php endif;?>
 						
 						<!-- General -->
-						<?php			
-							$path = wp_all_import_get_absolute_path($source['path']);				
+						<?php										
 							$import_type = (!empty($source['type'])) ? $source['type'] : $import['type'];
+							$path = $source['path'];
+							if ( in_array($import_type, array('upload', 'file'))){
+								$path = wp_all_import_get_absolute_path($source['path']);				
+							}
 							if ( in_array($import_type, array('upload'))){
 								$path_parts = pathinfo($source['path']);
 								if ( ! empty($path_parts['dirname'])){

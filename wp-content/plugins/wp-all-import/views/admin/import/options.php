@@ -32,6 +32,15 @@
 			<td class="left">		
 	
 				<?php do_action('pmxi_options_header', $isWizard, $post); ?>
+
+				<?php
+				$is_valid_root_element = true;		
+				$error_codes = $this->warnings->get_error_codes();		
+				if ( ! empty($error_codes) and is_array($error_codes) and in_array('root-element-validation', $error_codes))
+				{
+					$is_valid_root_element = false;
+				}				
+				?>	
 				
 				<div class="ajax-console">					
 					<?php if ($this->errors->get_error_codes()): ?>
@@ -44,7 +53,17 @@
 					<?php 
 						wp_all_import_template_notifications( $post );			
 					?>						
-				</div>											
+				</div>	
+
+				<div class="rad4 first-step-errors error-no-root-element" <?php if ($is_valid_root_element === false):?>style="display:block;"<?php endif; ?>>
+					<div class="wpallimport-notify-wrapper">
+						<div class="error-headers exclamation">
+							<h3><?php _e('There\'s a problem with your import file', 'wp_all_import_plugin');?></h3>
+							<h4 style="font-size:18px;"><?php _e("It has changed and is not compatible with this import template.", "wp_all_import_plugin"); ?></h4>
+						</div>		
+					</div>		
+					<a class="button button-primary button-hero wpallimport-large-button wpallimport-notify-read-more" href="http://www.wpallimport.com/documentation/troubleshooting/problems-with-import-files/#invalid" target="_blank"><?php _e('Read More', 'wp_all_import_plugin');?></a>		
+				</div>										
 
 				<form class="<?php echo ! $isWizard ? 'edit' : 'options' ?>" method="post" enctype="multipart/form-data" autocomplete="off" <?php echo ! $isWizard ? 'style="overflow:visible;"' : '' ?>>
 

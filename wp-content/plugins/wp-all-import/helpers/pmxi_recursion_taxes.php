@@ -5,11 +5,11 @@ function pmxi_recursion_taxes($parent, $tx_name, $txes, $key){
 		
 		if ( empty($parent['parent']) ){
 
-			$term = term_exists($parent['name'], $tx_name, 0);						
+			$term = is_exists_term($parent['name'], $tx_name, 0);						
 
 			if ( empty($term) and !is_wp_error($term) ){
 
-				$term = term_exists(htmlspecialchars($parent['name']), $tx_name, 0);		
+				$term = is_exists_term(htmlspecialchars($parent['name']), $tx_name, 0);		
 				if ( empty($term) and !is_wp_error($term) ){		
 					$term = wp_insert_term(
 						$parent['name'], // the term 
@@ -25,11 +25,11 @@ function pmxi_recursion_taxes($parent, $tx_name, $txes, $key){
 			
 			$parent_id = pmxi_recursion_taxes($parent['parent'], $tx_name, $txes, $key);
 			
-			$term = term_exists($parent['name'], $tx_name, (int)$parent_id);				
+			$term = is_exists_term($parent['name'], $tx_name, (int)$parent_id);				
 
 			if ( empty($term) and  !is_wp_error($term) ){
 
-				$term = term_exists(htmlspecialchars($parent['name']), $tx_name, (int)$parent_id);		
+				$term = is_exists_term(htmlspecialchars($parent['name']), $tx_name, (int)$parent_id);		
 				if ( empty($term) and !is_wp_error($term) ){		
 					$term = wp_insert_term(
 						$parent['name'], // the term 
@@ -48,10 +48,10 @@ function pmxi_recursion_taxes($parent, $tx_name, $txes, $key){
 
 			$parent_id = pmxi_recursion_taxes($txes[$key - 1]['parent'], $tx_name, $txes, $key - 1);
 			
-			$term = term_exists($parent, $tx_name, (int)$parent_id);
+			$term = is_exists_term($parent, $tx_name, (int)$parent_id);
 			
 			if ( empty($term) and ! is_wp_error($term) ){				
-				$term = term_exists(htmlspecialchars($parent), $tx_name, (int)$parent_id);		
+				$term = is_exists_term(htmlspecialchars($parent), $tx_name, (int)$parent_id);		
 				if ( empty($term) and !is_wp_error($term) ){
 					$term = wp_insert_term(
 						$parent, // the term 
@@ -66,9 +66,9 @@ function pmxi_recursion_taxes($parent, $tx_name, $txes, $key){
 		}
 		else{
 			
-			$term = term_exists($parent, $tx_name);
+			$term = is_exists_term($parent, $tx_name);
 			if ( empty($term) and !is_wp_error($term) ){					
-				$term = term_exists(htmlspecialchars($parent), $tx_name);		
+				$term = is_exists_term(htmlspecialchars($parent), $tx_name);		
 				if ( empty($term) and !is_wp_error($term) ){
 					$term = wp_insert_term(
 						$parent, // the term 

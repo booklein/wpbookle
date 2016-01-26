@@ -328,15 +328,13 @@ function porto_css() {
 
     // Load Google Fonts
     $gfont = array();
-    if (isset($porto_settings['body-font']['google']) && $porto_settings['body-font']['google']) {
-        $font = urlencode($porto_settings['body-font']['font-family']);
+    $fonts = array('body', 'alt', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'menu', 'menu-side', 'menu-popup');
+    foreach ($fonts as $option) {
+        if (isset($porto_settings[$option.'-font']['google']) && $porto_settings[$option.'-font']['google'] !== 'false') {
+            $font = urlencode($porto_settings[$option.'-font']['font-family']);
         if (!in_array($font, $gfont))
             $gfont[] = $font;
     }
-    if (isset($porto_settings['alt-font']['google']) && $porto_settings['alt-font']['google']) {
-        $font = urlencode($porto_settings['alt-font']['font-family']);
-        if (!in_array($font, $gfont))
-            $gfont[] = $font;
     }
 
     $font_family = '';
@@ -344,7 +342,18 @@ function porto_css() {
         $font_family .= $font . ':300,300italic,400,400italic,600,600italic,700,700italic,800,800italic%7C';
 
     if ($font_family) {
-        wp_register_style( 'porto-google-fonts', "//fonts.googleapis.com/css?family=" . $font_family . "&amp;subset=latin,greek-ext,cyrillic,latin-ext,greek,cyrillic-ext,vietnamese,khmer" );
+        $charsets = '';
+        if (isset($porto_settings['select-google-charsets']) && isset($porto_settings['select-google-charsets']) && isset($porto_settings['google-charsets']) && $porto_settings['google-charsets']) {
+            $i = 0;
+            foreach ($porto_settings['google-charsets'] as $charset) {
+                if ($i == 0) $charsets .= $charset;
+                else $charsets .= ",".$charset;
+                $i++;
+            }
+            if ($charsets)
+                $charsets = "&amp;subset=" . $charsets;
+        }
+        wp_register_style( 'porto-google-fonts', "//fonts.googleapis.com/css?family=" . $font_family . $charsets );
         wp_enqueue_style( 'porto-google-fonts' );
     }
 
@@ -367,6 +376,9 @@ function porto_scripts() {
         if ( is_singular() && get_option( 'thread_comments' ) ) {
             wp_enqueue_script( 'comment-reply' );
         }
+
+        // load wc variation script
+        wp_enqueue_script( 'wc-add-to-cart-variation' );
 
         // load visual composer default js
         if (!wp_script_is('wpb_composer_front_js')) {
@@ -425,9 +437,15 @@ function porto_scripts() {
             }
         }
 
+        $sticky_header = porto_get_meta_value('sticky_header');
+        $show_sticky_header = false;
+        if ('no' !== $sticky_header && ('yes' === $sticky_header || ('yes' !== $sticky_header && $porto_settings['enable-sticky-header']))) {
+            $show_sticky_header = true;
+        }
+
         wp_localize_script( 'porto-theme', 'js_porto_vars', array(
             'rtl' => esc_js(is_rtl() ? true : false),
-            'ajax_url' => esc_js(admin_url( 'admin-ajax.php', 'relative' )),
+            'ajax_url' => esc_js(admin_url( 'admin-ajax.php' )),
             'change_logo' => esc_js($porto_settings['change-header-logo']),
             'post_zoom' => esc_js($porto_settings['post-zoom']),
             'portfolio_zoom' => esc_js($porto_settings['portfolio-zoom']),
@@ -435,7 +453,7 @@ function porto_scripts() {
             'page_zoom' => esc_js($porto_settings['page-zoom']),
             'container_width' => esc_js($porto_settings['container-width']),
             'grid_gutter_width' => esc_js($porto_settings['grid-gutter-width']),
-            'show_sticky_header' => esc_js($porto_settings['enable-sticky-header']),
+            'show_sticky_header' => esc_js($show_sticky_header),
             'show_sticky_header_tablet' => esc_js($porto_settings['enable-sticky-header-tablet']),
             'show_sticky_header_mobile' => esc_js($porto_settings['enable-sticky-header-mobile']),
             'request_error' => esc_js(__('The requested content cannot be loaded.<br/>Please try again later.', 'porto')),
@@ -496,29 +514,13 @@ function porto_enqueue_custom_css() {
     $logo_width_sticky = (isset($porto_settings['logo-width-sticky']) && (int)$porto_settings['logo-width-sticky']) ? (int)$porto_settings['logo-width-sticky'] : 80;
     ?>
     <style rel="stylesheet" property="stylesheet" type="text/css">
-    #header .logo {
-        max-width: <?php echo $logo_width ?>px;
-    }
-    @media (min-width: <?php echo $porto_settings['container-width'] ?>px) {
-        #header .logo {
-            max-width: <?php echo $logo_width_wide ?>px;
-        }
-    }
-    @media (max-width: 991px) {
-        #header .logo {
-            max-width: <?php echo $logo_width_tablet ?>px;
-        }
-    }
-    @media (max-width: 767px) {
-        #header .logo {
-            max-width: <?php echo $logo_width_mobile ?>px;
-        }
-    }
-    <?php if ($porto_settings['change-header-logo']) : ?>
-    #header.sticky-header .logo {
-        max-width: <?php echo $logo_width_sticky * 1.25 ?>px;
-    }
-    <?php endif; ?>
+    .ms-loading-container .ms-loading,
+    .ms-slide .ms-slide-loading { background-image: none !important; background-color: transparent !important; box-shadow: none !important; }
+    #header .logo { max-width: <?php echo $logo_width ?>px; }
+    @media (min-width: <?php echo $porto_settings['container-width'] ?>px) { #header .logo { max-width: <?php echo $logo_width_wide ?>px; } }
+    @media (max-width: 991px) { #header .logo { max-width: <?php echo $logo_width_tablet ?>px; } }
+    @media (max-width: 767px) { #header .logo { max-width: <?php echo $logo_width_mobile ?>px; } }
+    <?php if ($porto_settings['change-header-logo']) : ?>#header.sticky-header .logo { max-width: <?php echo $logo_width_sticky * 1.25 ?>px; }<?php endif; ?>
     </style>
     <?php
 }

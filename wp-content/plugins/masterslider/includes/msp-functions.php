@@ -487,7 +487,7 @@ function msp_the_resized_attachment( $attach_id = null, $width = null , $height 
             function msp_get_the_resized_attachment_src( $attach_id = null, $width = null , $height = null, $crop = null , $quality = 100 ) {
                 if( is_null( $attach_id ) ) return '';
 
-                $img_url = wp_get_attachment_url( $attach_id ,'full'); //get img URL
+                $img_url = wp_get_attachment_url( $attach_id ); //get img URL
                 return ! empty( $img_url ) ? msp_aq_resize( $img_url, $width, $height, $crop, $quality ) : false;
             }
 
@@ -497,65 +497,71 @@ function msp_the_resized_attachment( $attach_id = null, $width = null , $height 
 
 
 // echo resized image tag
-function msp_the_post_thumbnail( $post_id = null, $width = null , $height = null, $crop = null , $quality = 100 ) {
-    echo msp_get_the_post_thumbnail( $post_id, $width , $height, $crop, $quality);
+function msp_the_post_thumbnail( $post_id = null, $size = array( null, null ), $crop = null , $quality = 100 ) {
+    echo msp_get_the_post_thumbnail( $post_id, $size, $crop, $quality);
 }
 
     // return resized image tag
-    function msp_get_the_post_thumbnail( $post_id = null, $width = null , $height = null, $crop = null , $quality = 100 ) {
-        $image_src = msp_get_the_post_thumbnail_src( $post_id, $width , $height, $crop, $quality);
-        return $image_src ? '<img src="'.$image_src.'" alt="" />' : '';
+    function msp_get_the_post_thumbnail( $post_id = null, $size = array( null, null ), $crop = null , $quality = 100 ) {
+        $image_atts = msp_get_the_post_thumbnail_src( $post_id, $size, $crop, $quality );
+        return $image_atts ? '<img src="'.$image_atts[0].'" width="'.$image_atts[1].'" height="'.$image_atts[2].'" alt="" />' : '';
     }
 
         /**
          * Get resized image by post id
          *
-         * @param  string   $post_id  The post id
-         * @param  integer  $width    New image Width
-         * @param  integer  $height   New image height
+         * @param  mixed    $post_id  The post id or post object
+         * @param  int|string|array $size Optional. Image size. Accepts any valid image size, an array of width and
+         *                               height values in pixels (in that order), 0, or 'none'. 0 or 'none' will
+         *                               default to 'post_title' or `$text`. Default 'thumbnail'.
          * @param  bool     $crop     Whether to crop image to specified height and width or resize. Default false (soft crop).
          * @param  integer  $quality  New image quality - a number between 0 and 100
-         * @return string   new image src
+         * @return array    An array containing:
+         *                                  [0] => url
+         *                                  [1] => width
+         *                                  [2] => height
+         *                                  [3] => boolean: true if $url is a resized image, false if it is the original or if no image is available.
          */
         if( ! function_exists( 'msp_get_the_post_thumbnail_src' ) ){
 
-            function msp_get_the_post_thumbnail_src( $post_id = null, $width = null , $height = null, $crop = null , $quality = 100 ) {
-                $post_id = is_null( $post_id ) ? get_the_ID() : $post_id;
-                $post_thumbnail_id = get_post_thumbnail_id( $post_id );
+            function msp_get_the_post_thumbnail_src( $post_id = null, $size = array( null, null ), $crop = null , $quality = 100 ) {
 
-                $img_url = wp_get_attachment_url( $post_thumbnail_id, 'full' ); //get img URL
+                if( ! $the_post = get_post( $post_id ) ){
+                    return false;
+                }
 
-                $resized_img = $post_thumbnail_id ? msp_aq_resize( $img_url, $width, $height, $crop, $quality ) : false;
+                $post_id = $the_post->ID;
 
-                return apply_filters( 'msp_get_the_post_thumbnail_src', $resized_img, $img_url, $width, $height, $crop, $quality );
+                // Get the featured image attachment ID
+                $featured_image_id = get_post_thumbnail_id( $post_id );
+
+                if( is_string( $size ) ){
+                    $image_attrs = wp_get_attachment_image_src( $featured_image_id, $size );
+                    return apply_filters( 'msp_get_the_post_thumbnail_src', $image_attrs, $featured_image_id, $size, $crop, $quality );
+                }
+
+                $image_attrs = wp_get_attachment_image_src( $featured_image_id, 'full' ); //get img URL
+                if( is_array( $image_attrs ) ){
+                    // update the src attribute with the resized image
+                    $image_attrs[0] = msp_aq_resize( $image_attrs[0], $size[0], $size[1], $crop, $quality );
+                    return apply_filters( 'msp_get_the_post_thumbnail_src', $image_attrs, $featured_image_id, $size, $crop, $quality );
+                }
+
+                return false;
             }
 
         }
 
-        /**
-         * Get full URI of an featured image for a post id
-         *
-         * @param  integer $post_id  The post id to get featured image of
-         * @return string  Returns a full URI for featured image or false on failure.
-         */
-        if( ! function_exists( 'msp_get_the_post_thumbnail_full_src' ) ){
 
-            function msp_get_the_post_thumbnail_full_src( $post_id = null ) {
-                $post_id = is_null( $post_id ) ? get_the_ID() : $post_id;
-                $post_thumbnail_id = get_post_thumbnail_id( $post_id );
 
-                return wp_get_attachment_url( $post_thumbnail_id, 'full' );
-            }
-
-        }
-
-    /**
+   /**
      * Returns a cropped post image (featured image or first image in content) from a post id
      *
      * @param  integer $post_id      The post id to get post image of
      * @param  string  $image_from   where to look for post image. possible values are : auto, featured, first. Default to 'auto'
-     * @param  integer  $width       New image Width
-     * @param  integer  $height      New image height
+     * @param  int|string|array $size Optional. Image size. Accepts any valid image size, an array of width and
+     *                               height values in pixels (in that order), 0, or 'none'. 0 or 'none' will
+     *                               default to 'post_title' or `$text`. Default 'thumbnail'.
      * @param  bool     $crop        Whether to crop image to specified height and width or resize. Default false (soft crop).
      * @param  integer  $quality     New image quality - a number between 0 and 100
      *
@@ -563,23 +569,32 @@ function msp_the_post_thumbnail( $post_id = null, $width = null , $height = null
      */
     if( ! function_exists( 'msp_get_auto_post_thumbnail' ) ){
 
-        function msp_get_auto_post_thumbnail( $post_id = null, $image_from = 'auto', $width = null , $height = null, $crop = null , $quality = 100 ) {
+        function msp_get_auto_post_thumbnail( $post_id = null, $image_from = 'auto', $size = 'full', $crop = null , $quality = 100 ) {
 
-            $post = get_post( $post_id );
-            $image_src = msp_get_auto_post_thumbnail_src( $post->ID, $image_from, $width, $height, $crop, $quality );
+            $image = msp_get_auto_post_thumbnail_src( $post_id, $image_from, $size, $crop, $quality );
 
-            return $image_src ? '<img src="'.$image_src.'" alt="'.$post->post_title.'" />' : '';
+            return $image_src ? '<img src="'.$image[0].'" alt="'.$post->post_title.'" />' : '';
         }
 
     }
+
+        if( ! function_exists( 'msp_get_auto_post_thumbnail_url' ) ){
+
+            function msp_get_auto_post_thumbnail_url( $post_id = null, $image_from = 'auto', $size = 'full', $crop = null , $quality = 100 ) {
+                $image = msp_get_auto_post_thumbnail_src( $post_id, $image_from, $size, $crop, $quality );
+                return isset( $image[0] ) && ! empty( $image[0] ) ? $image[0] : false;
+            }
+
+        }
 
         /**
          * Get full URI of a post image (featured image or first image in content) for a post id
          *
          * @param  integer $post_id      The post id to get post image of
          * @param  string  $image_from   where to look for post image. possible values are : auto, featured, first. Default to 'auto'
-         * @param  integer  $width       New image Width
-         * @param  integer  $height      New image height
+         * @param  int|string|array $size Optional. Image size. Accepts any valid image size, an array of width and
+         *                               height values in pixels (in that order), 0, or 'none'. 0 or 'none' will
+         *                               default to 'post_title' or `$text`. Default 'thumbnail'.
          * @param  bool     $crop        Whether to crop image to specified height and width or resize. Default false (soft crop).
          * @param  integer  $quality     New image quality - a number between 0 and 100
          *
@@ -587,32 +602,38 @@ function msp_the_post_thumbnail( $post_id = null, $width = null , $height = null
          */
         if( ! function_exists( 'msp_get_auto_post_thumbnail_src' ) ){
 
-            function msp_get_auto_post_thumbnail_src( $post_id = null, $image_from = 'auto', $width = null , $height = null, $crop = null , $quality = 100 ) {
+            function msp_get_auto_post_thumbnail_src( $post_id = null, $image_from = 'auto', $size = 'full', $crop = null , $quality = 100 ) {
 
-                $post = get_post( $post_id );
-                $img_src = '';
+                $post  = get_post( $post_id );
+                $image = false;
 
                 if( empty( $post ) ) return '';
 
-				if ( 'auto' == $image_from ) {
-					$img_src = has_post_thumbnail( $post->ID ) ? msp_get_the_post_thumbnail_full_src( $post->ID ) : '';
-
-					if( empty( $img_src ) ) {
-						$img_src = msp_get_first_image_src_from_string( $post->post_content );
-					}
-
-				} elseif( 'featured' == $image_from ) {
-					$img_src = has_post_thumbnail( $post->ID ) ? msp_get_the_post_thumbnail_full_src( $post->ID ) : '';
-
-				} elseif ( 'first' == $image_from ) {
-					$img_src = msp_get_first_image_src_from_string( $post->post_content );
-				}
-
-                if( ! empty( $img_src ) && ( $width || $height ) ){
-                    return msp_aq_resize( $img_src, $width, $height, $crop, $quality );
+                if ( 'auto' == $image_from || 'featured' == $image_from ) {
+                    $image = has_post_thumbnail( $post->ID ) ? msp_get_the_post_thumbnail_src( $post->ID, $size ) : false;
                 }
 
-                return $img_src;
+                if( 'auto' == $image_from ) {
+
+                    if( ! $image || ! isset( $image[0] ) ) {
+                        $img_src = msp_get_first_image_src_from_string( $post->post_content );
+                        if( ! is_array( $size ) || ! isset( $size[1] ) ){
+                            $size = array( null, null);
+                        }
+                        $img_src = msp_aq_resize( $img_src, $size[0], $size[1], $crop, $quality );
+                        $image   = array( $img_src, $size[0], $size[1] );
+                    }
+
+                } elseif ( 'first' == $image_from ) {
+                    $img_src = msp_get_first_image_src_from_string( $post->post_content );
+                    if( ! is_array( $size ) || ! isset( $size[1] ) ){
+                        $size = array( null, null);
+                    }
+                    $img_src = msp_aq_resize( $img_src, $size[0], $size[1], $crop, $quality );
+                    $image   = array( $img_src, $size[0], $size[1] );
+                }
+
+                return $image;
             }
 
         }
@@ -1013,7 +1034,7 @@ function msp_get_template_tag_value( $tag_name, $post = null, $args = null ){
 
 		case 'image-url':
         case 'slide-image-url':
-            $value = msp_get_auto_post_thumbnail_src( $post, 'auto' );
+            $value = msp_get_auto_post_thumbnail_url( $post, 'auto' );
             break;
 
         case 'image-alt':
@@ -1031,7 +1052,7 @@ function msp_get_template_tag_value( $tag_name, $post = null, $args = null ){
             break;
 
         case 'thumbnailurl':
-            $value = msp_get_auto_post_thumbnail_src( $post, 'auto', 150, 150 );
+            $value = msp_get_auto_post_thumbnail_url( $post, 'auto', array(150, 150) );
             break;
 
 		case 'year':
@@ -1192,7 +1213,7 @@ function msp_get_template_tag_value( $tag_name, $post = null, $args = null ){
                     $image_width  = isset( $matches[0][0] ) && is_numeric( $matches[0][0] ) ? (int) $matches[0][0] : null;
                     $image_height = isset( $matches[0][1] ) && is_numeric( $matches[0][1] ) ? (int) $matches[0][1] : null;
 
-                    $value = msp_get_auto_post_thumbnail_src( $post, 'featured', $image_width, $image_height, true );
+                    $value = msp_get_auto_post_thumbnail_url( $post, 'featured', array( $image_width, $image_height ), true );
 
                     if( ! empty( $value ) ){
                         $value = sprintf( '<img class="ms-custom-image" src="%s" alt="%s" />', $value, $post->post_title );
@@ -1209,7 +1230,7 @@ function msp_get_template_tag_value( $tag_name, $post = null, $args = null ){
                     $thumb_width  = isset( $matches[0][0] ) && is_numeric( $matches[0][0] ) ? (int) $matches[0][0] : null;
                     $thumb_height = isset( $matches[0][1] ) && is_numeric( $matches[0][1] ) ? (int) $matches[0][1] : null;
 
-                    $value = msp_get_auto_post_thumbnail_src( $post, 'featured', $thumb_width, $thumb_height, true );
+                    $value = msp_get_auto_post_thumbnail_url( $post, 'featured', array( $thumb_width, $thumb_height ), true );
 
                     if( ! empty( $value ) ){
                         $value = sprintf( '<img class="ms-dyna-thumb" src="%s" alt="%s" />', $value, $post->post_title );
@@ -1226,7 +1247,7 @@ function msp_get_template_tag_value( $tag_name, $post = null, $args = null ){
                     $thumb_width  = isset( $matches[0][0] ) && is_numeric( $matches[0][0] ) ? (int) $matches[0][0] : null;
                     $thumb_height = isset( $matches[0][1] ) && is_numeric( $matches[0][1] ) ? (int) $matches[0][1] : null;
 
-                    $value = msp_get_auto_post_thumbnail_src( $post, 'featured', $thumb_width, $thumb_height, true );
+                    $value = msp_get_auto_post_thumbnail_url( $post, 'featured', array( $thumb_width, $thumb_height ), true );
                     break;
                 }
 

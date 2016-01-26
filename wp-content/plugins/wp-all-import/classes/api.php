@@ -488,6 +488,10 @@ class PMXI_API
 
 		if ($create_image and $result){
 
+			// you must first include the image.php file
+			// for the function wp_generate_attachment_metadata() to work
+			require_once(ABSPATH . 'wp-admin/includes/image.php');
+				
 			if($file_type == 'images'){
 				$logger and call_user_func($logger, sprintf(__('- Creating an attachment for image `%s`', 'wp_all_import_plugin'), $targetUrl . '/' . $image_filename));	
 			}
@@ -513,10 +517,7 @@ class PMXI_API
 			if (is_wp_error($attid)) {
 				$logger and call_user_func($logger, __('- <b>WARNING</b>', 'wp_all_import_plugin') . ': ' . $attid->get_error_message());			
 				return false;
-			} else {
-				// you must first include the image.php file
-				// for the function wp_generate_attachment_metadata() to work
-				require_once(ABSPATH . 'wp-admin/includes/image.php');
+			} else {				
 				wp_update_attachment_metadata($attid, wp_generate_attachment_metadata($attid, $image_filepath));																
 				$logger and call_user_func($logger, sprintf(__('- Attachment has been successfully created for image `%s`', 'wp_all_import_plugin'), $targetUrl . '/' . $image_filename));
 				return $attid;											
@@ -524,5 +525,5 @@ class PMXI_API
 
 		}
 		else return $result;		
-	}	
+	}		
 }

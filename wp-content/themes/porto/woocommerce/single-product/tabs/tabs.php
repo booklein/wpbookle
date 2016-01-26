@@ -2,6 +2,14 @@
 /**
  * Single Product tabs
  *
+ * This template can be overridden by copying it to yourtheme/woocommerce/single-product/tabs/tabs.php.
+ *
+ * HOWEVER, on occasion WooCommerce will need to update template files and you (the theme developer).
+ * will need to copy the new files to your theme to maintain compatibility. We try to do this.
+ * as little as possible, but it does happen. When this occurs the version of the template file will.
+ * be bumped and the readme will list any important changes.
+ *
+ * @see 	    http://docs.woothemes.com/document/template-structure/
  * @author 		WooThemes
  * @package 	WooCommerce/Templates
  * @version     2.4.0
@@ -12,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Filter tabs and allow third parties to add their own
+ * Filter tabs and allow third parties to add their own.
  *
  * Each tab is an array containing title, callback and priority.
  * @see woocommerce_default_product_tabs()
@@ -33,7 +41,7 @@ if ($custom_tabs_count) {
         $index = $i + 1;
 
         $custom_tab_title = get_post_meta(get_the_id(), 'custom_tab_title'.$index, true);
-        $custom_tab_content = get_post_meta(get_the_id(), 'custom_tab_content'.$index, true);
+        $custom_tab_content = do_shortcode(get_post_meta(get_the_id(), 'custom_tab_content'.$index, true));
         if ($custom_tab_title && $custom_tab_content) {
             $custom_tabs_title[] = $custom_tab_title;
             $custom_tabs_content[] = $custom_tab_content;
@@ -138,7 +146,7 @@ if ( ! empty( $tabs ) || !empty($custom_tabs_title) || $global_tab_title ) : ?>
                     }
                     setTimeout(function() {
                         $('html, body').stop().animate({
-                            scrollTop: target.offset().top - theme.StickyHeader.sticky_height - theme.StickyHeader.adminbar_height - 14
+                            scrollTop: target.offset().top - theme.StickyHeader.sticky_height - theme.adminBarHeight() - 14
                         }, 600, 'easeOutQuad');
                     }, delay);
 
@@ -161,7 +169,7 @@ if ( ! empty( $tabs ) || !empty($custom_tabs_title) || $global_tab_title ) : ?>
                             }
                             setTimeout(function() {
                                 $('html, body').stop().animate({
-                                    scrollTop: target.offset().top - theme.StickyHeader.sticky_height - theme.StickyHeader.adminbar_height - 14
+                                    scrollTop: target.offset().top - theme.StickyHeader.sticky_height - theme.adminBarHeight() - 14
                                 }, 600, 'easeOutQuad');
                             }, delay);
                         }

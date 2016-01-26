@@ -13,6 +13,9 @@ class PMXI_ArrayToXML
     */
     public static function toXml($data, $rootNodeName = 'data', $xml=null, $lvl = 0)
     {                
+
+    	$data = apply_filters('wp_all_import_json_to_xml', $data);
+
         // turn off compatibility mode as simple xml throws a wobbly if you don't.
         if (ini_get('zend.ze1_compatibility_mode') == 1)
         {
@@ -49,7 +52,8 @@ class PMXI_ArrayToXML
 	            {                
 	                // add single node.
 	                $value =  htmlspecialchars($value);
-	                $xml->addChild($key,$value);
+	                $xml->addChild($key, $value);
+
 	            }
 	            
 	        }

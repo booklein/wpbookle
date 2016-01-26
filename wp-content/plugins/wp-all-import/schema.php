@@ -77,6 +77,7 @@ CREATE TABLE {$table_prefix}posts (
 	unique_key TEXT,
 	product_key TEXT,
 	iteration BIGINT(20) NOT NULL DEFAULT 0,
+	specified BOOL NOT NULL DEFAULT 0,
 	PRIMARY KEY  (id)	
 ) $charset_collate;
 CREATE TABLE {$table_prefix}files (

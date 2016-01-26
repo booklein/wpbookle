@@ -195,40 +195,44 @@ function porto_import_mastersliders() {
 
 function porto_import_icons() {
     if ( current_user_can( 'manage_options' ) ) {
-        // Import icons
-        ob_start();
-        $paths = wp_upload_dir();
-        $paths['fonts'] 	= 'smile_fonts';
-        $paths['temp']  	= trailingslashit($paths['fonts']).'smile_temp';
-        $paths['fontdir'] = trailingslashit($paths['basedir']).$paths['fonts'];
-        $paths['tempdir'] = trailingslashit($paths['basedir']).$paths['temp'];
-        $paths['fonturl'] = set_url_scheme(trailingslashit($paths['baseurl']).$paths['fonts']);
-        $paths['tempurl'] = trailingslashit($paths['baseurl']).trailingslashit($paths['temp']);
-        $paths['config']	= 'charmap.php';
-        $sli_fonts = trailingslashit($paths['basedir']).$paths['fonts'].'/Simple-Line-Icons';
-        $sli_fonts_dir = porto_plugins.'/importer/data/Simple-Line-Icons/';
+        if (get_option('smile_fonts', false)) {
+            // Import icons
+            ob_start();
+            $paths = wp_upload_dir();
+            $paths['fonts'] 	= 'smile_fonts';
+            $paths['temp']  	= trailingslashit($paths['fonts']).'smile_temp';
+            $paths['fontdir'] = trailingslashit($paths['basedir']).$paths['fonts'];
+            $paths['tempdir'] = trailingslashit($paths['basedir']).$paths['temp'];
+            $paths['fonturl'] = set_url_scheme(trailingslashit($paths['baseurl']).$paths['fonts']);
+            $paths['tempurl'] = trailingslashit($paths['baseurl']).trailingslashit($paths['temp']);
+            $paths['config']	= 'charmap.php';
+            $sli_fonts = trailingslashit($paths['basedir']).$paths['fonts'].'/Simple-Line-Icons';
+            $sli_fonts_dir = porto_plugins.'/importer/data/Simple-Line-Icons/';
 
-        // Make destination directory
-        if (!is_dir($sli_fonts)) {
-            wp_mkdir_p($sli_fonts);
+            // Make destination directory
+            if (!is_dir($sli_fonts)) {
+                wp_mkdir_p($sli_fonts);
+            }
+            @chmod($sli_fonts,0777);
+            foreach(glob($sli_fonts_dir.'*') as $file)
+            {
+                $new_file = basename($file);
+                @copy($file,$sli_fonts.'/'.$new_file);
+            }
+            $fonts = get_option('smile_fonts');
+            if(empty($fonts)) $fonts = array();
+            $fonts['Simple-Line-Icons'] = array(
+                'include'   => trailingslashit($paths['fonts']).'Simple-Line-Icons',
+                'folder' 	=> trailingslashit($paths['fonts']).'Simple-Line-Icons',
+                'style'	 => 'Simple-Line-Icons'.'/'.'Simple-Line-Icons'.'.css',
+                'config' 	=> $paths['config']
+            );
+            update_option('smile_fonts', $fonts);
+            ob_get_clean();
+            echo __('Successfully Imported Simple Line Icon!', 'porto');
+        } else {
+            echo __('Please install Ultimate Addons Plugin and try again!', 'porto');
         }
-        @chmod($sli_fonts,0777);
-        foreach(glob($sli_fonts_dir.'*') as $file)
-        {
-            $new_file = basename($file);
-            @copy($file,$sli_fonts.'/'.$new_file);
-        }
-        $fonts = get_option('smile_fonts');
-        if(empty($fonts)) $fonts = array();
-        $fonts['Simple-Line-Icons'] = array(
-            'include'   => trailingslashit($paths['fonts']).'Simple-Line-Icons',
-            'folder' 	=> trailingslashit($paths['fonts']).'Simple-Line-Icons',
-            'style'	 => 'Simple-Line-Icons'.'/'.'Simple-Line-Icons'.'.css',
-            'config' 	=> $paths['config']
-        );
-        update_option('smile_fonts', $fonts);
-        ob_get_clean();
-        echo __('Successfully Imported Simple Line Icon!', 'porto');
     }
     die();
 }
@@ -386,43 +390,49 @@ function porto_import() {
         }
 
         if ( isset( $_GET['import_font'] ) ) {
+            if (get_option('smile_fonts', false)) {
+                // Import Simple Line Icon Font
+                $paths = wp_upload_dir();
+                $paths['fonts'] 	= 'smile_fonts';
+                $paths['temp']  	= trailingslashit($paths['fonts']).'smile_temp';
+                $paths['fontdir'] = trailingslashit($paths['basedir']).$paths['fonts'];
+                $paths['tempdir'] = trailingslashit($paths['basedir']).$paths['temp'];
+                $paths['fonturl'] = set_url_scheme(trailingslashit($paths['baseurl']).$paths['fonts']);
+                $paths['tempurl'] = trailingslashit($paths['baseurl']).trailingslashit($paths['temp']);
+                $paths['config']	= 'charmap.php';
+                $sli_fonts = trailingslashit($paths['basedir']).$paths['fonts'].'/Simple-Line-Icons';
+                $sli_fonts_dir = porto_plugins.'/importer/data/Simple-Line-Icons/';
 
-            // Import Simple Line Icon Font
-            $paths = wp_upload_dir();
-            $paths['fonts'] 	= 'smile_fonts';
-            $paths['temp']  	= trailingslashit($paths['fonts']).'smile_temp';
-            $paths['fontdir'] = trailingslashit($paths['basedir']).$paths['fonts'];
-            $paths['tempdir'] = trailingslashit($paths['basedir']).$paths['temp'];
-            $paths['fonturl'] = set_url_scheme(trailingslashit($paths['baseurl']).$paths['fonts']);
-            $paths['tempurl'] = trailingslashit($paths['baseurl']).trailingslashit($paths['temp']);
-            $paths['config']	= 'charmap.php';
-            $sli_fonts = trailingslashit($paths['basedir']).$paths['fonts'].'/Simple-Line-Icons';
-            $sli_fonts_dir = porto_plugins.'/importer/data/Simple-Line-Icons/';
+                // Make destination directory
+                if (!is_dir($sli_fonts)) {
+                    wp_mkdir_p($sli_fonts);
+                }
+                @chmod($sli_fonts,0777);
+                foreach(glob($sli_fonts_dir.'*') as $file)
+                {
+                    $new_file = basename($file);
+                    @copy($file,$sli_fonts.'/'.$new_file);
+                }
+                $fonts = get_option('smile_fonts');
+                if(empty($fonts)) $fonts = array();
+                $fonts['Simple-Line-Icons'] = array(
+                    'include'   => trailingslashit($paths['fonts']).'Simple-Line-Icons',
+                    'folder' 	=> trailingslashit($paths['fonts']).'Simple-Line-Icons',
+                    'style'	 => 'Simple-Line-Icons'.'/'.'Simple-Line-Icons'.'.css',
+                    'config' 	=> $paths['config']
+                );
+                update_option('smile_fonts', $fonts);
 
-            // Make destination directory
-            if (!is_dir($sli_fonts)) {
-                wp_mkdir_p($sli_fonts);
+                flush_rewrite_rules();
+
+                // finally redirect to success page
+                wp_redirect( admin_url( 'admin.php?page=porto_settings&import_font_success=true' ) );
+            } else {
+                flush_rewrite_rules();
+
+                // finally redirect to success page
+                wp_redirect( admin_url( 'admin.php?page=porto_settings&import_font_success=false' ) );
             }
-            @chmod($sli_fonts,0777);
-            foreach(glob($sli_fonts_dir.'*') as $file)
-            {
-                $new_file = basename($file);
-                @copy($file,$sli_fonts.'/'.$new_file);
-            }
-            $fonts = get_option('smile_fonts');
-            if(empty($fonts)) $fonts = array();
-            $fonts['Simple-Line-Icons'] = array(
-                'include'   => trailingslashit($paths['fonts']).'Simple-Line-Icons',
-                'folder' 	=> trailingslashit($paths['fonts']).'Simple-Line-Icons',
-                'style'	 => 'Simple-Line-Icons'.'/'.'Simple-Line-Icons'.'.css',
-                'config' 	=> $paths['config']
-            );
-            update_option('smile_fonts', $fonts);
-
-            flush_rewrite_rules();
-
-            // finally redirect to success page
-            wp_redirect( admin_url( 'admin.php?page=porto_settings&import_font_success=true' ) );
         }
 
         if ( isset( $_GET['import_widget'] ) ) {

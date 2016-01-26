@@ -2,6 +2,14 @@
 /**
  * Product Loop Start
  *
+ * This template can be overridden by copying it to yourtheme/woocommerce/loop/loop-end.php.
+ *
+ * HOWEVER, on occasion WooCommerce will need to update template files and you (the theme developer).
+ * will need to copy the new files to your theme to maintain compatibility. We try to do this.
+ * as little as possible, but it does happen. When this occurs the version of the template file will.
+ * be bumped and the readme will list any important changes.
+ *
+ * @see 	    http://docs.woothemes.com/document/template-structure/
  * @author 		WooThemes
  * @package 	WooCommerce/Templates
  * @version     2.0.0
@@ -12,7 +20,7 @@ global $porto_settings, $porto_layout, $woocommerce_loop;
 $cols = $porto_settings['product-cols'];
 $addlinks_pos = $porto_settings['category-addlinks-pos'];
 
-if (isset($woocommerce_loop['columns']))
+if (isset($woocommerce_loop['columns']) && $woocommerce_loop['columns'])
     $cols = $woocommerce_loop['columns'];
 
 $woocommerce_loop['product_loop'] = 0;
@@ -24,7 +32,7 @@ if ($porto_layout == 'wide-left-sidebar' || $porto_layout == 'wide-right-sidebar
 }
 
 $item_width = $cols;
-if (isset($woocommerce_loop['column_width']))
+if (isset($woocommerce_loop['column_width']) && $woocommerce_loop['column_width'])
     $item_width = $woocommerce_loop['column_width'];
 
 switch ($cols) {
@@ -73,4 +81,4 @@ $porto_products_cols_xs = $cols_xs;
 $porto_products_cols_ls = $cols_ls;
 
 ?>
-<ul class="products <?php if (isset($woocommerce_loop['widget']) && $woocommerce_loop['widget']) echo 'product_list_widget' ?> <?php echo isset($woocommerce_loop['view'])?$woocommerce_loop['view']:'' ?> <?php echo isset($woocommerce_loop['category-view'])?$woocommerce_loop['category-view']:'' ?> pcols-lg-<?php echo $cols ?> pcols-md-<?php echo $cols_md ?> pcols-xs-<?php echo $cols_xs ?> pcols-ls-<?php echo $cols_ls ?>  pwidth-lg-<?php echo $item_width ?> pwidth-md-<?php echo $item_width_md ?> pwidth-xs-<?php echo $item_width_xs ?> pwidth-ls-<?php echo $item_width_ls ?>"<?php if (isset($woocommerce_loop['view']) && $woocommerce_loop['view'] == 'products-slider') : ?> data-cols-lg="<?php echo $cols ?>" data-cols-md="<?php echo $cols_md ?>" data-cols-xs="<?php echo $cols_xs ?>" data-cols-ls="<?php echo $cols_ls ?>"<?php if (isset($woocommerce_loop['navigation']) && $woocommerce_loop['navigation']) echo ' data-navigation="1"' ?><?php if (isset($woocommerce_loop['pagination']) && $woocommerce_loop['pagination']) echo ' data-pagination="1"' ?><?php endif; ?>>
+<ul class="products <?php if (isset($woocommerce_loop['widget']) && $woocommerce_loop['widget']) echo 'product_list_widget' ?> <?php echo (isset($woocommerce_loop['view']) && $woocommerce_loop['view'])?$woocommerce_loop['view']:'' ?> <?php echo (isset($woocommerce_loop['category-view']) && $woocommerce_loop['category-view'])?$woocommerce_loop['category-view']:'' ?> pcols-lg-<?php echo $cols ?> pcols-md-<?php echo $cols_md ?> pcols-xs-<?php echo $cols_xs ?> pcols-ls-<?php echo $cols_ls ?>  pwidth-lg-<?php echo $item_width ?> pwidth-md-<?php echo $item_width_md ?> pwidth-xs-<?php echo $item_width_xs ?> pwidth-ls-<?php echo $item_width_ls ?>"<?php if (isset($woocommerce_loop['view']) && $woocommerce_loop['view'] == 'products-slider') : ?> data-cols-lg="<?php echo $cols ?>" data-cols-md="<?php echo $cols_md ?>" data-cols-xs="<?php echo $cols_xs ?>" data-cols-ls="<?php echo $cols_ls ?>"<?php if (isset($woocommerce_loop['navigation']) && $woocommerce_loop['navigation']) echo ' data-navigation="1"' ?><?php if (isset($woocommerce_loop['pagination']) && $woocommerce_loop['pagination']) echo ' data-pagination="1"' ?><?php endif; ?>>

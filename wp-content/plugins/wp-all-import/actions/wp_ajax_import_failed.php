@@ -5,7 +5,7 @@ function pmxi_wp_ajax_import_failed(){
 		exit( json_encode(array('result' => false, 'msg' => __('Security check', 'wp_all_import_plugin'))) );
 	}
 
-	if ( ! current_user_can('manage_options') ){
+	if ( ! current_user_can( PMXI_Plugin::$capabilities ) ){
 		exit( json_encode(array('result' => false, 'msg' => __('Security check', 'wp_all_import_plugin'))) );
 	}
 	

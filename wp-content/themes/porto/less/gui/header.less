@@ -160,6 +160,11 @@
             }
         }
     }
+
+    .tooltip-icon {
+        border-color: @header_link_color;
+        color: @header_link_color;
+    }
 }
 
 #header-boxed {
@@ -493,6 +498,11 @@
                 font-weight: @menu_font_weight;
                 line-height: @menu_line_height;
                 color: @main_menu_level1_link_color;
+
+                @media (max-width: @screen_large) {
+                    font-size: @menu_md_font_size;
+                    line-height: @menu_md_line_height;
+                }
             }
             &.active,
             &:hover {

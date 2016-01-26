@@ -3,10 +3,12 @@
         <key name="porto_settings">
             <key name="welcome-msg" />
             <key name="header-copyright" />
+            <key name="header-tooltip" />
             <key name="menu-sidebar-title" />
             <key name="menu-title" />
             <key name="breadcrumbs-prefix"/>
             <key name="footer-ribbon" />
+            <key name="footer-tooltip" />
             <key name="hot-label" />
             <key name="blog-title" />
             <key name="portfolio-slug-name" />

@@ -170,7 +170,6 @@ if ( class_exists( 'WP_Importer' ) ) {
                     } else {
                         $response['count'] = count($this->posts);
                         $this->process_posts($index);
-                        $response['status'] = ob_get_clean();
                         $response['message'] = __('Importing Posts', 'porto');
                         $response['process'] = 'process_posts';
                         $response['index'] = ++$index;
@@ -1061,20 +1060,23 @@ if ( class_exists( 'WP_Importer' ) ) {
                 return new WP_Error( 'upload_dir_error', $upload['error'] );
 
             // fetch the remote url and write it to the placeholder file
-            $headers = wp_get_http( $url, $upload['file'] );
+            $wp_http = new WP_Http_Streams();
+            $http_response = $wp_http->request( $url, array('filename' => $upload['file'], 'stream' => true, 'sslcertificates'=> '', 'decompress' => false) );
 
             // request failed
-            if ( ! $headers ) {
+            if ( is_wp_error($http_response) ) {
                 @unlink( $upload['file'] );
                 return new WP_Error( 'import_file_error', __('Remote server did not respond', 'wordpress-importer') );
             }
 
             // make sure the fetch was successful
-            if ( $headers['response'] != '200' ) {
+            $response = $http_response['response'];
+            if ( $response['code'] != '200' ) {
                 @unlink( $upload['file'] );
-                return new WP_Error( 'import_file_error', sprintf( __('Remote server returned error response %1$d %2$s', 'wordpress-importer'), esc_html($headers['response']), get_status_header_desc($headers['response']) ) );
+                return new WP_Error( 'import_file_error', sprintf( __('Remote server returned error response %1$d %2$s', 'wordpress-importer'), esc_html($response['code']), get_status_header_desc($response['code']) ) );
             }
 
+            $headers = $http_response['headers'];
             $filesize = filesize( $upload['file'] );
 
             if ( isset( $headers['content-length'] ) && $filesize != $headers['content-length'] ) {

@@ -33,6 +33,11 @@
         }
     }
 
+    .widget > div > ul li,
+    .widget > ul li {
+        line-height: 24px;
+    }
+
     .footer-ribbon {
         position: absolute;
         margin: -70px 0 0 0;
@@ -187,8 +192,10 @@
             margin-bottom: 13px;
         }
 
-        .contact-info {
-            margin-top: -6px;
+        &.contact-info {
+            .widget-title {
+                margin-botom: 10px;
+            }
         }
     }
 

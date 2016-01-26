@@ -4,6 +4,9 @@ global $porto_settings, $prev_post_year, $prev_post_month, $first_timeline_loop,
 
 $portfolio_layout = 'timeline';
 
+$portfolio_link = get_post_meta($post->ID, 'portfolio_link', true);
+$show_external_link = $porto_settings['portfolio-external-link'];
+
 if (has_post_thumbnail()) :
     $attachment_id = get_post_thumbnail_id();
     $attachment = porto_get_attachment($attachment_id);
@@ -33,18 +36,18 @@ if (has_post_thumbnail()) :
             <?php porto_render_rich_snippets(); ?>
             <div class="portfolio-item thumbnail full">
                 <div class="thumb-info">
-                    <a href="<?php the_permalink(); ?>">
+                    <a href="<?php if ($show_external_link && $portfolio_link) echo $portfolio_link; else the_permalink() ?>">
                         <img class="img-responsive" width="<?php echo $attachment['width'] ?>" height="<?php echo $attachment['height'] ?>" src="<?php echo $attachment['src'] ?>" alt="<?php echo $attachment['alt'] ?>"<?php if ($porto_settings['portfolio-zoom']) : ?> data-image="<?php echo $attachment['src'] ?>" data-caption="<?php echo $attachment['caption'] ?>"<?php endif; ?> />
                     </a>
                     <div class="thumb-info-title">
-                        <a href="<?php the_permalink() ?>" class="thumb-info-inner"><?php the_title(); ?></a>
+                        <a href="<?php if ($show_external_link && $portfolio_link) echo $portfolio_link; else the_permalink() ?>" class="thumb-info-inner"><?php the_title(); ?></a>
                         <?php
                         $cat_list = get_the_term_list($post->ID, 'portfolio_cat', '', ', ', '');
-                        if ($cat_list) : ?>
+                        if (in_array('cats', $porto_settings['portfolio-metas']) && $cat_list) : ?>
                             <span class="thumb-info-type"><?php echo $cat_list ?></span>
                         <?php endif; ?>
                     </div>
-                    <a href="<?php the_permalink() ?>" class="thumb-info-action">
+                    <a href="<?php if ($show_external_link && $portfolio_link) echo $portfolio_link; else the_permalink() ?>" class="thumb-info-action">
                         <span class="thumb-info-action-icon"><i class="fa fa-link"></i></span>
                     </a>
                     <?php if ($porto_settings['portfolio-zoom']) : ?>

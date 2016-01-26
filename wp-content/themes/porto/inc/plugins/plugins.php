@@ -43,7 +43,7 @@ function porto_register_required_plugins() {
             'slug'                     => 'js_composer',
             'source'                   => porto_plugins . '/js_composer.zip',
             'required'                 => true,
-            'version'                  => '4.9.1'
+            'version'                  => '4.9.2'
 
         ),
         array(
@@ -51,7 +51,7 @@ function porto_register_required_plugins() {
             'slug'                     => 'Ultimate_VC_Addons',
             'source'                   => porto_plugins . '/Ultimate_VC_Addons.zip',
             'required'                 => true,
-            'version'                  => '3.14.1'
+            'version'                  => '3.15.0'
 
         ),
         array(
@@ -59,14 +59,14 @@ function porto_register_required_plugins() {
             'slug'                     => 'porto-shortcodes',
             'source'                   => porto_plugins . '/porto-shortcodes.zip',
             'required'                 => true,
-            'version'                  => '1.3.8'
+            'version'                  => '1.4'
         ),
         array(
             'name'                     => 'Porto Widgets',
             'slug'                     => 'porto-widgets',
             'source'                   => porto_plugins . '/porto-widgets.zip',
             'required'                 => true,
-            'version'                  => '1.1.5'
+            'version'                  => '1.2'
         ),
         array(
             'name'                     => 'Porto Content Types',
@@ -85,7 +85,7 @@ function porto_register_required_plugins() {
             'slug'                     => 'masterslider',
             'source'                   => porto_plugins . '/masterslider.zip',
             'required'                 => true,
-            'version'                  => '2.25.3'
+            'version'                  => '2.26.0'
 
         ),
         array(
@@ -119,21 +119,6 @@ function porto_register_required_plugins() {
             'required'                 => false
         ),
         array(
-            'name'                     => 'Yith Woocommerce Wishlist',
-            'slug'                     => 'yith-woocommerce-wishlist',
-            'required'                 => false
-        ),
-        array(
-            'name'                     => 'Yith Woocommerce Ajax Navigation',
-            'slug'                     => 'yith-woocommerce-ajax-navigation',
-            'required'                 => false
-        ),
-        array(
-            'name'                     => 'Yith Woocommerce Ajax Search',
-            'slug'                     => 'yith-woocommerce-ajax-search',
-            'required'                 => false
-        ),
-        array(
             'name'                     => 'MailPoet Newsletters',
             'slug'                     => 'wysija-newsletters',
             'required'                 => false
@@ -146,6 +131,38 @@ function porto_register_required_plugins() {
             'version'                  => '1.7.3'
         ),
     );
+
+    if (class_exists('WooCommerce')) {
+        $plugins = array_merge(array(
+            array(
+                'name'                     => 'Yith Woocommerce Wishlist',
+                'slug'                     => 'yith-woocommerce-wishlist',
+                'required'                 => false
+            ),
+            array(
+                'name'                     => 'Yith Woocommerce Ajax Navigation',
+                'slug'                     => 'yith-woocommerce-ajax-navigation',
+                'required'                 => false
+            ),
+            array(
+                'name'                     => 'Yith Woocommerce Ajax Search',
+                'slug'                     => 'yith-woocommerce-ajax-search',
+                'required'                 => false
+            ),
+        ), $plugins);
+    }
+
+    if (defined('GEODIRECTORY_VERSION')) {
+        $plugins = array_merge(array(
+            array(
+                'name'                     => 'GeoDirectory Porto Theme Compatibility Pack',
+                'slug'                     => 'geodirectory-porto-theme-compatibility-pack',
+                'source'                   => porto_plugins . '/geodirectory-porto-theme-compatibility-pack.zip',
+                'required'                 => true,
+                'version'                  => '1.0.0'
+            )
+        ), $plugins);
+    }
 
     /**
      * Array of configuration settings. Amend each line as needed.

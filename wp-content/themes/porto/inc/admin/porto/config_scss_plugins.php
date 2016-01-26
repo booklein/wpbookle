@@ -11,7 +11,7 @@ $grid-gutter-width:         <?php echo $b['grid-gutter-width'] ?>px !default;
 
 // Large screen / wide desktop
 $container-large-desktop: (<?php echo $b['container-width'] ?>px) !default;
-$screen-lg: (<?php echo $b['container-width'] + ($b['grid-gutter-width'] - 1) ?>px) !default;
+$screen-lg: (<?php echo $b['container-width'] + ($b['grid-gutter-width']) ?>px) !default;
 
 $dark: <?php echo ($dark) ? '1' : '0' ?>;
 

@@ -425,7 +425,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                     array(
                         'id'        => '1',
                         'type'      => 'raw',
-                        'content'   => (isset($_GET['import_success'])?'<strong>' . __('Successfully Imported!', 'porto') . '</strong><br/><br/>':'').(isset($_GET['import_widget_success'])?'<strong>' . __('Successfully Imported Widgets!', 'porto') . '</strong><br/><br/>':'').(isset($_GET['import_masterslider_success'])?'<strong>' . __('Successfully Imported Master Sliders!', 'porto') . '</strong><br/><br/>':'').(isset($_GET['import_font_success'])?'<strong>' . __('Successfully Imported Simple Line Icon!', 'porto') . '</strong><br/><br/>':'').'<a href="'.admin_url('admin.php?page=porto_settings').'&import_sample_content=true" class="button button-primary import-button import_porto_dummy">' . __('Import Dummy Content', 'porto') . '</a>&nbsp;'.'<a href="'.admin_url('admin.php?page=porto_settings').'&import_widget=true" class="button button-primary import-button import_porto_widgets">' . __('Import Widgets', 'porto') . '</a>&nbsp;'.'<a href="'.admin_url('admin.php?page=porto_settings').'&import_masterslider=true" class="button button-primary import-button import_porto_mastersliders">' . __('Import Master Sliders', 'porto') . '</a>&nbsp;'.'<a href="'.admin_url('admin.php?page=porto_settings').'&import_font=true" class="button button-primary import-button import_porto_icons">' . __('Import Simple Line Icon', 'porto') . '</a><br/><div class="import-status"></div>'
+                        'content'   => (isset($_GET['import_success'])?'<strong>' . __('Successfully Imported!', 'porto') . '</strong><br/><br/>':'').(isset($_GET['import_widget_success'])?'<strong>' . __('Successfully Imported Widgets!', 'porto') . '</strong><br/><br/>':'').(isset($_GET['import_masterslider_success'])?'<strong>' . __('Successfully Imported Master Sliders!', 'porto') . '</strong><br/><br/>':'').((isset($_GET['import_font_success']) && $_GET['import_font_success'] == 'true')?'<strong>' . __('Successfully Imported Simple Line Icon!', 'porto') . '</strong><br/><br/>':'').((isset($_GET['import_font_success']) && $_GET['import_font_success'] == 'false')?'<strong>' . __('Please install Ultimate Addons Plugin and try again!', 'porto') . '</strong><br/><br/>':'').'<a href="'.admin_url('admin.php?page=porto_settings').'&import_sample_content=true" class="button button-primary import-button import_porto_dummy">' . __('Import Dummy Content', 'porto') . '</a>&nbsp;'.'<a href="'.admin_url('admin.php?page=porto_settings').'&import_widget=true" class="button button-primary import-button import_porto_widgets">' . __('Import Widgets', 'porto') . '</a>&nbsp;'.'<a href="'.admin_url('admin.php?page=porto_settings').'&import_masterslider=true" class="button button-primary import-button import_porto_mastersliders">' . __('Import Master Sliders', 'porto') . '</a>&nbsp;'.'<a href="'.admin_url('admin.php?page=porto_settings').'&import_font=true" class="button button-primary import-button import_porto_icons">' . __('Import Simple Line Icon', 'porto') . '</a><br/><div class="import-status"></div>'
                     ),
 
                     array(
@@ -711,6 +711,34 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                 'title' => __('Typography', 'porto'),
                 'fields' => array(
                     array(
+                        'id'=>'select-google-charset',
+                        'type' => 'switch',
+                        'title' => __('Select Google Font Character Sets', 'porto'),
+                        'default' => false,
+                        'on' => __('Yes', 'porto'),
+                        'off' => __('No', 'porto'),
+                    ),
+
+                    array(
+                        'id'=>'google-charsets',
+                        'type' => 'button_set',
+                        'title' => __('Google Font Character Sets', 'porto'),
+                        'multi' => true,
+                        'required' => array('select-google-charset','equals',true),
+                        'options'=> array(
+                            'cyrillic' => 'Cyrrilic',
+                            'cyrillic-ext' => 'Cyrrilic Extended',
+                            'greek' => 'Greek',
+                            'greek-ext' => 'Greek Extended',
+                            'khmer' => 'Khmer',
+                            'latin' => 'Latin',
+                            'latin-ext' => 'Latin Extneded',
+                            'vietnamese' => 'Vietnamese'
+                        ),
+                        'default' => array('latin','greek-ext','cyrillic','latin-ext','greek','cyrillic-ext','vietnamese','khmer')
+                    ),
+
+                    array(
                         'id'=>'body-font',
                         'type' => 'typography',
                         'title' => __('Body Font', 'porto'),
@@ -870,60 +898,6 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                             'font-family'=>'Open Sans',
                             'font-size'=>'14px',
                             'line-height' => '18px'
-                        ),
-                    ),
-
-                    array(
-                        'id'=>'menu-font',
-                        'type' => 'typography',
-                        'title' => __('Menu Font', 'porto'),
-                        'google' => true,
-                        'subsets' => false,
-                        'font-style' => false,
-                        'text-align' => false,
-                        'color' => false,
-                        'default'=> array(
-                            'google'=>true,
-                            'font-weight'=>'700',
-                            'font-family'=>'Open Sans',
-                            'font-size'=>'12px',
-                            'line-height' => '20px'
-                        ),
-                    ),
-
-                    array(
-                        'id'=>'menu-side-font',
-                        'type' => 'typography',
-                        'title' => __('Side Menu Font', 'porto'),
-                        'google' => true,
-                        'subsets' => false,
-                        'font-style' => false,
-                        'text-align' => false,
-                        'color' => false,
-                        'default'=> array(
-                            'google'=>true,
-                            'font-weight'=>'400',
-                            'font-family'=>'Open Sans',
-                            'font-size'=>'14px',
-                            'line-height' => '18px'
-                        ),
-                    ),
-
-                    array(
-                        'id'=>'menu-popup-font',
-                        'type' => 'typography',
-                        'title' => __('Menu Popup Font', 'porto'),
-                        'google' => true,
-                        'subsets' => false,
-                        'font-style' => false,
-                        'text-align' => false,
-                        'color' => false,
-                        'default'=> array(
-                            'google'=>true,
-                            'font-weight'=>'400',
-                            'font-family'=>'Open Sans',
-                            'font-size'=>'14px',
-                            'line-height' => '24px'
                         ),
                     ),
                 )
@@ -1350,6 +1324,59 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                     ),
 
                     array(
+                        'id'=>'menu-font',
+                        'type' => 'typography',
+                        'title' => __('Menu Font', 'porto'),
+                        'google' => true,
+                        'subsets' => false,
+                        'font-style' => false,
+                        'text-align' => false,
+                        'color' => false,
+                        'default'=> array(
+                            'google'=>true,
+                            'font-weight'=>'700',
+                            'font-family'=>'Open Sans',
+                            'font-size'=>'12px',
+                            'line-height' => '20px'
+                        ),
+                    ),
+
+                    array(
+                        'id'=>'menu-font-md',
+                        'type' => 'typography',
+                        'title' => __('Menu Font (window width < 992px)', 'porto'),
+                        'google' => false,
+                        'subsets' => false,
+                        'font-style' => false,
+                        'font-weight' => false,
+                        'font-family' => false,
+                        'text-align' => false,
+                        'color' => false,
+                        'default'=> array(
+                            'font-size'=>'12px',
+                            'line-height' => '20px'
+                        ),
+                    ),
+
+                    array(
+                        'id'=>'menu-side-font',
+                        'type' => 'typography',
+                        'title' => __('Side Menu Font', 'porto'),
+                        'google' => true,
+                        'subsets' => false,
+                        'font-style' => false,
+                        'text-align' => false,
+                        'color' => false,
+                        'default'=> array(
+                            'google'=>true,
+                            'font-weight'=>'400',
+                            'font-family'=>'Open Sans',
+                            'font-size'=>'14px',
+                            'line-height' => '18px'
+                        ),
+                    ),
+
+                    array(
                         'id'=>'mainmenu-toplevel-link-color',
                         'type' => 'link_color',
                         'active' => false,
@@ -1391,6 +1418,24 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'type' => 'info',
                         'title' => __('Menu Popup', 'porto'),
                         'notice' => false
+                    ),
+
+                    array(
+                        'id'=>'menu-popup-font',
+                        'type' => 'typography',
+                        'title' => __('Menu Popup Font', 'porto'),
+                        'google' => true,
+                        'subsets' => false,
+                        'font-style' => false,
+                        'text-align' => false,
+                        'color' => false,
+                        'default'=> array(
+                            'google'=>true,
+                            'font-weight'=>'400',
+                            'font-family'=>'Open Sans',
+                            'font-size'=>'14px',
+                            'line-height' => '24px'
+                        ),
                     ),
 
                     array(
@@ -2184,6 +2229,22 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'title' => __('Side Navigation Copyright (Header Type: Side)', 'porto'),
                         'default' => __('&copy; Copyright 2015. All Rights Reserved.', 'porto')
                     ),
+
+                    array(
+                        'id'=>'show-header-tooltip',
+                        'type' => 'switch',
+                        'title' => __('Show Tooltip', 'porto'),
+                        'default' => false,
+                        'on' => __('Yes', 'porto'),
+                        'off' => __('No', 'porto'),
+                    ),
+
+                    array(
+                        'id'=>'header-tooltip',
+                        'type' => 'textarea',
+                        'title' => __('Tooltip Content', 'porto'),
+                        'required' => array('show-header-tooltip','equals',true),
+                    ),
                 )
             );
 
@@ -2890,6 +2951,22 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'required' => array('footer-payments','equals','1'),
                         'default' => ''
                     ),
+
+                    array(
+                        'id'=>'show-footer-tooltip',
+                        'type' => 'switch',
+                        'title' => __('Show Tooltip', 'porto'),
+                        'default' => false,
+                        'on' => __('Yes', 'porto'),
+                        'off' => __('No', 'porto'),
+                    ),
+
+                    array(
+                        'id'=>'footer-tooltip',
+                        'type' => 'textarea',
+                        'title' => __('Tooltip Content', 'porto'),
+                        'required' => array('show-footer-tooltip','equals',true),
+                    ),
                 )
             );
 
@@ -2976,6 +3053,22 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'default' => true,
                         'on' => __('Enable', 'porto'),
                         'off' => __('Disable', 'porto'),
+                    ),
+
+                    array(
+                        'id'=>'post-metas',
+                        'type' => 'button_set',
+                        'title' => __('Post Meta', 'porto'),
+                        'multi' => true,
+                        'options'=> array(
+                            'date' => __('Date', 'porto'),
+                            'author' => __('Author', 'porto'),
+                            'cats' => __('Categories', 'porto'),
+                            'tags' => __('Tags', 'porto'),
+                            'comments' => __('Comments', 'porto'),
+                            '-' => 'None',
+                        ),
+                        'default' => array('date', 'author','cats','tags','comments', '-')
                     ),
                 )
             );
@@ -3220,6 +3313,7 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                             '' => __('With Read More Link', 'porto'),
                             'style-2' => __('With Post Meta', 'porto'),
                             'style-3' => __('With Read More Button Link', 'porto'),
+                            'style-4' => __('With Side Image', 'porto'),
                         ),
                         'default' => ''
                     ),
@@ -3350,6 +3444,22 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'on' => __('Enable', 'porto'),
                         'off' => __('Disable', 'porto'),
                     ),
+
+                    array(
+                        'id'=>'portfolio-metas',
+                        'type' => 'button_set',
+                        'title' => __('Portfolio Meta', 'porto'),
+                        'multi' => true,
+                        'options'=> array(
+                            'like' => __('Like', 'porto'),
+                            'date' => __('Date', 'porto'),
+                            'cats' => __('Categories', 'porto'),
+                            'skills' => __('Skills', 'porto'),
+                            'client' => __('Client', 'porto'),
+                            '-' => 'None',
+                        ),
+                        'default' => array('like', 'date','cats','skills','client','-')
+                    ),
                 )
             );
 
@@ -3436,6 +3546,15 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                             "full" => __("Full Width", 'porto')
                         ),
                         'default' => 'default'
+                    ),
+
+                    array(
+                        'id'=>'portfolio-external-link',
+                        'type' => 'switch',
+                        'title' => __('Show External Link', 'porto'),
+                        'default' => false,
+                        'on' => __('Yes', 'porto'),
+                        'off' => __('No', 'porto'),
                     ),
 
                     array(
@@ -3701,6 +3820,15 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                             "" => __("Type 1", 'porto'),
                             "2" => __("Type 2", 'porto')
                         )
+                    ),
+
+                    array(
+                        'id'=>'member-external-link',
+                        'type' => 'switch',
+                        'title' => __('Show External Link', 'porto'),
+                        'default' => false,
+                        'on' => __('Yes', 'porto'),
+                        'off' => __('No', 'porto'),
                     ),
 
                     array(
@@ -3997,11 +4125,36 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                     ),
 
                     array(
+                        'id'=>'product-stock',
+                        'type' => 'switch',
+                        'title' => __('Show "Out of stock" Status', 'porto'),
+                        'default' => true,
+                        'on' => __('Yes', 'porto'),
+                        'off' => __('No', 'porto'),
+                    ),
+
+                    array(
+                        'id'=>'1',
+                        'type' => 'info',
+                        'title' => __('Add Links Options', 'porto'),
+                        'notice' => false
+                    ),
+
+                    array(
+                        'id'=>'category-addlinks-convert',
+                        'type' => 'switch',
+                        'title' => __('Change "A" Tag to "SPAN" Tag', 'porto'),
+                        'default' => true,
+                        'on' => __('Yes', 'porto'),
+                        'off' => __('No', 'porto'),
+                    ),
+
+                    array(
                         'id'=>'category-addlinks-pos',
                         'type' => 'button_set',
                         'title' => __('Add Links Position', 'porto'),
                         'desc' => __('Select position of add to cart, add to wishlist, quickview.', 'porto'),
-                        'options' => array('outimage' => __('Out of Image', 'porto'),'onimage' => __('On Image', 'porto')),
+                        'options' => array('outimage' => __('Out of Image', 'porto'),'onimage' => __('On Image', 'porto'),'wq_onimage' => __('Wishlist, Quick View On Image', 'porto')),
                         'default' => 'outimage'
                     ),
 
@@ -4095,6 +4248,20 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'title' => __('Tabs Position', 'porto'),
                         'options' => array('' => __('Default', 'porto'), 'below' => __('Below Price & Short Description', 'porto')),
                         'default' => ''
+                    ),
+
+                    array(
+                        'id'=>'product-metas',
+                        'type' => 'button_set',
+                        'title' => __('Product Meta', 'porto'),
+                        'multi' => true,
+                        'options'=> array(
+                            'sku' => __('SKU', 'porto'),
+                            'cats' => __('Categories', 'porto'),
+                            'tags' => __('Tags', 'porto'),
+                            '-' => 'None',
+                        ),
+                        'default' => array('sku','cats','tags','-')
                     ),
 
                     array(
@@ -4204,15 +4371,6 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'type' => 'switch',
                         'required' => array('product-sale','equals',true),
                         'title' => __('Show Saved Sale Price Percentage', 'porto'),
-                        'default' => true,
-                        'on' => __('Yes', 'porto'),
-                        'off' => __('No', 'porto'),
-                    ),
-
-                    array(
-                        'id'=>'product-stock',
-                        'type' => 'switch',
-                        'title' => __('Show "Out of stock" Status', 'porto'),
                         'default' => true,
                         'on' => __('Yes', 'porto'),
                         'off' => __('No', 'porto'),
@@ -4398,6 +4556,18 @@ if (!class_exists('Redux_Framework_porto_settings')) {
                         'required' => array('catalog-cart','equals',false),
                         'on' => __('Yes', 'porto'),
                         'off' => __('No', 'porto'),
+                    ),
+
+                    array(
+                        'id'=>'catalog-readmore-target',
+                        'type' => 'button_set',
+                        'title' => __('Read More Button Target', 'porto'),
+                        'required' => array('catalog-readmore','equals',true),
+                        'options' => array(
+                            '' => __('Self', 'porto'),
+                            '_blank' => __('Blank', 'porto')
+                        ),
+                        'default' => ''
                     ),
 
                     array(

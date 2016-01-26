@@ -6,11 +6,15 @@ $content_inner_bottom = porto_get_meta_value('content_inner_bottom');
 $wrapper = porto_get_wrapper_type();
 ?>
 
-<?php if ($content_inner_bottom) : ?>
+<?php
+do_action('porto_before_content_inner_bottom');
+if ($content_inner_bottom) : ?>
     <div id="content-inner-bottom"><!-- begin content inner bottom -->
         <?php echo do_shortcode('[porto_block name="'.$content_inner_bottom.'"]') ?>
     </div><!-- begin content inner bottom -->
-<?php endif; ?>
+<?php endif;
+do_action('porto_after_content_inner_bottom');
+?>
 
 </div><!-- end main content -->
 
@@ -19,6 +23,7 @@ $is_category_filter = class_exists('WooCommerce') && $porto_settings['category-m
 if (($porto_layout == 'wide-left-sidebar' || $porto_layout == 'wide-right-sidebar' || $porto_layout == 'left-sidebar' || $porto_layout == 'right-sidebar')) : ?>
     <div class="col-md-3 sidebar <?php echo str_replace('wide-', '', $porto_layout) ?><?php echo $is_category_filter ? ' mobile-hide-sidebar' : '' ?>"><!-- main sidebar -->
         <?php
+        do_action('porto_before_sidebar');
         // show sidebar menu
         $sidebar_menu = porto_sidebar_menu();
         if ($sidebar_menu) : ?>
@@ -36,7 +41,9 @@ if (($porto_layout == 'wide-left-sidebar' || $porto_layout == 'wide-right-sideba
                 </div>
             </div>
         <?php endif; ?>
-        <?php dynamic_sidebar( $porto_sidebar ); ?>
+        <?php dynamic_sidebar( $porto_sidebar );
+        do_action('porto_after_sidebar');
+        ?>
     </div><!-- end main sidebar -->
 <?php endif; ?>
 
@@ -45,8 +52,12 @@ if (($porto_layout == 'wide-left-sidebar' || $porto_layout == 'wide-right-sideba
 </div>
 <?php endif; ?>
 
-<?php if ($content_bottom) : ?>
+<?php
+do_action('porto_before_content_bottom');
+if ($content_bottom) : ?>
     <div id="content-bottom"><!-- begin content bottom -->
         <?php echo do_shortcode('[porto_block name="'.$content_bottom.'"]') ?>
     </div><!-- begin content bottom -->
-<?php endif; ?>
+<?php endif;
+do_action('porto_before_content_bottom');
+?>

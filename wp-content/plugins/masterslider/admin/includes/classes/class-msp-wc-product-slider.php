@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  *
  * @package   MasterSlider
@@ -24,11 +24,11 @@ if ( ! class_exists( 'MSP_WP_Post' ) )
 if ( ! class_exists( 'MSP_WC_Product_Slider' ) ) :
 
 /**
-* 
+*
 */
 class MSP_WC_Product_Slider extends MSP_WP_Post{
-	
-	
+
+
 
 	function get_tax_term_dictionary(){
 
@@ -70,25 +70,25 @@ class MSP_WC_Product_Slider extends MSP_WP_Post{
 
 
 	public function get_posts_result( $args ){
-		
+
 		$slide_image_target = isset( $args['image_from'] ) ? $args['image_from'] : 'auto';
 
 		$th_wp_query = $this->get_query_results( $args );
 
 		ob_start();
 
-		if( $th_wp_query->have_posts() ):  while ( $th_wp_query->have_posts() ) : $th_wp_query->the_post(); 
+		if( $th_wp_query->have_posts() ):  while ( $th_wp_query->have_posts() ) : $th_wp_query->the_post();
 
 			$product = get_product( $th_wp_query->post->ID );
 
 			$the_excerpt = apply_filters( 'woocommerce_short_description', $product->get_post_data()->post_excerpt );
 			$excerpt_length = isset( $args['excerpt_length'] ) ? $args['excerpt_length'] : '';
 
-			if( ! empty( $excerpt_length ) ) 
+			if( ! empty( $excerpt_length ) )
 				$the_excerpt = msp_get_trimmed_string( $the_excerpt, (int)$excerpt_length );
 
 			$the_media     = '';
-			$the_media_src = msp_get_auto_post_thumbnail_src( $th_wp_query->post->ID, $slide_image_target );
+			$the_media_src = msp_get_auto_post_thumbnail_url( $th_wp_query->post->ID, $slide_image_target );
 
 			$premalink = $product->get_permalink();
 
@@ -96,17 +96,17 @@ class MSP_WC_Product_Slider extends MSP_WP_Post{
 				$the_media_tag  = msp_get_the_resized_image( $the_media_src, 80, 80, true, 100 );
 				$the_media 		= sprintf( '<div class="msp-entry-media" ><a href="%s" target="_blank">%s</a></div>', $premalink, $the_media_tag );
 			}
-		?>  
+		?>
 
 		<article class="msp-post msp-post-<?php echo $th_wp_query->post->ID; ?> msp-post-<?php echo $th_wp_query->post->post_type; ?>">
            <figure>
            		<?php echo $the_media; ?>
-           		
+
                 <figcaption>
                     <div class="msp-entry-header">
                         <h4 class="msp-entry-title"><a href="<?php echo $premalink; ?>" target="_blank"><?php the_title(); ?></a></h4>
                     </div>
-                    
+
                     <div class="msp-entry-content">
                         <time datetime="<?php the_time('Y-m-d')?>" title="<?php the_time('Y-m-d')?>" ><?php the_time('F j, Y'); ?></time>
                         ( <span class="ps-post-id">Post ID: <?php the_ID(); ?></span> )
@@ -120,23 +120,23 @@ class MSP_WC_Product_Slider extends MSP_WP_Post{
                     </div>
                 </figcaption>
            </figure>
-		</article>   
+		</article>
 
 		<?php
 
-			endwhile; 
+			endwhile;
 		endif;
 
 		// Restore original Post Data
 		wp_reset_query();
-    	
+
     	return ob_get_clean();
 	}
-	
+
 
 
 	public function get_query_results( $args ){
-	    
+
 		// default query args
 		$defaults = array(
 			'orderby' 		=> 'menu_order date',
@@ -149,7 +149,7 @@ class MSP_WC_Product_Slider extends MSP_WP_Post{
 
 		$args = wp_parse_args( $args, $defaults );
 
-		
+
 		switch ( $args['orderby'] ) {
 			case 'price' :
 				$args['orderby']  = 'meta_value_num';

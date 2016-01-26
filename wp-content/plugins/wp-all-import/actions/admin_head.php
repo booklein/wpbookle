@@ -24,7 +24,7 @@ function pmxi_admin_head(){
 
 	$wp_all_import_ajax_nonce = '';
 
-	if ( get_current_user_id() and current_user_can('manage_options')) {
+	if ( get_current_user_id() and current_user_can( PMXI_Plugin::$capabilities )) {
 
 		$wp_all_import_ajax_nonce = wp_create_nonce( "wp_all_import_secure" );		
 

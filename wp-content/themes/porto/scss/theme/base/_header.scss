@@ -629,8 +629,8 @@
             width: 378px;
             display: none;
             position: absolute;
-            #{$left}: -30px;
-            top: 40px;
+            #{$left}: -25px;
+            top: 45px;
             z-index: 1001;
             box-shadow: $menu-narrow-box-shadow;
 
@@ -827,16 +827,18 @@
     .searchform-popup {
         display: inline-block;
         position: relative;
+        vertical-align: middle;
 
         .search-toggle {
             cursor: pointer;
             display: none;
-            width: 30px;
-            height: 30px;
-            line-height: 30px;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
             text-align: center;
             position: relative;
             z-index: 1002;
+            font-size: 1.2857em;
 
             @media #{$screen-normal} {
                 display: block;
@@ -849,7 +851,7 @@
             #{$left}: 0;
             top: 0;
             bottom: 0;
-            height: 30px;
+            height: 40px;
             margin: auto;
 
             @media #{$screen-normal} {
@@ -868,8 +870,8 @@
             width: 478px;
             display: none;
             position: absolute;
-            #{$left}: -30px;
-            top: 40px;
+            #{$left}: -25px;
+            top: 45px;
             z-index: 1002;
             box-shadow: $menu-narrow-box-shadow;
 
@@ -914,11 +916,11 @@
             }
             .searchform {
                 @if $searchform-border == 0 {
-                    top: -6px;
+                    top: -1px;
                 } @else {
-                    top: -10px;
+                    top: -5px;
                 }
-                #{$left}: 40px;
+                #{$left}: 45px;
 
                 &:before {
                     border-bottom-color: transparent;
@@ -939,11 +941,11 @@
             }
             .searchform {
                 @if $searchform-border == 0 {
-                    top: -6px;
+                    top: -1px;
                 } @else {
-                    top: -10px;
+                    top: -5px;
                 }
-                #{$left}: 40px;
+                #{$left}: 45px;
 
                 &:before {
                     border-bottom-color: transparent;
@@ -963,7 +965,7 @@
         &.search-popup {
             .searchform {
                 #{$left}: auto;
-                #{$right}: -27px;
+                #{$right}: -22px;
                 &:before {
                     #{$left}: auto;
                     #{$right}: 27px;
@@ -974,7 +976,7 @@
         @media #{$screen-normal} {
             .searchform {
                 #{$left}: auto;
-                #{$right}: -27px;
+                #{$right}: -22px;
                 &:before {
                     #{$left}: auto;
                     #{$right}: 27px;
@@ -1028,15 +1030,15 @@
                 }
                 .searchform-popup {
                     position: absolute;
-                    #{$left}: (30px + ($grid-gutter-width / 2));
-                    top: 6px;
+                    #{$left}: 45px;
+                    top: 1px;
                     bottom: auto;
 
                     .searchform {
                         border-width: 3px;
                         #{$right}: auto;
-                        #{$left}: -30px;
-                        top: 37px;
+                        #{$left}: -25px;
+                        top: 42px;
 
                         &:before {
                             width: 14px;
@@ -1485,6 +1487,15 @@
         #mini-cart {
             position: relative;
             display: none;
+            margin-top: -16px;
+            &.minicart-inline {
+                margin-top: 3px;
+                margin-#{$left}: 5px;
+            }
+            &.minicart-box {
+                margin-top: -30px;
+                margin-#{$left}: 5px;
+            }
         }
 
         #header & {
@@ -1501,8 +1512,8 @@
                     display: none;
                     position: absolute;
                     #{$left}: auto;
-                    #{$right}: -27px;
-                    top: 41px;
+                    #{$right}: -22px;
+                    top: 48px;
                     z-index: 1001;
                     width: 476px;
                     box-shadow: $menu-narrow-box-shadow;
@@ -1831,7 +1842,7 @@
             display: block;
             padding-top: 28px;
             padding-bottom: 15px;
-            > * {
+            > *:not(.porto-tooltip) {
                 display: inline !important;
                 padding: 0 !important;
                 position: static !important;
@@ -1933,11 +1944,13 @@
 #header {
     .mobile-toggle {
         cursor: pointer;
-        width: 30px;
-        height: 30px;
-        line-height: 30px;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
         text-align: center;
         display: none;
+        font-size: 1.2857em;
+        vertical-align: middle;
 
         @media #{$screen-normal} {
             display: inline-block;
@@ -1945,8 +1958,8 @@
 
         @media #{$screen-small} {
             position: absolute;
-            #{$left}: ($grid-gutter-width / 2);
-            top: 6px;
+            #{$left}: 5px;
+            top: 1px;
         }
     }
 }

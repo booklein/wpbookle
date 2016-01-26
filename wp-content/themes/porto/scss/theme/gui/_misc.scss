@@ -320,3 +320,50 @@ blockquote {
     content: "\e035";
     font-size: 1.1em;
 }
+
+/* Cursor */
+.cur-pointer {
+    cursor: pointer;
+}
+
+/* Font Size */
+.font-size-xs {
+    font-size: 0.8em !important;
+}
+
+.font-size-sm {
+    font-size: 0.9em !important;
+}
+
+.font-size-md {
+    font-size: 1em !important;
+}
+
+.font-size-lg {
+    font-size: 1.1em !important;
+}
+
+.font-size-xl {
+    font-size: 1.2em !important;
+}
+
+/* Line Height */
+.line-height-xs {
+    line-height: 16px !important;
+}
+
+.line-height-sm {
+    line-height: 20px !important;
+}
+
+.line-height-md {
+    line-height: 24px !important;
+}
+
+.line-height-lg {
+    line-height: 28px !important;
+}
+
+.line-height-xl {
+    line-height: 32px !important;
+}

@@ -1869,8 +1869,14 @@ div.wpb_single_image .vc_figure .vc_figure-caption {
 .info-box-small-wrap .aio-icon-header + .aio-icon-description {
     margin-top: -2px;
 }
+.aio-icon-box {
+    margin-bottom: 30px;
+}
 .aio-icon-box .fa {
     font-family: "FontAwesome" !important;
+}
+.aio-icon-component {
+    margin-bottom: 0;
 }
 .aio-icon-component.text-left .aio-icon-box.top-icon .align-icon, .aio-icon-component.text-left .aio-icon-box.bottom-icon .align-icon, .aio-icon-component.text-left .aio-icon-box.top-icon .aio-icon-header, .aio-icon-component.text-left .aio-icon-box.bottom-icon .aio-icon-header, .aio-icon-component.text-left .aio-icon-box.top-icon .aio-icon-img, .aio-icon-component.text-left .aio-icon-box.bottom-icon .aio-icon-img, .aio-icon-component.text-left .aio-icon-box.top-icon .aio-icon-description, .aio-icon-component.text-left .aio-icon-box.bottom-icon .aio-icon-description {
     text-align: left !important;
@@ -2840,6 +2846,9 @@ h2[class^="wsp-"] {
         border-top: none;
         box-shadow: none;
     }
+}
+.resp-tab-content .panel {
+    display: block !important;
 }
 .resp-tabs-list {
     margin: 0;
@@ -3983,6 +3992,39 @@ blockquote.with-borders {
     content: "\e035";
     font-size: 1.1em;
 }
+/* Cursor */.cur-pointer {
+    cursor: pointer;
+}
+/* Font Size */.font-size-xs {
+    font-size: 0.8em !important;
+}
+.font-size-sm {
+    font-size: 0.9em !important;
+}
+.font-size-md {
+    font-size: 1em !important;
+}
+.font-size-lg {
+    font-size: 1.1em !important;
+}
+.font-size-xl {
+    font-size: 1.2em !important;
+}
+/* Line Height */.line-height-xs {
+    line-height: 16px !important;
+}
+.line-height-sm {
+    line-height: 20px !important;
+}
+.line-height-md {
+    line-height: 24px !important;
+}
+.line-height-lg {
+    line-height: 28px !important;
+}
+.line-height-xl {
+    line-height: 32px !important;
+}
 /* Divider Line */hr {
     background-image: - webkit-linear-gradient(left, transparent, rgba(0, 0, 0, 0.15), transparent);
     background-image: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.15), transparent);
@@ -5028,6 +5070,22 @@ hr.pattern.pattern-2:after, .divider.pattern.pattern-2:after {
 .thumb-info-caption p {
     line-height: 20px;
     margin: 0 0 8px;
+}
+/* Thumb Info Side Image  */.thumb-info-side-image {
+    border: 1px solid #ddd;
+}
+.thumb-info-side-image .thumb-info-side-image-wrapper {
+    padding: 4px;
+    float: left;
+    margin-right: 20px;
+}
+.thumb-info-side-image .thumb-info-caption .thumb-info-caption-text {
+    padding: 17px;
+}
+.thumb-info-side-image-right .thumb-info-side-image-wrapper {
+    float: right;
+    margin-left: 20px;
+    margin-right: 0;
 }
 /* Thumb Info Social Icons */.thumb-info-social-icons {
     border-top: 1px dotted #ddd;
@@ -6512,6 +6570,9 @@ html #topcontrol:hover {
     margin: 0;
     padding: 0;
 }
+.widget.contact-info li {
+    margin-bottom: 10px !important;
+}
 .widget.contact-info li a:hover {
     text-decoration: underline;
 }
@@ -6519,21 +6580,21 @@ html #topcontrol:hover {
     margin-bottom: 10px;
 }
 .widget.contact-info i {
+    float: left;
     text-align: center;
     width: 16px;
     top: -2px;
-    margin: 7px 6px 0 0;
+    margin: 4px 9px 10px 0;
     font-size: 1.2em;
+    position: static !important;
 }
-.widget.contact-info .contact-details span {
+.widget.contact-info .contact-info-block .contact-details strong {
     display: block;
     padding-left: 25px;
-    line-height: 18px;
-    padding-bottom: 10px;
 }
-.footer-2 .widget.contact-info .contact-details span {
-    display: inline;
-    padding-left: 0;
+.widget.contact-info .contact-info-block .contact-details span {
+    display: block;
+    padding-left: 25px;
 }
 #footer .widget.follow-us .share-links a, .widget.follow-us .share-links a {
     width: 30px;
@@ -6548,8 +6609,8 @@ html #topcontrol:hover {
     font-size: 14px;
 }
 #footer .widget.follow-us .share-links a:hover:before, .widget.follow-us .share-links a:hover:before {
-    top: -30px;
-    bottom: 30px;
+    top: -100%;
+    bottom: 100%;
 }
 #footer .widget.follow-us .share-links a:hover:after, .widget.follow-us .share-links a:hover:after {
     top: 0;
@@ -6567,8 +6628,8 @@ html #topcontrol:hover {
     position: absolute;
     left: 0;
     right: 0;
-    top: 30px;
-    bottom: -30px;
+    top: 100%;
+    bottom: -100%;
     line-height: 23px;
     height: 22px;
     margin: auto;

@@ -12,7 +12,7 @@ function porto_check_theme_options() {
     foreach ($porto_default_settings as $key => $value) {
         if (is_array($value)) {
             foreach ($value as $key1 => $value1) {
-                if (!isset($porto_settings[$key][$key1]) || !$porto_settings[$key][$key1]) {
+                if ($key1 != 'google' && (!isset($porto_settings[$key][$key1]) || !$porto_settings[$key][$key1])) {
                     $porto_settings[$key][$key1] = $porto_default_settings[$key][$key1];
                 }
             }

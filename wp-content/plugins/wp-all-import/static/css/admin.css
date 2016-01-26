@@ -530,6 +530,14 @@
 	border-style: solid;
 	border-width: 1px;
 }
+.wpallimport-plugin .wpallimport-delete-posts-warning{
+	display: none;
+}
+.wpallimport-plugin .wpallimport-free-edition-notice p{
+	color: #000 !important;
+	font-size: 1.3em !important;	
+	margin-bottom: 0;
+}
 .wpallimport-plugin .upgrade_link{
 	color: #000 !important;
 	font-size: 1.3em !important;	
@@ -551,6 +559,42 @@
 	display: none;
 	position: relative;
 	float: right;
+}
+.wpallimport-plugin .wp-all-import-sure-to-delete{
+	display: none;
+}
+.wpallimport-plugin .first-step-errors{
+	border: 1px solid #ddd;
+	margin: 20px 0 10px; 
+	padding: 12px 0;
+	position: relative;
+	box-shadow: none;
+	display: none;
+	background: #fff;
+}
+.wpallimport-plugin .first-step-errors .exclamation{
+	margin-top: 20px !important;	
+}
+.wpallimport-plugin .wpallimport-notify-wrapper .error-headers{
+	background: url('../img/ui_4.0/exclamation.png') 0 50% no-repeat;
+	padding-left: 80px;	
+	margin-bottom: 0;	
+	margin-left: 40px;
+	margin-top: 35px;
+	margin-bottom: 20px;
+	position: relative;
+}
+.wpallimport-plugin .wpallimport-notify-wrapper .error-headers h3{
+	color: #425f9a;
+	margin-bottom: 0;
+	margin-top: 3px;
+	font-size: 22px;
+	line-height: 28px;
+}
+.wpallimport-plugin .wpallimport-notify-wrapper .error-headers h4{
+	color: #777;
+	margin-top: 5px;
+	font-size:20px;
 }
 /*--------------------------------------------------------------------------
 *
@@ -1653,6 +1697,7 @@
 		font-weight: 16px;
 		text-align: left;
 	}
+.wpallimport-plugin .wpallimport-notify-wrapper .found_records,
 .wpallimport-plugin .ajax-console .found_records{
 	background: url('../img/ui_4.0/elements.png') no-repeat !important;
 	padding-left: 80px;	
@@ -1662,6 +1707,36 @@
 	margin-bottom: 20px;
 	position: relative;
 }
+	.wpallimport-plugin .wpallimport-speed-up-notify{
+		display: none;
+		position: relative;
+		margin: 10px 4px;
+	}
+		.wpallimport-plugin .wpallimport-speed-up-notify span{
+			color: #999;
+			float: right;
+			position: relative;
+			right: 26px;
+			bottom: 30px;
+		}
+		.wpallimport-plugin .wpallimport-speed-up-notify a.wpallimport-speed-up-notify-read-more,
+		.wpallimport-plugin a.wpallimport-wpae-notify-read-more,
+		.wpallimport-plugin a.wpallimport-notify-read-more{
+			position: absolute; 
+			top: 35px; 
+			right: 10px; 
+			display: block;
+			padding-top: 1px !important;
+		}		
+	.wpallimport-plugin .wpallimport-notify-wrapper .found_records.terminated,
+	.wpallimport-plugin .ajax-console .found_records.terminated{
+		background: url('../img/ui_4.0/exclamation.png') no-repeat !important;
+	}
+	.wpallimport-plugin .wpallimport-notify-wrapper .found_records.speedup
+	{
+		background: url('../img/ui_4.0/elements_notify.png') 0 50% no-repeat !important;
+	}	
+	.wpallimport-plugin .wpallimport-notify-wrapper .found_records h3,
 	.wpallimport-plugin .ajax-console .found_records h3{
 		color: #425f9a;
 		margin-bottom: 0;
@@ -1669,6 +1744,7 @@
 		font-size: 22px;
 		line-height: 28px;
 	}
+	.wpallimport-plugin .wpallimport-notify-wrapper .found_records h4,
 	.wpallimport-plugin .ajax-console .found_records h4{
 		color: #777;
 		margin-top: 5px;
@@ -2572,11 +2648,18 @@
 	border-radius: 8px;	
 }
 .wpallimport-plugin .wpallimport-modal-message{
-	background: none repeat scroll 0 0 yellow;
+	/*background: none repeat scroll 0 0 yellow;*/
 	color: red;
 	padding: 4px;	
 	margin-top: 10px;
 	display: none;
+}
+.wpallimport-plugin span.wp_all_import_restart_import{
+	color: #999;
+	float: right;
+	position: relative;
+	right: 15px;
+	bottom: 30px;
 }
 .wpallimport-plugin #logwrapper{	
 	border: 1px solid #aaa;
@@ -3240,6 +3323,12 @@ body.rtl.wpallimport-plugin .show_hints
 	.wpallimport-plugin .wpallimport-choose-import-direction[rel="matching"]{
 		margin-left: -16%;
 	}
+	.wpallimport-plugin span.wp_all_import_restart_import{
+		bottom: 50px;
+	}
+	.wpallimport-plugin .wpallimport-notify-wrapper .error-headers h4{
+		font-size: 18px;
+	}
 }
 @media screen and (max-width: 1049px) {  
 	.wpallimport-plugin .wpallimport-wrapper{
@@ -3332,5 +3421,11 @@ body.rtl.wpallimport-plugin .show_hints
 	}
 	.wpallimport-plugin .wpallimport-choose-import-direction[rel="matching"]{
 		margin-left: -16%;
+	}
+	.wpallimport-plugin span.wp_all_import_restart_import{
+		bottom: 50px;
+	}
+	.wpallimport-plugin .wpallimport-notify-wrapper .error-headers h4{
+		font-size: 16px;
 	}
 }

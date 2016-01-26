@@ -1843,7 +1843,8 @@ if (!class_exists('Porto_VcSharedLibrary')) {
             return array(
                 __( 'Default', 'porto' ) => '',
                 __( 'Out of Image', 'porto' ) => 'outimage',
-                __( 'On Image', 'porto' ) => 'onimage'
+                __( 'On Image', 'porto' ) => 'onimage',
+                __( 'Wishlist, Quick View On Image', 'porto' ) => 'wq_onimage'
             );
         }
 

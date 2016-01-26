@@ -292,6 +292,9 @@ class MSP_Shortcode_Factory {
 		$PS = msp_get_post_slider_class();
 		$query['tax_query'] = $PS->get_tax_query( $taxs_data );
 
+        $query['image_size'] = 'full';
+        $query = apply_filters( 'msp_post_slider_query_args', $query, $this->parsed_slider_data );
+
 		$this->post_slider_args = $query;
 
 
@@ -309,7 +312,7 @@ class MSP_Shortcode_Factory {
 
             // get slide image
             if( empty( $this->parsed_slider_data['setting']['ps_slide_bg'] ) ) {
-                $the_media = msp_get_auto_post_thumbnail_src( $th_wp_query->post, $query['image_from'] );
+                $the_media = msp_get_auto_post_thumbnail_url( $th_wp_query->post, $query['image_from'], $query['image_size'] );
             } else {
                 $the_media = $this->parsed_slider_data['setting']['ps_slide_bg'];
             }
@@ -375,7 +378,7 @@ class MSP_Shortcode_Factory {
 					// if "insert thumb" option was enabled generate and add the thumbnail
 					if( 'true' == $this->parsed_slider_data['setting']['thumbs_in_tab'] ) {
 						$thumb_height = $this->parsed_slider_data['setting']['thumbs_height'];
-						$tab_thumb    = msp_get_auto_post_thumbnail_src( $the_wp_query->post, 'featured', $thumb_height, $thumb_height, true );
+						$tab_thumb    = msp_get_auto_post_thumbnail_url( $th_wp_query->post, 'featured', array( $thumb_height, $thumb_height ), true );
 
 						$attrs .= sprintf( '%s="%s" ', 'tab_thumb' , $tab_thumb );
 					}
@@ -458,6 +461,9 @@ class MSP_Shortcode_Factory {
 		$wcs = msp_get_wc_slider_class();
 		$query['tax_query'] = $wcs->get_tax_query( $taxs_data );
 
+        $query['image_size'] = 'full';
+        $query = apply_filters( 'msp_wc_slider_query_args', $query, $this->parsed_slider_data );
+
 		$this->post_slider_args = $query;
 
 
@@ -476,7 +482,7 @@ class MSP_Shortcode_Factory {
 
 
             if( empty( $this->parsed_slider_data['setting']['ps_slide_bg'] ) ) {
-                $the_media = msp_get_auto_post_thumbnail_src( $th_wp_query->post, $query['image_from'] );
+                $the_media = msp_get_auto_post_thumbnail_url( $th_wp_query->post, $query['image_from'] );
             } else {
                 $the_media = $this->parsed_slider_data['setting']['ps_slide_bg'];
             }
@@ -543,7 +549,7 @@ class MSP_Shortcode_Factory {
 					// if "insert thumb" option was enabled generate and add the thumbnail
 					if( 'true' == $this->parsed_slider_data['setting']['thumbs_in_tab'] ) {
 						$thumb_height = $this->parsed_slider_data['setting']['thumbs_height'];
-						$tab_thumb    = msp_get_auto_post_thumbnail_src( $the_wp_query->post, 'featured', $thumb_height, $thumb_height, true );
+						$tab_thumb    = msp_get_auto_post_thumbnail_url( $th_wp_query->post, 'featured', array( $thumb_height, $thumb_height ), true );
 
 						$attrs .= sprintf( '%s="%s" ', 'tab_thumb' , $tab_thumb );
 					}

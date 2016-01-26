@@ -24,7 +24,7 @@ class Nested extends Formatter
     public function __construct()
     {
         $this->indentLevel = 0;
-        $this->indentChar = '    ';
+        $this->indentChar = '  ';
         $this->break = "
 ";
         $this->open = ' {';

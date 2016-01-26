@@ -87,9 +87,8 @@ body {
 }
 
 .postoptions .metabox label {
-  padding: 5px 0;
-  margin: 0 5px;
-  dispaly: inline-block;
+  padding: 0;
+  margin: 0;
 }
 
 .metainner {
@@ -271,6 +270,11 @@ body.ebsp-mf-shown.wp-admin .mfp-wrap {
 }
 #porto_settings-theme-type .redux-image-select li img {
     max-width: 100%;
+}
+#porto_settings-post-metas > div > label:last-child,
+#porto_settings-portfolio-metas > div > label:last-child,
+#porto_settings-product-metas > div > label:last-child {
+    display: none;
 }
 
 /* Post type icons */
